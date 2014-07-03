@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <TextView
+        android:id="@+id/self_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Me"/>
+        
+	<RelativeLayout
+	    android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">
+	    
+	    <view android:layout_width="fill_parent"
+	        android:layout_height="50sp"
+	        class="com.example.wizard1.views.HealthIndicator" 
+	        android:id="@+id/self_health"
+	        android:layout_toLeftOf="@+id/self_spell"
+	        android:layout_alignParentLeft="true"/>
+	
+		<view android:layout_width="fill_parent"
+		    android:layout_height="50sp"
+		    class="com.example.wizard1.views.ManaIndicator" 
+		    android:id="@+id/self_mana"
+		    android:layout_below="@+id/self_health"
+		    android:layout_toLeftOf="@+id/self_spell"
+		    android:layout_alignParentLeft="true"/>
+	
+		<view android:layout_width="100sp"
+		    android:layout_height="100sp"
+		    class="com.example.wizard1.views.SpellPicture" 
+		    android:id="@+id/self_spell"
+		    android:layout_alignParentRight="true" />
+	</RelativeLayout>
+	
+	<LinearLayout 
+	    android:orientation="horizontal"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content">
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/self_buff1" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/self_buff2" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/self_buff3" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/self_buff4" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/self_buff5" />
+	</LinearLayout>
+	
+	 <TextView
+        android:id="@+id/enemy_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enemy"/>
+	 
+	<RelativeLayout
+	    android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">
+	    
+	    <view android:layout_width="fill_parent"
+	        android:layout_height="50dp"
+	        class="com.example.wizard1.views.HealthIndicator" 
+	        android:id="@+id/enemy_health"
+	        android:layout_toLeftOf="@+id/enemy_spell"
+	        android:layout_alignParentLeft="true"/>
+	
+		<view android:layout_width="fill_parent"
+		    android:layout_height="50dp"
+		    class="com.example.wizard1.views.ManaIndicator" 
+		    android:id="@+id/enemy_mana"
+		    android:layout_below="@+id/enemy_health"
+		    android:layout_toLeftOf="@+id/enemy_spell"
+		    android:layout_alignParentLeft="true"/>
+	
+		<view android:layout_width="100sp"
+		    android:layout_height="100sp"
+		    class="com.example.wizard1.views.SpellPicture" 
+		    android:id="@+id/enemy_spell"
+		    android:layout_alignParentRight="true" />
+	</RelativeLayout>
+	
+	<LinearLayout 
+	    android:orientation="horizontal"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content">
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/enemy_buff1" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/enemy_buff2" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/enemy_buff3" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/enemy_buff4" />
+	    
+	    <view android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_margin="5sp"
+		    class="com.example.wizard1.views.BuffPicture" 
+		    android:id="@+id/enemy_buff5" />
+	</LinearLayout>
+</LinearLayout>
