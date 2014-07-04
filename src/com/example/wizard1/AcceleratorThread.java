@@ -21,6 +21,8 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private ArrayList <Vector4d> records;
 	private Handler mHandler;
 	
+	//public static double calib;
+	
 	public AcceleratorThread(SensorManager sm, Sensor s, Handler mHandler) {
 		setName("Accelerator thread");
 
@@ -31,7 +33,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		mAccelerometer = s;
 		records = new ArrayList<Vector4d>();
 	}
-	
+	long T;
 	public void run() {
 		Looper.prepare();
 		Handler handler = new Handler() {
@@ -40,6 +42,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 			}
 		};
 		mLooper = Looper.myLooper();
+		T = System.currentTimeMillis();
 		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME, handler);
 		Looper.loop();
 	}
@@ -59,9 +62,12 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
     	long timeStamp = event.timestamp / 1000000;
     	//at least 20 milliseconds between events
     	if( timeStamp - prevTimeStamp < 20) {
-    		return;
+    		//return;
     	}
+    	Log.d("recognition", (System.currentTimeMillis()-T)+"t");
+    	Log.d("recognition", (timeStamp - prevTimeStamp)+"");
     	prevTimeStamp = timeStamp;
+    	T = System.currentTimeMillis();
     	Vector4d rec = new Vector4d(
 				event.values[0], event.values[1], event.values[2], timeStamp);
 

@@ -32,7 +32,8 @@ public final class R {
     }
     public static final class id {
         public static final int button_scan=0x7f0a0006;
-        public static final int discoverable=0x7f0a001a;
+        public static final int calib=0x7f0a0019;
+        public static final int discoverable=0x7f0a001c;
         public static final int enemy_buff1=0x7f0a0014;
         public static final int enemy_buff2=0x7f0a0015;
         public static final int enemy_buff3=0x7f0a0016;
@@ -44,7 +45,7 @@ public final class R {
         public static final int enemy_spell=0x7f0a0012;
         public static final int new_devices=0x7f0a0005;
         public static final int paired_devices=0x7f0a0003;
-        public static final int scan=0x7f0a0019;
+        public static final int scan=0x7f0a001b;
         public static final int self_buff1=0x7f0a000b;
         public static final int self_buff2=0x7f0a000c;
         public static final int self_buff3=0x7f0a000d;
@@ -54,6 +55,7 @@ public final class R {
         public static final int self_mana=0x7f0a000a;
         public static final int self_name=0x7f0a0007;
         public static final int self_spell=0x7f0a0009;
+        public static final int status=0x7f0a001a;
         public static final int title_left_text=0x7f0a0000;
         public static final int title_new_devices=0x7f0a0004;
         public static final int title_paired_devices=0x7f0a0002;
@@ -70,7 +72,12 @@ public final class R {
         public static final int option_menu=0x7f090000;
     }
     public static final class raw {
-        public static final int magic=0x7f050000;
+        public static final int circle=0x7f050000;
+        public static final int clock=0x7f050001;
+        public static final int magic=0x7f050002;
+        public static final int rect=0x7f050003;
+        public static final int triangle=0x7f050004;
+        public static final int z=0x7f050005;
     }
     public static final class string {
         public static final int app_name=0x7f070000;

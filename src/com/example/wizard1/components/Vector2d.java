@@ -1,8 +1,8 @@
 package com.example.wizard1.components;
 
 public class Vector2d {
-    protected double x;
-    protected double y;
+    public double x;
+    public double y;
 
     public Vector2d() {
         x = y = 0;

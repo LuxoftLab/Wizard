@@ -22,8 +22,9 @@ public class RecognitionThread extends Thread {
 	public void run() {
 		try {
 			Log.e("Wizard fight", "Recognition thread begin");
-			ArrayList<Vector2d> projection = PathCalculator.calculateTrajectory(records);
-			Shape shape = Recognition.recognize(projection);
+			//ArrayList<Vector2d> projection = PathCalculator.calculateTrajectory(records);
+			//Shape shape = Recognition.recognize(projection);
+			Shape shape = RecognitionN.recognize(records);
 			FightMessage message = new FightMessage(shape);
 			mHandler.obtainMessage(AppMessage.MESSAGE_FROM_SELF.ordinal(), 0, 0, message)
         		.sendToTarget();

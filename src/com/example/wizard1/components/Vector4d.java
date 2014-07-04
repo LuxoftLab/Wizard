@@ -1,7 +1,7 @@
 package com.example.wizard1.components;
 
 public class Vector4d extends Vector3d {
-    protected final long t;
+    public long t;
 
     public Vector4d() {
         super();

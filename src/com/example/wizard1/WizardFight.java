@@ -2,9 +2,11 @@ package com.example.wizard1;
 
 import android.media.AudioManager;
 import android.media.SoundPool;
+
 import com.example.wizard1.views.SelfGUI;
 import com.example.wizard1.views.EnemyGUI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.example.wizard1.components.Vector4d;
@@ -15,6 +17,8 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,13 +28,16 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
  * This is the main Activity that displays the current chat session.
  */
-public class WizardFight extends Activity {
+public class WizardFight extends Activity implements SensorEventListener, OnClickListener {
     // Debugging
     private static final String TAG = "Wizard Fight";
     private static final boolean D = true;
@@ -77,11 +84,17 @@ public class WizardFight extends Activity {
     private int soundID1;
     private int streamID;
     private boolean soundLoaded = false;
+
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        try {
+			RecognitionN.init(getResources());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundID1 = soundPool.load(this, R.raw.magic, 1);
         streamID=-1;
@@ -97,6 +110,9 @@ public class WizardFight extends Activity {
         // Set up the window layout
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
+        status = (TextView) findViewById(R.id.status);
+        calibrate = (Button)findViewById(R.id.calib);
+        calibrate.setOnClickListener(this);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         // Set up the custom title
         mTitle = (TextView) findViewById(R.id.title_left_text);
@@ -143,6 +159,8 @@ public class WizardFight extends Activity {
               mChatService.start();
             }
         }
+        reading = false;
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
     private void setupChat() {
         Log.d(TAG, "setupChat()");
@@ -160,6 +178,7 @@ public class WizardFight extends Activity {
     public synchronized void onPause() {
         super.onPause();
         if(D) Log.e(TAG, "- ON PAUSE -");
+        mSensorManager.unregisterListener(this, mAccelerometer);
     }
     @Override
     public void onStop() {
@@ -422,8 +441,10 @@ public class WizardFight extends Activity {
     	
 		if( !isBetweenVolumeClicks ) {
 			mEnemyGUI.getPlayerName().setText("volume button started");
-			mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer,mHandler);
-			mAcceleratorThread.start();
+			//mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer,mHandler);
+			//mAcceleratorThread.start();
+			data = new ArrayList<Vector4d>();
+			reading = true;
 			isBetweenVolumeClicks = true;
 
 			if( streamID == -1 ) {
@@ -433,9 +454,10 @@ public class WizardFight extends Activity {
 			}
 		} else {
 			isVolumeButtonBlocked = true;
-
+			reading = false;
 			soundPool.pause(streamID);
-			ArrayList<Vector4d> records = mAcceleratorThread.stopAndGetResult();
+			//ArrayList<Vector4d> records = mAcceleratorThread.stopAndGetResult();
+			ArrayList<Vector4d> records = data;
 			mEnemyGUI.getPlayerName().setText( "end. count: " + records.size() );
 			isBetweenVolumeClicks  = false;
 			
@@ -483,5 +505,49 @@ public class WizardFight extends Activity {
         default:
             return super.dispatchKeyEvent(event);
         }
+	}
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO Auto-generated method stub
+		
+	}
+    
+    private Button calibrate;
+    private TextView status;
+    private boolean calibration = false, reading = false;
+    private int calibN = 0;
+    private double calib = 0;
+    ArrayList<Vector4d> data;
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		double x = event.values[0];
+		double y = event.values[1];
+		double z = event.values[2];
+		if(calibration) {
+			calib += Math.sqrt(x*x+y*y+z*z);
+			calibN++;
+		}
+		if(!reading) {
+			return;
+		}
+		double len = Math.sqrt(x*x+y*y+z*z);
+		data.add(new Vector4d(x-calib*(x/len), y-calib*(y/len), z-calib*(z/len), event.timestamp));
+	}
+	@Override
+	public void onClick(View v) {
+		if (v==calibrate) {
+			if(calibration) {
+				calib /= calibN;
+				status.setText("Calibration: "+calib);
+				Log.d("recognition", calib+"");
+				//mSensorManager.unregisterListener(this, mAccelerometer);
+			} else {
+				status.setText("Calibrating...");
+				calibN = 0;
+				calib = 0;
+				//mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+			}
+			calibration = !calibration;
+		}
 	}
 }
