@@ -9,11 +9,13 @@ import android.widget.TextView;
  * Enemy player GUI (locatated on the bottom)
  */
 public class EnemyGUI extends PlayerGUI {
-	public EnemyGUI(Activity a) {
+	public EnemyGUI(Activity a, int hp, int mana) {
 		super(a);
 		playerName = (TextView) a.findViewById(R.id.enemy_name);
 		healthBar = (HealthIndicator) a.findViewById(R.id.enemy_health);
+		healthBar.setMaxValue(hp);
 		manaBar = (ManaIndicator) a.findViewById(R.id.enemy_mana);
+		manaBar.setMaxValue(mana);
 		spellPicture = (SpellPicture) a.findViewById(R.id.enemy_spell);
 		spellPicture.initAnimListener();
 		BuffPicture[] buffs = new BuffPicture[5];

@@ -2,11 +2,13 @@ package com.example.wizard1;
 
 import android.media.AudioManager;
 import android.media.SoundPool;
+
 import com.example.wizard1.views.SelfGUI;
 import com.example.wizard1.views.EnemyGUI;
 
 import java.util.ArrayList;
 
+import com.example.wizard1.components.Vector2d;
 import com.example.wizard1.components.Vector4d;
 
 import android.app.Activity;
@@ -44,9 +46,12 @@ public class WizardFight extends Activity {
     	MESSAGE_WRITE,
     	MESSAGE_DEVICE_NAME,
     	MESSAGE_TOAST,
+    	MESSAGE_ADD_PROJECTION,
+    	MESSAGE_SET_PROJECTION,
+    	MESSAGE_CLEAR_PROJECTION,
     	MESSAGE_FROM_SELF,
     	MESSAGE_FROM_ENEMY,
-        MESSAGE_PLAY_SOUND
+        MESSAGE_PLAY_SOUND;
     }
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -148,11 +153,11 @@ public class WizardFight extends Activity {
         Log.d(TAG, "setupChat()");
         // Initialize text views from main layout
         // Create players states
-        mSelfState = new SelfState(100, 100);
-        mEnemyState = new EnemyState(100, 100);
+        mSelfState = new SelfState(200, 100);
+        mEnemyState = new EnemyState(200, 100);
         // Initialize self UI
-        mSelfGUI = new SelfGUI(this);
-        mEnemyGUI = new EnemyGUI(this);
+        mSelfGUI = new SelfGUI(this, 200, 100);
+        mEnemyGUI = new EnemyGUI(this, 200, 100);
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(this, mHandler);
     }
@@ -234,6 +239,15 @@ public class WizardFight extends Activity {
             case MESSAGE_TOAST:
                 Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                                Toast.LENGTH_SHORT).show();
+                break;
+            case MESSAGE_ADD_PROJECTION:
+                ((ProjectionView)findViewById(R.id.pv)).addProjection((ArrayList<Vector2d>) msg.obj);
+                break;
+            case MESSAGE_SET_PROJECTION:
+                ((ProjectionView)findViewById(R.id.pv)).setProjection((ArrayList<Vector2d>) msg.obj);
+                break;
+            case MESSAGE_CLEAR_PROJECTION:
+                ((ProjectionView)findViewById(R.id.pv)).clearProjection();
                 break;
             case MESSAGE_FROM_SELF:
             	try {
@@ -324,6 +338,12 @@ public class WizardFight extends Activity {
                 		//refresh GUI
                 		mSelfGUI.getSpellPicture().setShape( recvMessage.shape );
                 		mSelfGUI.getHealthBar().setValue(newHP);
+                		
+                		//if lose
+                		if( newHP == 0 ) {
+                			Toast.makeText(getApplicationContext(), "YOU LOSE!",
+                                    Toast.LENGTH_SHORT).show();
+                		}
             		}
             		
             		break;
@@ -355,7 +375,13 @@ public class WizardFight extends Activity {
             		break;
             	case NEW_HP:
             		//hp change after damage
-            		mEnemyGUI.getHealthBar().setValue( recvMessage.param );
+            		int enemyHP = recvMessage.param;
+            		mEnemyGUI.getHealthBar().setValue( enemyHP );
+            		
+            		if( enemyHP == 0 ) {
+            			Toast.makeText(getApplicationContext(), "YOU WIN!",
+                                Toast.LENGTH_SHORT).show();
+            		}
             		break;
             	default:
             		mSelfGUI.getPlayerName().setText("unknown msg from enemy");
@@ -369,9 +395,9 @@ public class WizardFight extends Activity {
             	if( !soundLoaded ) {
             		mSelfGUI.getPlayerName().setText("SOUND NOT LOADED");
             	}
-            	Log.e(TAG, "obj: " + (Float) msg.obj);
+//            	Log.e(TAG, "obj: " + (Float) msg.obj);
 //                soundPool.setRate(streamID,(Float) msg.obj/2+0.75f);
-                soundPool.setVolume(streamID,((Float) msg.obj)/3+0.25f,((Float) msg.obj)/3+0.25f);
+                soundPool.setVolume(streamID,((Float) msg.obj),((Float) msg.obj));
 //                Log.e(TAG, "Rate: " + (Float) msg.obj/2+0.75f + ", volume: " + ((Float) msg.obj)/3+0.25f );
                 break;
             default:

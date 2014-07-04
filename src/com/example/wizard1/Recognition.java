@@ -8,28 +8,26 @@ import java.util.ArrayList;
  * Created by 350z6_000 on 24.06.2014.
  */
 public abstract class Recognition {
-    /**
-     * �������� ���������.
-     */
+
     private static ArrayList<Vector2d> PC;
-    /**
-     * ������ ����� ������������ ��� �������. ������������ � ������� {@link #calcAngles()}.
-     */
+    
     private static ArrayList<Double> angles;
-
-    /**
-     * �������� ������� ������������� ��������.
-     *
-     * @param projection ��������, ������� ����� ��������������.
-     *
-     * @return ���������� �������� ������ ��� "-", ���� ������ �� ����������.
-     */
-    public static Shape recognize(ArrayList<Vector2d> projection) {
+    
+    public static Shape recognize(ArrayList<Vector2d> projection, Handler handler) {
         PC = projection;
-        ProjectionView pv = new ProjectionView();
         calcAngles();
-
         ArrayList<ArrayList<Vector2d>> lines = isEnd(30, 5);
+
+//        handler.obtainMessage(WizardFight.AppMessage.MESSAGE_SET_PROJECTION.ordinal(), 0, 0, PC)
+//        .sendToTarget();
+        
+        handler.obtainMessage(WizardFight.AppMessage.MESSAGE_CLEAR_PROJECTION.ordinal(), 0, 0,0)
+        .sendToTarget();
+for (ArrayList<Vector2d> line : lines)
+    handler.obtainMessage(WizardFight.AppMessage.MESSAGE_ADD_PROJECTION.ordinal(), 0, 0, line)
+            .sendToTarget();
+        
+
         if (isCircle()) {
         	int size=lines.size();
         	if(size>3)
@@ -40,9 +38,11 @@ public abstract class Recognition {
             return Shape.CIRCLE;
         }
         
-        pv.clearProjection();
-        for (ArrayList<Vector2d> line : lines)
-            pv.addProjection(line);
+
+        
+//        pv.clearProjection();
+//        for (ArrayList<Vector2d> line : lines)
+//            pv.addProjection(line);
         switch (lines.size()) {
             case 3:
                 return Shape.TRIANGLE;
@@ -57,11 +57,6 @@ public abstract class Recognition {
         return Shape.FAIL;
     }
 
-    /**
-     * ���������� ������ ����� ������������ ��� �������. <b>������������� ����!</b> //todo ����� ����� � #isEnd
-     *
-     * @see components.Vector2d#AngleLineAndAxis(components.Vector2d, components.Vector2d)
-     */
     private static void calcAngles() {
         angles = new ArrayList<Double>();
         for (int i = 1; i < PC.size(); i++) {
@@ -69,11 +64,6 @@ public abstract class Recognition {
         }
     }
 
-    /**
-     * ������ ��������� �������� �� ������ ������.
-     *
-     * @return true - ����. false - �� ����.
-     */
     private static boolean isCircle() {
         int pNum = angles.size();
         int cut = (int) ((pNum * 0.4) / 2);
@@ -84,17 +74,6 @@ public abstract class Recognition {
         return true;
     }
 
-
-    /**
-     * ������ ��������� �������� �� ������ ��������� ������. ����������� ������� ������������ �����.
-     *
-     * @param A 1� ���� �������� �����.
-     * @param B 2� ���� �������� �����.
-     * @param C 3� ���� �������� �����.
-     * @param D 4� ���� �������� �����.
-     *
-     * @return true - �������� ����. false - ������ ������.
-     */
     private static boolean isClock(Vector2d A, Vector2d B, Vector2d C, Vector2d D) {
         ArrayList<Vector2d> al=new ArrayList<Vector2d>();
         al.add(A);al.add(B);al.add(C);al.add(D);
@@ -107,16 +86,7 @@ public abstract class Recognition {
         }
         return false;
     }
-
-    /**
-     * ������� ������ �� ������ �������.
-     *
-     * @param ang  ����(������), ���������� �������� ����� ��������� ���������.
-     * @param step ������������ ����� ��������(���������� �����). ���� ������� �� ������� ������ ��� �������������
-     *             �����, �� �� ����� ��������� ��� 2 ��� ����� ���������.
-     *
-     * @return ������ ��������.
-     */
+    
     private static ArrayList<ArrayList<Vector2d>> isEnd(int ang, int step) {
         ArrayList<ArrayList<Vector2d>> A = new ArrayList<ArrayList<Vector2d>>();
         int pNum = PC.size();

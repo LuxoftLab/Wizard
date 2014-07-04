@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_scroll"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     >
 
     <TextView
@@ -141,4 +146,11 @@
 		    class="com.example.wizard1.views.BuffPicture" 
 		    android:id="@+id/enemy_buff5" />
 	</LinearLayout>
+	
+	 <view 
+    	android:layout_width="300dp"
+    	android:layout_height="300dp"
+        class="com.example.wizard1.ProjectionView" android:id="@+id/pv"/>
 </LinearLayout>
+
+</ScrollView>

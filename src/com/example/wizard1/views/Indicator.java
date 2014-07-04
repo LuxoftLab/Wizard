@@ -109,6 +109,10 @@ public class Indicator extends View {
     	}
     }
     
+    public void setMaxValue(int value) {
+    	curValue = maxValue = value;
+    }
+    
     public int getValue() {
     	return curValue;
     }

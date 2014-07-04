@@ -9,12 +9,14 @@ import android.widget.TextView;
  * Self GUI (locatated on the top)
  */
 public class SelfGUI extends PlayerGUI {
-	public SelfGUI(Activity a) {
+	public SelfGUI(Activity a, int hp, int mana) {
 		super(a);
 		playerName = (TextView) a.findViewById(R.id.self_name);
-		playerName.setText("new sound");
+		playerName.setText("Toast!!");
 		healthBar = (HealthIndicator) a.findViewById(R.id.self_health);
+		healthBar.setMaxValue(hp);
 		manaBar = (ManaIndicator) a.findViewById(R.id.self_mana);
+		manaBar.setMaxValue(mana);
 		spellPicture = (SpellPicture) a.findViewById(R.id.self_spell);
 		spellPicture.initAnimListener();
 		BuffPicture[] buffs = new BuffPicture[5];

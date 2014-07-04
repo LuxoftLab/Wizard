@@ -19,7 +19,7 @@ public class BuffPicture extends ImageView {
 	
 	public BuffPicture(Context context,AttributeSet attrs) {
 		super(context, attrs);
-		setBuff(buff.NONE);
+		setBuff(Buff.NONE);
 	}
 	
 	public void setBuff(Buff b) {
