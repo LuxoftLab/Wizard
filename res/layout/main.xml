@@ -146,11 +146,6 @@
 		    class="com.example.wizard1.views.BuffPicture" 
 		    android:id="@+id/enemy_buff5" />
 	</LinearLayout>
-	
-	 <view 
-    	android:layout_width="300dp"
-    	android:layout_height="300dp"
-        class="com.example.wizard1.ProjectionView" android:id="@+id/pv"/>
 </LinearLayout>
 
 </ScrollView>

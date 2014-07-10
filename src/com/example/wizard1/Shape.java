@@ -3,7 +3,7 @@ package com.example.wizard1;
 public enum Shape { 
 	CIRCLE("circle"), 
 	TRIANGLE("triangle"), 
-	SQUARE("square"), 
+	SHIELD("square"), 
 	CLOCK("clock"),
 	FAIL("fail");
 	
@@ -24,7 +24,7 @@ public enum Shape {
 				return R.drawable.circle;
 			case TRIANGLE: 
 				return R.drawable.triangle;
-			case SQUARE:
+			case SHIELD:
 				return R.drawable.square;
 			case CLOCK:
 				return R.drawable.clock;

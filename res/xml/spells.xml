@@ -2,43 +2,59 @@
 
 <spells xmlns:android="http://schemas.android.com/apk/res/android">
     <spell>
-        <name>Треугольник</name>
-        <description>Это треугольник!</description>
+        <name>Конус Холода</name>
+        <description>Стоимость: 5 маны.
+Воздействие: снимает 10 единиц здоровья у противника.</description>
         <img>triangle.png</img>
     </spell>
     <spell>
-        <name>Круг</name>
-        <description>Это круг!</description>
+        <name>Кольцо Огня</name>
+        <description>Стоимость: 15 маны.
+Воздействие: снимает 30 единиц здоровья у противника.</description>
         <img>
             circle.png
         </img>
     </spell>
     <spell>
-        <name>Часы</name>
-        <description>Это часы!</description>
+        <name>Исцеление</name>
+        <description>Стоимость: 20 маны.
+Воздействие: восстанавливает 40 единиц здоровья.</description>
         <img>
             clock.png
         </img>
     </spell>
     <spell>
-        <name>Z</name>
-        <description>Это z!</description>
+        <name>Порча</name>
+        <description>Стоимость: 10 маны.
+Воздействие: снимает у противника по 5 единиц здоровья в секунду (5 раз).</description>
         <img>
             z.png
         </img>
     </spell>
     <spell>
-        <name>V</name>
-        <description>Это v!</description>
+        <name>Концентрация</name>
+        <description>Стоимость: 15 маны.
+Воздействие: усиливает атаку на 50% на 5 секунд.</description>
         <img>
             v.png
         </img>
     </spell>
     <spell>
-        <name>PI</name>
-        <description>Это π!</description>
+        <name>Благословение</name>
+        <description>Стоимость: 15 маны.
+Воздействие: востанавливает по 5 единиц здоровья в секунду (5 раз).</description>
         <img>
             pi.png
+        </img>
+    </spell>
+    <spell>
+        <name>Божественный
+Щит</name>
+        <description>
+Стоимость: 10 маны.
+Воздействие: блокирует один удар противника в течение 5 секунд.</description>
+        <img>
+            shield.png
         </img>
     </spell>
 </spells>

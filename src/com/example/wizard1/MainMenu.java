@@ -3,13 +3,25 @@ package com.example.wizard1;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
-public class MainMenu extends Activity {
-    /**
+public class MainMenu extends Activity implements SensorEventListener, OnClickListener {
+    
+	SensorManager manager;
+	Sensor sensor;
+	Button button;
+	/**
      * Called when the activity is first created.
      */
     @Override
@@ -20,10 +32,16 @@ public class MainMenu extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.main_menu);
+        manager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        button = (Button)findViewById(R.id.buttonCalibrate);
+        button.setOnClickListener(this);
     }
     public void goToGameCreate(View view) {
        // if (isBluetoothOn())
-            startActivity(new Intent(this, WizardFight.class));
+    	Intent i = new Intent(this, WizardFight.class);
+    	i.putExtra("calib", calib);
+        startActivity(i);
     }
     public void goToListOfBluetooth(View view){
 //        startActivity(new Intent(this,listOfBluetooth.class));
@@ -40,6 +58,35 @@ public class MainMenu extends Activity {
     public void Exit(View view) {
         finish();
     }
+    
+    double calib;
+    int calibN;
+    boolean isCalibration=false;
+    public void calibrate() {
+    	if(isCalibration) {
+    		manager.unregisterListener(this, sensor);
+    		calib /= calibN;
+    		Log.d("recognition", ""+calib);
+    		button.setText("Calibrate");
+    	} else {
+    		manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+    		calib = 0;
+    		calibN = 0;
+    		button.setText("Calibration...");
+    	}
+    	isCalibration = !isCalibration;
+    }
+    
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		calibN++;
+		calib+=Math.sqrt(event.values[0]*event.values[0]+event.values[1]*event.values[1]+event.values[2]*event.values[2]);
+	}
 
     private boolean isBluetoothOn() {
         BluetoothAdapter a = BluetoothAdapter.getDefaultAdapter();
@@ -62,4 +109,10 @@ public class MainMenu extends Activity {
             }
         }
     }
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		calibrate();
+	}
+
 }

@@ -80,7 +80,7 @@ public class FightMessage {
 			shape = Shape.TRIANGLE;
 			break;
 		case BUFF_ON:
-			shape = Shape.SQUARE;
+			shape = Shape.SHIELD;
 			break;
 		case NEW_HP:
 		case HEAL:
@@ -101,7 +101,7 @@ public class FightMessage {
 		case TRIANGLE:
 			action = FightAction.DAMAGE;
 			break;
-		case SQUARE:
+		case SHIELD:
 			action = FightAction.BUFF_ON;
 			break;
 		case CLOCK:

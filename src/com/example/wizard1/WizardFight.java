@@ -6,6 +6,7 @@ import android.media.SoundPool;
 import com.example.wizard1.views.SelfGUI;
 import com.example.wizard1.views.EnemyGUI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.example.wizard1.components.Vector2d;
@@ -46,9 +47,6 @@ public class WizardFight extends Activity {
     	MESSAGE_WRITE,
     	MESSAGE_DEVICE_NAME,
     	MESSAGE_TOAST,
-    	MESSAGE_ADD_PROJECTION,
-    	MESSAGE_SET_PROJECTION,
-    	MESSAGE_CLEAR_PROJECTION,
     	MESSAGE_FROM_SELF,
     	MESSAGE_FROM_ENEMY,
         MESSAGE_PLAY_SOUND;
@@ -83,10 +81,19 @@ public class WizardFight extends Activity {
     private int streamID;
     private boolean soundLoaded = false;
     
+    private double calib;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        calib = getIntent().getExtras().getDouble("calib");
+        Log.d("recognition", "c:"+calib);
+        try {
+			Recognition.init(getResources());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Log.e("recognition", "", e);
+		}
+        
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         soundID1 = soundPool.load(this, R.raw.magic, 1);
         streamID=-1;
@@ -149,7 +156,7 @@ public class WizardFight extends Activity {
             }
         }
         // Initialize new accelerator thread
-        mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer);
+        mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer, calib);
 		mAcceleratorThread.start();
 		Log.e(TAG, "accelerator ran");
     }
@@ -250,15 +257,6 @@ public class WizardFight extends Activity {
                 Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                                Toast.LENGTH_SHORT).show();
                 break;
-            case MESSAGE_ADD_PROJECTION:
-                ((ProjectionView)findViewById(R.id.pv)).addProjection((ArrayList<Vector2d>) msg.obj);
-                break;
-            case MESSAGE_SET_PROJECTION:
-                ((ProjectionView)findViewById(R.id.pv)).setProjection((ArrayList<Vector2d>) msg.obj);
-                break;
-            case MESSAGE_CLEAR_PROJECTION:
-                ((ProjectionView)findViewById(R.id.pv)).clearProjection();
-                break;
             case MESSAGE_FROM_SELF:
             	try {
  
@@ -275,7 +273,7 @@ public class WizardFight extends Activity {
             		break;
             	case BUFF_ON:
             		// add buff to state
-            		if(sendMessage.shape == Shape.SQUARE) {
+            		if(sendMessage.shape == Shape.SHIELD) {
             			sendMessage.param = Buff.SHIELD_ONE_SPELL.ordinal();
             		}
             		mSelfState.handleSpell(sendMessage);

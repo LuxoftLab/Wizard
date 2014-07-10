@@ -21,8 +21,10 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private SensorManager mSensorManager;
     private Sensor mAccelerometer;
 	private ArrayList <Vector4d> records;
+	private double calib;
 
-	public AcceleratorThread(SensorManager sm, Sensor s) {
+	public AcceleratorThread(SensorManager sm, Sensor s, double c) {
+		this.calib = c;
 		setName("Accelerator thread");
 		prevTimeStamp = 0;
 		mSensorManager = sm;
@@ -63,14 +65,19 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	@Override
 	 public void onSensorChanged(SensorEvent event) {
 		if( !listening ) return;
-    	long timeStamp = event.timestamp / 1000000;
+//    	long timeStamp = event.timestamp / 1000000;
+    	long timeStamp = event.timestamp;
     	//at least 20 milliseconds between events
     	if( timeStamp - prevTimeStamp < 20) {
-    		return;
+    		//return;
     	}
     	prevTimeStamp = timeStamp;
+    	double x = event.values[0];
+    	double y = event.values[1];
+    	double z = event.values[2];
+    	double len = Math.sqrt(x*x+y*y+z*z);
     	Vector4d rec = new Vector4d(
-				event.values[0], event.values[1], event.values[2], timeStamp);
+				x-calib*(x/len), y-calib*(y/len), z-calib*(z/len), timeStamp);
 		records.add(rec);
     }
 }

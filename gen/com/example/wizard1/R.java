@@ -35,8 +35,9 @@ public final class R {
         public static final int wood=0x7f02000b;
     }
     public static final class id {
-        public static final int buttonCreateGame=0x7f0b001c;
-        public static final int buttonJoinGame=0x7f0b001d;
+        public static final int buttonCalibrate=0x7f0b001d;
+        public static final int buttonCreateGame=0x7f0b001b;
+        public static final int buttonJoinGame=0x7f0b001c;
         public static final int button_scan=0x7f0b0006;
         public static final int discoverable=0x7f0b0021;
         public static final int enemy_buff1=0x7f0b0015;
@@ -51,10 +52,9 @@ public final class R {
         public static final int horizontalScrollView=0x7f0b001e;
         public static final int layoutForCards=0x7f0b001f;
         public static final int main_scroll=0x7f0b0007;
-        public static final int mm_buttons=0x7f0b001b;
+        public static final int mm_buttons=0x7f0b001a;
         public static final int new_devices=0x7f0b0005;
         public static final int paired_devices=0x7f0b0003;
-        public static final int pv=0x7f0b001a;
         public static final int scan=0x7f0b0020;
         public static final int self_buff1=0x7f0b000c;
         public static final int self_buff2=0x7f0b000d;
@@ -83,7 +83,14 @@ public final class R {
         public static final int option_menu=0x7f0a0000;
     }
     public static final class raw {
-        public static final int magic=0x7f060000;
+        public static final int circle=0x7f060000;
+        public static final int clock=0x7f060001;
+        public static final int magic=0x7f060002;
+        public static final int pi=0x7f060003;
+        public static final int shield=0x7f060004;
+        public static final int triangle=0x7f060005;
+        public static final int v=0x7f060006;
+        public static final int z=0x7f060007;
     }
     public static final class string {
         /** Main Menu 
