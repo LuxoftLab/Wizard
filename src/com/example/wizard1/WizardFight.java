@@ -148,6 +148,10 @@ public class WizardFight extends Activity {
               mChatService.start();
             }
         }
+        // Initialize new accelerator thread
+        mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer);
+		mAcceleratorThread.start();
+		Log.e(TAG, "accelerator ran");
     }
     private void setupChat() {
         Log.d(TAG, "setupChat()");
@@ -163,8 +167,14 @@ public class WizardFight extends Activity {
     }
     @Override
     public synchronized void onPause() {
-        super.onPause();
-        if(D) Log.e(TAG, "- ON PAUSE -");
+    	super.onPause();
+    	if(D) Log.e(TAG, "- ON PAUSE -");
+    	//unregister accelerator listener and end its event loop
+    	if(mAcceleratorThread != null) {
+    		Log.e(TAG, "accelerator thread try to stop loop");
+    		mAcceleratorThread.stopLoop();
+    		mAcceleratorThread = null;
+    	}
     }
     @Override
     public void onStop() {
@@ -443,28 +453,26 @@ public class WizardFight extends Activity {
             }
         }
     }
+    
     public void buttonClick() {
     	if( isVolumeButtonBlocked ) return;
     	
 		if( !isBetweenVolumeClicks ) {
-			mEnemyGUI.getPlayerName().setText("volume button started");
-			mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer,mHandler);
-			mAcceleratorThread.start();
+			mAcceleratorThread.startGettingData();
+//			mEnemyGUI.getPlayerName().setText("volume button started");
 			isBetweenVolumeClicks = true;
-
 			if( streamID == -1 ) {
 				streamID=soundPool.play(soundID1, 0.25f, 0.25f, 0, -1, 1);
 			} else {
 				soundPool.resume(streamID);
 			}
+			
 		} else {
 			isVolumeButtonBlocked = true;
-
 			soundPool.pause(streamID);
-			ArrayList<Vector4d> records = mAcceleratorThread.stopAndGetResult();
-			mEnemyGUI.getPlayerName().setText( "end. count: " + records.size() );
-			isBetweenVolumeClicks  = false;
 			
+			ArrayList<Vector4d> records = mAcceleratorThread.stopAndGetResult();
+			isBetweenVolumeClicks  = false;
 			
 			if( records.size() > 10 ) {
 				new RecognitionThread(mHandler, records).start();

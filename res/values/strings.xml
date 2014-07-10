@@ -20,4 +20,10 @@
     <!-- Options Menu -->
     <string name="connect">Connect a device</string>
     <string name="discoverable">Make discoverable</string>
+    <!--Main Menu -->
+    <string name="Create_game">Create game</string>
+    <string name="Join_game">Join game</string>
+    <string name="Help">Help</string>
+    <string name="Spellbook">Spellbook</string>
+    <string name="Exit">Exit</string>
 </resources>

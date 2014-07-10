@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<spells xmlns:android="http://schemas.android.com/apk/res/android">
+    <spell>
+        <name>Треугольник</name>
+        <description>Это треугольник!</description>
+        <img>triangle.png</img>
+    </spell>
+    <spell>
+        <name>Круг</name>
+        <description>Это круг!</description>
+        <img>
+            circle.png
+        </img>
+    </spell>
+    <spell>
+        <name>Часы</name>
+        <description>Это часы!</description>
+        <img>
+            clock.png
+        </img>
+    </spell>
+    <spell>
+        <name>Z</name>
+        <description>Это z!</description>
+        <img>
+            z.png
+        </img>
+    </spell>
+    <spell>
+        <name>V</name>
+        <description>Это v!</description>
+        <img>
+            v.png
+        </img>
+    </spell>
+    <spell>
+        <name>PI</name>
+        <description>Это π!</description>
+        <img>
+            pi.png
+        </img>
+    </spell>
+</spells>
