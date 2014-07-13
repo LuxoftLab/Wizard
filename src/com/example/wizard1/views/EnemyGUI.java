@@ -12,6 +12,7 @@ public class EnemyGUI extends PlayerGUI {
 	public EnemyGUI(Activity a, int hp, int mana) {
 		super(a);
 		playerName = (TextView) a.findViewById(R.id.enemy_name);
+		debugField = (TextView) a.findViewById(R.id.enemy_debug);
 		healthBar = (HealthIndicator) a.findViewById(R.id.enemy_health);
 		healthBar.setMaxValue(hp);
 		manaBar = (ManaIndicator) a.findViewById(R.id.enemy_mana);

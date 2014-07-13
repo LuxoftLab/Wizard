@@ -14,8 +14,8 @@ import android.os.Message;
 import android.util.Log;
 
 public class AcceleratorThread extends Thread implements SensorEventListener {
+	private final int MIN_TICK_TIME = 20;
 	private boolean listening;
-//	private boolean configured;
 	private long prevTimeStamp;
 	private Looper mLooper;
 	private SensorManager mSensorManager;
@@ -30,7 +30,6 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		mSensorManager = sm;
 		mAccelerometer = s;
 		listening = false;
-//		configured = false;
 	}
 	
 	public void run() {
@@ -39,7 +38,6 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		mLooper = Looper.myLooper();
 		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME, handler);
 		Looper.loop();
-//		configured = true;
 	}
 	
 	public void startGettingData() {
@@ -67,8 +65,9 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		if( !listening ) return;
 //    	long timeStamp = event.timestamp / 1000000;
     	long timeStamp = event.timestamp;
-    	//at least 20 milliseconds between events
-    	if( timeStamp - prevTimeStamp < 20) {
+    	// at least 20 milliseconds between events
+    	// USELESS, FIX OR REMOVE IT
+    	if( timeStamp - prevTimeStamp < MIN_TICK_TIME) {
     		//return;
     	}
     	prevTimeStamp = timeStamp;

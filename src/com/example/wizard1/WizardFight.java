@@ -49,6 +49,7 @@ public class WizardFight extends Activity {
     	MESSAGE_TOAST,
     	MESSAGE_FROM_SELF,
     	MESSAGE_FROM_ENEMY,
+    	MESSAGE_MANA_REGEN,
         MESSAGE_PLAY_SOUND;
     }
     // Key names received from the BluetoothChatService Handler
@@ -82,6 +83,7 @@ public class WizardFight extends Activity {
     private boolean soundLoaded = false;
     
     private double calib;
+    private int myCounter;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,11 +166,13 @@ public class WizardFight extends Activity {
         Log.d(TAG, "setupChat()");
         // Initialize text views from main layout
         // Create players states
-        mSelfState = new SelfState(200, 100);
-        mEnemyState = new EnemyState(200, 100);
-        // Initialize self UI
-        mSelfGUI = new SelfGUI(this, 200, 100);
-        mEnemyGUI = new EnemyGUI(this, 200, 100);
+        mSelfState = new SelfState(200, 500);
+        mEnemyState = new EnemyState(200, 500);
+        // Initialize players UI
+        mSelfGUI = new SelfGUI(this, 200, 500);
+        mSelfGUI.getHealthBar().setValue(1); /////////////FOR TESTING, DELETE LATER
+        mEnemyGUI = new EnemyGUI(this, 200, 500);
+        mEnemyGUI.getHealthBar().setValue(1); /////////////FOR TESTING, DELETE LATER
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(this, mHandler);
     }
@@ -206,6 +210,11 @@ public class WizardFight extends Activity {
     }
     
     private void sendFightMessage(FightMessage fMessage) {
+    	// always send own health and mana
+    	fMessage.health = mSelfState.getHealth();
+    	fMessage.mana = mSelfState.getMana();
+    	
+    	mSelfGUI.getPlayerName().setText("send fm: " + fMessage + " " + (myCounter++));
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
 //            Toast.makeText(, R.string.not_connected, Toast.LENGTH_SHORT).show();
@@ -240,6 +249,9 @@ public class WizardFight extends Activity {
                     mTitle.setText(R.string.title_connecting);
                     break;
                 case BluetoothChatService.STATE_LISTEN:
+                	//run mana reg loop
+                	this.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null)
+                		.sendToTarget();
                 case BluetoothChatService.STATE_NONE:
                     mTitle.setText(R.string.title_not_connected);
 //                    isVolumeButtonBlocked = true; in future
@@ -258,138 +270,20 @@ public class WizardFight extends Activity {
                                Toast.LENGTH_SHORT).show();
                 break;
             case MESSAGE_FROM_SELF:
- 
-            	FightMessage sendMessage = (FightMessage) msg.obj;
-            	sendMessage = FightMessage.fromBytes(sendMessage.getBytes());
-            	mSelfGUI.getPlayerName().setText("message " + sendMessage);
-            	
-            
-            	switch( sendMessage.action ) {
-            	case DAMAGE:
-            	case HIGH_DAMAGE:
-            		sendFightMessage(sendMessage);
-            		mEnemyGUI.getSpellPicture().setShape( sendMessage.shape );
-            		break;
-            	case BUFF_ON:
-            		// add buff to state
-            		mSelfState.handleSpell(sendMessage);
-            		// send message to enemy
-            		sendFightMessage(sendMessage);
-            		if (!isIndexGood(sendMessage.param)) break;
-            		// add buff to GUI
-            		Buff newBuff = Buff.values()[ sendMessage.param ];
-            		mSelfGUI.getBuffPanel().addBuff(newBuff);
-            		// show figure
-            		mSelfGUI.getSpellPicture().setShape( sendMessage.shape );  //DELETE IN FUTURE
-            		break;
-            	case HEAL:
-            		mSelfState.handleSpell(sendMessage);
-            		int newHP = mSelfState.getHealth();
-            		//send new hp to enemy
-            		sendMessage.setParam(newHP);
-            		sendFightMessage(sendMessage);
-            		
-            		//refresh GUI
-            		mSelfGUI.getSpellPicture().setShape( sendMessage.shape );
-            		mSelfGUI.getHealthBar().setValue(newHP);
-            		break;
-            	case NONE:
-            		//show fail
-            		mSelfGUI.getSpellPicture().setShape( sendMessage.shape );
-            		break;
-            	default:
-            		mSelfGUI.getPlayerName().setText("unknown msg from myself");
-            	}
-            	
-            	Log.e("Wizard Fight", "Enemy damage handling");
-            	isVolumeButtonBlocked = false;
-            	
+//            	FightMessage selfMsg = (FightMessage) msg.obj;
+            	handleSelfMessage(msg);
             	break;
             case MESSAGE_FROM_ENEMY:
-            	try {
-            
-            	byte[] recvBytes = (byte[]) msg.obj;
-            	FightMessage recvMessage = FightMessage.fromBytes(recvBytes);
-            	mSelfGUI.getPlayerName().setText(recvMessage.toString());
-            	
-            	switch( recvMessage.action ) {
-            	case DAMAGE:
-            	case HIGH_DAMAGE:
-            		mSelfState.handleSpell(recvMessage);
-            		
-            		if( mSelfState.getCanceledBuff() != null ) {
-            			Buff canceledBuff = mSelfState.getCanceledBuff();
-            			//remove buff from panel
-            			mSelfGUI.getBuffPanel().removeBuff(canceledBuff);
-            			//send message about buff loss to enemy
-            			FightMessage fm = new FightMessage(FightAction.BUFF_OFF);
-            			fm.setParam( canceledBuff.ordinal() );
-            			sendFightMessage( fm );	
-            		}
-            		
-            		if( mSelfState.healthChanged ) {
-            			//COUNT REVEIVED DAMAGE
-                		int newHP = mSelfState.getHealth();
-                		//send new hp to enemy
-                		FightMessage fm = new FightMessage(FightAction.NEW_HP);
-                		fm.setParam(newHP);
-                		sendFightMessage( fm );	
-                		
-                		//refresh GUI
-                		mSelfGUI.getSpellPicture().setShape( recvMessage.shape );
-                		mSelfGUI.getHealthBar().setValue(newHP);
-                		
-                		//if lose
-                		if( newHP == 0 ) {
-                			Toast.makeText(getApplicationContext(), "YOU LOSE!",
-                                    Toast.LENGTH_SHORT).show();
-                		}
-            		}
-            		
-            		break;
-            	case BUFF_ON:
-            		// received buff 
-            		if (!isIndexGood(recvMessage.param)) break;
-            		Buff buffToOn = Buff.values()[ recvMessage.param ];
-            		// add buff to enemy state
-            		mEnemyState.handleSpell(recvMessage);
-            		// draw shape to enemy GUI
-            		mEnemyGUI.getSpellPicture().setShape( recvMessage.shape );
-            		// add buff to enemy GUI
-            		mEnemyGUI.getBuffPanel().addBuff(buffToOn);
-            		break;
-            	case BUFF_OFF:
-            		Log.e("Wizard Fight", "BUFF OFF PARAM: " + recvMessage.param);
-            		if (!isIndexGood(recvMessage.param)) break;
-            		Buff buffToOff = Buff.values()[ recvMessage.param ];
-            		// remove buff from state
-            		mEnemyState.handleSpell(recvMessage);
-            		// remove buff from enemy GUI
-            		mEnemyGUI.getBuffPanel().removeBuff(buffToOff);
-            		break;
-            	case HEAL:
-            		mEnemyState.handleSpell(recvMessage);
-            		//hp change after heal
-            		mEnemyGUI.getSpellPicture().setShape( recvMessage.shape );
-            		mEnemyGUI.getHealthBar().setValue( recvMessage.param );
-            		break;
-            	case NEW_HP:
-            		//hp change after damage
-            		int enemyHP = recvMessage.param;
-            		mEnemyGUI.getHealthBar().setValue( enemyHP );
-            		
-            		if( enemyHP == 0 ) {
-            			Toast.makeText(getApplicationContext(), "YOU WIN!",
-                                Toast.LENGTH_SHORT).show();
-            		}
-            		break;
-            	default:
-            		mSelfGUI.getPlayerName().setText("unknown msg from enemy");
-            	}
-            	
-            	} catch(Exception e) {
-            		mSelfGUI.getPlayerName().setText(e.toString());
-            	}
+            	handleEnemyMessage(msg);
+            	break;
+            case MESSAGE_MANA_REGEN:
+            	mSelfState.manaTick();
+            	mEnemyState.manaTick();
+            	mSelfGUI.getManaBar().setValue(mSelfState.getMana());
+            	mEnemyGUI.getManaBar().setValue(mEnemyState.getMana());
+            	Log.e(TAG, "Mana tick: " + mSelfState.getMana() + " set to bar");
+            	Message msgManaReg = this.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
+            	this.sendMessageDelayed(msgManaReg, 2000);
             	break;
             case MESSAGE_PLAY_SOUND:
             	if( !soundLoaded ) {
@@ -405,6 +299,125 @@ public class WizardFight extends Activity {
             	break;
             }
         }
+    	
+    	private void handleSelfMessage(Message msg) {
+
+			FightMessage selfMsg = (FightMessage) msg.obj;
+			Shape sendShape = FightMessage
+					.getShapeFromMessage(selfMsg);
+			if(sendShape != Shape.NONE) {
+				isVolumeButtonBlocked = false;
+			}
+			mSelfGUI.log("self msg : " + selfMsg + " "  + (myCounter++));
+			boolean canBeCasted = mSelfState.requestSpell(selfMsg);
+			if( !canBeCasted ) return;
+			mSelfGUI.getManaBar().setValue(mSelfState.mana);
+
+			if (selfMsg.target == Target.SELF) {
+				// self influence to self
+				handleMessageToSelf(selfMsg);
+			} else {
+				// self influence to enemy
+				// tell enemy : target is he
+				selfMsg.target = Target.SELF;
+				sendFightMessage(selfMsg);
+				if(sendShape != Shape.NONE) {
+					mEnemyGUI.getSpellPicture().setShape(sendShape);
+				}
+			}
+	}
+
+	private void handleEnemyMessage(Message msg) {
+		
+			byte[] recvBytes = (byte[]) msg.obj;
+			FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
+			
+			Shape recvShape = FightMessage
+					.getShapeFromMessage(enemyMsg);
+
+			// refresh enemy health and mana (every enemy message contains it)
+			mEnemyState.setHealthAndMana(enemyMsg.health, enemyMsg.mana);
+			mEnemyGUI.getPlayerName().setText("enemy hp and mana: " + enemyMsg.health + ", " + enemyMsg.mana);
+			mEnemyGUI.log("enemy msg: " + enemyMsg + " "  + (myCounter++));
+			if (enemyMsg.target == Target.SELF) {
+				handleMessageToSelf(enemyMsg);
+			} else {
+				// Enemy influence to himself
+				mEnemyState.handleSpell(enemyMsg);
+				if (mEnemyState.getRemovedBuff() != null) {
+					// remove buff from enemy GUI
+					mEnemyGUI.getBuffPanel().removeBuff(
+							mEnemyState.getRemovedBuff());
+				}
+
+				if (mEnemyState.getAddedBuff() != null) {
+					// draw shape to enemy GUI
+					mEnemyGUI.getSpellPicture().setShape(recvShape); // DELETE IN FUTURE
+					// add buff to enemy GUI
+					mEnemyGUI.getBuffPanel().addBuff(
+							mEnemyState.getAddedBuff());
+				}
+			}
+			
+			mEnemyGUI.getHealthBar().setValue(mEnemyState.health);
+			mEnemyGUI.getManaBar().setValue(mEnemyState.mana);
+	}
+	
+	private void handleMessageToSelf(FightMessage fMessage) {
+		Log.e(TAG, "Message to self" + fMessage);
+		FightMessage sendMsg;
+		// Enemy influence to player
+		mSelfState.handleSpell(fMessage);
+		Buff addedBuff = mSelfState.getAddedBuff();
+		Buff removedBuff = mSelfState.getRemovedBuff();
+		Buff refreshedBuff = mSelfState.getRefreshedBuff();
+		
+		if (removedBuff != null) {
+			// buff was removed after spell,
+			// send message about buff loss to enemy
+			sendMsg = new FightMessage(Target.ENEMY,
+					FightAction.BUFF_TICK, removedBuff.ordinal());
+			sendFightMessage(sendMsg);
+			// remove buff from panel
+			mSelfGUI.getBuffPanel().removeBuff(removedBuff);	
+		} 
+		
+		if (addedBuff != null) {
+			// buff added to player after spell (for example
+			// DoT, HoT,  or shield),
+			// send message about enemy buff success
+			sendMsg = new FightMessage(Target.ENEMY,
+					FightAction.BUFF_ON, addedBuff.ordinal());
+			sendFightMessage(sendMsg);
+			// add buff to panel
+			mSelfGUI.getBuffPanel().addBuff(addedBuff);
+		}
+		
+		if (addedBuff != null || refreshedBuff != null) {
+			// send message of the buff tick 
+			Buff rfBuff = (addedBuff != null)? addedBuff : refreshedBuff;
+			FightMessage fm = new FightMessage(Target.SELF,
+					FightAction.BUFF_TICK, rfBuff.ordinal());
+			Message buffTickMsg = 
+					this.obtainMessage(AppMessage.MESSAGE_FROM_SELF.ordinal(), fm);
+			this.sendMessageDelayed(buffTickMsg, rfBuff.getDuration());
+		} 
+		
+		if(addedBuff == null && removedBuff == null && refreshedBuff == null) {
+			// nothing with buffs => just send self hp and mana to enemy
+			sendMsg = new FightMessage(Target.ENEMY, FightAction.NEW_HP_OR_MANA);
+			sendFightMessage(sendMsg);
+		}
+		
+		mSelfGUI.getHealthBar().setValue(mSelfState.health);
+		mSelfGUI.getManaBar().setValue(mSelfState.mana);
+
+		if (mSelfState.getSpellShape() != Shape.NONE) {
+			mSelfGUI.getSpellPicture().setShape(
+					mSelfState.getSpellShape());
+		}
+	}
+	
     };
     
     public boolean isIndexGood(int index) {
@@ -449,7 +462,6 @@ public class WizardFight extends Activity {
     	
 		if( !isBetweenVolumeClicks ) {
 			mAcceleratorThread.startGettingData();
-//			mEnemyGUI.getPlayerName().setText("volume button started");
 			isBetweenVolumeClicks = true;
 			if( streamID == -1 ) {
 				streamID=soundPool.play(soundID1, 0.25f, 0.25f, 0, -1, 1);

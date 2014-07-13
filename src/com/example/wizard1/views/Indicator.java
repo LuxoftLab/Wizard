@@ -18,44 +18,16 @@ public class Indicator extends View {
 	 
 	protected int barColor;
 	protected int textColor;
-    protected int underBarColor;
 	
-	private int maxValue;
-	private int curValue;
-    protected float prevValue;
-    private double animStep;
-    long mAnimStartTime;
-
-    Handler mHandler = new Handler();
-    Runnable mTick = new Runnable() {
-        public void run() {
-            if(prevValue != curValue)
-            {
-                if(prevValue > curValue)
-                    prevValue -= animStep;
-                if (prevValue < curValue)
-                    prevValue = curValue;
-                invalidate();
-                mHandler.postDelayed(this, 20);
-            }
-            else
-                mHandler.removeCallbacks(mTick);
-        }
-    };
-    void startAnimation() {
-        mAnimStartTime = SystemClock.uptimeMillis();
-        mHandler.removeCallbacks(mTick);
-        mHandler.post(mTick);
-    }
+	protected int maxValue;
+	protected int curValue;
 	
     public Indicator (Context context,AttributeSet attrs) {
         super(context, attrs);
         barColor = Color.BLACK;
         textColor = Color.WHITE;
-        underBarColor = Color.RED;
         maxValue = 100;
         curValue = maxValue;
-        prevValue = maxValue;
         paint = new Paint();
         rect = new RectF();
         textBounds = new Rect();
@@ -78,10 +50,6 @@ public class Indicator extends View {
         paint.setColor(Color.GRAY);
         canvas.drawRect(rect, paint);
 
-        paint.setColor(underBarColor);
-        rect.right = width * prevValue / maxValue;
-        canvas.drawRect(rect, paint);
-
         paint.setColor(barColor);
         rect.right = width * curValue / maxValue;
         canvas.drawRect(rect, paint);
@@ -101,16 +69,12 @@ public class Indicator extends View {
         else if(value<0)
             value=0;
     	curValue = value;
-    	if(curValue < prevValue) { // damage 
-    		animStep = (prevValue - curValue) * 0.1f;
-        	startAnimation();
-    	} else {
-    		prevValue = curValue;
-    	}
+    	invalidate();
     }
     
     public void setMaxValue(int value) {
     	curValue = maxValue = value;
+    	invalidate();
     }
     
     public int getValue() {
