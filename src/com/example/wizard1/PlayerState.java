@@ -32,17 +32,17 @@ public class PlayerState {
 		
 		switch(message.action) {
 			case HIGH_DAMAGE:
-				Log.e("Wizard Fight", "have shield : " + buffs.contains(Buff.SHIELD_ONE_SPELL) );
-				if( buffs.contains(Buff.SHIELD_ONE_SPELL) ) {
-					removeBuff(Buff.SHIELD_ONE_SPELL);
+				Log.e("Wizard Fight", "have shield : " + buffs.contains(Buff.HOLY_SHIELD) );
+				if( buffs.contains(Buff.HOLY_SHIELD) ) {
+					removeBuff(Buff.HOLY_SHIELD);
 					return;
 				}
 				health -= 30;
 				break;
 			case DAMAGE:
-				Log.e("Wizard Fight", "have shield : " + buffs.contains(Buff.SHIELD_ONE_SPELL) );
-				if( buffs.contains(Buff.SHIELD_ONE_SPELL) ) {
-					removeBuff(Buff.SHIELD_ONE_SPELL);
+				Log.e("Wizard Fight", "have shield : " + buffs.contains(Buff.HOLY_SHIELD) );
+				if( buffs.contains(Buff.HOLY_SHIELD) ) {
+					removeBuff(Buff.HOLY_SHIELD);
 					return;
 				}
 				health -= 10;
@@ -52,14 +52,14 @@ public class PlayerState {
 				//message parameter is buff index
 				Buff newBuff = Buff.values()[ message.param ];
 				addBuff(newBuff);
-				Log.e("Wizard Fight", "buff added to state?: " + buffs.contains(Buff.SHIELD_ONE_SPELL));
+				Log.e("Wizard Fight", "buff added to state?: " + buffs.contains(Buff.HOLY_SHIELD));
 				break;
 			case BUFF_OFF:
 				if( message.param < 0 ) break;
 				//message parameter is buff index
 				Buff delBuff = Buff.values()[ message.param ];
 				removeBuff(delBuff);
-				Log.e("Wizard Fight", "buff removed from state?" + !buffs.contains(Buff.SHIELD_ONE_SPELL));
+				Log.e("Wizard Fight", "buff removed from state?" + !buffs.contains(Buff.HOLY_SHIELD));
 				break;
 			case HEAL:
 				 /* 

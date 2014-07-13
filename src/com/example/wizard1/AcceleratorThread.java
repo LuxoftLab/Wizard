@@ -54,7 +54,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	
 	public void stopLoop() {
 		mSensorManager.unregisterListener(this);
-		mLooper.quit();
+		if( mLooper != null ) mLooper.quit();
 	}
 
 	@Override

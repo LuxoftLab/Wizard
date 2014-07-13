@@ -258,7 +258,6 @@ public class WizardFight extends Activity {
                                Toast.LENGTH_SHORT).show();
                 break;
             case MESSAGE_FROM_SELF:
-            	try {
  
             	FightMessage sendMessage = (FightMessage) msg.obj;
             	sendMessage = FightMessage.fromBytes(sendMessage.getBytes());
@@ -273,9 +272,6 @@ public class WizardFight extends Activity {
             		break;
             	case BUFF_ON:
             		// add buff to state
-            		if(sendMessage.shape == Shape.SHIELD) {
-            			sendMessage.param = Buff.SHIELD_ONE_SPELL.ordinal();
-            		}
             		mSelfState.handleSpell(sendMessage);
             		// send message to enemy
             		sendFightMessage(sendMessage);
@@ -308,10 +304,6 @@ public class WizardFight extends Activity {
             	Log.e("Wizard Fight", "Enemy damage handling");
             	isVolumeButtonBlocked = false;
             	
-            	
-            	} catch(Exception e) {
-            		mSelfGUI.getPlayerName().setText(e.toString());
-            	}
             	break;
             case MESSAGE_FROM_ENEMY:
             	try {

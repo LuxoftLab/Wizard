@@ -25,7 +25,6 @@
         <activity android:name=".DeviceListActivity"
                   android:screenOrientation="portrait"
                   android:label="@string/select_device"
-                  android:theme="@android:style/Theme.Dialog"
                   android:configChanges="orientation|keyboardHidden" />
         <activity android:name=".Spellbook"
             	  android:screenOrientation="portrait"

@@ -18,25 +18,23 @@ import android.content.res.Resources;
 import android.util.Log;
 
 public class Recognition {
-
 	static HashMap<Shape, Cascade> cascades = new HashMap<Shape, Cascade>();
 
-	public static void init(Resources res) throws IOException {
+	public static void putCascade (Resources res, int rawId, Shape shape) 
+		throws IOException {
 		Cascade c = new Cascade();
-		c.load(new DataInputStream(res.openRawResource(R.raw.circle)));
-		cascades.put(Shape.CIRCLE, c);
-		c = new Cascade();
-		c.load(new DataInputStream(res.openRawResource(R.raw.shield)));
-		cascades.put(Shape.SHIELD, c);
-		c = new Cascade();
-		c.load(new DataInputStream(res.openRawResource(R.raw.triangle)));
-		cascades.put(Shape.TRIANGLE, c);
-		c = new Cascade();
-		c.load(new DataInputStream(res.openRawResource(R.raw.clock)));
-		cascades.put(Shape.CLOCK, c);
-		/*c = new Cascade();
-		c.load(new DataInputStream(res.openRawResource(R.raw.z)));
-		cascades.put(Shape.FAIL, c);*/
+		c.load(new DataInputStream(res.openRawResource(rawId)));
+		cascades.put(shape, c);
+	}
+	
+	public static void init(Resources res) throws IOException {
+		putCascade(res, R.raw.triangle, Shape.TRIANGLE);	
+		putCascade(res, R.raw.circle, Shape.CIRCLE);
+		putCascade(res, R.raw.clock, Shape.CLOCK);
+		putCascade(res, R.raw.z, Shape.Z);
+		putCascade(res, R.raw.v, Shape.V);
+		putCascade(res, R.raw.pi, Shape.PI);
+		putCascade(res, R.raw.shield, Shape.SHIELD);
 	}
 
 	public static Shape recognize(ArrayList<Vector4d> data) {

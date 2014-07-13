@@ -54,25 +54,28 @@ public class FightMessage {
 	
 	public FightMessage(FightAction msgAction) {
 		action = msgAction;
-		shape = getShapeFromAction(action);
 		param = -1;
+		shape = getShapeFromMessage(this);
 	}
 	
-	public FightMessage(Shape shape) {
-		this.shape = shape;
+	public FightMessage(Shape s) {
+		shape = s;
 		action = getActionFromShape(shape);
 		param = -1;
+		if( action == FightAction.BUFF_ON ) {
+			param = Buff.getBuffFromShape(shape).ordinal();
+		}
 	}
 	
 	public FightMessage(int actionIndex, int parameter) {
 		action = FightAction.values() [ actionIndex ];
-		shape = getShapeFromAction(action);
 		param = parameter;
+		shape = getShapeFromMessage(this);	
 	}
 	
-	public static Shape getShapeFromAction(FightAction action) {
+	public static Shape getShapeFromMessage(FightMessage message) {
 		Shape shape;
-		switch( action ) {
+		switch( message.action ) {
 		case HIGH_DAMAGE:
 			shape = Shape.CIRCLE;
 			break;
@@ -80,14 +83,30 @@ public class FightMessage {
 			shape = Shape.TRIANGLE;
 			break;
 		case BUFF_ON:
-			shape = Shape.SHIELD;
+			Buff buff = Buff.values()[ message.param  ];
+			switch(buff) {
+			case WEAKNESS:
+				shape = Shape.Z;
+				break;
+			case CONCENTRATION:
+				shape = Shape.V;
+				break;
+			case BLESSING:
+				shape = Shape.PI;
+				break;
+			case HOLY_SHIELD:
+				shape = Shape.SHIELD;
+				break;
+			default:
+				shape = Shape.NONE;
+			}
 			break;
 		case NEW_HP:
 		case HEAL:
 			shape = Shape.CLOCK;
 			break;
 		default:
-			shape = Shape.FAIL;
+			shape = Shape.NONE;
 		}
 		return shape;
 	}
@@ -101,6 +120,9 @@ public class FightMessage {
 		case TRIANGLE:
 			action = FightAction.DAMAGE;
 			break;
+		case Z:
+		case V:
+		case PI:
 		case SHIELD:
 			action = FightAction.BUFF_ON;
 			break;
