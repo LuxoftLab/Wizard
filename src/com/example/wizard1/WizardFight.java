@@ -166,13 +166,11 @@ public class WizardFight extends Activity {
         Log.d(TAG, "setupChat()");
         // Initialize text views from main layout
         // Create players states
-        mSelfState = new SelfState(200, 500);
-        mEnemyState = new EnemyState(200, 500);
+        mEnemyState = new EnemyState(200, 500, null);
+        mSelfState = new SelfState(200, 500, mEnemyState);
         // Initialize players UI
         mSelfGUI = new SelfGUI(this, 200, 500);
-        mSelfGUI.getHealthBar().setValue(1); /////////////FOR TESTING, DELETE LATER
         mEnemyGUI = new EnemyGUI(this, 200, 500);
-        mEnemyGUI.getHealthBar().setValue(1); /////////////FOR TESTING, DELETE LATER
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(this, mHandler);
     }
@@ -281,7 +279,6 @@ public class WizardFight extends Activity {
             	mEnemyState.manaTick();
             	mSelfGUI.getManaBar().setValue(mSelfState.getMana());
             	mEnemyGUI.getManaBar().setValue(mEnemyState.getMana());
-            	Log.e(TAG, "Mana tick: " + mSelfState.getMana() + " set to bar");
             	Message msgManaReg = this.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
             	this.sendMessageDelayed(msgManaReg, 2000);
             	break;
@@ -309,6 +306,7 @@ public class WizardFight extends Activity {
 				isVolumeButtonBlocked = false;
 			}
 			mSelfGUI.log("self msg : " + selfMsg + " "  + (myCounter++));
+			Log.e(TAG, "self msg : " + selfMsg + " "  + myCounter);
 			boolean canBeCasted = mSelfState.requestSpell(selfMsg);
 			if( !canBeCasted ) return;
 			mSelfGUI.getManaBar().setValue(mSelfState.mana);
@@ -339,6 +337,7 @@ public class WizardFight extends Activity {
 			mEnemyState.setHealthAndMana(enemyMsg.health, enemyMsg.mana);
 			mEnemyGUI.getPlayerName().setText("enemy hp and mana: " + enemyMsg.health + ", " + enemyMsg.mana);
 			mEnemyGUI.log("enemy msg: " + enemyMsg + " "  + (myCounter++));
+			Log.e(TAG, "enemy msg: " + enemyMsg + " "  + myCounter);
 			if (enemyMsg.target == Target.SELF) {
 				handleMessageToSelf(enemyMsg);
 			} else {
@@ -356,6 +355,11 @@ public class WizardFight extends Activity {
 					// add buff to enemy GUI
 					mEnemyGUI.getBuffPanel().addBuff(
 							mEnemyState.getAddedBuff());
+				}
+				
+				if (mEnemyState.removedBuff != null) {
+					// add buff to enemy GUI
+					mEnemyGUI.getBuffPanel().removeBuff(mEnemyState.removedBuff);
 				}
 			}
 			
@@ -376,12 +380,12 @@ public class WizardFight extends Activity {
 			// buff was removed after spell,
 			// send message about buff loss to enemy
 			sendMsg = new FightMessage(Target.ENEMY,
-					FightAction.BUFF_TICK, removedBuff.ordinal());
+					FightAction.BUFF_OFF, removedBuff.ordinal());
 			sendFightMessage(sendMsg);
 			// remove buff from panel
 			mSelfGUI.getBuffPanel().removeBuff(removedBuff);	
 		} 
-		
+
 		if (addedBuff != null) {
 			// buff added to player after spell (for example
 			// DoT, HoT,  or shield),
@@ -395,15 +399,15 @@ public class WizardFight extends Activity {
 		
 		if (addedBuff != null || refreshedBuff != null) {
 			// send message of the buff tick 
-			Buff rfBuff = (addedBuff != null)? addedBuff : refreshedBuff;
+			if(addedBuff != null) refreshedBuff = addedBuff;
 			FightMessage fm = new FightMessage(Target.SELF,
-					FightAction.BUFF_TICK, rfBuff.ordinal());
+					FightAction.BUFF_TICK, refreshedBuff.ordinal());
 			Message buffTickMsg = 
 					this.obtainMessage(AppMessage.MESSAGE_FROM_SELF.ordinal(), fm);
-			this.sendMessageDelayed(buffTickMsg, rfBuff.getDuration());
-		} 
+			this.sendMessageDelayed(buffTickMsg, refreshedBuff.getDuration());
+		}
 		
-		if(addedBuff == null && removedBuff == null && refreshedBuff == null) {
+		if(addedBuff == null && removedBuff == null) {
 			// nothing with buffs => just send self hp and mana to enemy
 			sendMsg = new FightMessage(Target.ENEMY, FightAction.NEW_HP_OR_MANA);
 			sendFightMessage(sendMsg);

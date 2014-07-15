@@ -23,6 +23,7 @@ enum FightAction {
 	HEAL,
 	BUFF_ON,
 	BUFF_TICK,
+	BUFF_OFF,
 	NEW_HP_OR_MANA,
 	NONE,
 	FAILED_CAST;
@@ -37,6 +38,7 @@ enum FightAction {
 		"heal",
 		"buff_on",
 		"buff_tick",
+		"buff_off",
 		"new_hp_or_mana",
 		"none",
 		"failed cast"

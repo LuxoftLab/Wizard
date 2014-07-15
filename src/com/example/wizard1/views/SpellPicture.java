@@ -44,6 +44,9 @@ public class SpellPicture extends ImageView {
      */
     public void setShape(Shape s) {
     	shape = s;
+    	if( shape == Shape.NONE ) {
+    		this.setImageDrawable(null);
+    	}
     	Log.e("Wizard Fight", "Starting animation");
         Log.e("Wizard Fight", "Current shape : " + shape);
         this.setImageResource( Shape.getPictureId(s) );

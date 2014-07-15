@@ -31,12 +31,20 @@ public class BuffPanel {
 	}
 	
 	public void removeBuff(Buff buff) {
+		int rmIndex = -1;
 		for(int i=0; i<buffPics.length; i++) {
 			if(buffPics[i].getBuff() == buff) {
-				buffPics[i].setBuff(Buff.NONE);
+				rmIndex = i;
+				break;
 			}
 		}
+		if(rmIndex == -1) return;
+		
+		for(int i=rmIndex; i<buffPics.length-1; i++) {
+			if(buffPics[i].getBuff() == Buff.NONE) break;
+			
+			Buff rightBuff = buffPics[i+1].getBuff();
+			buffPics[i].setBuff(rightBuff);
+		}
 	}
-	
-//	public BuffPicture[] getBuffs() { return buffs; }
 }

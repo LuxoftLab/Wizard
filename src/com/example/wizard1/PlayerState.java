@@ -30,17 +30,18 @@ public class PlayerState {
 	protected float damageReceiveMultiplier = 1.0f;
 	EnumMap <Buff, BuffState> buffs;
 	protected Shape spellShape;
-	
 	protected Buff addedBuff;
 	protected Buff refreshedBuff;
 	protected Buff removedBuff;
 	
-	public PlayerState(int startHP, int startMana) {
+	protected PlayerState enemyState;
+	
+	public PlayerState(int startHP, int startMana, PlayerState enemy) {
 		health = maxHealth = startHP;
 		mana = maxMana = startMana;
-		health = 1; /////////////////////////////////////////////////////////// FOR TESTING, DELETE LATER
 		buffs = new EnumMap(Buff.class);
 		dropSpellInfluence();
+		enemyState = enemy;
 	}
 	
 	protected void dropSpellInfluence() {
@@ -50,22 +51,31 @@ public class PlayerState {
 		removedBuff = null;
 	}
 	
-	public void setHealthAndMana(int hp, int mp) {
-		health = hp;
-		mana = mp;
-	}
-	
 	protected void dealDamage(int damage) {
 		if( buffs.containsKey(Buff.HOLY_SHIELD) ) {
-			removeBuff(Buff.HOLY_SHIELD, false);
+			handleBuffTick(Buff.HOLY_SHIELD, false);
 			return;
 		}
-		damage = (int) (damage * damageReceiveMultiplier);
+		damage = enemyState.recountDamage(damage);
+		Log.e("Wizard Fight", "deal damage: " + damage);
 		setHealth(health - damage);
 	}
 	
 	protected void heal(int hp) {
 		setHealth(health + hp);
+	}
+	
+	public void setHealthAndMana(int hp, int mp) {
+		health = hp;
+		mana = mp;
+	}
+	
+	public int recountDamage(int damage) {
+		Log.e("Wizard Fight", "have V?: " + buffs.containsKey(Buff.CONCENTRATION));
+		if(buffs.containsKey(Buff.CONCENTRATION)) {
+			damage *= 1.5;
+		}
+		return damage;
 	}
 	
 	public void handleSpell(FightMessage message) {
@@ -100,9 +110,9 @@ public class PlayerState {
 				Log.e("Wizard Fight", "BUFF OFF RECEIVED IN STATE");
 				if( message.param < 0 ) break;
 				// message parameter is buff index
-				Buff delBuff = Buff.values()[ message.param ];
+				Buff tickBuff = Buff.values()[ message.param ];
 				// apply player state changes 
-				switch( delBuff ) {
+				switch( tickBuff ) {
 				case WEAKNESS:
 					dealDamage(5);
 					break;
@@ -115,9 +125,15 @@ public class PlayerState {
 					break;
 				default:
 				}
-				removeBuff(delBuff, (message.target == Target.SELF));
+				handleBuffTick(tickBuff, (message.target == Target.SELF));
 				break;
 				
+			case BUFF_OFF:
+				Buff delBuff = Buff.values()[ message.param ];
+				buffs.remove(delBuff);
+				removedBuff = delBuff;
+				Log.e("Wizard Fight", delBuff + "was removed");
+				break;
 			case NEW_HP_OR_MANA:
 				break;
 			default:
@@ -176,10 +192,9 @@ public class PlayerState {
 		buffs.put(buff, buffState);
 		Log.e("Wizard Fight", "new buff was added: " + buff + " " + buffs.get(buff).tickTime);
 		addedBuff = buff;
-		refreshedBuff = buff;
 	}
 	
-	public void removeBuff(Buff buff, boolean calledByTimer) {
+	public void handleBuffTick(Buff buff, boolean calledByTimer) {
 		Log.e("Wizard Fight", "removeBuff called");
 		boolean hasBuffAlready = buffs.containsKey(buff);
 		Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
@@ -202,7 +217,7 @@ public class PlayerState {
 				// last tick => need to fully remove buff
 				buffs.remove(buff);
 				removedBuff = buff;
-				Log.e("Wizard Fight", "buf was removed");
+				Log.e("Wizard Fight", buff + "was removed");
 			} else {
 				// not last tick => say that buff is refreshed
 				refreshedBuff = buff;
