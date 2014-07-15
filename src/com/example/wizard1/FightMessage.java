@@ -159,6 +159,12 @@ public class FightMessage {
 		case HEAL:
 			shape = Shape.CLOCK;
 			break;
+		case NEW_HP_OR_MANA:
+			if(message.param >= 0)
+				shape = Shape.values()[ message.param ];
+			else
+				shape = Shape.NONE;
+			break;
 		default:
 			shape = Shape.NONE;
 		}

@@ -350,16 +350,13 @@ public class WizardFight extends Activity {
 				}
 
 				if (mEnemyState.getAddedBuff() != null) {
-					// draw shape to enemy GUI
-					mEnemyGUI.getSpellPicture().setShape(recvShape); // DELETE IN FUTURE
 					// add buff to enemy GUI
 					mEnemyGUI.getBuffPanel().addBuff(
 							mEnemyState.getAddedBuff());
 				}
 				
-				if (mEnemyState.removedBuff != null) {
-					// add buff to enemy GUI
-					mEnemyGUI.getBuffPanel().removeBuff(mEnemyState.removedBuff);
+				if(recvShape != Shape.NONE) {
+					mEnemyGUI.getSpellPicture().setShape(recvShape);
 				}
 			}
 			
@@ -375,6 +372,7 @@ public class WizardFight extends Activity {
 		Buff addedBuff = mSelfState.getAddedBuff();
 		Buff removedBuff = mSelfState.getRemovedBuff();
 		Buff refreshedBuff = mSelfState.getRefreshedBuff();
+		Shape spellShape = mSelfState.getSpellShape();
 		
 		if (removedBuff != null) {
 			// buff was removed after spell,
@@ -409,7 +407,7 @@ public class WizardFight extends Activity {
 		
 		if(addedBuff == null && removedBuff == null) {
 			// nothing with buffs => just send self hp and mana to enemy
-			sendMsg = new FightMessage(Target.ENEMY, FightAction.NEW_HP_OR_MANA);
+			sendMsg = new FightMessage(Target.ENEMY, FightAction.NEW_HP_OR_MANA, spellShape.ordinal());
 			sendFightMessage(sendMsg);
 		}
 		
@@ -417,8 +415,7 @@ public class WizardFight extends Activity {
 		mSelfGUI.getManaBar().setValue(mSelfState.mana);
 
 		if (mSelfState.getSpellShape() != Shape.NONE) {
-			mSelfGUI.getSpellPicture().setShape(
-					mSelfState.getSpellShape());
+			mSelfGUI.getSpellPicture().setShape(spellShape);
 		}
 	}
 	
