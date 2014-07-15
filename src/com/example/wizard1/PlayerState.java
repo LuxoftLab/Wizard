@@ -1,6 +1,5 @@
 package com.example.wizard1;
 
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,10 +11,17 @@ class BuffState {
 	public long tickTime;
 	// buff ticks count
 	public int ticksLeft;
+	public int value;
 	
 	public BuffState(long time, int ticks) {
 		tickTime = time;
 		ticksLeft = ticks;
+		value = 0;
+	}
+	
+	public BuffState(long time, int ticks, int tickValue) {
+		this(time, ticks);
+		value = tickValue;
 	}
 }
 /*
@@ -27,7 +33,6 @@ public class PlayerState {
 	protected int mana;
 	protected int maxHealth;
 	protected int maxMana;
-	protected float damageReceiveMultiplier = 1.0f;
 	EnumMap <Buff, BuffState> buffs;
 	protected Shape spellShape;
 	protected Buff addedBuff;
@@ -51,12 +56,26 @@ public class PlayerState {
 		removedBuff = null;
 	}
 	
-	protected void dealDamage(int damage) {
+	protected void dealDamage(int damage, boolean fromBuff) {
 		if( buffs.containsKey(Buff.HOLY_SHIELD) ) {
 			handleBuffTick(Buff.HOLY_SHIELD, false);
 			return;
 		}
 		damage = enemyState.recountDamage(damage);
+		Log.e("Wizard Fight", "deal damage: " + damage);
+		setHealth(health - damage);
+	}
+	
+	/*
+	 * buff damage calculation is based on enemy state
+	 * when the buff was added
+	 */
+	protected void dealBuffDamage(Buff buff) {
+		if( buffs.containsKey(Buff.HOLY_SHIELD) ) {
+			handleBuffTick(Buff.HOLY_SHIELD, false);
+			return;
+		}
+		int damage = buffs.get(buff).value;
 		Log.e("Wizard Fight", "deal damage: " + damage);
 		setHealth(health - damage);
 	}
@@ -78,17 +97,24 @@ public class PlayerState {
 		return damage;
 	}
 	
+	public float getDamageMultiplier() {
+		if(buffs.containsKey(Buff.CONCENTRATION)) {
+			return 1.5f;
+		}
+		return 1.0f;
+	}
+	
 	public void handleSpell(FightMessage message) {
 		dropSpellInfluence();
 		spellShape = FightMessage.getShapeFromMessage(message);
 		
 		switch(message.action) {
 			case DAMAGE:
-				dealDamage(10);
+				dealDamage(10, false);
 				break;
 				
 			case HIGH_DAMAGE:
-				dealDamage(30);
+				dealDamage(30, false);
 				break;
 				
 			case HEAL:
@@ -114,7 +140,7 @@ public class PlayerState {
 				// apply player state changes 
 				switch( tickBuff ) {
 				case WEAKNESS:
-					dealDamage(5);
+					dealBuffDamage(tickBuff);
 					break;
 				case CONCENTRATION:
 					break;
@@ -185,9 +211,12 @@ public class PlayerState {
 	}
 	
 	public void addBuff(Buff buff) {
-		// save adding date and ticks count
-		BuffState buffState = new BuffState(
-				new Date().getTime(), buff.getTicksCount());
+		// save adding date, ticks count, buff value
+		/* buff value is needed only for self state => enemyState not null */
+		int value = (enemyState == null)? 0 : 
+					enemyState.recountDamage(buff.getValue());
+		BuffState buffState = new BuffState( System.currentTimeMillis(), 
+				buff.getTicksCount(), value);
 		// if map contains buff, it will be replaced with new time value
 		buffs.put(buff, buffState);
 		Log.e("Wizard Fight", "new buff was added: " + buff + " " + buffs.get(buff).tickTime);
@@ -200,7 +229,7 @@ public class PlayerState {
 		Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
 		if(hasBuffAlready) {
 			BuffState buffState = buffs.get(buff);
-			long timeLeft = new Date().getTime() - buffState.tickTime;
+			long timeLeft = System.currentTimeMillis() - buffState.tickTime;
 			/*
 			 * Checking time left need in case when buff was added few times in a row.
 			 * Every buff adding causes BUFF_OFF message, that will be sent after specific time,

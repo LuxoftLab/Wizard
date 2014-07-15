@@ -4,18 +4,20 @@ package com.example.wizard1;
  * contains all possible buffs, in development
  */
 public enum Buff {
-	WEAKNESS(1000L, 5),
-	CONCENTRATION(5000L, 1),
-	BLESSING(1000L, 5),
-	HOLY_SHIELD(5000L, 1),
-	NONE(-1L, 0);
+	WEAKNESS(1000L, 5, 5),
+	CONCENTRATION(5000L, 1, 0),
+	BLESSING(1000L, 5, 5),
+	HOLY_SHIELD(5000L, 1, 0),
+	NONE(-1L, 0, 0);
 	
 	private final long duration;
 	private final int ticksCount;
+	private final int tickValue;
 	
-	private Buff(long durationMillis, int ticks) {
+	private Buff(long durationMillis, int ticks, int value) {
 		duration = durationMillis;
 		ticksCount = ticks;
+		tickValue = value;
 	}
 	
 	public long getDuration() {
@@ -24,6 +26,10 @@ public enum Buff {
 	
 	public int getTicksCount() { 
 		return ticksCount;
+	}
+	
+	public int getValue() {
+		return tickValue;
 	}
 	
 	public static int getPictureId(Buff b) {
