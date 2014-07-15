@@ -11,17 +11,10 @@ class BuffState {
 	public long tickTime;
 	// buff ticks count
 	public int ticksLeft;
-	public int value;
 	
 	public BuffState(long time, int ticks) {
 		tickTime = time;
 		ticksLeft = ticks;
-		value = 0;
-	}
-	
-	public BuffState(long time, int ticks, int tickValue) {
-		this(time, ticks);
-		value = tickValue;
 	}
 }
 /*
@@ -56,26 +49,12 @@ public class PlayerState {
 		removedBuff = null;
 	}
 	
-	protected void dealDamage(int damage, boolean fromBuff) {
+	protected void dealDamage(int damage) {
 		if( buffs.containsKey(Buff.HOLY_SHIELD) ) {
 			handleBuffTick(Buff.HOLY_SHIELD, false);
 			return;
 		}
 		damage = enemyState.recountDamage(damage);
-		Log.e("Wizard Fight", "deal damage: " + damage);
-		setHealth(health - damage);
-	}
-	
-	/*
-	 * buff damage calculation is based on enemy state
-	 * when the buff was added
-	 */
-	protected void dealBuffDamage(Buff buff) {
-		if( buffs.containsKey(Buff.HOLY_SHIELD) ) {
-			handleBuffTick(Buff.HOLY_SHIELD, false);
-			return;
-		}
-		int damage = buffs.get(buff).value;
 		Log.e("Wizard Fight", "deal damage: " + damage);
 		setHealth(health - damage);
 	}
@@ -97,24 +76,17 @@ public class PlayerState {
 		return damage;
 	}
 	
-	public float getDamageMultiplier() {
-		if(buffs.containsKey(Buff.CONCENTRATION)) {
-			return 1.5f;
-		}
-		return 1.0f;
-	}
-	
 	public void handleSpell(FightMessage message) {
 		dropSpellInfluence();
 		spellShape = FightMessage.getShapeFromMessage(message);
 		
 		switch(message.action) {
 			case DAMAGE:
-				dealDamage(10, false);
+				dealDamage(10);
 				break;
 				
 			case HIGH_DAMAGE:
-				dealDamage(30, false);
+				dealDamage(30);
 				break;
 				
 			case HEAL:
@@ -140,12 +112,12 @@ public class PlayerState {
 				// apply player state changes 
 				switch( tickBuff ) {
 				case WEAKNESS:
-					dealBuffDamage(tickBuff);
+					dealDamage(tickBuff.getValue());
 					break;
 				case CONCENTRATION:
 					break;
 				case BLESSING:
-					heal(5);
+					heal(tickBuff.getValue());
 					break;
 				case HOLY_SHIELD:
 					break;
@@ -211,12 +183,8 @@ public class PlayerState {
 	}
 	
 	public void addBuff(Buff buff) {
-		// save adding date, ticks count, buff value
-		/* buff value is needed only for self state => enemyState not null */
-		int value = (enemyState == null)? 0 : 
-					enemyState.recountDamage(buff.getValue());
-		BuffState buffState = new BuffState( System.currentTimeMillis(), 
-				buff.getTicksCount(), value);
+		BuffState buffState = new BuffState( 
+				System.currentTimeMillis(), buff.getTicksCount());
 		// if map contains buff, it will be replaced with new time value
 		buffs.put(buff, buffState);
 		Log.e("Wizard Fight", "new buff was added: " + buff + " " + buffs.get(buff).tickTime);
