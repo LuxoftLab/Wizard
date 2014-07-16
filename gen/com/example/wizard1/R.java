@@ -150,6 +150,7 @@ public final class R {
         public static final int AppTheme=0x7f090001;
     }
     public static final class xml {
-        public static final int spells=0x7f050000;
+        public static final int device_list_item=0x7f050000;
+        public static final int spells=0x7f050001;
     }
 }

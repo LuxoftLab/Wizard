@@ -44,7 +44,7 @@ public class MainMenu extends Activity implements SensorEventListener, OnClickLi
         startActivity(i);
     }
     public void goToListOfBluetooth(View view){
-//        startActivity(new Intent(this,listOfBluetooth.class));
+        startActivity(new Intent(this,DeviceListActivity.class));
     }
 
     public void goToHelp(View view) {
