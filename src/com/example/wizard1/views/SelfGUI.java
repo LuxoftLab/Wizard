@@ -12,7 +12,7 @@ public class SelfGUI extends PlayerGUI {
 	public SelfGUI(Activity a, int hp, int mana) {
 		super(a);
 		playerName = (TextView) a.findViewById(R.id.self_name);
-		playerName.setText("Return buff logic");
+		playerName.setText("Fix GUI #1");
 		debugField = (TextView) a.findViewById(R.id.self_debug);
 		healthBar = (HealthIndicator) a.findViewById(R.id.self_health);
 		healthBar.setMaxValue(hp);
