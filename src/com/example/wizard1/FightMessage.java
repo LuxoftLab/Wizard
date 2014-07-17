@@ -18,6 +18,7 @@ enum Target {
  * Fight action type
  */
 enum FightAction {
+	FIGHT_REQUEST,
 	DAMAGE,
 	HIGH_DAMAGE,
 	HEAL,
@@ -25,14 +26,15 @@ enum FightAction {
 	BUFF_TICK,
 	BUFF_OFF,
 	NEW_HP_OR_MANA,
-	NONE,
-	FAILED_CAST;
+	NONE;
 	
 	/*
 	 *  strings are needed for debugging or string message 
 	 *  sending, may be deleted in future
 	 */
 	static String[] names = {
+		"fight request",
+		"fight approve",
 		"damage",
 		"high_damage",
 		"heal",
@@ -40,8 +42,7 @@ enum FightAction {
 		"buff_tick",
 		"buff_off",
 		"new_hp_or_mana",
-		"none",
-		"failed cast"
+		"none"
 	};
 	
 	@Override
@@ -188,9 +189,6 @@ public class FightMessage {
 			break;
 		case CLOCK:
 			action = FightAction.HEAL;
-			break;
-		case FAIL:
-			action = FightAction.FAILED_CAST;
 			break;
 		default:
 			action = FightAction.NONE;

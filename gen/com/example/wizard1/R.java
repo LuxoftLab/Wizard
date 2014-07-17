@@ -9,7 +9,7 @@ package com.example.wizard1;
 
 public final class R {
     public static final class anim {
-        public static final int fade_in=0x7f040000;
+        public static final int countdown=0x7f040000;
         public static final int fade_out=0x7f040001;
     }
     public static final class attr {
@@ -30,63 +30,66 @@ public final class R {
         public static final int circle=0x7f020006;
         public static final int clock=0x7f020007;
         public static final int fail=0x7f020008;
-        public static final int ic_launcher=0x7f020009;
-        public static final int logo=0x7f02000a;
-        public static final int nothing=0x7f02000b;
-        public static final int pi=0x7f02000c;
-        public static final int shield=0x7f02000d;
-        public static final int square=0x7f02000e;
-        public static final int triangle=0x7f02000f;
-        public static final int v=0x7f020010;
-        public static final int wood=0x7f020011;
-        public static final int z=0x7f020012;
+        public static final int free=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
+        public static final int logo=0x7f02000b;
+        public static final int nothing=0x7f02000c;
+        public static final int pi=0x7f02000d;
+        public static final int shield=0x7f02000e;
+        public static final int square=0x7f02000f;
+        public static final int triangle=0x7f020010;
+        public static final int v=0x7f020011;
+        public static final int wood=0x7f020012;
+        public static final int z=0x7f020013;
     }
     public static final class id {
-        public static final int buttonCalibrate=0x7f0b001f;
-        public static final int buttonCreateGame=0x7f0b001d;
-        public static final int buttonJoinGame=0x7f0b001e;
-        public static final int button_scan=0x7f0b0006;
-        public static final int discoverable=0x7f0b0023;
-        public static final int enemy_buff1=0x7f0b0017;
-        public static final int enemy_buff2=0x7f0b0018;
-        public static final int enemy_buff3=0x7f0b0019;
-        public static final int enemy_buff4=0x7f0b001a;
-        public static final int enemy_buff5=0x7f0b001b;
-        public static final int enemy_debug=0x7f0b0013;
-        public static final int enemy_health=0x7f0b0014;
-        public static final int enemy_mana=0x7f0b0016;
-        public static final int enemy_name=0x7f0b0012;
-        public static final int enemy_spell=0x7f0b0015;
-        public static final int horizontalScrollView=0x7f0b0020;
-        public static final int layoutForCards=0x7f0b0021;
-        public static final int main_scroll=0x7f0b0007;
-        public static final int mm_buttons=0x7f0b001c;
-        public static final int new_devices=0x7f0b0005;
-        public static final int paired_devices=0x7f0b0003;
-        public static final int scan=0x7f0b0022;
-        public static final int self_buff1=0x7f0b000d;
-        public static final int self_buff2=0x7f0b000e;
-        public static final int self_buff3=0x7f0b000f;
-        public static final int self_buff4=0x7f0b0010;
-        public static final int self_buff5=0x7f0b0011;
-        public static final int self_debug=0x7f0b0009;
-        public static final int self_health=0x7f0b000a;
-        public static final int self_mana=0x7f0b000c;
-        public static final int self_name=0x7f0b0008;
-        public static final int self_spell=0x7f0b000b;
-        public static final int title_left_text=0x7f0b0000;
-        public static final int title_new_devices=0x7f0b0004;
-        public static final int title_paired_devices=0x7f0b0002;
-        public static final int title_right_text=0x7f0b0001;
+        public static final int buttonCalibrate=0x7f0b0020;
+        public static final int buttonCreateGame=0x7f0b001e;
+        public static final int buttonJoinGame=0x7f0b001f;
+        public static final int button_scan=0x7f0b0007;
+        public static final int discoverable=0x7f0b0024;
+        public static final int enemy_buff1=0x7f0b0018;
+        public static final int enemy_buff2=0x7f0b0019;
+        public static final int enemy_buff3=0x7f0b001a;
+        public static final int enemy_buff4=0x7f0b001b;
+        public static final int enemy_buff5=0x7f0b001c;
+        public static final int enemy_debug=0x7f0b0014;
+        public static final int enemy_health=0x7f0b0015;
+        public static final int enemy_mana=0x7f0b0017;
+        public static final int enemy_name=0x7f0b0013;
+        public static final int enemy_spell=0x7f0b0016;
+        public static final int horizontalScrollView=0x7f0b0021;
+        public static final int layoutForCards=0x7f0b0022;
+        public static final int main_scroll=0x7f0b0008;
+        public static final int mm_buttons=0x7f0b001d;
+        public static final int new_devices=0x7f0b0006;
+        public static final int paired_devices=0x7f0b0004;
+        public static final int scan=0x7f0b0023;
+        public static final int self_buff1=0x7f0b000e;
+        public static final int self_buff2=0x7f0b000f;
+        public static final int self_buff3=0x7f0b0010;
+        public static final int self_buff4=0x7f0b0011;
+        public static final int self_buff5=0x7f0b0012;
+        public static final int self_debug=0x7f0b000a;
+        public static final int self_health=0x7f0b000b;
+        public static final int self_mana=0x7f0b000d;
+        public static final int self_name=0x7f0b0009;
+        public static final int self_spell=0x7f0b000c;
+        public static final int starting_text=0x7f0b0000;
+        public static final int title_left_text=0x7f0b0001;
+        public static final int title_new_devices=0x7f0b0005;
+        public static final int title_paired_devices=0x7f0b0003;
+        public static final int title_right_text=0x7f0b0002;
     }
     public static final class layout {
-        public static final int custom_title=0x7f030000;
-        public static final int device_list=0x7f030001;
-        public static final int device_name=0x7f030002;
-        public static final int main=0x7f030003;
-        public static final int main_menu=0x7f030004;
-        public static final int message=0x7f030005;
-        public static final int spellbook=0x7f030006;
+        public static final int countdown=0x7f030000;
+        public static final int custom_title=0x7f030001;
+        public static final int device_list=0x7f030002;
+        public static final int device_name=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int main_menu=0x7f030005;
+        public static final int message=0x7f030006;
+        public static final int spellbook=0x7f030007;
     }
     public static final class menu {
         public static final int option_menu=0x7f0a0000;
@@ -148,6 +151,7 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f090001;
+        public static final int CountdownDialog=0x7f090002;
     }
     public static final class xml {
         public static final int device_list_item=0x7f050000;

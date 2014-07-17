@@ -223,6 +223,10 @@ public class WizardFight extends Activity {
         mChatService.write(send);
     }
     
+    private void startCountdown() {
+    	startActivity(new Intent(this, Countdown.class));
+    }
+    
     // The Handler that gets information back from the BluetoothChatService
     private final Handler mHandler = new Handler() {
     	/**
@@ -241,14 +245,26 @@ public class WizardFight extends Activity {
                 case BluetoothChatService.STATE_CONNECTED:
                     mTitle.setText(R.string.title_connected_to);
                     mTitle.append(mConnectedDeviceName);
+                    if( mChatService.isServer() ) {
+                    	FightMessage fightRequest = 
+                    			new FightMessage(Target.ENEMY, FightAction.FIGHT_REQUEST);
+                    	sendFightMessage(fightRequest);
+                    }
 //                    isVolumeButtonBlocked = false; in future
                     break;
                 case BluetoothChatService.STATE_CONNECTING:
                     mTitle.setText(R.string.title_connecting);
                     break;
                 case BluetoothChatService.STATE_LISTEN:
-                	//run mana reg loop
-                	this.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null)
+                	Log.e(TAG, "STATE_LISTEN");
+//                	FightMessage fightRequest = 
+//        				new FightMessage(Target.ENEMY, FightAction.FIGHT_REQUEST);
+//                	this.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), 
+//                			fightRequest.getBytes()).sendToTarget();
+//                	Log.e(TAG, "Fight request sent");
+                	//run mana reg loop (will be moved to STATE_CONNECTED in future)
+                	this.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
+                	this.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
                 		.sendToTarget();
                 case BluetoothChatService.STATE_NONE:
                     mTitle.setText(R.string.title_not_connected);
@@ -268,11 +284,28 @@ public class WizardFight extends Activity {
                                Toast.LENGTH_SHORT).show();
                 break;
             case MESSAGE_FROM_SELF:
-//            	FightMessage selfMsg = (FightMessage) msg.obj;
-            	handleSelfMessage(msg);
+            	FightMessage selfMsg = (FightMessage) msg.obj;
+            	handleSelfMessage(selfMsg);
             	break;
             case MESSAGE_FROM_ENEMY:
-            	handleEnemyMessage(msg);
+            	byte[] recvBytes = (byte[]) msg.obj;
+    			FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
+    			mEnemyGUI.log("enemy msg: " + enemyMsg + " "  + (myCounter++));
+    			Log.e(TAG, "enemy msg: " + enemyMsg + " "  + (myCounter));
+    			switch(enemyMsg.action) {
+    			case FIGHT_REQUEST:
+    				if( !mChatService.isServer() ) {
+    					// "client" receives request for fight and answers to server
+    					sendFightMessage(enemyMsg);
+    				}
+    				Log.e(TAG, "Start countown");
+    				// starting countdown
+    				startCountdown();
+    				break;
+    			default:
+    				handleEnemyMessage(enemyMsg);
+    			}
+    			
             	break;
             case MESSAGE_MANA_REGEN:
             	mSelfState.manaTick();
@@ -286,10 +319,7 @@ public class WizardFight extends Activity {
             	if( !soundLoaded ) {
             		mSelfGUI.getPlayerName().setText("SOUND NOT LOADED");
             	}
-//            	Log.e(TAG, "obj: " + (Float) msg.obj);
-//                soundPool.setRate(streamID,(Float) msg.obj/2+0.75f);
                 soundPool.setVolume(streamID,((Float) msg.obj),((Float) msg.obj));
-//                Log.e(TAG, "Rate: " + (Float) msg.obj/2+0.75f + ", volume: " + ((Float) msg.obj)/3+0.25f );
                 break;
             default:
             	Log.e("Wizard Fight", "Self damage handling");
@@ -297,9 +327,7 @@ public class WizardFight extends Activity {
             }
         }
     	
-    	private void handleSelfMessage(Message msg) {
-
-			FightMessage selfMsg = (FightMessage) msg.obj;
+    	private void handleSelfMessage(FightMessage selfMsg) {
 			Shape sendShape = FightMessage
 					.getShapeFromMessage(selfMsg);
 			if(sendShape != Shape.NONE) {
@@ -325,10 +353,7 @@ public class WizardFight extends Activity {
 			}
 	}
 
-	private void handleEnemyMessage(Message msg) {
-		
-			byte[] recvBytes = (byte[]) msg.obj;
-			FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
+	private void handleEnemyMessage(FightMessage enemyMsg) {
 			
 			Shape recvShape = FightMessage
 					.getShapeFromMessage(enemyMsg);
@@ -336,7 +361,6 @@ public class WizardFight extends Activity {
 			// refresh enemy health and mana (every enemy message contains it)
 			mEnemyState.setHealthAndMana(enemyMsg.health, enemyMsg.mana);
 			mEnemyGUI.getPlayerName().setText("enemy hp and mana: " + enemyMsg.health + ", " + enemyMsg.mana);
-			mEnemyGUI.log("enemy msg: " + enemyMsg + " "  + (myCounter++));
 			Log.e(TAG, "enemy msg: " + enemyMsg + " "  + myCounter);
 			if (enemyMsg.target == Target.SELF) {
 				handleMessageToSelf(enemyMsg);

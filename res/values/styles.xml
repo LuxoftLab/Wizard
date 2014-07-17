@@ -17,4 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="CountdownDialog" parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@drawable/free</item>
+    </style>
 </resources>
