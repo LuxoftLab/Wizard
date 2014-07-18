@@ -41,7 +41,7 @@ public class WizardFight extends Activity {
     private SelfState mSelfState;
     private EnemyState mEnemyState;
     // Message types sent from the BluetoothChatService Handler
-    enum AppMessage { 
+    enum AppMessage {
     	MESSAGE_STATE_CHANGE,
     	MESSAGE_READ,
     	MESSAGE_WRITE,
@@ -249,6 +249,7 @@ public class WizardFight extends Activity {
                     	FightMessage fightRequest = 
                     			new FightMessage(Target.ENEMY, FightAction.FIGHT_REQUEST);
                     	sendFightMessage(fightRequest);
+                    	Log.e(TAG, "Fight request sent");
                     }
 //                    isVolumeButtonBlocked = false; in future
                     break;
@@ -256,12 +257,6 @@ public class WizardFight extends Activity {
                     mTitle.setText(R.string.title_connecting);
                     break;
                 case BluetoothChatService.STATE_LISTEN:
-                	Log.e(TAG, "STATE_LISTEN");
-//                	FightMessage fightRequest = 
-//        				new FightMessage(Target.ENEMY, FightAction.FIGHT_REQUEST);
-//                	this.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), 
-//                			fightRequest.getBytes()).sendToTarget();
-//                	Log.e(TAG, "Fight request sent");
                 	//run mana reg loop (will be moved to STATE_CONNECTED in future)
                 	this.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
                 	this.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
@@ -292,20 +287,15 @@ public class WizardFight extends Activity {
     			FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
     			mEnemyGUI.log("enemy msg: " + enemyMsg + " "  + (myCounter++));
     			Log.e(TAG, "enemy msg: " + enemyMsg + " "  + (myCounter));
-    			switch(enemyMsg.action) {
-    			case FIGHT_REQUEST:
-    				if( !mChatService.isServer() ) {
-    					// "client" receives request for fight and answers to server
+    			if(enemyMsg.action == FightAction.FIGHT_REQUEST) {
+    				// if client, send fight approval to server
+    				if(!mChatService.isServer()) {
     					sendFightMessage(enemyMsg);
     				}
-    				Log.e(TAG, "Start countown");
-    				// starting countdown
     				startCountdown();
-    				break;
-    			default:
+    			} else {
     				handleEnemyMessage(enemyMsg);
     			}
-    			
             	break;
             case MESSAGE_MANA_REGEN:
             	mSelfState.manaTick();
