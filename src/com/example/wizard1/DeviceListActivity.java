@@ -41,7 +41,7 @@ public class DeviceListActivity extends Activity {
     private String noPairedDevices;
     // Member object for bluetooth services
  	private BluetoothChatService mChatService = null;
- 	
+ 	private boolean isSearchCanceledByUser = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,17 +95,7 @@ public class DeviceListActivity extends Activity {
     @Override
 	public void onStart() {
 		super.onStart();
-		// If BT is not on, request that it be enabled.
-		// setupChat() will then be called during onActivityResult
-		if (!mBtAdapter.isEnabled()) {
-			Intent enableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-			// Otherwise, setup the chat session
-		} else {
-			if (mChatService == null)
-				setup();
-		}
+		if (mChatService == null) setup();
 	}
     
     @Override
@@ -141,6 +131,7 @@ public class DeviceListActivity extends Activity {
      * Start device discover with the BluetoothAdapter
      */
     private void doDiscovery() {
+    	isSearchCanceledByUser = false;
         if (D) Log.d(TAG, "doDiscovery()");
         // Indicate scanning in the title
         setProgressBarIndeterminateVisibility(true);
@@ -157,6 +148,7 @@ public class DeviceListActivity extends Activity {
     // The on-click listener for all devices in the ListViews
     private OnClickListener mDeviceClickListener = new OnClickListener() {
         public void onClick(View v) {
+        	isSearchCanceledByUser = true;
             // Cancel discovery because it's costly and we're about to connect
             mBtAdapter.cancelDiscovery();
             
@@ -195,7 +187,8 @@ public class DeviceListActivity extends Activity {
                 setProgressBarIndeterminateVisibility(false);
                 setTitle(R.string.select_device);
                 if (newDevicesCount == 0) {
-                    addNewDevice(noNewDevices);
+                	if(!isSearchCanceledByUser)
+                		addNewDevice(noNewDevices);
                 }
             }
         }
@@ -203,22 +196,5 @@ public class DeviceListActivity extends Activity {
     
     private void startFight() {
     	startActivity(new Intent(this, WizardFight.class));
-    }
-    
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult " + resultCode);
-        switch (requestCode) {
-        case REQUEST_ENABLE_BT:
-            // When the request to enable Bluetooth returns
-            if (resultCode == Activity.RESULT_OK) {
-                // Bluetooth is now enabled, so set up a chat session
-                setup();
-            } else {
-                // User did not enable Bluetooth or an error occured
-                Log.d(TAG, "BT not enabled");
-                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
     }
 }

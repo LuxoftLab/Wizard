@@ -54,7 +54,7 @@ public class Vector2d {
         return y;
     }
 
-    public double getSum(){
+    public double getLength(){
         return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
     }
     

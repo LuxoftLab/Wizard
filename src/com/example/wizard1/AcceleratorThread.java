@@ -21,10 +21,10 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private SensorManager mSensorManager;
     private Sensor mAccelerometer;
 	private ArrayList <Vector4d> records;
-	private double calib;
+	private double gravity;
 
 	public AcceleratorThread(SensorManager sm, Sensor s, double c) {
-		this.calib = c;
+		this.gravity = c;
 		setName("Accelerator thread");
 		prevTimeStamp = 0;
 		mSensorManager = sm;
@@ -45,9 +45,22 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		listening = true;
 	}
 	
+	public void stopGettingData() {
+		listening = false;
+	}
+	
 	public ArrayList<Vector4d> stopAndGetResult() {
 		listening = false;
 		return records;
+	}
+	
+	public double recountGravity() {
+		gravity = 0.0;
+		for(Vector4d v : records) {
+			gravity += v.getLength();
+		}
+		if(records.size() != 0) gravity /= records.size();
+		return gravity;
 	}
 	
 	public void stopLoop() {
@@ -76,7 +89,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
     	double z = event.values[2];
     	double len = Math.sqrt(x*x+y*y+z*z);
     	Vector4d rec = new Vector4d(
-				x-calib*(x/len), y-calib*(y/len), z-calib*(z/len), timeStamp);
+				x-gravity*(x/len), y-gravity*(y/len), z-gravity*(z/len), timeStamp);
 		records.add(rec);
     }
 }

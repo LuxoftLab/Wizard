@@ -1,6 +1,7 @@
 package com.example.wizard1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +13,10 @@ import android.view.animation.AnimationUtils;
  * Created by 350z6_000 on 15.07.2014.
  */
 public class Countdown extends Activity {
-    int count = 3;
-    MyTextView text;
-    Animation anim;
-    AnimListener animListener;
+    private int count = 3;
+    private MyTextView text;
+    private Animation anim;
+    private AnimListener animListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,9 @@ public class Countdown extends Activity {
 
     public void goOut() {
         text.setVisibility(View.INVISIBLE);
+//        Intent intent = this.getIntent();
+//        intent.putExtra("SOMETHING", "EXTRAS");
+//        setResult(RESULT_OK, intent);
         finish();
     }
     

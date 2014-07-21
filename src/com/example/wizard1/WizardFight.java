@@ -9,7 +9,6 @@ import com.example.wizard1.views.EnemyGUI;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.example.wizard1.components.Vector2d;
 import com.example.wizard1.components.Vector4d;
 
 import android.app.Activity;
@@ -24,9 +23,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +53,7 @@ public class WizardFight extends Activity {
     public static final String TOAST = "toast";
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
+    private static final int REQUEST_START_FIGHT = 2;
     // Layout Views
     private TextView mTitle;
     private SelfGUI mSelfGUI;
@@ -80,14 +77,16 @@ public class WizardFight extends Activity {
     private int soundID1;
     private int streamID;
     
-    private double calib;
+    private double gravity;
     private int myCounter;
+    
+    private boolean isCountdown = false;
+    
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(D) Log.e(TAG, "+++ ON CREATE +++");
-        calib = 9.8; // FIX IT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Log.d("recognition", "c:"+calib);
+        gravity = 0.0;
         try {
 			Recognition.init(getResources());
 		} catch (IOException e) {
@@ -132,7 +131,7 @@ public class WizardFight extends Activity {
         super.onResume();
         if(D) Log.e(TAG, "+ ON RESUME +");
         // Initialize new accelerator thread
-        mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer, calib);
+        mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer, gravity);
 		mAcceleratorThread.start();
 		Log.e(TAG, "accelerator ran");
 		// Initialize sound
@@ -160,6 +159,8 @@ public class WizardFight extends Activity {
     public synchronized void onPause() {
     	super.onPause();
     	if(D) Log.e(TAG, "- ON PAUSE -");
+    	// if paused by countdown - don`t touch anything
+    	if(isCountdown) return;
     	// stop cast if its started
     	if(isBetweenVolumeClicks) buttonClick();
     	// unregister accelerator listener and end its event loop
@@ -199,7 +200,7 @@ public class WizardFight extends Activity {
     	
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
-//            Toast.makeText(, R.string.not_connected, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.not_connected, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -208,7 +209,8 @@ public class WizardFight extends Activity {
     }
     
     private void startCountdown() {
-    	startActivity(new Intent(this, Countdown.class));
+    	Intent intent = new Intent(this, Countdown.class);
+    	startActivityForResult(intent, REQUEST_START_FIGHT);
     }
     
     // The Handler that gets information back from the BluetoothChatService
@@ -225,10 +227,7 @@ public class WizardFight extends Activity {
             case MESSAGE_STATE_CHANGE:
                 if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                 switch (msg.arg1) {
-                // MAYBE DELETE THIS IN FUTURE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 case BluetoothChatService.STATE_CONNECTED:
-                    Log.e(TAG, "mTitle found?: " + (mTitle != null));
-                    Log.e(TAG, "has device name?: " + (mConnectedDeviceName != null));
                 	mTitle.setText(R.string.title_connected_to);
                     mTitle.append(mConnectedDeviceName);
                     break;
@@ -261,7 +260,16 @@ public class WizardFight extends Activity {
     				if(!mChatService.isServer()) {
     					sendFightMessage(enemyMsg);
     				}
+    				// start countdown
+    				Log.e(TAG, "before start countdown");
+    				isCountdown = true;
     				startCountdown();
+    				Log.e(TAG, "after start countdown");
+    				// start calibration
+    				mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer, gravity);
+    				mAcceleratorThread.start();
+    				mAcceleratorThread.startGettingData();
+    				Log.e(TAG, "accelerator thread all stuff called");
     			} else {
     				handleEnemyMessage(enemyMsg);
     			}
@@ -278,7 +286,7 @@ public class WizardFight extends Activity {
                 soundPool.setVolume(streamID,((Float) msg.obj),((Float) msg.obj));
                 break;
             default:
-            	Log.e("Wizard Fight", "Self damage handling");
+            	if(D) Log.e("Wizard Fight", "Self damage handling");
             	break;
             }
         }
@@ -290,7 +298,7 @@ public class WizardFight extends Activity {
 				isVolumeButtonBlocked = false;
 			}
 			mSelfGUI.log("self msg : " + selfMsg + " "  + (myCounter++));
-			Log.e(TAG, "self msg : " + selfMsg + " "  + myCounter);
+			if(D) Log.e(TAG, "self msg : " + selfMsg + " "  + myCounter);
 			boolean canBeCasted = mSelfState.requestSpell(selfMsg);
 			if( !canBeCasted ) return;
 			mSelfGUI.getManaBar().setValue(mSelfState.mana);
@@ -317,7 +325,7 @@ public class WizardFight extends Activity {
 			// refresh enemy health and mana (every enemy message contains it)
 			mEnemyState.setHealthAndMana(enemyMsg.health, enemyMsg.mana);
 			mEnemyGUI.getPlayerName().setText("enemy hp and mana: " + enemyMsg.health + ", " + enemyMsg.mana);
-			Log.e(TAG, "enemy msg: " + enemyMsg + " "  + myCounter);
+			if(D) Log.e(TAG, "enemy msg: " + enemyMsg + " "  + myCounter);
 			if (enemyMsg.target == Target.SELF) {
 				handleMessageToSelf(enemyMsg);
 			} else {
@@ -400,33 +408,7 @@ public class WizardFight extends Activity {
 	}
 	
     };
-    
-    public boolean isIndexGood(int index) {
-    	boolean indexGood = (index >= 0 && index <= 4);
-    	if(!indexGood) { 
-    		mSelfGUI.getPlayerName().setText("Wrong buff index!" + index);
-    	}
-    	return indexGood;
-    }
-    
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(D) Log.d(TAG, "onActivityResult " + resultCode);
-        switch (requestCode) {
-        case REQUEST_CONNECT_DEVICE:
-            // When DeviceListActivity returns with a device to connect
-            if (resultCode == Activity.RESULT_OK) {
-                // Get the device MAC address
-                String address = data.getExtras()
-                                     .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-                // Get the BLuetoothDevice object
-                BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-                // Attempt to connect to the device
-                mChatService.connect(device);
-            }
-            break;
-        }
-    }
-    
+        
     public void buttonClick() {
     	if( isVolumeButtonBlocked ) return;
     	
@@ -454,23 +436,23 @@ public class WizardFight extends Activity {
 			}		
 		}
 	}
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.option_menu, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.scan:
-            // Launch the DeviceListActivity to see devices and do scan
-            Intent serverIntent = new Intent(this, DeviceListActivity.class);
-            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-            return true;
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(D) Log.d(TAG, "onActivityResult " + resultCode);
+        switch (requestCode) {
+        case REQUEST_START_FIGHT:
+        	// here we can stop calibration
+        	Log.e(TAG, "Acc null? : " + (mAcceleratorThread == null));
+        	mAcceleratorThread.stopGettingData();
+        	gravity = mAcceleratorThread.recountGravity();
+        	mAcceleratorThread.stopLoop();
+    		mAcceleratorThread = null;
+        	Log.e(TAG, "countdown gravity: " + gravity);
+        	isCountdown = false;
+        	break;
         }
-        return false;
     }
+    
     @Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		int action = event.getAction();

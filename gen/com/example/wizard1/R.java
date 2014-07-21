@@ -43,46 +43,44 @@ public final class R {
         public static final int z=0x7f020013;
     }
     public static final class id {
-        public static final int buttonCalibrate=0x7f0b0023;
-        public static final int buttonCreateGame=0x7f0b0021;
-        public static final int buttonJoinGame=0x7f0b0022;
-        public static final int button_scan=0x7f0b000a;
-        public static final int client_waiting_label=0x7f0b0000;
-        public static final int cw_debug1=0x7f0b0001;
-        public static final int cw_debug2=0x7f0b0002;
-        public static final int discoverable=0x7f0b0027;
-        public static final int enemy_buff1=0x7f0b001b;
-        public static final int enemy_buff2=0x7f0b001c;
-        public static final int enemy_buff3=0x7f0b001d;
-        public static final int enemy_buff4=0x7f0b001e;
-        public static final int enemy_buff5=0x7f0b001f;
-        public static final int enemy_debug=0x7f0b0017;
-        public static final int enemy_health=0x7f0b0018;
-        public static final int enemy_mana=0x7f0b001a;
-        public static final int enemy_name=0x7f0b0016;
-        public static final int enemy_spell=0x7f0b0019;
-        public static final int horizontalScrollView=0x7f0b0024;
-        public static final int layoutForCards=0x7f0b0025;
-        public static final int main_scroll=0x7f0b000b;
-        public static final int mm_buttons=0x7f0b0020;
-        public static final int new_devices=0x7f0b0009;
-        public static final int paired_devices=0x7f0b0007;
-        public static final int scan=0x7f0b0026;
-        public static final int self_buff1=0x7f0b0011;
-        public static final int self_buff2=0x7f0b0012;
-        public static final int self_buff3=0x7f0b0013;
-        public static final int self_buff4=0x7f0b0014;
-        public static final int self_buff5=0x7f0b0015;
-        public static final int self_debug=0x7f0b000d;
-        public static final int self_health=0x7f0b000e;
-        public static final int self_mana=0x7f0b0010;
-        public static final int self_name=0x7f0b000c;
-        public static final int self_spell=0x7f0b000f;
-        public static final int starting_text=0x7f0b0003;
-        public static final int title_left_text=0x7f0b0004;
-        public static final int title_new_devices=0x7f0b0008;
-        public static final int title_paired_devices=0x7f0b0006;
-        public static final int title_right_text=0x7f0b0005;
+        public static final int buttonCalibrate=0x7f0a0023;
+        public static final int buttonCreateGame=0x7f0a0021;
+        public static final int buttonJoinGame=0x7f0a0022;
+        public static final int button_scan=0x7f0a000a;
+        public static final int client_waiting_label=0x7f0a0000;
+        public static final int cw_debug1=0x7f0a0001;
+        public static final int cw_debug2=0x7f0a0002;
+        public static final int enemy_buff1=0x7f0a001b;
+        public static final int enemy_buff2=0x7f0a001c;
+        public static final int enemy_buff3=0x7f0a001d;
+        public static final int enemy_buff4=0x7f0a001e;
+        public static final int enemy_buff5=0x7f0a001f;
+        public static final int enemy_debug=0x7f0a0017;
+        public static final int enemy_health=0x7f0a0018;
+        public static final int enemy_mana=0x7f0a001a;
+        public static final int enemy_name=0x7f0a0016;
+        public static final int enemy_spell=0x7f0a0019;
+        public static final int horizontalScrollView=0x7f0a0024;
+        public static final int layoutForCards=0x7f0a0025;
+        public static final int main_scroll=0x7f0a000b;
+        public static final int mm_buttons=0x7f0a0020;
+        public static final int new_devices=0x7f0a0009;
+        public static final int paired_devices=0x7f0a0007;
+        public static final int self_buff1=0x7f0a0011;
+        public static final int self_buff2=0x7f0a0012;
+        public static final int self_buff3=0x7f0a0013;
+        public static final int self_buff4=0x7f0a0014;
+        public static final int self_buff5=0x7f0a0015;
+        public static final int self_debug=0x7f0a000d;
+        public static final int self_health=0x7f0a000e;
+        public static final int self_mana=0x7f0a0010;
+        public static final int self_name=0x7f0a000c;
+        public static final int self_spell=0x7f0a000f;
+        public static final int starting_text=0x7f0a0003;
+        public static final int title_left_text=0x7f0a0004;
+        public static final int title_new_devices=0x7f0a0008;
+        public static final int title_paired_devices=0x7f0a0006;
+        public static final int title_right_text=0x7f0a0005;
     }
     public static final class layout {
         public static final int client_waiting=0x7f030000;
@@ -94,9 +92,6 @@ public final class R {
         public static final int main_menu=0x7f030006;
         public static final int message=0x7f030007;
         public static final int spellbook=0x7f030008;
-    }
-    public static final class menu {
-        public static final int option_menu=0x7f0a0000;
     }
     public static final class raw {
         public static final int circle=0x7f060000;

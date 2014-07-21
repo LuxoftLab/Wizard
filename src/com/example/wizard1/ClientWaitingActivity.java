@@ -44,7 +44,6 @@ public class ClientWaitingActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-
 		if (mChatService == null) setup();
 	}
 

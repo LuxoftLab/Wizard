@@ -65,8 +65,8 @@ public class Vector3d extends Vector2d {
     }
 
     @Override
-    public double getSum(){
-        return Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
+    public double getLength(){
+        return Math.sqrt(x*x + y*y + z*z);
     }
 
     @Override
