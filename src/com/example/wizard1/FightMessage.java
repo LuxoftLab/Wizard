@@ -34,7 +34,6 @@ enum FightAction {
 	 */
 	static String[] names = {
 		"fight request",
-		"fight approve",
 		"damage",
 		"high_damage",
 		"heal",

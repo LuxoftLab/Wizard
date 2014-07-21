@@ -57,21 +57,20 @@ public class WizardFight extends Activity {
     public static final String TOAST = "toast";
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
-    private static final int REQUEST_ENABLE_BT = 2;
     // Layout Views
     private TextView mTitle;
     private SelfGUI mSelfGUI;
     private EnemyGUI mEnemyGUI;
     // Name of the connected device
     private String mConnectedDeviceName = null;
-    // Objects refered to accelerometer
+    // Objects referred to accelerometer
     private SensorManager mSensorManager = null;
     private Sensor mAccelerometer = null;
     // Accelerator Thread link
     private AcceleratorThread mAcceleratorThread = null;
     // Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
-    // Member object for the chat services
+    // Member object for bluetooth services
     private BluetoothChatService mChatService = null;
     // is volume click action is in process 
     private boolean isBetweenVolumeClicks = false;
@@ -80,14 +79,14 @@ public class WizardFight extends Activity {
     private SoundPool soundPool;
     private int soundID1;
     private int streamID;
-    private boolean soundLoaded = false;
     
     private double calib;
     private int myCounter;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        calib = getIntent().getExtras().getDouble("calib");
+        if(D) Log.e(TAG, "+++ ON CREATE +++");
+        calib = 9.8; // FIX IT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Log.d("recognition", "c:"+calib);
         try {
 			Recognition.init(getResources());
@@ -95,19 +94,6 @@ public class WizardFight extends Activity {
 			// TODO Auto-generated catch block
 			Log.e("recognition", "", e);
 		}
-        
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        soundID1 = soundPool.load(this, R.raw.magic, 1);
-        streamID=-1;
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-        	@Override
-        	public void onLoadComplete(SoundPool soundPool, int sampleId,
-        	int status) {
-        	soundLoaded = true;
-        	}
-        	});
-        
-        if(D) Log.e(TAG, "+++ ON CREATE +++");
         // Set up the window layout
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
@@ -121,46 +107,41 @@ public class WizardFight extends Activity {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        // If the adapter is null, then Bluetooth is not supported
-        if (mBluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            finish();
-            return;
+        // send fight request to enemy
+        setupChat();
+        if( mChatService.isServer() ) {
+        	FightMessage fightRequest = 
+        			new FightMessage(Target.ENEMY, FightAction.FIGHT_REQUEST);
+        	sendFightMessage(fightRequest);
+        	Log.e(TAG, "Fight request sent");
         }
-        
+        // start mana regen
+        mHandler.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
+        mHandler.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
+        	.sendToTarget();
     }
     @Override
     public void onStart() {
         super.onStart();
         if(D) Log.e(TAG, "++ ON START ++");
-        // If BT is not on, request that it be enabled.
-        // setupChat() will then be called during onActivityResult
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        // Otherwise, setup the chat session
-        } else {
-            if (mChatService == null) setupChat();
-        }
+        if (mChatService == null) setupChat();
     }
+    
     @Override
     public synchronized void onResume() {
         super.onResume();
         if(D) Log.e(TAG, "+ ON RESUME +");
-        // Performing this check in onResume() covers the case in which BT was
-        // not enabled during onStart(), so we were paused to enable it...
-        // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
-        if (mChatService != null) {
-            // Only if the state is STATE_NONE, do we know that we haven't started already
-            if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
-              // Start the Bluetooth chat services
-              mChatService.start();
-            }
-        }
         // Initialize new accelerator thread
         mAcceleratorThread = new AcceleratorThread(mSensorManager, mAccelerometer, calib);
 		mAcceleratorThread.start();
 		Log.e(TAG, "accelerator ran");
+		// Initialize sound
+		Log.e(TAG, "Sound pool is null? : " + (soundPool == null));
+		if(soundPool == null) {
+        	soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        	soundID1 = soundPool.load(this, R.raw.magic, 1);
+            streamID=-1;
+        }
     }
     private void setupChat() {
         Log.d(TAG, "setupChat()");
@@ -172,17 +153,25 @@ public class WizardFight extends Activity {
         mSelfGUI = new SelfGUI(this, 200, 500);
         mEnemyGUI = new EnemyGUI(this, 200, 500);
         // Initialize the BluetoothChatService to perform bluetooth connections
-        mChatService = new BluetoothChatService(this, mHandler);
+        mChatService = BluetoothChatService.getInstance();
+        mChatService.setHandler(mHandler);
     }
     @Override
     public synchronized void onPause() {
     	super.onPause();
     	if(D) Log.e(TAG, "- ON PAUSE -");
-    	//unregister accelerator listener and end its event loop
+    	// stop cast if its started
+    	if(isBetweenVolumeClicks) buttonClick();
+    	// unregister accelerator listener and end its event loop
     	if(mAcceleratorThread != null) {
     		Log.e(TAG, "accelerator thread try to stop loop");
     		mAcceleratorThread.stopLoop();
     		mAcceleratorThread = null;
+    	}
+    	if(soundPool != null && streamID != -1) {
+    		soundPool.stop(streamID);
+    		soundPool.release();
+    		soundPool = null;
     	}
     }
     @Override
@@ -197,15 +186,6 @@ public class WizardFight extends Activity {
         if (mChatService != null) mChatService.stop();
         if(D) Log.e(TAG, "--- ON DESTROY ---");
     }
-    private void ensureDiscoverable() {
-        if(D) Log.d(TAG, "ensure discoverable");
-        if (mBluetoothAdapter.getScanMode() !=
-            BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            startActivity(discoverableIntent);
-        }
-    }
     
     private void sendFightMessage(FightMessage fMessage) {
     	// always send own health and mana
@@ -213,6 +193,10 @@ public class WizardFight extends Activity {
     	fMessage.mana = mSelfState.getMana();
     	
     	mSelfGUI.getPlayerName().setText("send fm: " + fMessage + " " + (myCounter++));
+    	
+//    	Log.e(TAG, "send fm: " + fMessage + " " + myCounter);
+//        Log.e(TAG, "state: " + mChatService.getState());
+    	
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
 //            Toast.makeText(, R.string.not_connected, Toast.LENGTH_SHORT).show();
@@ -234,7 +218,6 @@ public class WizardFight extends Activity {
          * @param message  A string of text to send.
          */
     	
-    	
     	@Override
         public void handleMessage(Message msg) {
         	AppMessage appMsg = AppMessage.values()[ msg.what ];
@@ -242,28 +225,15 @@ public class WizardFight extends Activity {
             case MESSAGE_STATE_CHANGE:
                 if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                 switch (msg.arg1) {
+                // MAYBE DELETE THIS IN FUTURE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 case BluetoothChatService.STATE_CONNECTED:
-                    mTitle.setText(R.string.title_connected_to);
+                    Log.e(TAG, "mTitle found?: " + (mTitle != null));
+                    Log.e(TAG, "has device name?: " + (mConnectedDeviceName != null));
+                	mTitle.setText(R.string.title_connected_to);
                     mTitle.append(mConnectedDeviceName);
-                    if( mChatService.isServer() ) {
-                    	FightMessage fightRequest = 
-                    			new FightMessage(Target.ENEMY, FightAction.FIGHT_REQUEST);
-                    	sendFightMessage(fightRequest);
-                    	Log.e(TAG, "Fight request sent");
-                    }
-//                    isVolumeButtonBlocked = false; in future
                     break;
-                case BluetoothChatService.STATE_CONNECTING:
-                    mTitle.setText(R.string.title_connecting);
-                    break;
-                case BluetoothChatService.STATE_LISTEN:
-                	//run mana reg loop (will be moved to STATE_CONNECTED in future)
-                	this.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
-                	this.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
-                		.sendToTarget();
                 case BluetoothChatService.STATE_NONE:
                     mTitle.setText(R.string.title_not_connected);
-//                    isVolumeButtonBlocked = true; in future
                     break;
                 }
                 break;
@@ -272,7 +242,6 @@ public class WizardFight extends Activity {
                 mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
                 Toast.makeText(getApplicationContext(), "Connected to "
                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                mEnemyGUI.getPlayerName().setText(mConnectedDeviceName);
                 break;
             case MESSAGE_TOAST:
                 Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
@@ -286,9 +255,9 @@ public class WizardFight extends Activity {
             	byte[] recvBytes = (byte[]) msg.obj;
     			FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
     			mEnemyGUI.log("enemy msg: " + enemyMsg + " "  + (myCounter++));
-    			Log.e(TAG, "enemy msg: " + enemyMsg + " "  + (myCounter));
+//    			Log.e(TAG, "enemy msg: " + enemyMsg + " "  + (myCounter));
     			if(enemyMsg.action == FightAction.FIGHT_REQUEST) {
-    				// if client, send fight approval to server
+    				// if client, send approval to server
     				if(!mChatService.isServer()) {
     					sendFightMessage(enemyMsg);
     				}
@@ -306,9 +275,6 @@ public class WizardFight extends Activity {
             	this.sendMessageDelayed(msgManaReg, 2000);
             	break;
             case MESSAGE_PLAY_SOUND:
-            	if( !soundLoaded ) {
-            		mSelfGUI.getPlayerName().setText("SOUND NOT LOADED");
-            	}
                 soundPool.setVolume(streamID,((Float) msg.obj),((Float) msg.obj));
                 break;
             default:
@@ -458,17 +424,6 @@ public class WizardFight extends Activity {
                 mChatService.connect(device);
             }
             break;
-        case REQUEST_ENABLE_BT:
-            // When the request to enable Bluetooth returns
-            if (resultCode == Activity.RESULT_OK) {
-                // Bluetooth is now enabled, so set up a chat session
-                setupChat();
-            } else {
-                // User did not enable Bluetooth or an error occured
-                Log.d(TAG, "BT not enabled");
-                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
-                finish();
-            }
         }
     }
     
@@ -512,10 +467,6 @@ public class WizardFight extends Activity {
             // Launch the DeviceListActivity to see devices and do scan
             Intent serverIntent = new Intent(this, DeviceListActivity.class);
             startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-            return true;
-        case R.id.discoverable:
-            // Ensure this device is discoverable by others
-            ensureDiscoverable();
             return true;
         }
         return false;

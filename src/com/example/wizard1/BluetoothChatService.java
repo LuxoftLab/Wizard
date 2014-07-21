@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
 /**
  * This class does all the work for setting up and managing Bluetooth
  * connections with other devices. It has a thread that listens for
@@ -31,8 +32,8 @@ public class BluetoothChatService {
     // Unique UUID for this application
     private static final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     // Member fields
-    private final BluetoothAdapter mAdapter;
-    private final Handler mHandler;
+    private BluetoothAdapter mAdapter;
+    private Handler mHandler;
     private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -44,15 +45,27 @@ public class BluetoothChatService {
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
     // Describes player role in connection setup
     private static boolean mIsServer = false;
-    /**
-     * Constructor. Prepares a new BluetoothChat session.
-     * @param context  The UI Activity Context
-     * @param handler  A Handler to send messages back to the UI Activity
-     */
-    public BluetoothChatService(Context context, Handler handler) {
-        mAdapter = BluetoothAdapter.getDefaultAdapter();
+    
+    private static class InstanceHolder {
+        private static BluetoothChatService instance = new BluetoothChatService();
+    }
+
+    public static BluetoothChatService getInstance() {
+    	return InstanceHolder.instance;
+    }
+    
+    public boolean isInitialized() { return (mHandler != null); }
+    
+    public void setHandler(Handler handler) {
+    	if(mHandler != null) mHandler.removeCallbacksAndMessages(null);
+    	mHandler = handler;
+    }
+    
+    public void init() {
+    	mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
-        mHandler = handler;
+        mIsServer = false;
+        setHandler(null);
     }
     
     /*
@@ -67,8 +80,10 @@ public class BluetoothChatService {
         if (D) Log.d(TAG, "setState() " + mState + " -> " + state);
         mState = state;
         // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), state, -1)
-        	.sendToTarget();
+        if(mHandler != null) {
+        	mHandler.obtainMessage(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), state, -1)
+        		.sendToTarget();
+        }
     }
     /**
      * Return the current connection state. */
