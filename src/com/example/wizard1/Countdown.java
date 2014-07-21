@@ -1,5 +1,7 @@
 package com.example.wizard1;
 
+import com.example.wizard1.views.MyTextView;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;

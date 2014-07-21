@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-	<TextView
-        android:id="@+id/client_waiting_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/client_waiting"/>
-	
-	<TextView
-        android:id="@+id/cw_debug1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="debug1"/>
-	
-	<TextView
-        android:id="@+id/cw_debug2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="debug2"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical" >
+    
+    <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" 
+            android:layout_marginTop="35dp" 
+            android:layout_marginBottom="20dp" />
+    <view android:layout_width="220dp"
+        android:layout_height="55dp"
+        class="com.example.wizard1.views.CancelButton" 
+        android:text="@string/cancel"
+        android:onClick="goBack" />
 </LinearLayout>

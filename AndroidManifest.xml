@@ -23,6 +23,8 @@
                   android:label="@string/app_name"
                   android:configChanges="orientation|keyboardHidden" />
         <activity android:name=".ClientWaitingActivity"
+            	  android:label="@string/client_waiting"
+            	  android:theme="@style/ClientWaitingDialog"
              	  android:screenOrientation="portrait"
              	  android:noHistory="true"
                   android:configChanges="orientation|keyboardHidden" />

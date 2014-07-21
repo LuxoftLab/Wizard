@@ -1,13 +1,12 @@
 package com.example.wizard1;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
 
 public class ClientWaitingActivity extends Activity {
@@ -28,17 +27,11 @@ public class ClientWaitingActivity extends Activity {
 	private BluetoothChatService mChatService = null;
 	// Shows if we can stop bluetooth services 
 	private boolean mIsCanStopBtService = true;
-	// GUI objects
-	private TextView mDebug1;
-	private TextView mDebug2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.client_waiting);
-
-		mDebug1 = (TextView) findViewById(R.id.cw_debug1);
-		mDebug2 = (TextView) findViewById(R.id.cw_debug2);
 	}
 
 	@Override
@@ -86,6 +79,10 @@ public class ClientWaitingActivity extends Activity {
 		Log.e(TAG, "--- ON DESTROY ---");
 	}
 
+	public void goBack(View view) {
+        finish();
+    }
+	
 	public void setup() {
 		// Initialize the BluetoothChatService to perform bluetooth connections
 		mChatService = BluetoothChatService.getInstance();
@@ -105,21 +102,10 @@ public class ClientWaitingActivity extends Activity {
 			CWMessage msgType = CWMessage.values()[msg.what];
 			switch (msgType) {
 			case MESSAGE_STATE_CHANGE:
-				Log.e(TAG, "cw MESSAGE_STATE_CHANGE: " + msg.arg1);
-				
 				switch (msg.arg1) {
 				case BluetoothChatService.STATE_CONNECTED:
-					mDebug1.setText(R.string.title_connected_to);
-					mDebug1.append(mConnectedDeviceName);
 					// STARTING WIZARD FIGHT ACTIVITY HERE
 					startFight();
-					break;
-				case BluetoothChatService.STATE_CONNECTING:
-					mDebug1.setText(R.string.title_connecting);
-					break;
-				case BluetoothChatService.STATE_LISTEN:
-				case BluetoothChatService.STATE_NONE:
-					mDebug1.setText(R.string.title_not_connected);
 					break;
 				}
 				break;

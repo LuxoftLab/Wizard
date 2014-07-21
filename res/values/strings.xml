@@ -27,5 +27,6 @@
     <string name="Spellbook">Spellbook</string>
     <string name="Exit">Exit</string>
     <!-- ClientWaitingActivity -->
-    <string name="client_waiting">Waiting for client...</string>
+    <string name="client_waiting">Waiting for opponent...</string>
+    <string name="cancel">Cancel</string>
 </resources>
