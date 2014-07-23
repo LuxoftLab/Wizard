@@ -68,6 +68,7 @@ public class BluetoothChatService {
         setHandler(null);
     }
     
+    public void setAsServer() { mIsServer = true; }
     /*
      * returns if phone was server during Bluetooth connection
      */
@@ -191,11 +192,8 @@ public class BluetoothChatService {
     private void connectionLost() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_TOAST.ordinal());
-        Bundle bundle = new Bundle();
-        bundle.putString(WizardFight.TOAST, "Device connection was lost");
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_LOST.ordinal())
+        		.sendToTarget();
     }
     /**
      * This thread runs while listening for incoming connections. It behaves

@@ -18,7 +18,9 @@ enum Target {
  * Fight action type
  */
 enum FightAction {
-	FIGHT_REQUEST,
+	ENEMY_READY,
+	FIGHT_START,
+	FIGHT_END,
 	DAMAGE,
 	HIGH_DAMAGE,
 	HEAL,
@@ -33,7 +35,9 @@ enum FightAction {
 	 *  sending, may be deleted in future
 	 */
 	static String[] names = {
-		"fight request",
+		"enemy ready",
+		"fight start",
+		"fight end",
 		"damage",
 		"high_damage",
 		"heal",

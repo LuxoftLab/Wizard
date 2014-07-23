@@ -26,7 +26,8 @@
     <string name="Help">Help</string>
     <string name="Spellbook">Spellbook</string>
     <string name="Exit">Exit</string>
-    <!-- ClientWaitingActivity -->
+    <!--  Wizard Fight -->
     <string name="client_waiting">Waiting for opponent...</string>
     <string name="cancel">Cancel</string>
+    <string name="connection_lost">Connection was lost. Leaving fight.</string>
 </resources>

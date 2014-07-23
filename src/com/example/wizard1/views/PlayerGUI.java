@@ -1,5 +1,7 @@
 package com.example.wizard1.views;
 
+import com.example.wizard1.Shape;
+
 import android.app.Activity;
 import android.widget.TextView;
 
@@ -20,6 +22,11 @@ public class PlayerGUI {
 		mainActivity = a;
 	}
 	
+	public void clear() {
+		buffPanel.removeBuffs();
+		spellPicture.setShape(Shape.NONE);
+	}
+	
 	public HealthIndicator getHealthBar() { return healthBar; }
 	public ManaIndicator getManaBar() { return manaBar; }
 	public SpellPicture getSpellPicture() { return spellPicture; }
@@ -27,4 +34,5 @@ public class PlayerGUI {
 //	public BuffPicture[] getBuffs() { return buffPanel.getBuffs(); }
 	public TextView getPlayerName() { return playerName; }
 	public void log(String s) { debugField.setText(s); }
+	
 }

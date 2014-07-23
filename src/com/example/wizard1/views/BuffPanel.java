@@ -47,4 +47,10 @@ public class BuffPanel {
 			buffPics[i].setBuff(rightBuff);
 		}
 	}
+	
+	public void removeBuffs() {
+		for(int i=0; i<buffPics.length; i++) {
+			buffPics[i].setBuff(Buff.NONE);
+		}
+	}
 }

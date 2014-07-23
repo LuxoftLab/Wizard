@@ -239,6 +239,10 @@ public class PlayerState {
 		if(health > maxHealth) health = maxHealth;
 	}
 	
+	public void removeBuffs() {
+		buffs.clear();
+	}
+	
 	public Shape getSpellShape() { return spellShape; }
 	public Buff getAddedBuff() { return addedBuff; }
 	public Buff getRefreshedBuff() { return refreshedBuff; }

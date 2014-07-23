@@ -46,6 +46,8 @@ public class SpellPicture extends ImageView {
     	shape = s;
     	if( shape == Shape.NONE ) {
     		this.setImageDrawable(null);
+    		invalidate();
+    		return;
     	}
     	Log.e("Wizard Fight", "Starting animation");
         Log.e("Wizard Fight", "Current shape : " + shape);

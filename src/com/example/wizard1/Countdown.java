@@ -38,10 +38,12 @@ public class Countdown extends Activity {
 
     public void goOut() {
         text.setVisibility(View.INVISIBLE);
-//        Intent intent = this.getIntent();
-//        intent.putExtra("SOMETHING", "EXTRAS");
-//        setResult(RESULT_OK, intent);
         finish();
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	// disable exit on count down
     }
     
     class AnimListener implements Animation.AnimationListener {

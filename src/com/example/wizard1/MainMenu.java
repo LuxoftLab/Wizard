@@ -61,7 +61,10 @@ public class MainMenu extends Activity {
 	}
 
 	public void goToGameCreate(View view) {
-		startActivity(new Intent(this, ClientWaitingActivity.class));
+		BluetoothChatService btService = BluetoothChatService.getInstance();
+		btService.init();
+		btService.setAsServer();
+		startActivity(new Intent(this, WizardFight.class));
 	}
 
 	public void goToListOfBluetooth(View view) {
