@@ -51,7 +51,7 @@ public class WizardFight extends Activity {
 		MESSAGE_WRITE, 
 		MESSAGE_DEVICE_NAME, 
 		MESSAGE_TOAST, 
-		MESSAGE_CONNECTION_LOST,
+		MESSAGE_CONNECTION_FAIL,
 		MESSAGE_FROM_SELF, 
 		MESSAGE_SELF_DEATH,
 		MESSAGE_FROM_ENEMY, 
@@ -126,10 +126,13 @@ public class WizardFight extends Activity {
 		setupChat();
 		isSelfReady = false;
 		isEnemyReady = false;
+		
+		// Start listening clients if server
 		if(mChatService.isServer()) {
-			// Start waiting for opponent if server
-			initWaitingDialog();
 			mChatService.start();
+			initWaitingDialog(R.string.client_waiting);
+		} else {
+			initWaitingDialog(R.string.trying_to_connect);
 		}
 		// Initialize end dialog listener
 		endDialogListener = new EndDialogListener();
@@ -230,10 +233,10 @@ public class WizardFight extends Activity {
 				.sendToTarget();
 	}
 
-	private void initWaitingDialog() {
+	private void initWaitingDialog(int stringId) {
 		View v = getLayoutInflater().inflate(R.layout.client_waiting, null);
 		mClientWaitingDialog = new Dialog(this, R.style.ClientWaitingDialog);
-		mClientWaitingDialog.setTitle(R.string.client_waiting);
+		mClientWaitingDialog.setTitle(stringId);
 		CancelButton cancel = (CancelButton) v.findViewById(R.id.button_cancel_waiting);
 		cancel.setOnClickListener(new CancelButtonListener());
 		mClientWaitingDialog.setContentView(v);
@@ -326,8 +329,8 @@ public class WizardFight extends Activity {
 						msg.getData().getString(TOAST), Toast.LENGTH_SHORT)
 						.show();
 				break;
-			case MESSAGE_CONNECTION_LOST:
-				Toast.makeText(getApplicationContext(), R.string.connection_lost, Toast.LENGTH_SHORT)
+			case MESSAGE_CONNECTION_FAIL:
+				Toast.makeText(getApplicationContext(), msg.getData().getInt(TOAST), Toast.LENGTH_SHORT)
 						.show();
 				finish();
 				break;
@@ -630,7 +633,7 @@ public class WizardFight extends Activity {
 					sendFightMessage(startMsg);
 					startFight();
     			} else {
-    				initWaitingDialog();
+    				initWaitingDialog(R.string.client_waiting);
     				FightMessage fightRequest = new FightMessage(Target.ENEMY,
         					FightAction.ENEMY_READY);
         			sendFightMessage(fightRequest);

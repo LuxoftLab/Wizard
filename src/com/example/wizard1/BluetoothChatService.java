@@ -180,9 +180,9 @@ public class BluetoothChatService {
     private void connectionFailed() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_TOAST.ordinal());
+        Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal());
         Bundle bundle = new Bundle();
-        bundle.putString(WizardFight.TOAST, "Unable to connect device");
+        bundle.putInt(WizardFight.TOAST, R.string.connection_fail);
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -192,8 +192,11 @@ public class BluetoothChatService {
     private void connectionLost() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_LOST.ordinal())
-        		.sendToTarget();
+        Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal());
+        Bundle bundle = new Bundle();
+        bundle.putInt(WizardFight.TOAST, R.string.connection_lost);
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
     }
     /**
      * This thread runs while listening for incoming connections. It behaves

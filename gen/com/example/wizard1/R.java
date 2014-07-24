@@ -10,7 +10,9 @@ package com.example.wizard1;
 public final class R {
     public static final class anim {
         public static final int countdown=0x7f040000;
-        public static final int fade_out=0x7f040001;
+        public static final int fade_in=0x7f040001;
+        public static final int fade_out=0x7f040002;
+        public static final int fade_out_nodelay=0x7f040003;
     }
     public static final class attr {
     }
@@ -35,15 +37,25 @@ public final class R {
         public static final int fail=0x7f02000b;
         public static final int free=0x7f02000c;
         public static final int ic_launcher=0x7f02000d;
-        public static final int logo=0x7f02000e;
-        public static final int nothing=0x7f02000f;
-        public static final int pi=0x7f020010;
-        public static final int shield=0x7f020011;
-        public static final int square=0x7f020012;
-        public static final int triangle=0x7f020013;
-        public static final int v=0x7f020014;
-        public static final int wood=0x7f020015;
-        public static final int z=0x7f020016;
+        public static final int info=0x7f02000e;
+        public static final int label=0x7f02000f;
+        public static final int logo=0x7f020010;
+        public static final int next=0x7f020011;
+        public static final int nothing=0x7f020012;
+        public static final int paper=0x7f020013;
+        public static final int pi=0x7f020014;
+        public static final int replay=0x7f020015;
+        public static final int shield=0x7f020016;
+        public static final int spell_name=0x7f020017;
+        public static final int spell_name111=0x7f020018;
+        public static final int square=0x7f020019;
+        public static final int triangle=0x7f02001a;
+        public static final int v=0x7f02001b;
+        public static final int wd=0x7f02001c;
+        public static final int wd2=0x7f02001d;
+        public static final int wd3=0x7f02001e;
+        public static final int wood=0x7f02001f;
+        public static final int z=0x7f020020;
     }
     public static final class id {
         public static final int buttonCalibrate=0x7f0a0021;
@@ -66,6 +78,7 @@ public final class R {
         public static final int main_scroll=0x7f0a0009;
         public static final int mm_buttons=0x7f0a001e;
         public static final int new_devices=0x7f0a0007;
+        public static final int number_correct_spell=0x7f0a0028;
         public static final int paired_devices=0x7f0a0005;
         public static final int self_buff1=0x7f0a000f;
         public static final int self_buff2=0x7f0a0010;
@@ -77,11 +90,15 @@ public final class R {
         public static final int self_mana=0x7f0a000e;
         public static final int self_name=0x7f0a000a;
         public static final int self_spell=0x7f0a000d;
+        public static final int spell_anim_view=0x7f0a0026;
+        public static final int spell_name=0x7f0a0025;
         public static final int starting_text=0x7f0a0001;
         public static final int title_left_text=0x7f0a0002;
         public static final int title_new_devices=0x7f0a0006;
         public static final int title_paired_devices=0x7f0a0004;
         public static final int title_right_text=0x7f0a0003;
+        public static final int tutorial_layout=0x7f0a0024;
+        public static final int view=0x7f0a0027;
     }
     public static final class layout {
         public static final int client_waiting=0x7f030000;
@@ -93,6 +110,7 @@ public final class R {
         public static final int main_menu=0x7f030006;
         public static final int message=0x7f030007;
         public static final int spellbook=0x7f030008;
+        public static final int tutorial=0x7f030009;
     }
     public static final class raw {
         public static final int circle=0x7f060000;
@@ -115,14 +133,15 @@ public final class R {
         public static final int app_name=0x7f080000;
         public static final int bt_not_enabled_leaving=0x7f080003;
         public static final int button_scan=0x7f08000d;
-        public static final int cancel=0x7f080016;
+        public static final int cancel=0x7f080017;
         /**   Wizard Fight 
          */
         public static final int client_waiting=0x7f080015;
         /**  Options Menu 
          */
         public static final int connect=0x7f08000e;
-        public static final int connection_lost=0x7f080017;
+        public static final int connection_fail=0x7f080019;
+        public static final int connection_lost=0x7f080018;
         public static final int discoverable=0x7f08000f;
         public static final int none_found=0x7f08000a;
         public static final int none_paired=0x7f080009;
@@ -139,6 +158,7 @@ public final class R {
         public static final int title_not_connected=0x7f080006;
         public static final int title_other_devices=0x7f08000c;
         public static final int title_paired_devices=0x7f08000b;
+        public static final int trying_to_connect=0x7f080016;
     }
     public static final class style {
         /** 
@@ -167,5 +187,6 @@ public final class R {
     public static final class xml {
         public static final int device_list_item=0x7f050000;
         public static final int spells=0x7f050001;
+        public static final int tutorial_text=0x7f050002;
     }
 }

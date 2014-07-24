@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/paper">
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tutorial_layout" android:layout_centerInParent="true">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/spell_name"
+            android:textSize="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/spell_name"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#ffc8c8c8"
+            android:shadowColor="#355"/>
+
+    <view   android:layout_width="290dp"
+            android:layout_height="290dp"
+            class="com.example.wizard1.views.SpellAnimation"
+            android:id="@+id/spell_anim_view"
+            android:layout_below="@+id/spell_name"
+            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"/>
+
+    <view   android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="open"
+            android:background="@drawable/info"
+            android:layout_below="@+id/spell_anim_view"
+            android:layout_alignLeft="@+id/spell_anim_view"
+            class="com.example.wizard1.views.CancelButton"/>
+
+    <view   android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="replay"
+            android:background="@drawable/replay"
+            android:layout_below="@+id/spell_anim_view"
+            android:layout_alignRight="@+id/spell_anim_view"
+            class="com.example.wizard1.views.CancelButton" android:id="@+id/view"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="1/5"
+            android:id="@+id/number_correct_spell"
+            android:layout_alignTop="@+id/view"
+            android:background="@drawable/label"
+            android:textColor="#000"
+            android:layout_centerHorizontal="true"/>
+    <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="addcount"/>-->
+    </RelativeLayout>
+</RelativeLayout>

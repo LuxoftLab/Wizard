@@ -28,6 +28,8 @@
     <string name="Exit">Exit</string>
     <!--  Wizard Fight -->
     <string name="client_waiting">Waiting for opponent...</string>
+    <string name="trying_to_connect">Trying to connect..</string>
     <string name="cancel">Cancel</string>
-    <string name="connection_lost">Connection was lost. Leaving fight.</string>
+    <string name="connection_lost">Connection was lost. Leaving fight</string>
+    <string name="connection_fail">Unable to connect to the device</string>
 </resources>

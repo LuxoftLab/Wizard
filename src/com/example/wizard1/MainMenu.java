@@ -72,7 +72,7 @@ public class MainMenu extends Activity {
 	}
 
 	public void goToHelp(View view) {
-		startActivity(new Intent(this, WizardFight.class));
+		startActivity(new Intent(this, Tutorial.class));
 	}
 
 	public void goToSpellbook(View view) {

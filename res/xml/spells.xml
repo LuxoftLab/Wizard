@@ -6,6 +6,14 @@
         <description>Стоимость: 5 маны.
 Воздействие: снимает 10 единиц здоровья у противника.</description>
         <img>triangle.png</img>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
     </spell>
     <spell>
         <name>Кольцо Огня</name>
@@ -14,6 +22,17 @@
         <img>
             circle.png
         </img>
+        <pointX>50</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>50</pointY>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>50</pointY>
+        <pointX>50</pointX>
+        <pointY>100</pointY>
+        <round>true</round>
     </spell>
     <spell>
         <name>Исцеление</name>
@@ -22,6 +41,16 @@
         <img>
             clock.png
         </img>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
     </spell>
     <spell>
         <name>Порча</name>
@@ -30,6 +59,14 @@
         <img>
             z.png
         </img>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
     </spell>
     <spell>
         <name>Концентрация</name>
@@ -38,6 +75,12 @@
         <img>
             v.png
         </img>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>50</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
     </spell>
     <spell>
         <name>Благословение</name>
@@ -46,6 +89,14 @@
         <img>
             pi.png
         </img>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
     </spell>
     <spell>
         <name>Божественный
@@ -56,5 +107,13 @@
         <img>
             shield.png
         </img>
+        <pointX>0</pointX>
+        <pointY>60</pointY>
+        <pointX>50</pointX>
+        <pointY>30</pointY>
+        <pointX>100</pointX>
+        <pointY>60</pointY>
+        <round>true</round>
+        <rotate>true</rotate>
     </spell>
 </spells>

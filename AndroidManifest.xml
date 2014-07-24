@@ -37,6 +37,9 @@
                   android:label="@string/select_device"
                   android:noHistory="true"
                   android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".Tutorial"
+            	  android:screenOrientation="portrait"
+                  android:configChanges="orientation|keyboardHidden" />
         <activity android:name=".Spellbook"
             	  android:screenOrientation="portrait"
                   android:configChanges="orientation|keyboardHidden" />
