@@ -55,8 +55,7 @@ public class WizardFight extends Activity {
 		MESSAGE_FROM_SELF, 
 		MESSAGE_SELF_DEATH,
 		MESSAGE_FROM_ENEMY, 
-		MESSAGE_MANA_REGEN, 
-		MESSAGE_PLAY_SOUND;
+		MESSAGE_MANA_REGEN;
 	}
 
 	// Key names received from the BluetoothChatService Handler
@@ -78,16 +77,12 @@ public class WizardFight extends Activity {
 	// Local Bluetooth adapter
 	private BluetoothAdapter mBluetoothAdapter = null;
 	// Member object for bluetooth services
-	private BluetoothChatService mChatService = null;
+	private BluetoothService mChatService = null;
 	// is volume click action is in process
 	private boolean isBetweenVolumeClicks = false;
 	private boolean isVolumeButtonBlocked = false; // +++++++++++++++++++++IN
 													// FUTURE - ACCESS AFTER
 													// CONNECTING and TRUE HERE
-	private SoundPool soundPool;
-	private int soundID1;
-	private int streamID;
-
 	private double gravity;
 
 	private boolean isCountdown;
@@ -153,17 +148,10 @@ public class WizardFight extends Activity {
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
 		// Initialize new accelerator thread
-		mAcceleratorThread = new AcceleratorThread(mSensorManager,
-				mAccelerometer, gravity);
+		mAcceleratorThread = new AcceleratorThread(this, 
+				mSensorManager, mAccelerometer, gravity);
 		mAcceleratorThread.start();
 		Log.e(TAG, "accelerator ran");
-		// Initialize sound
-		Log.e(TAG, "Sound pool is null? : " + (soundPool == null));
-		if (soundPool == null) {
-			soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-			soundID1 = soundPool.load(this, R.raw.magic, 1);
-			streamID = -1;
-		}
 	}
 
 	@Override
@@ -204,11 +192,6 @@ public class WizardFight extends Activity {
 			mAcceleratorThread.stopLoop();
 			mAcceleratorThread = null;
 		}
-		if (soundPool != null && streamID != -1) {
-			soundPool.stop(streamID);
-			soundPool.release();
-			soundPool = null;
-		}
 	}
 
 	private void setupChat() {
@@ -222,7 +205,7 @@ public class WizardFight extends Activity {
 		mSelfGUI = new SelfGUI(this, 200, 500);
 		mEnemyGUI = new EnemyGUI(this, 200, 500);
 		// Initialize the BluetoothChatService to BT connections
-		mChatService = BluetoothChatService.getInstance();
+		mChatService = BluetoothService.getInstance();
 		mChatService.setHandler(mHandler);
 		// Drop flags
 		areMessagesBlocked = true;
@@ -242,6 +225,17 @@ public class WizardFight extends Activity {
 		mClientWaitingDialog.setContentView(v);
 		Log.e(TAG, "Before show dialog");
 		mClientWaitingDialog.show();
+		mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                    KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    finish();
+                    mClientWaitingDialog.dismiss();
+                }
+                return true;
+            }
+        });
 		Log.e(TAG, "After show dialog");
 	}
 	
@@ -257,7 +251,7 @@ public class WizardFight extends Activity {
 		// Log.e(TAG, "state: " + mChatService.getState());
 
 		// Check that we're actually connected before trying anything
-		if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+		if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
 			Toast.makeText(getApplicationContext(), R.string.not_connected,
 					Toast.LENGTH_SHORT).show();
 			return;
@@ -279,8 +273,8 @@ public class WizardFight extends Activity {
 		startActivityForResult(intent, REQUEST_START_FIGHT);
 		Log.e(TAG, "after start countdown");
 		// start calibration
-		mAcceleratorThread = new AcceleratorThread(mSensorManager,
-				mAccelerometer, gravity);
+		mAcceleratorThread = new AcceleratorThread(this, 
+				mSensorManager, mAccelerometer, gravity);
 		mAcceleratorThread.start();
 		mAcceleratorThread.startGettingData();
 		Log.e(TAG, "accelerator thread all stuff called");
@@ -306,13 +300,13 @@ public class WizardFight extends Activity {
 				if (D)
 					Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
 				switch (msg.arg1) {
-				case BluetoothChatService.STATE_CONNECTED:
+				case BluetoothService.STATE_CONNECTED:
 					mTitle.setText(R.string.title_connected_to);
 					mTitle.append(mConnectedDeviceName);
 					//start fight
 					startFight();
 					break;
-				case BluetoothChatService.STATE_NONE:
+				case BluetoothService.STATE_NONE:
 					mTitle.setText(R.string.title_not_connected);
 					break;
 				}
@@ -384,10 +378,6 @@ public class WizardFight extends Activity {
 				Message msgManaReg = this.obtainMessage(
 						AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
 				this.sendMessageDelayed(msgManaReg, 2000);
-				break;
-			case MESSAGE_PLAY_SOUND:
-				soundPool.setVolume(streamID, ((Float) msg.obj),
-						((Float) msg.obj));
 				break;
 			default:
 				if (D) Log.e("Wizard Fight", "Unknown message");
@@ -556,15 +546,9 @@ public class WizardFight extends Activity {
 		if (!isBetweenVolumeClicks) {
 			mAcceleratorThread.startGettingData();
 			isBetweenVolumeClicks = true;
-			if (streamID == -1) {
-				streamID = soundPool.play(soundID1, 0.25f, 0.25f, 0, -1, 1);
-			} else {
-				soundPool.resume(streamID);
-			}
-
+			
 		} else {
 			isVolumeButtonBlocked = true;
-			soundPool.pause(streamID);
 
 			ArrayList<Vector4d> records = mAcceleratorThread.stopAndGetResult();
 			isBetweenVolumeClicks = false;
@@ -610,6 +594,15 @@ public class WizardFight extends Activity {
 			return super.dispatchKeyEvent(event);
 		}
 	}
+	
+//	@Override 
+//	public void onBackPressed() {
+//		super.onBackPressed();
+//		if(mClientWaitingDialog.isShowing()) {
+//			mClientWaitingDialog.dismiss();
+//			finish();
+//		}
+//	}
 	
 	class CancelButtonListener implements OnClickListener {
 		@Override

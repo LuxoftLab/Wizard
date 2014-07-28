@@ -40,7 +40,7 @@ public class DeviceListActivity extends Activity {
     private String noNewDevices;
     private String noPairedDevices;
     // Member object for bluetooth services
- 	private BluetoothChatService mChatService = null;
+ 	private BluetoothService mChatService = null;
  	private boolean isSearchCanceledByUser = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +111,7 @@ public class DeviceListActivity extends Activity {
     
     private void setup() {
     	// Initialize the BluetoothChatService to perform bluetooth connections
-    	mChatService = BluetoothChatService.getInstance();
+    	mChatService = BluetoothService.getInstance();
     	mChatService.init();
     }
     

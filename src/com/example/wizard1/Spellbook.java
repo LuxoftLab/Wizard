@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -43,6 +45,7 @@ public class Spellbook extends Activity {
 			while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
 				switch (xpp.getEventType()) {
 				case XmlPullParser.START_TAG:
+					Log.e("Wizard Fight", "start: " + xpp.getName());
 					if (xpp.getName().equals("name"))
 						t = 1;
 					else if (xpp.getName().equals("description"))
@@ -51,10 +54,13 @@ public class Spellbook extends Activity {
 						t = 3;
 					break;
 				case XmlPullParser.END_TAG:
+					Log.e("Wizard Fight", "end: " + xpp.getName());
 					if (xpp.getName().equals("spell"))
 						addSpellCard(name, desc, img);
+					t = 0;
 					break;
 				case XmlPullParser.TEXT:
+					Log.e("Wizard Fight", "[" + t + "] text: " + xpp.getText());
 					switch (t) {
 					case 1:
 						name = xpp.getText();
@@ -80,6 +86,7 @@ public class Spellbook extends Activity {
 	}
 
 	public void addSpellCard(String name, String description, String img) {
+		Log.e("Wizard Fight", "IMG: " + img );
 		int w = displayWidth;
 		int h = (int) (displayWidth * 1.5);
 		if (h > displayHeight) {
