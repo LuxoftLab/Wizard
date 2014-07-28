@@ -67,7 +67,7 @@ public class SpellAnimation extends View {
             }
             double mh=Math.abs(b-bn);
             mh=100-(100-mh/2);
-            for(int i=0;i<2;i++) {
+            for(int i=0;i<trajectory.size()-1;i++) {
                 double a = (trajectory.get(i))[0];
                 double an = (trajectory.get(i+1))[0];
                 if(a<an) {
