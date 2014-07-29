@@ -55,10 +55,17 @@ public class CancelButton extends Button {
             }
 
             mutate();
-            if (pressed||!enabled) {
+            if (pressed) {
                 setColorFilter(_pressedFilter);
-            } else {
+                setAlpha(255);
+            } else if(!enabled)
+            {
                 setColorFilter(null);
+                setAlpha(0);
+            }
+            else {
+                setColorFilter(null);
+                setAlpha(255);
             }
 
             invalidateSelf();

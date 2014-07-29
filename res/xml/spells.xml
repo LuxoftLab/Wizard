@@ -14,6 +14,7 @@
         <pointY>100</pointY>
         <pointX>50</pointX>
         <pointY>0</pointY>
+        <shape>triangle</shape>
     </spell>
     <spell>
         <name>Кольцо Огня</name>
@@ -33,6 +34,7 @@
         <pointX>11</pointX>
         <pointY>100</pointY>
         <round>true</round>
+        <shape>circle</shape>
     </spell>
     <spell>
         <name>Исцеление</name>
@@ -51,6 +53,7 @@
         <pointY>0</pointY>
         <pointX>0</pointX>
         <pointY>100</pointY>
+        <shape>clock</shape>
     </spell>
     <spell>
         <name>Порча</name>
@@ -67,6 +70,7 @@
         <pointY>100</pointY>
         <pointX>100</pointX>
         <pointY>100</pointY>
+        <shape>z</shape>
     </spell>
     <spell>
         <name>Концентрация</name>
@@ -81,6 +85,7 @@
         <pointY>100</pointY>
         <pointX>100</pointX>
         <pointY>0</pointY>
+        <shape>v</shape>
     </spell>
     <spell>
         <name>Благословение</name>
@@ -97,6 +102,7 @@
         <pointY>0</pointY>
         <pointX>100</pointX>
         <pointY>100</pointY>
+        <shape>pi</shape>
     </spell>
     <spell>
         <name>Божественный
@@ -115,5 +121,6 @@
         <pointY>60</pointY>
         <round>true</round>
         <rotate>true</rotate>
+        <shape>shield</shape>
     </spell>
 </spells>

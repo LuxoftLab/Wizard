@@ -28,17 +28,18 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         ArrayList<Double> pointsY = new ArrayList<Double>();
         boolean round=false;
         boolean rotate=false;
+        String shape="";
 
-        SpellData(String name, ArrayList<Double> pointsX, ArrayList<Double> pointsY,boolean round,boolean rotate) {
-            this.name = name;
+        SpellData(String name, ArrayList<Double> pointsX, ArrayList<Double> pointsY, boolean round, boolean rotate, String shape) {           this.name = name;
             this.pointsX = pointsX;
             this.pointsY = pointsY;
             this.round=round;
             this.rotate=rotate;
+            this.shape = shape;
         }
     }
 
-    private ArrayList<SpellData> spellDatas = new ArrayList<SpellData>();
+    private final ArrayList<SpellData> spellDatas = new ArrayList<SpellData>();
     private WizardDial wd;
     private SpellAnimation sa;
     private TextView spellName;
@@ -47,7 +48,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     private int pause=-1;
     private int partCounter = 0;
     private int spellCount = -1;
-    private int spellRepeat = 5;
+    private final int spellRepeat = 5;
 
     private boolean isVolumeButtonBlocked=false;
     private boolean isBetweenVolumeClicks=false;
@@ -58,7 +59,8 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 
             FightMessage fMsg = (FightMessage) msg.obj;
             String shape = FightMessage.getShapeFromMessage(fMsg) + "";
-            //if(shape.equals("triangle"))
+            //todo uncomment
+            // if(shape.equals(spellDatas.get(partCounter).shape))
                 addSpellCounter();
             Log.e("Wizard Fight",shape);
             isVolumeButtonBlocked = false;
@@ -66,7 +68,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     };
     private Sensor mAccelerometer = null;
     private SensorManager mSensorManager = null;
-    private double gravity=9.81;
+    private final double gravity=9.81;
 
     private ArrayList<ArrayList<String>> partsText = new ArrayList<ArrayList<String>>();
 
@@ -81,7 +83,6 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         try {
             Recognition.init(getResources());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             Log.e("recognition", "", e);
         }
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -186,6 +187,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     private void readSpellXml() {
         int t = 0;
         String name = "";
+        String shape = "";
         ArrayList<Double> pointX = new ArrayList<Double>();
         ArrayList<Double> pointY = new ArrayList<Double>();
         boolean rotate=false;
@@ -205,14 +207,17 @@ public class Tutorial extends Activity implements WizardDialDelegate {
                             t = 4;
                         else if (xpp.getName().equals("round"))
                             t = 5;
+                        else if (xpp.getName().equals("shape"))
+                            t = 6;
                         break;
                     case XmlPullParser.END_TAG:
                         if (xpp.getName().equals("spell")) {
-                            spellDatas.add(new SpellData(name, pointX, pointY,round,rotate));
+                            spellDatas.add(new SpellData(name, pointX, pointY,round,rotate,shape));
                             pointX=new ArrayList<Double>();
                             pointY = new ArrayList<Double>();
                             rotate=false;
                             round=false;
+                            shape="";
                         }
                         break;
                     case XmlPullParser.TEXT:
@@ -231,6 +236,9 @@ public class Tutorial extends Activity implements WizardDialDelegate {
                                 break;
                             case 5:
                                 round=Boolean.parseBoolean(xpp.getText());
+                                break;
+                            case 6:
+                                shape=xpp.getText();
                                 break;
                         }
                         t = 0;
@@ -252,7 +260,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         setupSpellScreen();
     }
 
-    public void buttonClick() {
+    void buttonClick() {
 		if (isVolumeButtonBlocked)
 			return;
 
@@ -298,7 +306,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         }
     }
 
-    public void setupSpellScreen() {
+    void setupSpellScreen() {
         if (partCounter >= spellDatas.size()) {
             finish();
             return;
@@ -313,7 +321,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         sa.startAnimation();
     }
 
-    public void addSpellCounter() {
+    void addSpellCounter() {
         spellCount++;
         if(spellCount==spellRepeat) {
             spellCount = 0;
@@ -324,8 +332,5 @@ public class Tutorial extends Activity implements WizardDialDelegate {
             wd.show();
         }
         spellCounter.setText(spellCount + "/" + spellRepeat);
-    }
-    public void addcount(View view){
-        addSpellCounter();
     }
 }
