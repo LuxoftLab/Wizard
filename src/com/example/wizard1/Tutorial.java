@@ -48,7 +48,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     private int pause=-1;
     private int partCounter = 0;
     private int spellCount = -1;
-    private final int spellRepeat = 5;
+    private final int spellRepeat = 1;
 
     private boolean isVolumeButtonBlocked=false;
     private boolean isBetweenVolumeClicks=false;
@@ -60,7 +60,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
             FightMessage fMsg = (FightMessage) msg.obj;
             String shape = FightMessage.getShapeFromMessage(fMsg) + "";
             //todo uncomment
-            // if(shape.equals(spellDatas.get(partCounter).shape))
+            if(shape.equals(spellDatas.get(partCounter).shape))
                 addSpellCounter();
             Log.e("Wizard Fight",shape);
             isVolumeButtonBlocked = false;
@@ -276,7 +276,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 			isBetweenVolumeClicks = false;
 
 			if (records.size() > 10) {
-				new RecognitionThread(mHandler, records).start();
+				new RecognitionThread(mHandler, records,mAcceleratorThread).start();
 			} else {
 				// if shord record - don`t recognize & unblock
 				isVolumeButtonBlocked = false;

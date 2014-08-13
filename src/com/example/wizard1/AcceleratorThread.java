@@ -1,6 +1,7 @@
 package com.example.wizard1;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 
 import com.example.wizard1.components.Vector4d;
 
@@ -13,7 +14,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
 public class AcceleratorThread extends Thread implements SensorEventListener {
@@ -26,6 +26,24 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private SoundPool soundPool;
 	private int soundID1;
 	private int streamID;
+    private EnumMap<Shape, SoundInfo> soundIDs;
+
+    private class SoundInfo {
+        public int soundID;
+        public int streamID;
+        SoundInfo(int soundID, int streamID){
+            this.soundID=soundID;
+            this.streamID=streamID;
+        }
+        SoundInfo(int soundID){
+            this.soundID=soundID;
+            this.streamID=-1;
+        }
+        public void play(){
+            streamID = soundPool.play(soundID, 1, 1, 0, 0, 1);
+        }
+
+    }
 
 	public AcceleratorThread(Context context, SensorManager sm, Sensor s, double c) {
 		this.gravity = c;
@@ -38,10 +56,24 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		if (soundPool == null) {
 			soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 			soundID1 = soundPool.load(context, R.raw.magic, 1);
+            soundIDs=new EnumMap<Shape, SoundInfo>(Shape.class);
+            soundIDs.put(Shape.TRIANGLE, new SoundInfo(soundPool.load(context, R.raw.triangle_sound, 1)));
+            soundIDs.put(Shape.CIRCLE, new SoundInfo(soundPool.load(context, R.raw.circle_sound, 1)));
+            soundIDs.put(Shape.SHIELD, new SoundInfo(soundPool.load(context, R.raw.shield_sound, 1)));
+            soundIDs.put(Shape.Z, new SoundInfo(soundPool.load(context, R.raw.z_sound, 1)));
+            soundIDs.put(Shape.V, new SoundInfo(soundPool.load(context, R.raw.v_sound, 1)));
+            soundIDs.put(Shape.PI, new SoundInfo(soundPool.load(context, R.raw.pi_sound, 1)));
+            soundIDs.put(Shape.CLOCK, new SoundInfo(soundPool.load(context, R.raw.clock_sound, 1)));
 			streamID = -1;
 		}
 	}
 
+    public void playEndingSound(Shape shape){
+        if(soundIDs.get(shape)!=null)
+        {
+            soundIDs.get(shape).play();
+        }
+    }
 	public void run() {
 		Looper.prepare();
 		Handler handler = new Handler();
@@ -56,6 +88,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		listening = true;
 		if (streamID == -1) {
 			streamID = soundPool.play(soundID1, 0.25f, 0.25f, 0, -1, 1);
+            Log.e("Wizard Fight", streamID + " "+soundID1+"");
 		} else {
 			soundPool.resume(streamID);
 		}

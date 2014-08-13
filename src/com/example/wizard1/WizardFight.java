@@ -288,7 +288,7 @@ public class WizardFight extends Activity {
 		/**
 		 * Sends a message.
 		 * 
-		 * @param message
+		 * @param msg
 		 *            A string of text to send.
 		 */
 
@@ -554,7 +554,7 @@ public class WizardFight extends Activity {
 			isBetweenVolumeClicks = false;
 
 			if (records.size() > 10) {
-				new RecognitionThread(mHandler, records).start();
+				new RecognitionThread(mHandler, records,mAcceleratorThread).start();
 			} else {
 				// if shord record - don`t recognize & unblock
 				isVolumeButtonBlocked = false;
