@@ -31,32 +31,42 @@
             android:layout_margin="10dp"
             android:layout_centerHorizontal="true"/>
 
+    <view   android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:id="@+id/tutorial_cast_result"
+        	class="com.example.wizard1.views.SpellPicture" 
+        	android:layout_below="@+id/spell_anim_view"
+        	android:layout_centerHorizontal="true"
+        	android:layout_marginBottom="10dp" />
+        	
     <view   android:layout_width="40dp"
             android:layout_height="40dp"
             android:onClick="open"
             android:background="@drawable/info"
-            android:layout_below="@+id/spell_anim_view"
+            android:layout_below="@+id/tutorial_cast_result"
             android:layout_alignLeft="@+id/spell_anim_view"
             class="com.example.wizard1.views.CancelButton"/>
 
-    <view   android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:onClick="replay"
-            android:background="@drawable/replay"
-            android:layout_below="@+id/spell_anim_view"
-            android:layout_alignRight="@+id/spell_anim_view"
-            class="com.example.wizard1.views.CancelButton" android:id="@+id/view"/>
-
     <TextView
+        	android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="1/5"
             android:id="@+id/number_correct_spell"
-            android:layout_alignTop="@+id/view"
-            android:background="@drawable/label"
+            android:layout_below="@+id/tutorial_cast_result"
             android:textColor="#000"
             android:layout_centerHorizontal="true"/>
+    
+    <view   android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="replay"
+            android:background="@drawable/replay"
+            android:layout_below="@+id/tutorial_cast_result"
+            android:layout_alignRight="@+id/spell_anim_view"
+            class="com.example.wizard1.views.CancelButton" android:id="@+id/view"/>
+
+    
     <!--<Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

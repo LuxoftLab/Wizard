@@ -45,17 +45,19 @@ public final class R {
         public static final int paper=0x7f020013;
         public static final int pi=0x7f020014;
         public static final int replay=0x7f020015;
-        public static final int shield=0x7f020016;
-        public static final int spell_name=0x7f020017;
-        public static final int spell_name111=0x7f020018;
-        public static final int square=0x7f020019;
-        public static final int triangle=0x7f02001a;
-        public static final int v=0x7f02001b;
-        public static final int wd=0x7f02001c;
-        public static final int wd2=0x7f02001d;
-        public static final int wd3=0x7f02001e;
-        public static final int wood=0x7f02001f;
-        public static final int z=0x7f020020;
+        public static final int result_bad=0x7f020016;
+        public static final int result_ok=0x7f020017;
+        public static final int shield=0x7f020018;
+        public static final int spell_name=0x7f020019;
+        public static final int spell_name111=0x7f02001a;
+        public static final int square=0x7f02001b;
+        public static final int triangle=0x7f02001c;
+        public static final int v=0x7f02001d;
+        public static final int wd=0x7f02001e;
+        public static final int wd2=0x7f02001f;
+        public static final int wd3=0x7f020020;
+        public static final int wood=0x7f020021;
+        public static final int z=0x7f020022;
     }
     public static final class id {
         public static final int buttonCalibrate=0x7f0a0021;
@@ -97,8 +99,9 @@ public final class R {
         public static final int title_new_devices=0x7f0a0006;
         public static final int title_paired_devices=0x7f0a0004;
         public static final int title_right_text=0x7f0a0003;
+        public static final int tutorial_cast_result=0x7f0a0027;
         public static final int tutorial_layout=0x7f0a0024;
-        public static final int view=0x7f0a0027;
+        public static final int view=0x7f0a0029;
     }
     public static final class layout {
         public static final int client_waiting=0x7f030000;
@@ -114,13 +117,21 @@ public final class R {
     }
     public static final class raw {
         public static final int circle=0x7f060000;
-        public static final int clock=0x7f060001;
-        public static final int magic=0x7f060002;
-        public static final int pi=0x7f060003;
-        public static final int shield=0x7f060004;
-        public static final int triangle=0x7f060005;
-        public static final int v=0x7f060006;
-        public static final int z=0x7f060007;
+        public static final int circle_sound=0x7f060001;
+        public static final int clock=0x7f060002;
+        public static final int clock_sound=0x7f060003;
+        public static final int magic=0x7f060004;
+        public static final int pi=0x7f060005;
+        public static final int pi_sound=0x7f060006;
+        public static final int shield=0x7f060007;
+        public static final int shield_e_sound=0x7f060008;
+        public static final int shield_sound=0x7f060009;
+        public static final int triangle=0x7f06000a;
+        public static final int triangle_sound=0x7f06000b;
+        public static final int v=0x7f06000c;
+        public static final int v_sound=0x7f06000d;
+        public static final int z=0x7f06000e;
+        public static final int z_sound=0x7f06000f;
     }
     public static final class string {
         /** Main Menu 

@@ -56,6 +56,12 @@ public class SpellPicture extends ImageView {
         startAnimation(animFadeOut);
     }
     
+    public void setPictureAndFade(int id) {
+    	this.setImageResource(id);
+    	invalidate();
+    	startAnimation(animFadeOut);
+    }
+    
     public Shape getShape() {
     	return shape;
     }

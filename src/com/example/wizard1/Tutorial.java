@@ -9,12 +9,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.*;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.example.wizard1.components.Vector4d;
 import com.example.wizard1.views.SpellAnimation;
+import com.example.wizard1.views.SpellPicture;
 import com.example.wizard1.views.WizardDial;
 import com.example.wizard1.views.WizardDialDelegate;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -42,13 +46,14 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     private final ArrayList<SpellData> spellDatas = new ArrayList<SpellData>();
     private WizardDial wd;
     private SpellAnimation sa;
+    private SpellPicture castResult;
     private TextView spellName;
     private TextView spellCounter;
 
     private int pause=-1;
     private int partCounter = 0;
     private int spellCount = -1;
-    private final int spellRepeat = 1;
+    private final int spellRepeat = 2;
 
     private boolean isVolumeButtonBlocked=false;
     private boolean isBetweenVolumeClicks=false;
@@ -60,8 +65,12 @@ public class Tutorial extends Activity implements WizardDialDelegate {
             FightMessage fMsg = (FightMessage) msg.obj;
             String shape = FightMessage.getShapeFromMessage(fMsg) + "";
             //todo uncomment
-            if(shape.equals(spellDatas.get(partCounter).shape))
-                addSpellCounter();
+            if(shape.equals(spellDatas.get(partCounter).shape)) {
+            	 addSpellCounter();	
+            	 castResult.setPictureAndFade(R.drawable.result_ok);
+            } else {
+            	castResult.setPictureAndFade(R.drawable.result_bad);
+            }
             Log.e("Wizard Fight",shape);
             isVolumeButtonBlocked = false;
         }
@@ -97,6 +106,9 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         wd.setPause(pause);
         wd.setLayoutParams(params);
 
+        castResult = (SpellPicture) findViewById(R.id.tutorial_cast_result);
+        castResult.initAnimListener();
+        
         spellName = (TextView) findViewById(R.id.spell_name);
         spellName.setText("");
 
