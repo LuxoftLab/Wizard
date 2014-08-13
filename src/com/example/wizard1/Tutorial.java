@@ -113,6 +113,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     @Override
 	protected void onResume() {
 		super.onResume();
+
 		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
 				mAccelerometer, gravity);
 		mAcceleratorThread.start();

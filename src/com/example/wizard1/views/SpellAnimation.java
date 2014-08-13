@@ -31,12 +31,12 @@ public class SpellAnimation extends View {
     private final Handler mHandler = new Handler();
     private final Runnable mTick = new Runnable() {
         public void run() {
-            if (progress >= maxP) {
-                progress = 0;
-                mHandler.removeCallbacks(mTick);
-                return;
-            }
             progress++;
+            if (progress >= maxP) {
+                progress = maxP;
+                //mHandler.removeCallbacks(mTick);
+                //return;
+            }
             invalidate();
             mHandler.postDelayed(this, 20);
         }
