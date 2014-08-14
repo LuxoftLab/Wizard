@@ -34,7 +34,7 @@ public class RecognitionThread extends Thread {
 			Log.e("Wizard fight", "Recognition thread begin");
 			//ArrayList<Vector2d> projection = PathCalculator.calculateTrajectory(records);
 			Shape shape = Recognition.recognize(records);
-            acceleratorThread.playEndingSound(shape);
+            acceleratorThread.playShapeSound(shape);
             Log.e("Wizard Fight", streamID + " "+soundID1+"");
 			FightMessage message = new FightMessage(shape);
 			mHandler.obtainMessage(AppMessage.MESSAGE_FROM_SELF.ordinal(), 0, 0, message)

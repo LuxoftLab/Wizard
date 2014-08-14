@@ -31,7 +31,7 @@ public class PlayerState {
 	protected Buff addedBuff;
 	protected Buff refreshedBuff;
 	protected Buff removedBuff;
-	
+	protected boolean buffRemovedByEnemy;
 	protected PlayerState enemyState;
 	
 	public PlayerState(int startHP, int startMana, PlayerState enemy) {
@@ -47,6 +47,7 @@ public class PlayerState {
 		addedBuff = null;
 		refreshedBuff = null;
 		removedBuff = null;
+		buffRemovedByEnemy = false;
 	}
 	
 	protected void dealDamage(int damage) {
@@ -214,6 +215,7 @@ public class PlayerState {
 				// last tick => need to fully remove buff
 				buffs.remove(buff);
 				removedBuff = buff;
+				if(!calledByTimer) buffRemovedByEnemy = true;
 				Log.e("Wizard Fight", buff + "was removed");
 			} else {
 				// not last tick => say that buff is refreshed
@@ -249,4 +251,5 @@ public class PlayerState {
 	public Buff getRemovedBuff() { return removedBuff; }
 	public int getHealth() { return health; }
 	public int getMana() { return mana; }
+	public boolean isBuffRemovedByEnemy() { return buffRemovedByEnemy; }
 }

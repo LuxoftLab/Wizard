@@ -471,6 +471,9 @@ public class WizardFight extends Activity {
 				sendFightMessage(sendMsg);
 				// remove buff from panel
 				mSelfGUI.getBuffPanel().removeBuff(removedBuff);
+				if(mSelfState.isBuffRemovedByEnemy()) {
+					mAcceleratorThread.playBuffSound(removedBuff);
+				}
 			}
 
 			if (addedBuff != null) {
