@@ -80,7 +80,7 @@ public final class R {
         public static final int main_scroll=0x7f0a0009;
         public static final int mm_buttons=0x7f0a001e;
         public static final int new_devices=0x7f0a0007;
-        public static final int number_correct_spell=0x7f0a0028;
+        public static final int number_correct_spell=0x7f0a0029;
         public static final int paired_devices=0x7f0a0005;
         public static final int self_buff1=0x7f0a000f;
         public static final int self_buff2=0x7f0a0010;
@@ -92,16 +92,17 @@ public final class R {
         public static final int self_mana=0x7f0a000e;
         public static final int self_name=0x7f0a000a;
         public static final int self_spell=0x7f0a000d;
-        public static final int spell_anim_view=0x7f0a0026;
+        public static final int spell_anim_view=0x7f0a0027;
+        public static final int spell_anim_view_l=0x7f0a0026;
         public static final int spell_name=0x7f0a0025;
         public static final int starting_text=0x7f0a0001;
         public static final int title_left_text=0x7f0a0002;
         public static final int title_new_devices=0x7f0a0006;
         public static final int title_paired_devices=0x7f0a0004;
         public static final int title_right_text=0x7f0a0003;
-        public static final int tutorial_cast_result=0x7f0a0027;
+        public static final int tutorial_cast_result=0x7f0a0028;
         public static final int tutorial_layout=0x7f0a0024;
-        public static final int view=0x7f0a0029;
+        public static final int view=0x7f0a002a;
     }
     public static final class layout {
         public static final int client_waiting=0x7f030000;
@@ -144,6 +145,9 @@ public final class R {
         public static final int app_name=0x7f080000;
         public static final int bt_not_enabled_leaving=0x7f080003;
         public static final int button_scan=0x7f08000d;
+        /**   Tutorial  
+         */
+        public static final int calibrating=0x7f08001a;
         public static final int cancel=0x7f080017;
         /**   Wizard Fight 
          */

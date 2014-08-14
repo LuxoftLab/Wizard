@@ -32,4 +32,6 @@
     <string name="cancel">Cancel</string>
     <string name="connection_lost">Connection was lost. Leaving fight</string>
     <string name="connection_fail">Unable to connect to the device</string>
+    <!--  Tutorial  -->
+    <string name="calibrating">Calibrating... Please wait</string>
 </resources>

@@ -18,6 +18,7 @@ import android.util.Log;
 
 public class AcceleratorThread extends Thread implements SensorEventListener {
 	private boolean listening;
+	private boolean soundPlaying;
 	private Looper mLooper;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
@@ -36,6 +37,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		setName("Accelerator thread");
 		mSensorManager = sm;
 		mAccelerometer = s;
+		soundPlaying = true;
 		listening = false;
 		// Initialize sound
 		Log.e("Wizard Fight", "Sound pool is null? : " + (soundPool == null));
@@ -68,14 +70,14 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 
 	public void playShapeSound(Shape shape) {
 		Integer soundID = shapeSoundIDs.get(shape);
-		if( soundID != null) {
+		if( soundPlaying && soundID != null ) {
 			soundPool.play(soundID.intValue(), 1, 1, 0, 0, 1);
 		}
 	}
 
 	public void playBuffSound(Buff buff) {
 		Integer soundID = buffSoundIDs.get(buff);
-		if( soundID != null) {
+		if( soundPlaying && soundID != null ) {
 			soundPool.play(soundID.intValue(), 1, 1, 0, 0, 1);
 		}
 	}
@@ -92,6 +94,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	public void startGettingData() {
 		records = new ArrayList<Vector4d>();
 		listening = true;
+		if(!soundPlaying) return;
 		if (wandStreamID == -1) {
 			wandStreamID = soundPool.play(wandSoundID, 0.25f, 0.25f, 0, -1, 1);
 			Log.e("Wizard Fight", wandStreamID + " " + wandSoundID + "");
@@ -121,6 +124,10 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		return gravity;
 	}
 
+	public void setSoundPlaying(boolean isPlaying) {
+		soundPlaying = isPlaying;
+	}
+	
 	public void stopLoop() {
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)

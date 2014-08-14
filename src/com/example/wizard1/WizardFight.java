@@ -55,7 +55,8 @@ public class WizardFight extends Activity {
 		MESSAGE_FROM_SELF, 
 		MESSAGE_SELF_DEATH,
 		MESSAGE_FROM_ENEMY, 
-		MESSAGE_MANA_REGEN;
+		MESSAGE_MANA_REGEN,
+		MESSAGE_TUTORIAL_CALIB;
 	}
 
 	// Key names received from the BluetoothChatService Handler

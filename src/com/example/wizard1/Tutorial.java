@@ -1,7 +1,9 @@
 package com.example.wizard1;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -13,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.wizard1.WizardFight.AppMessage;
+import com.example.wizard1.WizardFight.CancelButtonListener;
 import com.example.wizard1.components.Vector4d;
+import com.example.wizard1.views.CancelButton;
 import com.example.wizard1.views.SpellAnimation;
 import com.example.wizard1.views.SpellPicture;
 import com.example.wizard1.views.WizardDial;
@@ -44,6 +49,8 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     }
 
     private final ArrayList<SpellData> spellDatas = new ArrayList<SpellData>();
+    private Dialog calibDialog;
+    
     private WizardDial wd;
     private SpellAnimation sa;
     private SpellPicture castResult;
@@ -61,18 +68,28 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
-            FightMessage fMsg = (FightMessage) msg.obj;
-            String shape = FightMessage.getShapeFromMessage(fMsg) + "";
-            //todo uncomment
-            if(shape.equals(spellDatas.get(partCounter).shape)) {
-            	 addSpellCounter();	
-            	 castResult.setPictureAndFade(R.drawable.result_ok);
-            } else {
-            	castResult.setPictureAndFade(R.drawable.result_bad);
-            }
-            Log.e("Wizard Fight",shape);
-            isVolumeButtonBlocked = false;
+        	AppMessage type = AppMessage.values()[ msg.what ];
+        	switch(type){
+        	case MESSAGE_FROM_SELF:
+        		 FightMessage fMsg = (FightMessage) msg.obj;
+                 String shape = FightMessage.getShapeFromMessage(fMsg) + "";
+                 //todo uncomment
+                 if(shape.equals(spellDatas.get(partCounter).shape)) {
+                 	 addSpellCounter();	
+                 	 castResult.setPictureAndFade(R.drawable.result_ok);
+                 } else {
+                 	castResult.setPictureAndFade(R.drawable.result_bad);
+                 }
+                 Log.e("Wizard Fight",shape);
+                 isVolumeButtonBlocked = false;
+        		break;
+        	case MESSAGE_TUTORIAL_CALIB:
+        		mAcceleratorThread.stopGettingData();
+        		mAcceleratorThread.recountGravity();
+        		mAcceleratorThread.setSoundPlaying(true);
+        		calibDialog.dismiss();
+        		break;
+        	}
         }
     };
     private Sensor mAccelerometer = null;
@@ -120,8 +137,10 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 
         ((RelativeLayout) findViewById(R.id.tutorial_layout)).addView(wd);
         wd.showQuick();
+        
+        initCalibDialog(R.string.calibrating);
     }
-
+    
     @Override
 	protected void onResume() {
 		super.onResume();
@@ -129,6 +148,13 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
 				mAccelerometer, gravity);
 		mAcceleratorThread.start();
+		
+		if(calibDialog.isShowing()) {
+			mAcceleratorThread.setSoundPlaying(false);
+			mAcceleratorThread.startGettingData();
+			mHandler.sendEmptyMessageDelayed(
+					AppMessage.MESSAGE_TUTORIAL_CALIB.ordinal(), 2000);
+		}
 	}
 
 	@Override
@@ -145,6 +171,18 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		}
 	}
 
+	private void initCalibDialog(int stringId) {
+    	View v = getLayoutInflater().inflate(R.layout.client_waiting, null);
+		calibDialog = new Dialog(this, R.style.ClientWaitingDialog);
+		calibDialog.setCancelable(false);
+		calibDialog.setTitle(stringId);
+		CancelButton cancel = (CancelButton) v.findViewById(R.id.button_cancel_waiting);
+		cancel.setVisibility(View.GONE);
+		calibDialog.setContentView(v);
+		calibDialog.show();
+	}
+    
+	
     public void open(View view) {
         wd.show();
     }
