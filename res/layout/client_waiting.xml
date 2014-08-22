@@ -14,7 +14,7 @@
     <view android:id="@+id/button_cancel_waiting" 
         android:layout_width="220dp"
         android:layout_height="55dp"
-        class="com.example.wizard1.views.CancelButton" 
+        class="com.wizardfight.views.CancelButton" 
         android:text="@string/cancel"
         style="@style/ClientWaitingDialog.Button" />
 </LinearLayout>

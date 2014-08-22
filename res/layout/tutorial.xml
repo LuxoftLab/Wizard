@@ -33,14 +33,14 @@
 
             <view android:layout_width="290dp"
                   android:layout_height="290dp"
-                  class="com.example.wizard1.views.SpellAnimation"
+                  class="com.wizardfight.views.SpellAnimation"
                   android:id="@+id/spell_anim_view"
                   android:layout_centerHorizontal="true"/>
 
             <view android:layout_width="50dp"
                   android:layout_height="50dp"
                   android:id="@+id/tutorial_cast_result"
-                  class="com.example.wizard1.views.SpellPicture"
+                  class="com.wizardfight.views.SpellPicture"
                   android:layout_centerHorizontal="true"
                   android:layout_centerVertical="true"/>
         </RelativeLayout>
@@ -51,7 +51,7 @@
               android:background="@drawable/info"
               android:layout_below="@+id/spell_anim_view_l"
               android:layout_alignLeft="@+id/spell_anim_view_l"
-              class="com.example.wizard1.views.CancelButton"/>
+              class="com.wizardfight.views.CancelButton"/>
 
         <TextView
                 android:gravity="center"
@@ -70,7 +70,7 @@
               android:background="@drawable/replay"
               android:layout_below="@+id/spell_anim_view_l"
               android:layout_alignRight="@+id/spell_anim_view_l"
-              class="com.example.wizard1.views.CancelButton" android:id="@+id/view"/>
+              class="com.wizardfight.views.CancelButton" android:id="@+id/view"/>
 
 
         <!--<Button

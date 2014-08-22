@@ -29,14 +29,14 @@
 	    
 	    <view android:layout_width="fill_parent"
 	        android:layout_height="50sp"
-	        class="com.example.wizard1.views.HealthIndicator" 
+	        class="com.wizardfight.views.HealthIndicator" 
 	        android:id="@+id/self_health"
 	        android:layout_toLeftOf="@+id/self_spell"
 	        android:layout_alignParentLeft="true"/>
 	
 		<view android:layout_width="fill_parent"
 		    android:layout_height="50sp"
-		    class="com.example.wizard1.views.ManaIndicator" 
+		    class="com.wizardfight.views.ManaIndicator" 
 		    android:id="@+id/self_mana"
 		    android:layout_below="@+id/self_health"
 		    android:layout_toLeftOf="@+id/self_spell"
@@ -44,7 +44,7 @@
 	
 		<view android:layout_width="100sp"
 		    android:layout_height="100sp"
-		    class="com.example.wizard1.views.SpellPicture" 
+		    class="com.wizardfight.views.SpellPicture" 
 		    android:id="@+id/self_spell"
 		    android:layout_alignParentRight="true" />
 	</RelativeLayout>
@@ -57,31 +57,31 @@
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/self_buff1" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/self_buff2" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/self_buff3" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/self_buff4" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/self_buff5" />
 	</LinearLayout>
 	
@@ -103,14 +103,14 @@
 	    
 	    <view android:layout_width="fill_parent"
 	        android:layout_height="50dp"
-	        class="com.example.wizard1.views.HealthIndicator" 
+	        class="com.wizardfight.views.HealthIndicator" 
 	        android:id="@+id/enemy_health"
 	        android:layout_toLeftOf="@+id/enemy_spell"
 	        android:layout_alignParentLeft="true"/>
 	
 		<view android:layout_width="fill_parent"
 		    android:layout_height="50dp"
-		    class="com.example.wizard1.views.ManaIndicator" 
+		    class="com.wizardfight.views.ManaIndicator" 
 		    android:id="@+id/enemy_mana"
 		    android:layout_below="@+id/enemy_health"
 		    android:layout_toLeftOf="@+id/enemy_spell"
@@ -118,7 +118,7 @@
 	
 		<view android:layout_width="100sp"
 		    android:layout_height="100sp"
-		    class="com.example.wizard1.views.SpellPicture" 
+		    class="com.wizardfight.views.SpellPicture" 
 		    android:id="@+id/enemy_spell"
 		    android:layout_alignParentRight="true" />
 	</RelativeLayout>
@@ -131,31 +131,31 @@
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/enemy_buff1" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/enemy_buff2" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/enemy_buff3" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/enemy_buff4" />
 	    
 	    <view android:layout_width="50dp"
 		    android:layout_height="50dp"
 		    android:layout_margin="5sp"
-		    class="com.example.wizard1.views.BuffPicture" 
+		    class="com.wizardfight.views.BuffPicture" 
 		    android:id="@+id/enemy_buff5" />
 	</LinearLayout>
 </LinearLayout>

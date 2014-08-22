@@ -7,7 +7,7 @@
     <view
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.example.wizard1.CustomScroller"
+            class="com.wizardfight.CustomScroller"
             android:id="@+id/horizontalScrollView">
         <LinearLayout
                 android:orientation="horizontal"
