@@ -3,7 +3,7 @@ package com.wizardfight;
 import java.util.ArrayList;
 import java.util.EnumMap;
 
-import com.wizardfight.components.Vector4d;
+import com.wizardfight.components.Vector3d;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -22,7 +22,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private Looper mLooper;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
-	private ArrayList<Vector4d> records;
+	private ArrayList<Vector3d> records;
 	private double gravity;
 	private SoundPool soundPool;
 	private int wandSoundID;
@@ -92,7 +92,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	}
 
 	public void startGettingData() {
-		records = new ArrayList<Vector4d>();
+		records = new ArrayList<Vector3d>();
 		listening = true;
 		if(!soundPlaying) return;
 		if (wandStreamID == -1) {
@@ -108,7 +108,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		soundPool.pause(wandStreamID);
 	}
 
-	public ArrayList<Vector4d> stopAndGetResult() {
+	public ArrayList<Vector3d> stopAndGetResult() {
 		listening = false;
 		soundPool.pause(wandStreamID);
 		return records;
@@ -116,7 +116,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 
 	public double recountGravity() {
 		gravity = 0.0;
-		for (Vector4d v : records) {
+		for (Vector3d v : records) {
 			gravity += v.getLength();
 		}
 		if (records.size() != 0)
@@ -154,8 +154,8 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		double y = event.values[1];
 		double z = event.values[2];
 		double len = Math.sqrt(x * x + y * y + z * z);
-		Vector4d rec = new Vector4d(x - gravity * (x / len), y - gravity
-				* (y / len), z - gravity * (z / len), event.timestamp);
+		Vector3d rec = new Vector3d(x - gravity * (x / len), y - gravity
+				* (y / len), z - gravity * (z / len));
 		records.add(rec);
 		float amplitude = (float) len / 10 + 0.1f;
 		if (amplitude > 1.0f)

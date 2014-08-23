@@ -5,15 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
-
-
-
 import java.util.Map.Entry;
-
-import com.wizardfight.components.Vector3d;
 import com.wizardfight.components.Vector4d;
-
 import android.content.res.Resources;
 import android.util.Log;
 

@@ -3,12 +3,13 @@ package com.wizardfight;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.wizardfight.components.Vector4d;
+import com.wizardfight.components.Vector3d;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -95,12 +96,8 @@ public class WizardFight extends Activity {
 		super.onCreate(savedInstanceState);
 		if (D)
 			Log.e(TAG, "+++ ON CREATE +++");
-		try {
-			Recognition.init(getResources());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Log.e("recognition", "", e);
-		}
+		Recognizer.init(getResources());
+		
 		// Set up the window layout
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.main);
@@ -552,7 +549,7 @@ public class WizardFight extends Activity {
 		} else {
 			isVolumeButtonBlocked = true;
 
-			ArrayList<Vector4d> records = mAcceleratorThread.stopAndGetResult();
+			ArrayList<Vector3d> records = mAcceleratorThread.stopAndGetResult();
 			isBetweenVolumeClicks = false;
 
 			if (records.size() > 10) {

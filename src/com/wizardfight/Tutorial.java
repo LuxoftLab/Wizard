@@ -3,7 +3,6 @@ package com.wizardfight;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -11,13 +10,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.*;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wizardfight.WizardFight.AppMessage;
-import com.wizardfight.WizardFight.CancelButtonListener;
-import com.wizardfight.components.Vector4d;
+import com.wizardfight.components.Vector3d;
+import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -102,11 +100,8 @@ public class Tutorial extends Activity implements WizardDialDelegate {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         readSpellXml();
         readTutotialXml();
-        try {
-            Recognition.init(getResources());
-        } catch (IOException e) {
-            Log.e("recognition", "", e);
-        }
+        Recognizer.init(getResources());
+        
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         setContentView(R.layout.tutorial);
@@ -318,7 +313,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		} else {
 			isVolumeButtonBlocked = true;
 
-			ArrayList<Vector4d> records = mAcceleratorThread.stopAndGetResult();
+			ArrayList<Vector3d> records = mAcceleratorThread.stopAndGetResult();
 			isBetweenVolumeClicks = false;
 
 			if (records.size() > 10) {

@@ -122,17 +122,19 @@ public final class R {
         public static final int circle_sound=0x7f060002;
         public static final int clock=0x7f060003;
         public static final int clock_sound=0x7f060004;
-        public static final int magic=0x7f060005;
-        public static final int pi=0x7f060006;
-        public static final int pi_sound=0x7f060007;
-        public static final int shield=0x7f060008;
-        public static final int shield_sound=0x7f060009;
-        public static final int triangle=0x7f06000a;
-        public static final int triangle_sound=0x7f06000b;
-        public static final int v=0x7f06000c;
-        public static final int v_sound=0x7f06000d;
-        public static final int z=0x7f06000e;
-        public static final int z_sound=0x7f06000f;
+        public static final int hmm_model=0x7f060005;
+        public static final int hmm_quantizer=0x7f060006;
+        public static final int magic=0x7f060007;
+        public static final int pi=0x7f060008;
+        public static final int pi_sound=0x7f060009;
+        public static final int shield=0x7f06000a;
+        public static final int shield_sound=0x7f06000b;
+        public static final int triangle=0x7f06000c;
+        public static final int triangle_sound=0x7f06000d;
+        public static final int v=0x7f06000e;
+        public static final int v_sound=0x7f06000f;
+        public static final int z=0x7f060010;
+        public static final int z_sound=0x7f060011;
     }
     public static final class string {
         /** Main Menu 

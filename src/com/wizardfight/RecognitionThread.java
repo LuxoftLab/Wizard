@@ -8,13 +8,14 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import com.wizardfight.WizardFight.AppMessage;
 import com.wizardfight.components.*;
+import com.wizardfight.recognition.Recognizer;
 
 import android.os.Handler;
 import android.util.Log;
 
 public class RecognitionThread extends Thread {
 	private Handler mHandler;
-	private ArrayList<Vector4d> records;
+	private ArrayList<Vector3d> records;
 	private Shape shape;
     private SoundPool soundPool;
     private int soundID1;
@@ -22,7 +23,7 @@ public class RecognitionThread extends Thread {
     AcceleratorThread acceleratorThread;
 
 	
-	public RecognitionThread(Handler mainHandler, ArrayList<Vector4d> recs,AcceleratorThread acceleratorThread) {
+	public RecognitionThread(Handler mainHandler, ArrayList<Vector3d> recs,AcceleratorThread acceleratorThread) {
 		setName("Recognition thread");
 		mHandler = mainHandler;
 		records = recs;
@@ -32,8 +33,7 @@ public class RecognitionThread extends Thread {
 	public void run() {
 		try {
 			Log.e("Wizard fight", "Recognition thread begin");
-			//ArrayList<Vector2d> projection = PathCalculator.calculateTrajectory(records);
-			Shape shape = Recognition.recognize(records);
+			Shape shape = Recognizer.recognize(records);
             acceleratorThread.playShapeSound(shape);
             Log.e("Wizard Fight", streamID + " "+soundID1+"");
 			FightMessage message = new FightMessage(shape);
