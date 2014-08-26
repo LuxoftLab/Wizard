@@ -19,7 +19,8 @@
                     android:text="@string/Join_game" android:id="@+id/buttonJoinGame"
                     android:onClick="goToListOfBluetooth" />
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                    android:text="Calibrate" android:id="@+id/buttonCalibrate" />
+                    android:text="Test mode" android:id="@+id/buttonTestMode" 
+                    android:onClick="goToTestMode"/>
             
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="40dp"
                     android:text="@string/Help" android:onClick="goToHelp"/>

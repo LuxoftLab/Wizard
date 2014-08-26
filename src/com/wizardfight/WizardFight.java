@@ -1,12 +1,8 @@
 package com.wizardfight;
 
-import android.media.AudioManager;
-import android.media.SoundPool;
-
 import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.wizardfight.components.Vector3d;
@@ -35,7 +31,11 @@ import android.widget.Toast;
  * This is the main Activity that displays the current chat session.
  */
 public class WizardFight extends Activity {
+	private static final int PLAYER_HP = 200;
+	private static final int PLAYER_MANA = 200;
 	// Debugging
+	private PlayerBot mPlayerBot;
+	private boolean mIsEnemyBot = false;
 	private int myCounter;
 	private static final String TAG = "Wizard Fight";
 	private static final boolean D = true;
@@ -114,7 +114,7 @@ public class WizardFight extends Activity {
 		// Get local Bluetooth adapter
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		// initialize GUI and logic
-		setupChat();
+		setupApp();
 		isSelfReady = false;
 		isEnemyReady = false;
 		
@@ -135,7 +135,7 @@ public class WizardFight extends Activity {
 		if (D)
 			Log.e(TAG, "++ ON START ++");
 		if (mChatService == null)
-			setupChat();
+			setupApp();
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class WizardFight extends Activity {
 		mAcceleratorThread = new AcceleratorThread(this, 
 				mSensorManager, mAccelerometer, gravity);
 		mAcceleratorThread.start();
-		Log.e(TAG, "accelerator ran");
+		if (D) Log.e(TAG, "accelerator ran");
 	}
 
 	@Override
@@ -184,16 +184,17 @@ public class WizardFight extends Activity {
 			buttonClick();
 		// unregister accelerator listener and end its event loop
 		if (mAcceleratorThread != null) {
-			Log.e(TAG, "accelerator thread try to stop loop");
+			if (D) Log.e(TAG, "accelerator thread try to stop loop");
 			mAcceleratorThread.stopLoop();
 			mAcceleratorThread = null;
 		}
 	}
 
-	private void setupChat() {
-		Log.d(TAG, "setupChat()");
+	private void setupApp() {
+		if (D) Log.d(TAG, "setupApp()");
 		// for debugging
 		myCounter = 0;
+		if(mIsEnemyBot) 
 		// Create players states
 		mEnemyState = new EnemyState(200, 500, null);
 		mSelfState = new SelfState(200, 500, mEnemyState);
@@ -219,7 +220,7 @@ public class WizardFight extends Activity {
 		CancelButton cancel = (CancelButton) v.findViewById(R.id.button_cancel_waiting);
 		cancel.setOnClickListener(new CancelButtonListener());
 		mClientWaitingDialog.setContentView(v);
-		Log.e(TAG, "Before show dialog");
+		if (D) Log.e(TAG, "Before show dialog");
 		mClientWaitingDialog.show();
 		mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
             @Override
@@ -232,7 +233,7 @@ public class WizardFight extends Activity {
                 return true;
             }
         });
-		Log.e(TAG, "After show dialog");
+		if (D) Log.e(TAG, "After show dialog");
 	}
 	
 	private void sendFightMessage(FightMessage fMessage) {
@@ -243,8 +244,15 @@ public class WizardFight extends Activity {
 		mSelfGUI.getPlayerName().setText(
 				"send fm: " + fMessage + " " + (myCounter++));
 
-		// Log.e(TAG, "send fm: " + fMessage + " " + myCounter);
-		// Log.e(TAG, "state: " + mChatService.getState());
+		
+		if(mIsEnemyBot) {
+			Message msg = mPlayerBot.getHandler().obtainMessage(
+					AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage);
+			msg.sendToTarget();
+			return;
+		}
+		// if (D) Log.e(TAG, "send fm: " + fMessage + " " + myCounter);
+		// if (D) Log.e(TAG, "state: " + mChatService.getState());
 
 		// Check that we're actually connected before trying anything
 		if (mChatService.getState() != BluetoothService.STATE_CONNECTED) {
@@ -263,17 +271,17 @@ public class WizardFight extends Activity {
 			mClientWaitingDialog.dismiss();
 		}
 		// start countdown
-		Log.e(TAG, "before start countdown");
+		if (D) Log.e(TAG, "before start countdown");
 		isCountdown = true;
 		Intent intent = new Intent(this, Countdown.class);
 		startActivityForResult(intent, REQUEST_START_FIGHT);
-		Log.e(TAG, "after start countdown");
+		if (D) Log.e(TAG, "after start countdown");
 		// start calibration
 		mAcceleratorThread = new AcceleratorThread(this, 
 				mSensorManager, mAccelerometer, gravity);
 		mAcceleratorThread.start();
 		mAcceleratorThread.startGettingData();
-		Log.e(TAG, "accelerator thread all stuff called");
+		if (D) Log.e(TAG, "accelerator thread all stuff called");
 		// drop ready flags
 		isSelfReady = false;
 		isEnemyReady = false;
@@ -337,12 +345,12 @@ public class WizardFight extends Activity {
 				byte[] recvBytes = (byte[]) msg.obj;
 				FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
 				mEnemyGUI.log("enemy msg: " + enemyMsg + " " + (myCounter++));
-				// Log.e(TAG, "enemy msg: " + enemyMsg + " " + (myCounter));
+				// if (D)  Log.e(TAG, "enemy msg: " + enemyMsg + " " + (myCounter));
 
 				switch (enemyMsg.action) {
 				case ENEMY_READY:
 					isEnemyReady = true;
-					Log.e(TAG, "self ready: " + isSelfReady + ",enemy ready: "
+					if (D) Log.e(TAG, "self ready: " + isSelfReady + ",enemy ready: "
 							+ isEnemyReady);
 					if (!mChatService.isServer()) {
 						return;
@@ -517,7 +525,7 @@ public class WizardFight extends Activity {
 		stopSensorAndSound();
 		mSelfGUI.clear();
 		mEnemyGUI.clear();
-		setupChat();
+		setupApp();
 
 		String message;
 		if (winner == Target.SELF) {
@@ -594,15 +602,6 @@ public class WizardFight extends Activity {
 		}
 	}
 	
-//	@Override 
-//	public void onBackPressed() {
-//		super.onBackPressed();
-//		if(mClientWaitingDialog.isShowing()) {
-//			mClientWaitingDialog.dismiss();
-//			finish();
-//		}
-//	}
-	
 	class CancelButtonListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
@@ -636,7 +635,7 @@ public class WizardFight extends Activity {
     			finish();
     			break;
     		}
-    		Log.e(TAG, "self ready: " + isSelfReady);
+    		if(D) Log.e(TAG, "self ready: " + isSelfReady);
     	}
     }
 }

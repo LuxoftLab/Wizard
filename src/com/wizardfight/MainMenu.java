@@ -69,6 +69,14 @@ public class MainMenu extends Activity {
 	public void goToListOfBluetooth(View view) {
 		startActivity(new Intent(this, DeviceListActivity.class));
 	}
+	
+	public void goToTestMode() {
+		BluetoothService btService = BluetoothService.getInstance();
+		btService.init();
+		btService.setAsServer();
+		Intent testModeIntent;
+		startActivity(new Intent(this, WizardFight.class));
+	}
 
 	public void goToHelp(View view) {
 		startActivity(new Intent(this, Tutorial.class));

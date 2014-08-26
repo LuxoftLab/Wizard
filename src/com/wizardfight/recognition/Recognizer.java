@@ -48,7 +48,6 @@ public class Recognizer {
     public static Shape recognize(ArrayList<Vector3d> records) {
     	long startStamp = System.currentTimeMillis();
         quantizer.refresh();
-        Date startTime = new Date();
         // Load recognition data
         TimeSeriesClassificationData testData = new TimeSeriesClassificationData();
         testData.loadDatasetFromRecords(records);
