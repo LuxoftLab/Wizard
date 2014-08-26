@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/menu_triangle"
+          android:title="@string/triangle" />
+    <item android:id="@+id/menu_circle"
+          android:title="@string/circle" />
+    <item android:id="@+id/menu_clock"
+          android:title="@string/clock" />
+    <item android:id="@+id/menu_z"
+          android:title="@string/z" />
+    <item android:id="@+id/menu_v"
+          android:title="@string/v" />
+    <item android:id="@+id/menu_pi"
+          android:title="@string/pi" />
+    <item android:id="@+id/menu_shield"
+          android:title="@string/shield" />
+</menu>

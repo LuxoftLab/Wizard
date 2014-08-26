@@ -2,13 +2,10 @@ package com.wizardfight;
 
 import com.wizardfight.WizardFight.AppMessage;
 
-import android.app.AlertDialog;
-import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 public class PlayerBot extends Thread {
 	// for debugging 
@@ -45,13 +42,19 @@ public class PlayerBot extends Thread {
 		Looper.loop();
 	}
 	
-	
-	
 	public Handler getHandler() { return mHandler; }
 	
+	public void release() {
+		mHandler.removeCallbacksAndMessages(null);
+		mHandler = null;
+		mSelfState = null;
+		mEnemyState = null;
+		mMainHandler = null;
+		mLooper.quit();
+	}
 	
 	// The Handler that gets information back from the BluetoothChatService
-		private final Handler mHandler = new Handler() {
+		private Handler mHandler = new Handler() {
 			/**
 			 * Sends a message.
 			 * 
@@ -191,6 +194,8 @@ public class PlayerBot extends Thread {
 		}
 		
 		private void sendFightMessage(FightMessage msg) {
+			msg.health = mSelfState.getHealth();
+			msg.mana = mSelfState.getMana();
 			byte[] sendBytes = msg.getBytes();
 			mMainHandler.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), sendBytes)
 				.sendToTarget();

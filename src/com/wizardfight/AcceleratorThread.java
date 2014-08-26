@@ -92,7 +92,9 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	}
 
 	public void startGettingData() {
+		Log.e("Wizard Fight", "start getting data called");
 		records = new ArrayList<Vector3d>();
+		Log.e("Wizard Fight", "records created");
 		listening = true;
 		if(!soundPlaying) return;
 		if (wandStreamID == -1) {
@@ -116,11 +118,12 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 
 	public double recountGravity() {
 		gravity = 0.0;
-		for (Vector3d v : records) {
-			gravity += v.getLength();
-		}
-		if (records.size() != 0)
-			gravity /= records.size();
+		Log.e("Wizard Fight", "r=null?: " + (records == null));
+//		for (Vector3d v : records) {
+//			gravity += v.getLength();
+//		}
+//		if (records.size() != 0)
+//			gravity /= records.size();
 		return gravity;
 	}
 
@@ -129,6 +132,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	}
 	
 	public void stopLoop() {
+		Log.e("Wizard Fight", "stopLoop");
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)
 			mLooper.quit();

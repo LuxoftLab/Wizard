@@ -42,4 +42,11 @@ public enum Shape {
 				return R.drawable.fail;
     	}
     }
+	
+	public static Shape getShapeFromString(String str) {
+		for(Shape s : Shape.values()) {
+			if(s.toString().equals(str)) return s;
+		}
+		return Shape.NONE;
+	}
 }

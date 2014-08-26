@@ -18,8 +18,13 @@
     <string name="title_other_devices">Other Available Devices</string>
     <string name="button_scan">Scan for devices</string>
     <!-- Options Menu -->
-    <string name="connect">Connect a device</string>
-    <string name="discoverable">Make discoverable</string>
+    <string name="triangle">triangle</string>
+    <string name="circle">circle</string>
+    <string name="clock">clock</string>
+    <string name="z">z</string>
+    <string name="v">v</string>
+    <string name="pi">pi</string>
+    <string name="shield">shield</string>
     <!--Main Menu -->
     <string name="Create_game">Create game</string>
     <string name="Join_game">Join game</string>

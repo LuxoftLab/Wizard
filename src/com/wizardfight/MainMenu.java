@@ -70,12 +70,12 @@ public class MainMenu extends Activity {
 		startActivity(new Intent(this, DeviceListActivity.class));
 	}
 	
-	public void goToTestMode() {
+	public void goToTestMode(View view) {
 		BluetoothService btService = BluetoothService.getInstance();
 		btService.init();
-		btService.setAsServer();
-		Intent testModeIntent;
-		startActivity(new Intent(this, WizardFight.class));
+		Intent i = new Intent(this, WizardFight.class);
+		i.putExtra("IS_ENEMY_BOT", true);
+		startActivity(i);
 	}
 
 	public void goToHelp(View view) {
