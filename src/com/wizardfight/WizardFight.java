@@ -47,7 +47,7 @@ public class WizardFight extends Activity {
 
 	// Message types sent from the BluetoothChatService Handler
 	enum AppMessage {
-		MESSAGE_STATE_CHANGE, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_DEVICE_NAME, MESSAGE_TOAST, MESSAGE_CONNECTION_FAIL, MESSAGE_FROM_SELF, MESSAGE_SELF_DEATH, MESSAGE_FROM_ENEMY, MESSAGE_MANA_REGEN, MESSAGE_TUTORIAL_CALIB;
+		MESSAGE_STATE_CHANGE, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_DEVICE_NAME, MESSAGE_TOAST, MESSAGE_CONNECTION_FAIL, MESSAGE_FROM_SELF, MESSAGE_SELF_DEATH, MESSAGE_FROM_ENEMY, MESSAGE_MANA_REGEN;
 	}
 
 	// Key names received from the BluetoothChatService Handler
@@ -73,8 +73,6 @@ public class WizardFight extends Activity {
 	private boolean isVolumeButtonBlocked = false; // +++++++++++++++++++++IN
 													// FUTURE - ACCESS AFTER
 													// CONNECTING and TRUE HERE
-	private double gravity;
-
 	private boolean isCountdown;
 	private boolean isSelfReady;
 	private boolean isEnemyReady;
@@ -147,9 +145,10 @@ public class WizardFight extends Activity {
 		super.onResume();
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
+		if(isCountdown) return;
 		// Initialize new accelerator thread
 		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
-				mAccelerometer, gravity);
+				mAccelerometer);
 		mAcceleratorThread.start();
 		if (D)
 			Log.e(TAG, "accelerator ran");
@@ -161,8 +160,8 @@ public class WizardFight extends Activity {
 		if (D)
 			Log.e(TAG, "- ON PAUSE -");
 		// if paused by countdown - don`t touch anything
-		if (isCountdown)
-			return;
+		Log.e(TAG, "is countdown: " + isCountdown);
+		if (isCountdown) return;
 		stopSensorAndSound();
 	}
 
@@ -184,6 +183,7 @@ public class WizardFight extends Activity {
 	}
 
 	private void stopSensorAndSound() {
+		Log.e("Wizard Fight", "stop sensor and sound called");
 		// stop cast if its started
 		if (isBetweenVolumeClicks)
 			buttonClick();
@@ -290,16 +290,10 @@ public class WizardFight extends Activity {
 		if (D)
 			Log.e(TAG, "before start countdown");
 		isCountdown = true;
-		Intent intent = new Intent(this, Countdown.class);
-		startActivityForResult(intent, REQUEST_START_FIGHT);
+		Intent i = new Intent(this, Countdown.class);
+		startActivityForResult(i, REQUEST_START_FIGHT);
 		if (D)
 			Log.e(TAG, "after start countdown");
-		// start calibration
-		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
-				mAccelerometer, gravity);
-		mAcceleratorThread.setSoundPlaying(false);
-		mAcceleratorThread.start();
-		mAcceleratorThread.startGettingData();
 		if (D)
 			Log.e(TAG, "accelerator thread all stuff called");
 		// drop ready flags
@@ -458,6 +452,7 @@ public class WizardFight extends Activity {
 			} else {
 				// Enemy influence to himself
 				mEnemyState.handleSpell(enemyMsg);
+
 				if (mEnemyState.getRemovedBuff() != null) {
 					// remove buff from enemy GUI
 					mEnemyGUI.getBuffPanel().removeBuff(
@@ -598,16 +593,10 @@ public class WizardFight extends Activity {
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (D)
-			Log.d(TAG, "onActivityResult " + resultCode);
+			Log.e(TAG, "onActivityResult " + resultCode);
 		switch (requestCode) {
 		case REQUEST_START_FIGHT:
-			// here we can stop calibration
-			mAcceleratorThread.stopGettingData();
-			gravity = mAcceleratorThread.recountGravity();
-			mAcceleratorThread.stopLoop();
-			mAcceleratorThread = null;
-			if (D)
-				Log.e(TAG, "countdown gravity: " + gravity);
+			// countdown finished
 			isCountdown = false;
 			areMessagesBlocked = false;
 			break;

@@ -43,7 +43,6 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     }
 
     private final ArrayList<SpellData> spellDatas = new ArrayList<SpellData>();
-    private Dialog calibDialog;
     
     private WizardDial wd;
     private SpellAnimation sa;
@@ -77,19 +76,12 @@ public class Tutorial extends Activity implements WizardDialDelegate {
                  Log.e("Wizard Fight",shape);
                  isVolumeButtonBlocked = false;
         		break;
-        	case MESSAGE_TUTORIAL_CALIB:
-        		mAcceleratorThread.stopGettingData();
-        		mAcceleratorThread.recountGravity();
-        		mAcceleratorThread.setSoundPlaying(true);
-        		calibDialog.dismiss();
-        		break;
         	}
         }
     };
     private Sensor mAccelerometer = null;
     private SensorManager mSensorManager = null;
-    private final double gravity=9.81;
-
+    
     private ArrayList<ArrayList<String>> partsText = new ArrayList<ArrayList<String>>();
 
     @Override
@@ -128,8 +120,6 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 
         ((RelativeLayout) findViewById(R.id.tutorial_layout)).addView(wd);
         wd.showQuick();
-        
-        initCalibDialog();
     }
     
     @Override
@@ -137,15 +127,8 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		super.onResume();
 
 		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
-				mAccelerometer, gravity);
+				mAccelerometer);
 		mAcceleratorThread.start();
-		
-		if(calibDialog.isShowing()) {
-			mAcceleratorThread.setSoundPlaying(false);
-			mAcceleratorThread.startGettingData();
-			mHandler.sendEmptyMessageDelayed(
-					AppMessage.MESSAGE_TUTORIAL_CALIB.ordinal(), 2000);
-		}
 	}
 
 	@Override
@@ -161,18 +144,6 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 			mAcceleratorThread = null;
 		}
 	}
-
-	private void initCalibDialog() {
-    	View v = getLayoutInflater().inflate(R.layout.client_waiting, null);
-		calibDialog = new Dialog(this, R.style.ClientWaitingDialog);
-		calibDialog.setCancelable(false);
-		calibDialog.setTitle(R.string.calibrating);
-		CancelButton cancel = (CancelButton) v.findViewById(R.id.button_cancel_waiting);
-		cancel.setVisibility(View.GONE);
-		calibDialog.setContentView(v);
-		calibDialog.show();
-	}
-    
 	
     public void open(View view) {
         wd.show();

@@ -16,6 +16,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+class ToManyRecordsException extends Exception {
+	private static final long serialVersionUID = 1L;
+	public String toString() {
+		return "To many accelerator records! ";
+	}
+}
+
 public class AcceleratorThread extends Thread implements SensorEventListener {
 	private boolean listening;
 	private boolean soundPlaying;
@@ -23,7 +30,6 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
 	private ArrayList<Vector3d> records;
-	private double gravity;
 	private SoundPool soundPool;
 	private int wandSoundID;
 	private int wandStreamID;
@@ -31,16 +37,14 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private EnumMap<Buff, Integer> buffSoundIDs;
 	//soundPool.play(soundID, 1, 1, 0, 0, 1);
 
-	public AcceleratorThread(Context context, SensorManager sm, Sensor s,
-			double c) {
-		this.gravity = c;
+	public AcceleratorThread(Context context, SensorManager sm, Sensor s) {
 		setName("Accelerator thread");
 		mSensorManager = sm;
 		mAccelerometer = s;
 		soundPlaying = true;
 		listening = false;
 		// Initialize sound
-		Log.e("Wizard Fight", "Sound pool is null? : " + (soundPool == null));
+		
 		if (soundPool == null) {
 			soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 			wandSoundID = soundPool.load(context, R.raw.magic, 1);
@@ -69,9 +73,12 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	}
 
 	public void playShapeSound(Shape shape) {
+		Log.e("Wizard Fight", "[shape] sound playing?: " + soundPlaying);
+		
 		Integer soundID = shapeSoundIDs.get(shape);
 		if( soundPlaying && soundID != null ) {
-			soundPool.play(soundID.intValue(), 1, 1, 0, 0, 1);
+			int res = soundPool.play(soundID.intValue(), 1, 1, 0, 0, 1);
+			Log.e("Wizard Fight", "play result: "  + res);
 		}
 	}
 
@@ -94,12 +101,12 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	public void startGettingData() {
 		Log.e("Wizard Fight", "start getting data called");
 		records = new ArrayList<Vector3d>();
-		Log.e("Wizard Fight", "records created");
 		listening = true;
+		Log.e("Wizard Fight", "[data] sound playing?: " + soundPlaying);
 		if(!soundPlaying) return;
 		if (wandStreamID == -1) {
 			wandStreamID = soundPool.play(wandSoundID, 0.25f, 0.25f, 0, -1, 1);
-			Log.e("Wizard Fight", wandStreamID + " " + wandSoundID + "");
+			Log.e("Wizard Fight", "wand stream id: " + wandStreamID);
 		} else {
 			soundPool.resume(wandStreamID);
 		}
@@ -116,23 +123,11 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		return records;
 	}
 
-	public double recountGravity() {
-		gravity = 0.0;
-		Log.e("Wizard Fight", "r=null?: " + (records == null));
-//		for (Vector3d v : records) {
-//			gravity += v.getLength();
-//		}
-//		if (records.size() != 0)
-//			gravity /= records.size();
-		return gravity;
-	}
-
 	public void setSoundPlaying(boolean isPlaying) {
 		soundPlaying = isPlaying;
 	}
 	
 	public void stopLoop() {
-		Log.e("Wizard Fight", "stopLoop");
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)
 			mLooper.quit();
@@ -153,14 +148,21 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	public void onSensorChanged(SensorEvent event) {
 		if (!listening)
 			return;
-
+		if (records.size() > 1000) return;
 		double x = event.values[0];
 		double y = event.values[1];
 		double z = event.values[2];
 		double len = Math.sqrt(x * x + y * y + z * z);
-		Vector3d rec = new Vector3d(x - gravity * (x / len), y - gravity
-				* (y / len), z - gravity * (z / len));
+		Vector3d rec = new Vector3d(x , y, z);
 		records.add(rec);
+		if(records.size() > 1000) {
+			try {
+				throw new ToManyRecordsException();
+			} catch (ToManyRecordsException e) {
+				Log.e("Wizard Fight", e.toString());
+			}
+		}
+		Log.e("Wizard Fight", "size: " + records.size());
 		float amplitude = (float) len / 10 + 0.1f;
 		if (amplitude > 1.0f)
 			amplitude = 1.0f;

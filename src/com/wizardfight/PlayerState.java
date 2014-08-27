@@ -191,7 +191,7 @@ public class PlayerState {
 	}
 	
 	public void handleBuffTick(Buff buff, boolean calledByTimer) {
-		Log.e("Wizard Fight", "removeBuff called");
+		Log.e("Wizard Fight", "handleBuffTick called");
 		boolean hasBuffAlready = buffs.containsKey(buff);
 		Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
 		if(hasBuffAlready) {
@@ -214,7 +214,7 @@ public class PlayerState {
 				buffs.remove(buff);
 				removedBuff = buff;
 				if(!calledByTimer) buffRemovedByEnemy = true;
-				Log.e("Wizard Fight", buff + "was removed");
+				Log.e("Wizard Fight", buff + "was removed from handleBuffTick");
 			} else {
 				// not last tick => say that buff is refreshed
 				refreshedBuff = buff;
