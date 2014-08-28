@@ -35,7 +35,6 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private int wandStreamID;
 	private EnumMap<Shape, Integer> shapeSoundIDs;
 	private EnumMap<Buff, Integer> buffSoundIDs;
-	//soundPool.play(soundID, 1, 1, 0, 0, 1);
 
 	public AcceleratorThread(Context context, SensorManager sm, Sensor s) {
 		setName("Accelerator thread");
@@ -44,32 +43,29 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		soundPlaying = true;
 		listening = false;
 		// Initialize sound
+		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+		wandSoundID = soundPool.load(context, R.raw.magic, 1);
+		wandStreamID = -1;
 		
-		if (soundPool == null) {
-			soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-			wandSoundID = soundPool.load(context, R.raw.magic, 1);
-			wandStreamID = -1;
-			
-			shapeSoundIDs = new EnumMap<Shape, Integer>(Shape.class);
-			shapeSoundIDs.put(Shape.TRIANGLE,
-					soundPool.load(context, R.raw.triangle_sound, 1));
-			shapeSoundIDs.put(Shape.CIRCLE,
-					soundPool.load(context, R.raw.circle_sound, 1));
-			shapeSoundIDs.put(Shape.SHIELD,
-					soundPool.load(context, R.raw.shield_sound, 1));
-			shapeSoundIDs.put(Shape.Z,
-					soundPool.load(context, R.raw.z_sound, 1));
-			shapeSoundIDs.put(Shape.V,
-					soundPool.load(context, R.raw.v_sound, 1));
-			shapeSoundIDs.put(Shape.PI,
-					soundPool.load(context, R.raw.pi_sound, 1));
-			shapeSoundIDs.put(Shape.CLOCK,
-					soundPool.load(context, R.raw.clock_sound, 1));
-			
-			buffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
-			buffSoundIDs.put(Buff.HOLY_SHIELD, 
-					soundPool.load(context, R.raw.buff_off_shield_sound, 1));
-		}
+		shapeSoundIDs = new EnumMap<Shape, Integer>(Shape.class);
+		shapeSoundIDs.put(Shape.TRIANGLE,
+				soundPool.load(context, R.raw.triangle_sound, 1));
+		shapeSoundIDs.put(Shape.CIRCLE,
+				soundPool.load(context, R.raw.circle_sound, 1));
+		shapeSoundIDs.put(Shape.SHIELD,
+				soundPool.load(context, R.raw.shield_sound, 1));
+		shapeSoundIDs.put(Shape.Z,
+				soundPool.load(context, R.raw.z_sound, 1));
+		shapeSoundIDs.put(Shape.V,
+				soundPool.load(context, R.raw.v_sound, 1));
+		shapeSoundIDs.put(Shape.PI,
+				soundPool.load(context, R.raw.pi_sound, 1));
+		shapeSoundIDs.put(Shape.CLOCK,
+				soundPool.load(context, R.raw.clock_sound, 1));
+		
+		buffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
+		buffSoundIDs.put(Buff.HOLY_SHIELD, 
+				soundPool.load(context, R.raw.buff_off_shield_sound, 1));
 	}
 
 	public void playShapeSound(Shape shape) {
@@ -131,8 +127,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)
 			mLooper.quit();
-		if (soundPool != null && wandStreamID != -1) {
-			soundPool.stop(wandStreamID);
+		if (soundPool != null) {
 			soundPool.release();
 			soundPool = null;
 			Log.e("Wizard Fight", "sound pool stop and release");
