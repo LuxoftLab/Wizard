@@ -105,18 +105,12 @@ public class WizardFight extends Activity {
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		// check if it`s test mode
 		Bundle extras = getIntent().getExtras();
-		if(extras != null) {
+		if (extras != null) {
 			mIsEnemyBot = extras.getBoolean("IS_ENEMY_BOT");
 		}
 		if (D)
 			Log.e(TAG, "Enemy bot?: " + mIsEnemyBot);
 
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		if (D) Log.e(TAG, "++ ON START ++");
 		// initialize GUI and logic
 		setupApp();
 		isSelfReady = false;
@@ -141,11 +135,19 @@ public class WizardFight extends Activity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		if (D)
+			Log.e(TAG, "++ ON START ++");
+	}
+
+	@Override
 	public synchronized void onResume() {
 		super.onResume();
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
-		if(isCountdown) return;
+		if (isCountdown)
+			return;
 		// Initialize new accelerator thread
 		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
 				mAccelerometer);
@@ -161,7 +163,9 @@ public class WizardFight extends Activity {
 			Log.e(TAG, "- ON PAUSE -");
 		// if paused by countdown - don`t touch anything
 		Log.e(TAG, "is countdown: " + isCountdown);
-		if (isCountdown) return;
+		if (isCountdown)
+			return;
+
 		stopSensorAndSound();
 	}
 
@@ -185,10 +189,15 @@ public class WizardFight extends Activity {
 	private void stopSensorAndSound() {
 		Log.e("Wizard Fight", "stop sensor and sound called");
 		// stop cast if its started
-		if (isBetweenVolumeClicks)
-			buttonClick();
-		// unregister accelerator listener and end its event loop
+		if (isBetweenVolumeClicks) {
+			isBetweenVolumeClicks = false;
+			isVolumeButtonBlocked = false;
+		}
+
 		if (mAcceleratorThread != null) {
+			// stop cast
+			mAcceleratorThread.stopGettingData();
+			// unregister accelerator listener and end stop event loop
 			if (D)
 				Log.e(TAG, "accelerator thread try to stop loop");
 			mAcceleratorThread.stopLoop();
