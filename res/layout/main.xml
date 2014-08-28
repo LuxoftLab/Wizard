@@ -151,6 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/enemy_buff_line"
                 android:textSize="12sp"
+                
                 android:text="Enemy"/>
 
         <TextView
