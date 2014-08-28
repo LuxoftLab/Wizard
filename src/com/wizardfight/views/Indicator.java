@@ -29,6 +29,7 @@ public class Indicator extends View {
         maxValue = 100;
         curValue = maxValue;
         paint = new Paint();
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         rect = new RectF();
         textBounds = new Rect();
     }
@@ -44,8 +45,8 @@ public class Indicator extends View {
         float padding = radius / 2;
         int w = this.getWidth();
         int h = this.getHeight();
-        clipPath.addRoundRect(new RectF(padding, padding, w - padding, h - padding), radius, radius, Path.Direction.CW);
-        canvas.clipPath(clipPath);
+/*        clipPath.addRoundRect(new RectF(padding, padding, w - padding, h - padding), radius, radius, Path.Direction.CW);
+        canvas.clipPath(clipPath);*/
 
         paint.setColor(Color.GRAY);
         canvas.drawRect(rect, paint);
@@ -57,8 +58,12 @@ public class Indicator extends View {
         String label = curValue + "/" + maxValue;
         paint.setTextSize(height * 0.3f);
         paint.getTextBounds(label, 0, label.length(), textBounds);
-        paint.setColor(textColor);
-        
+
+        paint.setColor(Color.GRAY);
+        canvas.drawText(label, (width - textBounds.width()) * 0.5f,
+                (height+1+ textBounds.height()) * 0.5f, paint);
+
+        paint.setColor(Color.BLACK);
         canvas.drawText(label, (width - textBounds.width()) * 0.5f, 
         		(height + textBounds.height()) * 0.5f, paint);
     }

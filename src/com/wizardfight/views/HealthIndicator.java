@@ -57,8 +57,8 @@ public class HealthIndicator extends Indicator {
         float padding = radius / 2;
         int w = this.getWidth();
         int h = this.getHeight();
-        clipPath.addRoundRect(new RectF(padding, padding, w - padding, h - padding), radius, radius, Path.Direction.CW);
-        canvas.clipPath(clipPath);
+       /* clipPath.addRoundRect(new RectF(padding, padding, w - padding, h - padding), radius, radius, Path.Direction.CW);
+        canvas.clipPath(clipPath);*/
 
         paint.setColor(Color.GRAY);
         canvas.drawRect(rect, paint);
@@ -74,6 +74,10 @@ public class HealthIndicator extends Indicator {
         String label = curValue + "/" + maxValue;
         paint.setTextSize(height * 0.3f);
         paint.getTextBounds(label, 0, label.length(), textBounds);
+        paint.setColor(Color.WHITE);
+
+        canvas.drawText(label, (width - textBounds.width()) * 0.5f,
+                (height+1 + textBounds.height()) * 0.5f, paint);
         paint.setColor(textColor);
         
         canvas.drawText(label, (width - textBounds.width()) * 0.5f, 
