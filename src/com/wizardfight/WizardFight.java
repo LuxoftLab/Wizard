@@ -612,16 +612,21 @@ public class WizardFight extends Activity {
 		}
 	}
 
+	int lastAction = -1;
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
+		
 		int action = event.getAction();
 		int keyCode = event.getKeyCode();
+		
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_VOLUME_UP:
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			if (action == KeyEvent.ACTION_DOWN) {
-				buttonClick();
+			if(lastAction == action) {
+				return true;
 			}
+			buttonClick();
+			lastAction = action;
 			return true;
 		default:
 			return super.dispatchKeyEvent(event);
