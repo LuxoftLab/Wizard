@@ -5,6 +5,7 @@ import android.graphics.*;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /*
@@ -85,6 +86,7 @@ public class HealthIndicator extends Indicator {
     }
     
     public void setValue(int value) {
+    	Log.e("Wizard Fight HP", "set value " + System.currentTimeMillis() + " " + value);
         if(value>maxValue)
             value=maxValue;
         else if(value<0)
