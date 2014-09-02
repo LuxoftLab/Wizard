@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class PlayerBot extends Thread {
 	// for debugging 
-	private final boolean D = true;
+	private final boolean D = false;
 	private final static String TAG = "Wizard Fight Bot";
 	
 	private int mStartHP;
@@ -37,7 +37,6 @@ public class PlayerBot extends Thread {
 	
 	public void run() {
 		Looper.prepare();
-		Handler handler = new Handler();
 		mLooper = Looper.myLooper();
 		Looper.loop();
 	}

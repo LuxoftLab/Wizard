@@ -4,14 +4,8 @@ import com.wizardfight.R;
 import com.wizardfight.Shape;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
-import android.util.Log;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
@@ -36,7 +30,6 @@ public class SpellPicture extends ImageView {
 
 		fadeOutListener = new FadeOutListener(this);
 	    animFadeOut.setAnimationListener(fadeOutListener);
-	    Log.e("Wizard Fight", "animation listener initialized");
     }
     
     /* 
@@ -49,8 +42,6 @@ public class SpellPicture extends ImageView {
     		invalidate();
     		return;
     	}
-    	Log.e("Wizard Fight", "Starting animation");
-        Log.e("Wizard Fight", "Current shape : " + shape);
         this.setImageResource( Shape.getPictureId(s) );
         invalidate();
         startAnimation(animFadeOut);

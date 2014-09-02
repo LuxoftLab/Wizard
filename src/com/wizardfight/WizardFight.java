@@ -39,7 +39,7 @@ public class WizardFight extends Activity {
 	private boolean mIsEnemyBot = false;
 	private int myCounter;
 	private static final String TAG = "Wizard Fight";
-	private static final boolean D = true;
+	private static final boolean D = false;
 	// States of players
 	private SelfState mSelfState;
 	private EnemyState mEnemyState;
@@ -208,7 +208,6 @@ public class WizardFight extends Activity {
 	private void setupApp() {
 		if (D)
 			Log.d(TAG, "setupApp()");
-		Log.e(TAG, "objects here?: " + (mEnemyState == null));
 		// for debugging
 		myCounter = 0;
 		if (mIsEnemyBot) {
@@ -268,7 +267,6 @@ public class WizardFight extends Activity {
 
 		if (mIsEnemyBot) {
 			boolean isHandlerNull = (mPlayerBot.getHandler() == null);
-			Log.e(TAG, "bot handler null?: " + isHandlerNull);
 			if (isHandlerNull)
 				return;
 			Message msg = mPlayerBot.getHandler().obtainMessage(

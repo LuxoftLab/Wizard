@@ -24,6 +24,7 @@ class ToManyRecordsException extends Exception {
 }
 
 public class AcceleratorThread extends Thread implements SensorEventListener {
+	private static final boolean D = false;
 	private boolean listening;
 	private boolean soundPlaying;
 	private Looper mLooper;
@@ -69,12 +70,12 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	}
 
 	public void playShapeSound(Shape shape) {
-		Log.e("Wizard Fight", "[shape] sound playing?: " + soundPlaying);
+		if (D) Log.e("Wizard Fight", "[shape] sound playing?: " + soundPlaying);
 		
 		Integer soundID = shapeSoundIDs.get(shape);
 		if( soundPlaying && soundID != null ) {
 			int res = soundPool.play(soundID.intValue(), 1, 1, 0, 0, 1);
-			Log.e("Wizard Fight", "play result: "  + res);
+			if (D) Log.e("Wizard Fight", "play result: "  + res);
 		}
 	}
 
@@ -95,14 +96,14 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	}
 
 	public void startGettingData() {
-		Log.e("Wizard Fight", "start getting data called");
+		if (D) Log.e("Wizard Fight", "start getting data called");
 		records = new ArrayList<Vector3d>();
 		listening = true;
-		Log.e("Wizard Fight", "[data] sound playing?: " + soundPlaying);
+		if (D) Log.e("Wizard Fight", "[data] sound playing?: " + soundPlaying);
 		if(!soundPlaying) return;
 		if (wandStreamID == -1) {
 			wandStreamID = soundPool.play(wandSoundID, 0.25f, 0.25f, 0, -1, 1);
-			Log.e("Wizard Fight", "wand stream id: " + wandStreamID);
+			if (D) Log.e("Wizard Fight", "wand stream id: " + wandStreamID);
 		} else {
 			soundPool.resume(wandStreamID);
 		}
@@ -130,7 +131,7 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		if (soundPool != null) {
 			soundPool.release();
 			soundPool = null;
-			Log.e("Wizard Fight", "sound pool stop and release");
+			if (D) Log.e("Wizard Fight", "sound pool stop and release");
 		}
 	}
 
@@ -154,10 +155,10 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 			try {
 				throw new ToManyRecordsException();
 			} catch (ToManyRecordsException e) {
-				Log.e("Wizard Fight", e.toString());
+				if (D) Log.e("Wizard Fight", e.toString());
 			}
 		}
-		Log.e("Wizard Fight", "size: " + records.size());
+		if (D) Log.e("Wizard Fight", "size: " + records.size());
 		float amplitude = (float) len / 10 + 0.1f;
 		if (amplitude > 1.0f)
 			amplitude = 1.0f;

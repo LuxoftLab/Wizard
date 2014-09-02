@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 public class ManaIndicator extends Indicator {
 	public ManaIndicator(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		barColor = Color.BLUE;
-		textColor = Color.WHITE;
+		mBarColor = Color.BLUE;
+		mTextColor = Color.WHITE;
 	}
 }

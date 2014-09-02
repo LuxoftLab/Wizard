@@ -1,7 +1,6 @@
 package com.wizardfight;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -76,6 +75,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
                  Log.e("Wizard Fight",shape);
                  isVolumeButtonBlocked = false;
         		break;
+        	default:
         	}
         }
     };

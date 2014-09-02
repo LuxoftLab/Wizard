@@ -20,6 +20,7 @@ class BuffState {
  * set of buffs, and more in future
  */
 public class PlayerState {
+	private static final boolean D = false;
 	protected int health;
 	protected int mana;
 	protected int maxHealth;
@@ -54,7 +55,7 @@ public class PlayerState {
 			return;
 		}
 		damage = enemyState.recountDamage(damage);
-		Log.e("Wizard Fight", "deal damage: " + damage);
+		if (D) Log.e("Wizard Fight", "deal damage: " + damage);
 		setHealth(health - damage);
 	}
 	
@@ -68,7 +69,7 @@ public class PlayerState {
 	}
 	
 	public int recountDamage(int damage) {
-		Log.e("Wizard Fight", "have V?: " + buffs.containsKey(Buff.CONCENTRATION));
+		if (D) Log.e("Wizard Fight", "have V?: " + buffs.containsKey(Buff.CONCENTRATION));
 		if(buffs.containsKey(Buff.CONCENTRATION)) {
 			damage *= 1.5;
 		}
@@ -104,7 +105,7 @@ public class PlayerState {
 				break;
 				
 			case BUFF_TICK:
-				Log.e("Wizard Fight", "BUFF OFF RECEIVED IN STATE");
+				if (D) Log.e("Wizard Fight", "BUFF OFF RECEIVED IN STATE");
 				if( message.param < 0 ) break;
 				// message parameter is buff index
 				Buff tickBuff = Buff.values()[ message.param ];
@@ -129,7 +130,7 @@ public class PlayerState {
 				Buff delBuff = Buff.values()[ message.param ];
 				buffs.remove(delBuff);
 				removedBuff = delBuff;
-				Log.e("Wizard Fight", delBuff + "was removed");
+				if (D) Log.e("Wizard Fight", delBuff + "was removed");
 				break;
 			case NEW_HP_OR_MANA:
 				break;
@@ -186,14 +187,14 @@ public class PlayerState {
 				System.currentTimeMillis(), buff.getTicksCount());
 		// if map contains buff, it will be replaced with new time value
 		buffs.put(buff, buffState);
-		Log.e("Wizard Fight", "new buff was added: " + buff + " " + buffs.get(buff).tickTime);
+		if (D) Log.e("Wizard Fight", "new buff was added: " + buff + " " + buffs.get(buff).tickTime);
 		addedBuff = buff;
 	}
 	
 	public void handleBuffTick(Buff buff, boolean calledByTimer) {
-		Log.e("Wizard Fight", "handleBuffTick called");
+		if (D) Log.e("Wizard Fight", "handleBuffTick called");
 		boolean hasBuffAlready = buffs.containsKey(buff);
-		Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
+		if (D) Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
 		if(hasBuffAlready) {
 			BuffState buffState = buffs.get(buff);
 			long timeLeft = System.currentTimeMillis() - buffState.tickTime;
@@ -204,7 +205,7 @@ public class PlayerState {
 			 * rejected for previous buff addings.
 			 */
 			if( calledByTimer && timeLeft < buff.getDuration() ) {
-				Log.e("Wizard Fight", "not enough time left: " + timeLeft + " vs " + buff.getDuration());
+				if (D) Log.e("Wizard Fight", "not enough time left: " + timeLeft + " vs " + buff.getDuration());
 				return;
 			}
 			
@@ -214,7 +215,7 @@ public class PlayerState {
 				buffs.remove(buff);
 				removedBuff = buff;
 				if(!calledByTimer) buffRemovedByEnemy = true;
-				Log.e("Wizard Fight", buff + "was removed from handleBuffTick");
+				if (D) Log.e("Wizard Fight", buff + "was removed from handleBuffTick");
 			} else {
 				// not last tick => say that buff is refreshed
 				refreshedBuff = buff;
