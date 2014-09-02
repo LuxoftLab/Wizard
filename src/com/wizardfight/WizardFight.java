@@ -65,14 +65,14 @@ public class WizardFight extends Activity {
 	private SensorManager mSensorManager = null;
 	private Sensor mAccelerometer = null;
 	// Accelerator Thread link
-	private AcceleratorThread mAcceleratorThread = null;
+	private SensorAndSoundThread mSensorAndSoundThread = null;
 	// Member object for bluetooth services
 	private BluetoothService mChatService = null;
+	// Last key event action code 
+	private int mLastAction = -1;
 	// is volume click action is in process
 	private boolean isBetweenVolumeClicks = false;
-	private boolean isVolumeButtonBlocked = false; // +++++++++++++++++++++IN
-													// FUTURE - ACCESS AFTER
-													// CONNECTING and TRUE HERE
+	private boolean isVolumeButtonBlocked = false; 
 	private boolean isCountdown;
 	private boolean isSelfReady;
 	private boolean isEnemyReady;
@@ -149,9 +149,9 @@ public class WizardFight extends Activity {
 		if (isCountdown)
 			return;
 		// Initialize new accelerator thread
-		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
+		mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
 				mAccelerometer);
-		mAcceleratorThread.start();
+		mSensorAndSoundThread.start();
 		if (D)
 			Log.e(TAG, "accelerator ran");
 	}
@@ -194,14 +194,14 @@ public class WizardFight extends Activity {
 			isVolumeButtonBlocked = false;
 		}
 
-		if (mAcceleratorThread != null) {
+		if (mSensorAndSoundThread != null) {
 			// stop cast
-			mAcceleratorThread.stopGettingData();
+			mSensorAndSoundThread.stopGettingData();
 			// unregister accelerator listener and end stop event loop
 			if (D)
 				Log.e(TAG, "accelerator thread try to stop loop");
-			mAcceleratorThread.stopLoop();
-			mAcceleratorThread = null;
+			mSensorAndSoundThread.stopLoop();
+			mSensorAndSoundThread = null;
 		}
 	}
 
@@ -266,8 +266,7 @@ public class WizardFight extends Activity {
 				"send fm: " + fMessage + " " + (myCounter++));
 
 		if (mIsEnemyBot) {
-			boolean isHandlerNull = (mPlayerBot.getHandler() == null);
-			if (isHandlerNull)
+			if (mPlayerBot.getHandler() == null)
 				return;
 			Message msg = mPlayerBot.getHandler().obtainMessage(
 					AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage);
@@ -424,9 +423,14 @@ public class WizardFight extends Activity {
 			mSelfGUI.log("self msg : " + selfMsg + " " + (myCounter++));
 			if (D)
 				Log.e(TAG, "self msg : " + selfMsg + " " + myCounter);
+			// request mana for spell
 			boolean canBeCasted = mSelfState.requestSpell(selfMsg);
-			if (!canBeCasted)
+			if (!canBeCasted) {
 				return;
+			}
+			// play shape sound 
+			mSensorAndSoundThread.playShapeSound(sendShape);
+			
 			mSelfGUI.getManaBar().setValue(mSelfState.mana);
 
 			if (selfMsg.target == Target.SELF) {
@@ -437,9 +441,10 @@ public class WizardFight extends Activity {
 				// tell enemy : target is he
 				selfMsg.target = Target.SELF;
 				sendFightMessage(selfMsg);
-				if (sendShape != Shape.NONE) {
-					mEnemyGUI.getSpellPicture().setShape(sendShape);
-				}
+			}
+			// draw casted shape
+			if (sendShape != Shape.NONE) {
+				mSelfGUI.getSpellPicture().setShape(sendShape);
 			}
 		}
 
@@ -471,12 +476,12 @@ public class WizardFight extends Activity {
 					mEnemyGUI.getBuffPanel()
 							.addBuff(mEnemyState.getAddedBuff());
 				}
-
-				if (recvShape != Shape.NONE) {
-					mEnemyGUI.getSpellPicture().setShape(recvShape);
-				}
 			}
 
+			// refresh enemy 
+			if (FightMessage.isSpellCreatedByEnemy(enemyMsg)) {
+				mEnemyGUI.getSpellPicture().setShape(recvShape);
+			}
 			mEnemyGUI.getHealthBar().setValue(mEnemyState.health);
 			mEnemyGUI.getManaBar().setValue(mEnemyState.mana);
 		}
@@ -504,7 +509,7 @@ public class WizardFight extends Activity {
 				// remove buff from panel
 				mSelfGUI.getBuffPanel().removeBuff(removedBuff);
 				if (mSelfState.isBuffRemovedByEnemy()) {
-					mAcceleratorThread.playBuffSound(removedBuff);
+					mSensorAndSoundThread.playBuffSound(removedBuff);
 				}
 			}
 
@@ -540,10 +545,6 @@ public class WizardFight extends Activity {
 
 			mSelfGUI.getHealthBar().setValue(mSelfState.health);
 			mSelfGUI.getManaBar().setValue(mSelfState.mana);
-
-			if (mSelfState.getSpellShape() != Shape.NONE) {
-				mSelfGUI.getSpellPicture().setShape(spellShape);
-			}
 		}
 
 	};
@@ -579,17 +580,17 @@ public class WizardFight extends Activity {
 			return;
 
 		if (!isBetweenVolumeClicks) {
-			mAcceleratorThread.startGettingData();
+			mSensorAndSoundThread.startGettingData();
 			isBetweenVolumeClicks = true;
 
 		} else {
 			isVolumeButtonBlocked = true;
 
-			ArrayList<Vector3d> records = mAcceleratorThread.stopAndGetResult();
+			ArrayList<Vector3d> records = mSensorAndSoundThread.stopAndGetResult();
 			isBetweenVolumeClicks = false;
 
 			if (records.size() > 10) {
-				new RecognitionThread(mHandler, records, mAcceleratorThread)
+				new RecognitionThread(mHandler, records)
 						.start();
 			} else {
 				// if shord record - don`t recognize & unblock
@@ -610,7 +611,6 @@ public class WizardFight extends Activity {
 		}
 	}
 
-	int lastAction = -1;
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		
@@ -620,11 +620,11 @@ public class WizardFight extends Activity {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_VOLUME_UP:
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			if(lastAction == action) {
+			if(mLastAction == action) {
 				return true;
 			}
 			buttonClick();
-			lastAction = action;
+			mLastAction = action;
 			return true;
 		default:
 			return super.dispatchKeyEvent(event);

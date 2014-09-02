@@ -145,22 +145,22 @@ public class PlayerState {
 
 		switch( message.action ) {
 		case DAMAGE:
-			manaCost = 5;
+			manaCost = 6;
 			break;
 		case HIGH_DAMAGE:
-			manaCost = 15;
+			manaCost = 20;
 			break;
 		case HEAL:
-			manaCost = 20;
+			manaCost = 25;
 			break;
 		case BUFF_ON:
 			Buff buff = Buff.values()[ message.param ];
 			switch(buff) {
 			case WEAKNESS:
-				manaCost = 10;
+				manaCost = 15;
 				break;
 			case CONCENTRATION:
-				manaCost = 15;
+				manaCost = 10;
 				break;
 			case BLESSING:
 				manaCost = 15;

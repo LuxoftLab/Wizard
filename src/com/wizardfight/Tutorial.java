@@ -56,7 +56,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 
     private boolean isVolumeButtonBlocked=false;
     private boolean isBetweenVolumeClicks=false;
-    private AcceleratorThread mAcceleratorThread = null;
+    private SensorAndSoundThread mAcceleratorThread = null;
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -64,7 +64,9 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         	switch(type){
         	case MESSAGE_FROM_SELF:
         		 FightMessage fMsg = (FightMessage) msg.obj;
-                 String shape = FightMessage.getShapeFromMessage(fMsg) + "";
+        		 Shape s = FightMessage.getShapeFromMessage(fMsg);
+        		 mAcceleratorThread.playShapeSound(s);
+                 String shape =  s + "";
                  //todo uncomment
                  if(shape.equals(spellDatas.get(partCounter).shape)) {
                  	 addSpellCounter();	
@@ -126,7 +128,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 	protected void onResume() {
 		super.onResume();
 
-		mAcceleratorThread = new AcceleratorThread(this, mSensorManager,
+		mAcceleratorThread = new SensorAndSoundThread(this, mSensorManager,
 				mAccelerometer);
 		mAcceleratorThread.start();
 	}
@@ -288,7 +290,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 			isBetweenVolumeClicks = false;
 
 			if (records.size() > 10) {
-				new RecognitionThread(mHandler, records,mAcceleratorThread).start();
+				new RecognitionThread(mHandler, records).start();
 			} else {
 				// if shord record - don`t recognize & unblock
 				isVolumeButtonBlocked = false;
