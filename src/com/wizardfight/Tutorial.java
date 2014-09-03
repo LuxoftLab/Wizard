@@ -296,6 +296,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		}
 	}
 
+    int lastAction = -1;
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int action = event.getAction();
@@ -303,16 +304,18 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         switch( keyCode ) {
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                if (action == KeyEvent.ACTION_DOWN) {
                     if (wd.isEnabled())
                     {
                         if(wd.isOnPause())
                             wd.goNext();
                     }
                     else{
+                        if(lastAction == action) {
+                            return true;
+                        }
                         buttonClick();
+                        lastAction = action;
                     }
-                }
                 return true;
             default:
                 return super.dispatchKeyEvent(event);
