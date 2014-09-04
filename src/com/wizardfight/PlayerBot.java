@@ -68,6 +68,12 @@ public class PlayerBot extends Thread {
 				case MESSAGE_FROM_SELF:
 					FightMessage selfMsg = (FightMessage) msg.obj;
 					handleSelfMessage(selfMsg);
+					// for spam 
+					if( FightMessage.getShapeFromMessage(selfMsg) != Shape.NONE) {
+						selfMsg.target = Target.ENEMY;
+						Message m = mHandler.obtainMessage(AppMessage.MESSAGE_FROM_SELF.ordinal(), selfMsg);
+						mHandler.sendMessageDelayed(m, 500);
+					}
 					break;
 				case MESSAGE_SELF_DEATH:
 					FightMessage selfDeath = new FightMessage(Target.ENEMY, FightAction.FIGHT_END);

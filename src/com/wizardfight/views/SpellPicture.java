@@ -37,13 +37,14 @@ public class SpellPicture extends ImageView {
      */
     public void setShape(Shape s) {
     	shape = s;
+    	clearAnimation();
     	if( shape == Shape.NONE ) {
     		this.setImageDrawable(null);
-    		invalidate();
+//    		invalidate();
     		return;
     	}
         this.setImageResource( Shape.getPictureId(s) );
-        invalidate();
+//        invalidate();
         startAnimation(animFadeOut);
     }
     
