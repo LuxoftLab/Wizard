@@ -81,8 +81,8 @@ public class Tutorial extends Activity implements WizardDialDelegate {
     };
     private Sensor mAccelerometer = null;
     private SensorManager mSensorManager = null;
-    
-    private ArrayList<ArrayList<String>> partsText = new ArrayList<ArrayList<String>>();
+
+    private ArrayList<ArrayList<WizardDialContent>> parts = new ArrayList<ArrayList<WizardDialContent>>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,8 +102,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         );
-        wd.setText(partsText.get(0));
-        wd.setPause(pause);
+        wd.setContent(parts.get(0));
         wd.setLayoutParams(params);
 
         castResult = (SpellPicture) findViewById(R.id.tutorial_cast_result);
@@ -155,9 +154,11 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 
     private void readTutotialXml(){
         int t = 0;
-        pause=-1;
+        int pause=-1;
         ArrayList<String> text = new ArrayList<String>();
-        partsText=new ArrayList<ArrayList<String>>();
+        int ui=-1;
+        int uih=-1;
+        int uim=-1;
         try{
             XmlPullParser xpp = getResources().getXml(R.xml.tutorial_text);
             while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
@@ -167,10 +168,34 @@ public class Tutorial extends Activity implements WizardDialDelegate {
                             t = 1;
                         else if (xpp.getName().equals("pause"))
                             t = 2;
+                        else if (xpp.getName().equals("ui"))
+                            t = 3;
+                        else if (xpp.getName().equals("uih"))
+                            t = 4;
+                        else if (xpp.getName().equals("uim"))
+                            t = 5;
                         break;
                     case XmlPullParser.END_TAG:
                         if (xpp.getName().equals("part")) {
-                            partsText.add(text);
+                            ArrayList<WizardDialContent>p=new ArrayList<WizardDialContent>();
+                            for (int i = 0; i < text.size(); i++) {
+                                WizardDialContent a=new WizardDialContent();
+                                a.setText(text.get(i));
+                                if(pause==i+1)
+                                    a.setPause(true);
+                                if(ui==i+1)
+                                    a.setUi(true);
+                                if(uih==i+1)
+                                    a.setHealth(true);
+                                if(uim==i+1)
+                                    a.setMana(true);
+                                p.add(a);
+                            }
+                            parts.add(p);
+                            ui=-1;
+                            uih=-1;
+                            uim=-1;
+                            pause=-1;
                             text=new ArrayList<String>();
                         }
                         break;
@@ -181,6 +206,15 @@ public class Tutorial extends Activity implements WizardDialDelegate {
                                 break;
                             case 2:
                                 pause=Integer.parseInt(xpp.getText());
+                                break;
+                            case 3:
+                                ui=Integer.parseInt(xpp.getText());
+                                break;
+                            case 4:
+                                uih=Integer.parseInt(xpp.getText());
+                                break;
+                            case 5:
+                                uim=Integer.parseInt(xpp.getText());
                                 break;
                         }
                         t = 0;
@@ -342,9 +376,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
         if(spellCount==spellRepeat) {
             spellCount = 0;
             partCounter++;
-            wd.setText(partsText.get(partCounter));
-            if (partCounter==0)
-                wd.setPause(pause);
+            wd.setContent(parts.get(partCounter));
             wd.show();
         }
         spellCounter.setText(spellCount + "/" + spellRepeat);
