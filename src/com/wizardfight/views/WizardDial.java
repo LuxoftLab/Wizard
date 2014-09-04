@@ -2,15 +2,19 @@ package com.wizardfight.views;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.wizardfight.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by 350z6_000 on 22.07.2014.
@@ -20,9 +24,11 @@ public class WizardDial extends RelativeLayout {
     private CancelButton nextButton;
     private Animation animFadeOut;
     private Animation animFadeIn;
-    private ArrayList<String> text = new ArrayList<String>();
+    private ArrayList<WizardDialContent> content=new ArrayList<WizardDialContent>();
     private int count = -1;
-    private int pause=-1;
+    private ManaIndicator mi;
+    private HealthIndicator hi;
+    private RelativeLayout r;
 
     public WizardDial(Context context) {
         super(context);
@@ -40,12 +46,12 @@ public class WizardDial extends RelativeLayout {
         textView.setId(id);
         nextButton = new CancelButton(context);
         nextButton.setBackgroundResource(R.drawable.next);
-        int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+        double size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
         params = new LayoutParams(
-                size, size
+                (int)(size*40), (int)(size*40)
         );
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params.setMargins(0, 2*size/3, size/2, 0);
+        params.setMargins(0,(int)(80*size/3), (int)(20*size), 0);
         params.addRule(RelativeLayout.ALIGN_TOP,id);
         nextButton.setLayoutParams(params);
         nextButton.setOnClickListener(new OnClickListener() {
@@ -58,6 +64,38 @@ public class WizardDial extends RelativeLayout {
         addView(nextButton);
         setBackgroundColor(Color.argb(200, 0, 0, 0));
 
+
+        r=new RelativeLayout(context);
+        addView(r);
+        params = new LayoutParams(
+                (int)(196*size), (int)(36*size)
+        );
+        params.setMargins((int)(2*size),(int)(25*size),0,0);
+        hi=new HealthIndicator(context,null);
+        hi.setLayoutParams(params);
+        hi.setValue(100);
+        r.addView(hi);
+        params = new LayoutParams(
+                (int)(196*size), (int)(36*size)
+        );
+        params.setMargins((int)(2*size),(int)(63*size),0,0);
+        mi=new ManaIndicator(context,null);
+        mi.setLayoutParams(params);
+        mi.setValue(200);
+        r.addView(mi);
+        params = new LayoutParams(
+                (int)(310*size), (int)(176*size)
+        );
+        params.setMargins(0,0,0,0);
+        ImageView hmb=new ImageView(context);
+        hmb.setImageResource(R.drawable.hmbar_m);
+        hmb.setLayoutParams(params);
+        r.addView(hmb);
+        r.setVisibility(INVISIBLE);
+
+
+
+
         animFadeOut = AnimationUtils
                 .loadAnimation(getContext(), R.anim.fade_out_nodelay);
         animFadeIn = AnimationUtils
@@ -67,7 +105,7 @@ public class WizardDial extends RelativeLayout {
 
     public void show() {
         if (getVisibility() == INVISIBLE) {
-            settext(text);
+            setContent(content);
             setEnabled(true);
             setVisibility(VISIBLE);
             startAnimation(animFadeIn);
@@ -75,47 +113,72 @@ public class WizardDial extends RelativeLayout {
     }
     public void showQuick() {
         if (getVisibility() == INVISIBLE) {
-            settext(text);
+            setContent(content);
             setEnabled(true);
             setVisibility(VISIBLE);
         }
     }
 
-    public void setText(ArrayList<String> text) {
-        pause=-1;
-        settext(text);
-    }
-    private void settext(ArrayList<String> text){
-        this.text = text;
+    public void setContent(ArrayList<WizardDialContent> content){
+        this.content = content;
         count = -1;
-        setCanNext(true);
         goNext();
     }
-
-    public void setPause(int pause) {
-        this.pause = pause;
-    }
-
     public void goNext() {
         setCanNext(true);
         count++;
-        if (count >= text.size()) {
+        r.setVisibility(INVISIBLE);
+        if (count >= content.size()) {
             ((WizardDialDelegate) getContext()).onWizardDialClose();
             setCanNext(false);
             close();
         } else {
-            if(count==pause-1)
-                setCanNext(false);
-            textView.setText(text.get(count));
+            mHandler.removeCallbacks(mTick);
+            if(content.get(count).isUi()) {
+                hi.setMaxValue(100);
+                mi.setMaxValue(100);
+                r.setVisibility(VISIBLE);
+                mHandler.post(mTick);
+            }
+            setCanNext(!content.get(count).isPause());
+            textView.setText(content.get(count).getText());
         }
     }
-
+    Handler mHandler = new Handler();
+    int health=3;
+    int mana=3;
+    Runnable mTick = new Runnable() {
+        public void run() {
+            if(content.get(count).isHealth())
+            {
+                if(health%2==1)
+                    hi.setValue(hi.getValue()-20);
+                health++;
+                if(health>=6)
+                {
+                    health=0;
+                    hi.setValue(hi.getValue()+60);
+                }
+            }
+            if(content.get(count).isMana())
+            {
+                mi.setValue(mi.getValue()+5);
+                mana++;
+                if(mana>=3)
+                {
+                    mana=0;
+                    mi.setValue(mi.getValue()-20);
+                }
+            }
+            mHandler.postDelayed(this, 1000);
+        }
+    };
     public void close() {
+        mHandler.removeCallbacks(mTick);
         setEnabled(false);
         setVisibility(INVISIBLE);
         startAnimation(animFadeOut);
     }
-
     public void setCanNext(boolean canNext) {
         nextButton.setEnabled(canNext);
         nextButton.setClickable(canNext);
