@@ -194,8 +194,7 @@ public class WizardFight extends Activity {
 			mBtService.stop();
 			mBtService = null;
 		}	
-		if (D)
-			Log.e(TAG, "--- ON DESTROY ---");
+		Log.e(TAG, "--- ON DESTROY ---");
 	}
 
 	private void stopSensorAndSound() {
@@ -223,6 +222,7 @@ public class WizardFight extends Activity {
 		// for debugging
 		mMyCounter = 0;
 		if (mIsEnemyBot) {
+			if(mPlayerBot != null) mPlayerBot.release();
 			mPlayerBot = new PlayerBot(PLAYER_HP, PLAYER_MANA, mHandler);
 		}
 		// Create players states
@@ -378,7 +378,7 @@ public class WizardFight extends Activity {
 			case MESSAGE_FROM_ENEMY:
 				byte[] recvBytes = (byte[]) msg.obj;
 				FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
-				mEnemyGUI.log("enemy msg: " + enemyMsg + " " + (mMyCounter++));
+				//mEnemyGUI.log("enemy msg: " + enemyMsg + " " + (mMyCounter++));
 				// if (D) Log.e(TAG, "enemy msg: " + enemyMsg + " " +
 				// (myCounter));
 
@@ -432,9 +432,8 @@ public class WizardFight extends Activity {
 			if (sendShape != Shape.NONE) {
 				mIsVolumeButtonBlocked = false;
 			}
-			mSelfGUI.log("self msg : " + selfMsg + " " + (mMyCounter++));
-			if (D)
-				Log.e(TAG, "self msg : " + selfMsg + " " + mMyCounter);
+			//mSelfGUI.log("self msg : " + selfMsg + " " + (mMyCounter++));
+			Log.e(TAG, "self msg : " + selfMsg + " " + mMyCounter);
 			// request mana for spell
 			boolean canBeCasted = mSelfState.requestSpell(selfMsg);
 			if (!canBeCasted) {
@@ -471,8 +470,7 @@ public class WizardFight extends Activity {
 			mEnemyGUI.getPlayerName().setText(
 					"enemy hp and mana: " + enemyMsg.health + ", "
 							+ enemyMsg.mana);
-			if (D)
-				Log.e(TAG, "enemy msg: " + enemyMsg + " " + mMyCounter);
+			Log.e(TAG, "enemy msg: " + enemyMsg + " " + mMyCounter);
 			if (enemyMsg.target == Target.SELF) {
 				handleMessageToSelf(enemyMsg);
 			} else {
