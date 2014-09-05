@@ -2,10 +2,10 @@
 
 <resources>
     <string name="app_name">Wizard Fight</string>
-    <!--  BluetoothChat -->
+    <!--  BluetoothService -->
     <string name="send">Send</string>
     <string name="not_connected">You are not connected to a device</string>
-    <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving the game.</string>
+    <string name="bt_not_enabled">Bluetooth is not enabled. </string>
     <string name="title_connecting">connecting...</string>
     <string name="title_connected_to">connected: </string>
     <string name="title_not_connected">not connected</string>
@@ -25,7 +25,7 @@
     <string name="v">v</string>
     <string name="pi">pi</string>
     <string name="shield">shield</string>
-    <!--Main Menu -->
+    <!--  Main Menu -->
     <string name="Create_game">Create game</string>
     <string name="Join_game">Join game</string>
     <string name="Help">Help</string>

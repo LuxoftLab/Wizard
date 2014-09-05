@@ -22,8 +22,11 @@ public class MainMenu extends Activity {
 	private static final boolean D = true;
 	// Local Bluetooth adapter
 	private BluetoothAdapter mBluetoothAdapter = null;
+	private boolean mIsUserCameWithBt;
 	// Intent request codes
-	private static final int REQUEST_ENABLE_BT = 1;
+	enum BtRequest {
+		BT_CREATE_GAME, BT_JOIN_GAME;
+	}
 
 	/**
 	 * Called when the activity is first created.
@@ -46,30 +49,33 @@ public class MainMenu extends Activity {
 			finish();
 			return;
 		}
+		mIsUserCameWithBt = mBluetoothAdapter.isEnabled();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		// If BT is not on, request that it be enabled.
-		if (!mBluetoothAdapter.isEnabled()) {
-			Intent enableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+	}
+
+	public void goToCreateGame(View view) {
+		if(!mBluetoothAdapter.isEnabled()) {
+			requestBluetooth(BtRequest.BT_CREATE_GAME);
+		} else {
+			BluetoothService btService = BluetoothService.getInstance();
+			btService.init();
+			btService.setAsServer();
+			startActivity(new Intent(this, WizardFight.class));
 		}
 	}
 
-	public void goToGameCreate(View view) {
-		BluetoothService btService = BluetoothService.getInstance();
-		btService.init();
-		btService.setAsServer();
-		startActivity(new Intent(this, WizardFight.class));
+	public void goToJoinGame(View view) {
+		if(!mBluetoothAdapter.isEnabled()) {
+			requestBluetooth(BtRequest.BT_JOIN_GAME);
+		} else {
+			startActivity(new Intent(this, DeviceListActivity.class));
+		}
 	}
 
-	public void goToListOfBluetooth(View view) {
-		startActivity(new Intent(this, DeviceListActivity.class));
-	}
-	
 	public void goToTestMode(View view) {
 		BluetoothService btService = BluetoothService.getInstance();
 		btService.init();
@@ -87,22 +93,48 @@ public class MainMenu extends Activity {
 	}
 
 	public void Exit(View view) {
+		BluetoothService.getInstance().release();
+		// return BT state to last one in 
+		if(!mIsUserCameWithBt && mBluetoothAdapter.isEnabled()) {
+			mBluetoothAdapter.disable();
+		}
 		finish();
 	}
 
+	public void requestBluetooth(BtRequest r) {
+		Intent enableIntent = new Intent(
+				BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		startActivityForResult(enableIntent, r.ordinal());
+	}
+
+	@Override
+	public void onBackPressed() {
+		Exit(null);
+	}
+	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d(TAG, "onActivityResult " + resultCode);
-		switch (requestCode) {
-		case REQUEST_ENABLE_BT:
-			// When the request to enable Bluetooth returns
-			if (resultCode != Activity.RESULT_OK) {
-				// User did not enable Bluetooth or an error occured
-				if (D)
-					Log.d(TAG, "BT not enabled");
-				Toast.makeText(this, R.string.bt_not_enabled_leaving,
-						Toast.LENGTH_SHORT).show();
-				finish();
-			}
+		// When the request to enable Bluetooth returns
+		if (resultCode != Activity.RESULT_OK) {
+			// User did not enable Bluetooth or an error occured
+			if (D)
+				Log.d(TAG, "BT not enabled");
+			Toast.makeText(this, R.string.bt_not_enabled,
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		BtRequest request = BtRequest.values()[requestCode];
+		switch (request) {
+		case BT_CREATE_GAME:
+			BluetoothService btService = BluetoothService.getInstance();
+			btService.init();
+			btService.setAsServer();
+			startActivity(new Intent(this, WizardFight.class));
+			break;
+		case BT_JOIN_GAME:
+			startActivity(new Intent(this, DeviceListActivity.class));
+			break;
 		}
 	}
 }

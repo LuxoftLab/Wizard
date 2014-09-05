@@ -143,7 +143,7 @@ public final class R {
         public static final int z_sound=0x7f060011;
     }
     public static final class string {
-        /** Main Menu 
+        /**   Main Menu 
          */
         public static final int Create_game=0x7f080015;
         public static final int Exit=0x7f080019;
@@ -151,7 +151,7 @@ public final class R {
         public static final int Join_game=0x7f080016;
         public static final int Spellbook=0x7f080018;
         public static final int app_name=0x7f080000;
-        public static final int bt_not_enabled_leaving=0x7f080003;
+        public static final int bt_not_enabled=0x7f080003;
         public static final int button_scan=0x7f08000d;
         /**   Tutorial  
          */
@@ -172,7 +172,7 @@ public final class R {
          */
         public static final int scanning=0x7f080007;
         public static final int select_device=0x7f080008;
-        /**   BluetoothChat 
+        /**   BluetoothService 
          */
         public static final int send=0x7f080001;
         public static final int shield=0x7f080014;
