@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,7 +50,10 @@ public class MainMenu extends Activity {
 			finish();
 			return;
 		}
+		// remember user's BT initial state
 		mIsUserCameWithBt = mBluetoothAdapter.isEnabled();
+		// volume buttons control multimedia volume
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	}
 
 	@Override
