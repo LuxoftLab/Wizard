@@ -21,8 +21,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -49,7 +51,7 @@ public class WizardFight extends Activity {
 
 	// Message types sent from the BluetoothChatService Handler
 	enum AppMessage {
-		MESSAGE_STATE_CHANGE, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_DEVICE_NAME, MESSAGE_TOAST, MESSAGE_CONNECTION_FAIL, MESSAGE_FROM_SELF, MESSAGE_SELF_DEATH, MESSAGE_FROM_ENEMY, MESSAGE_MANA_REGEN;
+		MESSAGE_STATE_CHANGE, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_DEVICE_NAME, MESSAGE_TOAST, MESSAGE_COUNTDOWN_END, MESSAGE_CONNECTION_FAIL, MESSAGE_FROM_SELF, MESSAGE_SELF_DEATH, MESSAGE_FROM_ENEMY, MESSAGE_MANA_REGEN;
 	}
 
 	// Key names received from the BluetoothChatService Handler
@@ -58,6 +60,7 @@ public class WizardFight extends Activity {
 	// Intent request codes
 	private static final int REQUEST_START_FIGHT = 1;
 	// Layout Views
+	private Countdown mCountdown;
 	private TextView mTitle;
 	private SelfGUI mSelfGUI;
 	private EnemyGUI mEnemyGUI;
@@ -75,7 +78,6 @@ public class WizardFight extends Activity {
 	// is volume click action is in process
 	private boolean mIsBetweenVolumeClicks = false;
 	private boolean mIsVolumeButtonBlocked = false; 
-	private boolean mIsCountdown;
 	private boolean mIsSelfReady;
 	private boolean mIsEnemyReady;
 
@@ -101,6 +103,14 @@ public class WizardFight extends Activity {
 		mTitle = (TextView) findViewById(R.id.title_left_text);
 		mTitle.setText(R.string.app_name);
 		mTitle = (TextView) findViewById(R.id.title_right_text);
+		// add countdown view to the top
+				LayoutInflater inflater = getLayoutInflater();
+				View countdownView = inflater.inflate(R.layout.countdown, null);
+				mCountdown = new Countdown(this, countdownView, mHandler);
+		        getWindow().addContentView(countdownView,
+		                                   new ViewGroup.LayoutParams(
+		                                   ViewGroup.LayoutParams.FILL_PARENT,
+		                                   ViewGroup.LayoutParams.FILL_PARENT));
 		// Get sensors
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager
@@ -149,9 +159,6 @@ public class WizardFight extends Activity {
 		mIsRunning = true;
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
-		if (mIsCountdown)
-			return;
-		
 		if (mEndDialog.isNeedToShow()) {
 			mEndDialog.show();
 		}
@@ -169,11 +176,6 @@ public class WizardFight extends Activity {
 		mIsRunning = false;
 		if (D)
 			Log.e(TAG, "- ON PAUSE -");
-		// if paused by countdown - don`t touch anything
-		Log.e(TAG, "is countdown: " + mIsCountdown);
-		if (mIsCountdown)
-			return;
-
 		stopSensorAndSound();
 	}
 
@@ -236,7 +238,6 @@ public class WizardFight extends Activity {
 		mBtService.setHandler(mHandler);
 		// Drop flags
 		mAreMessagesBlocked = true;
-		mIsCountdown = false;
 		// Start mana regeneration
 		mHandler.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
 		mHandler.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
@@ -307,9 +308,8 @@ public class WizardFight extends Activity {
 		// start countdown
 		if (D)
 			Log.e(TAG, "before start countdown");
-		mIsCountdown = true;
-		Intent i = new Intent(this, Countdown.class);
-		startActivityForResult(i, REQUEST_START_FIGHT);
+		
+        mCountdown.startCountdown();
 		if (D)
 			Log.e(TAG, "after start countdown");
 		if (D)
@@ -358,6 +358,9 @@ public class WizardFight extends Activity {
 				Toast.makeText(getApplicationContext(),
 						msg.getData().getString(TOAST), Toast.LENGTH_SHORT)
 						.show();
+				break;
+			case MESSAGE_COUNTDOWN_END:
+				mAreMessagesBlocked = false;
 				break;
 			case MESSAGE_CONNECTION_FAIL:
 				Toast.makeText(getApplicationContext(),
@@ -563,9 +566,16 @@ public class WizardFight extends Activity {
 
 	private void finishFight(Target winner) {
 		mAreMessagesBlocked = true;
+		// stop sensor thread work
 		stopSensorAndSound();
+		// Initialize new accelerator thread
+		mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
+				mAccelerometer);
+		mSensorAndSoundThread.start();
+		// set GUI to initial state
 		mSelfGUI.clear();
 		mEnemyGUI.clear();
+		// Recreate objects
 		setupApp();
 
 		String message;
@@ -611,18 +621,6 @@ public class WizardFight extends Activity {
 		}
 	}
 
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (D)
-			Log.e(TAG, "onActivityResult " + resultCode);
-		switch (requestCode) {
-		case REQUEST_START_FIGHT:
-			// countdown finished
-			mIsCountdown = false;
-			mAreMessagesBlocked = false;
-			break;
-		}
-	}
-
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		
@@ -652,12 +650,14 @@ public class WizardFight extends Activity {
 	}
 
 	class EndDialog {
-		private EndDialogListener mmListener;
+		private DialClickListener mmClickListener;
+		private DialKeyListener mmKeyListener;
 		private AlertDialog mmDialog;
 		private boolean mmIsNeedToShow;
 		
 		public EndDialog() {
-			mmListener = new EndDialogListener();
+			mmClickListener = new DialClickListener();
+			mmKeyListener = new DialKeyListener();
 		}
 		
 		public void init(String message) {
@@ -665,9 +665,10 @@ public class WizardFight extends Activity {
 			mmDialog = new AlertDialog.Builder(WizardFight.this).create();
 			mmDialog.setTitle("Fight ended");
 			mmDialog.setMessage(message);
-			mmDialog.setButton("Restart", mmListener);
-			mmDialog.setButton2("Exit", mmListener);
+			mmDialog.setButton("Restart", mmClickListener);
+			mmDialog.setButton2("Exit", mmClickListener);
 			mmDialog.setCancelable(false);
+			mmDialog.setOnKeyListener(mmKeyListener);
 		}
 		
 		public void setNeedToShow(boolean isNeed) {
@@ -682,7 +683,7 @@ public class WizardFight extends Activity {
 			mmDialog.show();
 		}
 		
-		class EndDialogListener implements DialogInterface.OnClickListener {
+		class DialClickListener implements DialogInterface.OnClickListener  {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -709,6 +710,18 @@ public class WizardFight extends Activity {
 				mmIsNeedToShow = false;
 			}
 		}
+		
+		class DialKeyListener implements Dialog.OnKeyListener {
+			@Override
+			public boolean onKey(DialogInterface dial, int key, KeyEvent ev) {
+				// ignore volume keys clicks at the dialog
+				if(key == KeyEvent.KEYCODE_VOLUME_UP ||
+				   key == KeyEvent.KEYCODE_VOLUME_DOWN) {
+					return true;
+				}
+				return false;
+			}
+		};
 	}
 	
 	

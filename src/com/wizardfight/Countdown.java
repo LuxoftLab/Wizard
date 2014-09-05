@@ -1,11 +1,9 @@
 package com.wizardfight;
 
 import com.wizardfight.views.MyTextView;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
+import com.wizardfight.WizardFight.AppMessage;
+import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,59 +12,66 @@ import android.view.animation.AnimationUtils;
 /**
  * Created by 350z6_000 on 15.07.2014.
  */
-public class Countdown extends Activity {
-    private int count = 3;
-    private MyTextView text;
-    private Animation anim;
-    private AnimListener animListener;
+public class Countdown {
+	private int NUMBERS_COUNT = 3;
+    private int mNumCount;
+    private View mRootView;
+    private MyTextView mText;
+    private Animation mAnim;
+    private AnimListener mAnimListener;
+    private Handler mHandler;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.countdown);
-        text = (MyTextView) findViewById(R.id.starting_text);
-        text.setVisibility(View.INVISIBLE);
-        anim = AnimationUtils.loadAnimation(this, R.anim.countdown);
-
-        animListener = new AnimListener();
-        anim.setAnimationListener(animListener);
-        anim.setFillAfter(true);
-        text.setText(count + "");
-        text.startAnimation(anim);
-        text.setIsDraw(true);
+    public Countdown (Context context, View rootView, Handler h){
+    	mHandler = h;
+    	mRootView = rootView;
+    	mText = (MyTextView) mRootView.findViewById(R.id.starting_text);
+        mText.setVisibility(View.INVISIBLE);
+        mAnim = AnimationUtils.loadAnimation(context, R.anim.countdown);
+        mAnimListener = new AnimListener();
+        mAnim.setAnimationListener(mAnimListener);
+        mAnim.setFillAfter(true);
     }
 
-    public void goOut() {
-        text.setVisibility(View.INVISIBLE);
-        finish();
+    public void startCountdown() {
+    	mNumCount = NUMBERS_COUNT;
+    	mRootView.setVisibility(View.VISIBLE);
+    	// set initial text and start animation
+        mText.setText(mNumCount + "");
+        mText.startAnimation(mAnim);
+        mText.setIsDraw(true);
     }
     
-    @Override
-    public void onBackPressed() {
-    	// disable exit on count down
+    public void goOut() {
+    	mRootView.setVisibility(View.INVISIBLE);
+        mHandler.obtainMessage(AppMessage.MESSAGE_COUNTDOWN_END.ordinal()).sendToTarget();
     }
+    
+//    public void setVisible(boolean isVisible) {
+//    	mRootView.setVisibility(
+//    			(isVisible)? View.VISIBLE : View.GONE);
+//    }
     
     class AnimListener implements Animation.AnimationListener {
         public void onAnimationEnd(Animation animation) {
-        	if( anim.hasEnded() ) {
+        	if( mAnim.hasEnded() ) {
         		return;
         	}
-            count--;
-            if(count == -1)
+            mNumCount--;
+            if(mNumCount == -1)
                 goOut();
             else {
-            	text.setIsDraw(false);
-            	if( count != 0) {
-            		text.setText(""+count);
+            	mText.setIsDraw(false);
+            	if( mNumCount != 0) {
+            		mText.setText(""+mNumCount);
             	} else {
-            		text.setText("FIGHT!");
+            		mText.setText("FIGHT!");
             	}
-                text.startAnimation(anim);
+                mText.startAnimation(mAnim);
             }
         }
         public void onAnimationRepeat(Animation animation) { }
         public void onAnimationStart(Animation animation) { 
-        	text.setIsDraw(true);
+        	mText.setIsDraw(true);
         }
     }
 }
