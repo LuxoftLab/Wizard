@@ -19,7 +19,6 @@ public class SelfGUI extends PlayerGUI {
 		manaBar = (ManaIndicator) a.findViewById(R.id.self_mana);
 		manaBar.setMaxValue(mana);
 		spellPicture = (SpellPicture) a.findViewById(R.id.self_spell);
-		spellPicture.initAnimListener();
 		BuffPicture[] buffs = new BuffPicture[5];
 		buffs[0] = (BuffPicture)a.findViewById(R.id.self_buff1);
 		buffs[1] = (BuffPicture)a.findViewById(R.id.self_buff2);

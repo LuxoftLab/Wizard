@@ -18,7 +18,6 @@ public class EnemyGUI extends PlayerGUI {
 		manaBar = (ManaIndicator) a.findViewById(R.id.enemy_mana);
 		manaBar.setMaxValue(mana);
 		spellPicture = (SpellPicture) a.findViewById(R.id.enemy_spell);
-		spellPicture.initAnimListener();
 		BuffPicture[] buffs = new BuffPicture[5];
 		buffs[0] = (BuffPicture)a.findViewById(R.id.enemy_buff1);
 		buffs[1] = (BuffPicture)a.findViewById(R.id.enemy_buff2);

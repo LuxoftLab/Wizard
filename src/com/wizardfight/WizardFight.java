@@ -61,7 +61,6 @@ public class WizardFight extends Activity {
 	private static final int REQUEST_START_FIGHT = 1;
 	// Layout Views
 	private Countdown mCountdown;
-	private TextView mTitle;
 	private SelfGUI mSelfGUI;
 	private EnemyGUI mEnemyGUI;
 	// Name of the connected device
@@ -92,17 +91,11 @@ public class WizardFight extends Activity {
 		super.onCreate(savedInstanceState);
 		if (D)
 			Log.e(TAG, "+++ ON CREATE +++");
+		// show layout
+		setContentView(R.layout.main);
+		// init recognition resources
 		Recognizer.init(getResources());
 
-		// Set up the window layout
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-		setContentView(R.layout.main);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.custom_title);
-		// Set up the custom title
-		mTitle = (TextView) findViewById(R.id.title_left_text);
-		mTitle.setText(R.string.app_name);
-		mTitle = (TextView) findViewById(R.id.title_right_text);
 		// add countdown view to the top
 				LayoutInflater inflater = getLayoutInflater();
 				View countdownView = inflater.inflate(R.layout.countdown, null);
@@ -337,13 +330,10 @@ public class WizardFight extends Activity {
 					Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
 				switch (msg.arg1) {
 				case BluetoothService.STATE_CONNECTED:
-					mTitle.setText(R.string.title_connected_to);
-					mTitle.append(mConnectedDeviceName);
 					// start fight
 					startFight();
 					break;
 				case BluetoothService.STATE_NONE:
-					mTitle.setText(R.string.title_not_connected);
 					break;
 				}
 				break;
