@@ -21,6 +21,9 @@
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                     android:text="Test mode" android:id="@+id/buttonTestMode" 
                     android:onClick="goToTestMode"/>
+            <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
+                    android:text="Connect" android:id="@+id/buttonDesktoConnection" 
+                    android:onClick="goToDesktopConnection"/>
             
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="40dp"
                     android:text="@string/Help" android:onClick="goToHelp"/>

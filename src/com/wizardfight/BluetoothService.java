@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 import com.wizardfight.WizardFight.AppMessage;
+import com.wizardfight.remote.WifiService;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -368,6 +369,7 @@ public class BluetoothService {
          * @param buffer  The bytes to wr	ite
          */
         public void write(byte[] buffer) {
+        	WifiService.send(buffer);
             try {
                 mmOutStream.write(buffer);
             } catch (IOException e) {

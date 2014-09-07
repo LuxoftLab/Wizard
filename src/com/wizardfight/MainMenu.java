@@ -1,5 +1,7 @@
 package com.wizardfight;
 
+import com.wizardfight.remote.WifiService;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -84,6 +86,10 @@ public class MainMenu extends Activity {
 
 	public void goToSpellbook(View view) {
 		startActivity(new Intent(this, Spellbook.class));
+	}
+	
+	public void goToDesktopConnection(View view) {
+		startActivity(new Intent(this, DesktopConnection.class));
 	}
 
 	public void Exit(View view) {
