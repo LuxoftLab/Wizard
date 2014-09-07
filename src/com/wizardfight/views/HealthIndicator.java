@@ -3,29 +3,26 @@ package com.wizardfight.views;
 import android.content.Context;
 import android.graphics.*;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.view.View;
 
 /*
  * Horizontal bar with current and maximum value
  * and specified color
  */
 public class HealthIndicator extends Indicator {
-    protected int underBarColor;
-    protected float prevValue;
-    private double animStep;
-    long mAnimStartTime;
-
-    Handler mHandler = new Handler();
-    Runnable mTick = new Runnable() {
+    private int mUnderBarColor;
+    private float mPrevValue;
+    private double mAnimStep;
+    
+    private Handler mHandler = new Handler();
+    private Runnable mTick = new Runnable() {
         public void run() {
-            if(prevValue != curValue)
+            if(mPrevValue != mCurValue)
             {
-                if(prevValue > curValue)
-                    prevValue -= animStep;
-                if (prevValue < curValue)
-                    prevValue = curValue;
+                if(mPrevValue > mCurValue)
+                    mPrevValue -= mAnimStep;
+                if (mPrevValue < mCurValue)
+                    mPrevValue = mCurValue;
                 invalidate();
                 mHandler.postDelayed(this, 20);
             }
@@ -33,76 +30,69 @@ public class HealthIndicator extends Indicator {
                 mHandler.removeCallbacks(mTick);
         }
     };
-    void startAnimation() {
-        mAnimStartTime = SystemClock.uptimeMillis();
-        mHandler.removeCallbacks(mTick);
-        mHandler.post(mTick);
-    }
-	
+    
     public HealthIndicator (Context context,AttributeSet attrs) {
         super(context, attrs);
-        barColor = Color.GREEN;
-		textColor = Color.BLACK;
-        underBarColor = Color.RED;
+        mBarColor = Color.GREEN;
+		mTextColor = Color.BLACK;
+        mUnderBarColor = Color.RED;
+    }
+    
+    void startAnimation() {
+        mHandler.removeCallbacks(mTick);
+        mHandler.post(mTick);
     }
     
     @Override
     public void onDraw(Canvas canvas) {
         int width = getWidth();
         int height = getHeight();
-        rect.set(0,0,width,height);
+        mRect.set(0,0,width,height);
+        mPaint.setColor(Color.GRAY);
+        canvas.drawRect(mRect, mPaint);
 
-        Path clipPath = new Path();
-        float radius = 10.0f;
-        float padding = radius / 2;
-        int w = this.getWidth();
-        int h = this.getHeight();
-       /* clipPath.addRoundRect(new RectF(padding, padding, w - padding, h - padding), radius, radius, Path.Direction.CW);
-        canvas.clipPath(clipPath);*/
+        mPaint.setColor(mUnderBarColor);
+        mRect.right = width * mPrevValue / mMaxValue;
+        canvas.drawRect(mRect, mPaint);
 
-        paint.setColor(Color.GRAY);
-        canvas.drawRect(rect, paint);
-
-        paint.setColor(underBarColor);
-        rect.right = width * prevValue / maxValue;
-        canvas.drawRect(rect, paint);
-
-        paint.setColor(barColor);
-        rect.right = width * curValue / maxValue;
-        canvas.drawRect(rect, paint);
+        mPaint.setColor(mBarColor);
+        mRect.right = width * mCurValue / mMaxValue;
+        mRect.right++;
+        canvas.drawRect(mRect, mPaint);
         
-        String label = curValue + "/" + maxValue;
-        paint.setTextSize(height * 0.3f);
-        paint.getTextBounds(label, 0, label.length(), textBounds);
-        paint.setColor(Color.WHITE);
+        String label = mCurValue + "/" + mMaxValue;
+        mPaint.setTextSize(height * 0.3f);
+        mPaint.getTextBounds(label, 0, label.length(), mTextBounds);
+        mPaint.setColor(Color.WHITE);
 
-        canvas.drawText(label, (width - textBounds.width()) * 0.5f,
-                (height+1 + textBounds.height()) * 0.5f, paint);
-        paint.setColor(textColor);
+        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f,
+                (height+1 + mTextBounds.height()) * 0.5f, mPaint);
+        mPaint.setColor(mTextColor);
         
-        canvas.drawText(label, (width - textBounds.width()) * 0.5f, 
-        		(height + textBounds.height()) * 0.5f, paint);
+        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f, 
+        		(height + mTextBounds.height()) * 0.5f, mPaint);
     }
     
     public void setValue(int value) {
-        if(value>maxValue)
-            value=maxValue;
+        if(value>mMaxValue)
+            value=mMaxValue;
         else if(value<0)
             value=0;
-    	curValue = value;
-    	if(curValue < prevValue) { // damage 
-    		animStep = (prevValue - curValue) * 0.1f;
+    	mCurValue = value;
+    	if(mCurValue < mPrevValue) { // damage 
+    		mAnimStep = (mPrevValue - mCurValue) * 0.1f;
         	startAnimation();
     	} else {
-    		prevValue = curValue;
+    		mPrevValue = mCurValue;
+    		invalidate();
     	}
     }
     
     public void setMaxValue(int value) {
-    	curValue = maxValue = value;
+    	mCurValue = mMaxValue = value;
     }
     
     public int getValue() {
-    	return curValue;
+    	return mCurValue;
     }
 }

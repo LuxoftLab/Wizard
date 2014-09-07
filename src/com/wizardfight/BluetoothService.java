@@ -19,9 +19,9 @@ import android.util.Log;
 
 /**
  * This class does all the work for setting up and managing Bluetooth
- * connections with other devices. It has a thread that listens for
- * incoming connections, a thread for connecting with a device, and a
- * thread for performing data transmissions when connected.
+ * connections with other devices. It has a thread that listens for incoming
+ * connections, a thread for connecting with a device, and a thread for
+ * performing data transmissions when connected.
  */
 public class BluetoothService {
     // Debugging
@@ -384,4 +384,25 @@ public class BluetoothService {
             }
         }
     }
+    
+    public void release() {
+		// remove messages from handler
+		if (mHandler != null) {
+			mHandler.removeCallbacksAndMessages(null);
+			mHandler = null;
+		}
+		// cancel connection threads
+		if (mConnectThread != null) {
+			mConnectThread.cancel();
+			mConnectThread = null;
+		}
+		if (mConnectedThread != null) {
+			mConnectedThread.cancel();
+			mConnectedThread = null;
+		}
+		if (mAcceptThread != null) {
+			mAcceptThread.cancel();
+			mAcceptThread = null;
+		}
+	}
 }

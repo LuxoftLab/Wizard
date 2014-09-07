@@ -23,6 +23,8 @@ public class PlayerGUI {
 	}
 	
 	public void clear() {
+		//healthBar.setValue(healthBar.getMaxValue());
+		//manaBar.setValue(manaBar.getMaxValue());
 		buffPanel.removeBuffs();
 		spellPicture.setShape(Shape.NONE);
 	}

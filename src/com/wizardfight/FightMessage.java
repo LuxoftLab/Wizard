@@ -133,7 +133,7 @@ public class FightMessage {
 	}
 	
 	public static Shape getShapeFromMessage(FightMessage message) {
-		Shape shape;
+		Shape shape = Shape.NONE;
 		switch( message.action ) {
 		case HIGH_DAMAGE:
 			shape = Shape.CIRCLE;
@@ -166,8 +166,6 @@ public class FightMessage {
 		case NEW_HP_OR_MANA:
 			if(message.param >= 0)
 				shape = Shape.values()[ message.param ];
-			else
-				shape = Shape.NONE;
 			break;
 		default:
 			shape = Shape.NONE;
@@ -199,6 +197,44 @@ public class FightMessage {
 		return action;
 	}
 
+	public static boolean isSpellCreatedByEnemy(FightMessage msg) {
+		boolean spellDealsDamage = true;
+		switch(msg.action) {
+		case BUFF_ON:
+			Buff buff = Buff.values()[ msg.param ];
+			switch(buff) {
+			case BLESSING:
+			case CONCENTRATION:
+			case HOLY_SHIELD:
+				spellDealsDamage = false;
+				break;
+			case WEAKNESS:
+			default:
+				spellDealsDamage = true;
+				break;
+			}
+			break;
+		case DAMAGE:
+		case HIGH_DAMAGE:
+			spellDealsDamage = true;
+			break;
+		case HEAL:
+			spellDealsDamage = false;
+			break;
+		case NEW_HP_OR_MANA:
+			Shape s = Shape.values()[ msg.param ];
+			FightAction a = FightMessage.getActionFromShape(s);
+			spellDealsDamage = ( a != FightAction.HEAL);
+			break;
+		case NONE:
+		default:
+			break;
+		}
+		
+		Log.e("Wizard Fight", "sdd: " + spellDealsDamage + ", tar: " + msg.target);
+		return (spellDealsDamage != (msg.target == Target.ENEMY));
+	}
+	
 	public void setParam(int parameter) {
 		param = parameter;
 	}

@@ -16,14 +16,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-class ToManyRecordsException extends Exception {
-	private static final long serialVersionUID = 1L;
-	public String toString() {
-		return "To many accelerator records! ";
-	}
-}
 
-public class AcceleratorThread extends Thread implements SensorEventListener {
+public class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
 	private boolean listening;
 	private boolean soundPlaying;
@@ -37,8 +31,8 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private EnumMap<Shape, Integer> shapeSoundIDs;
 	private EnumMap<Buff, Integer> buffSoundIDs;
 
-	public AcceleratorThread(Context context, SensorManager sm, Sensor s) {
-		setName("Accelerator thread");
+	public SensorAndSoundThread(Context context, SensorManager sm, Sensor s) {
+		setName("Sensor and Sound thread");
 		mSensorManager = sm;
 		mAccelerometer = s;
 		soundPlaying = true;
@@ -99,7 +93,6 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		if (D) Log.e("Wizard Fight", "start getting data called");
 		records = new ArrayList<Vector3d>();
 		listening = true;
-		if (D) Log.e("Wizard Fight", "[data] sound playing?: " + soundPlaying);
 		if(!soundPlaying) return;
 		if (wandStreamID == -1) {
 			wandStreamID = soundPool.play(wandSoundID, 0.25f, 0.25f, 0, -1, 1);
@@ -151,13 +144,6 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 		double len = Math.sqrt(x * x + y * y + z * z);
 		Vector3d rec = new Vector3d(x , y, z);
 		records.add(rec);
-		if(records.size() > 1000) {
-			try {
-				throw new ToManyRecordsException();
-			} catch (ToManyRecordsException e) {
-				if (D) Log.e("Wizard Fight", e.toString());
-			}
-		}
 		if (D) Log.e("Wizard Fight", "size: " + records.size());
 		float amplitude = (float) len / 10 + 0.1f;
 		if (amplitude > 1.0f)

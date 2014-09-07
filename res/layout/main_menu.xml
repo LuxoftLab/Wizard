@@ -13,11 +13,11 @@
             <ImageView android:layout_width="match_parent" android:layout_height="200dp"
                        android:background="@drawable/logo" />
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                    android:text="@string/Create_game" android:onClick="goToGameCreate"
+                    android:text="@string/Create_game" android:onClick="goToCreateGame"
                     android:id="@+id/buttonCreateGame" />
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                     android:text="@string/Join_game" android:id="@+id/buttonJoinGame"
-                    android:onClick="goToListOfBluetooth" />
+                    android:onClick="goToJoinGame" />
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                     android:text="Test mode" android:id="@+id/buttonTestMode" 
                     android:onClick="goToTestMode"/>

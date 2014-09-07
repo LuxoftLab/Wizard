@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class PlayerBot extends Thread {
 	// for debugging 
-	private final boolean D = true;
+	private final boolean D = false;
 	private final static String TAG = "Wizard Fight Bot";
 	
 	private int mStartHP;
@@ -40,8 +40,8 @@ public class PlayerBot extends Thread {
 	
 	public void run() {
 		Looper.prepare();
-		Handler handler = new Handler();
 		mLooper = Looper.myLooper();
+		Log.e(TAG, "Looper null? : " + (mLooper == null));
 		Looper.loop();
 	}
 	
@@ -53,7 +53,7 @@ public class PlayerBot extends Thread {
 		mSelfState = null;
 		mEnemyState = null;
 		mMainHandler = null;
-		mLooper.quit();
+		if(mLooper != null) mLooper.quit();
 	}
 	
 	// The Handler that gets information back from the BluetoothChatService
@@ -71,6 +71,7 @@ public class PlayerBot extends Thread {
 				switch (appMsg) {
 				case MESSAGE_FROM_SELF:
 					FightMessage selfMsg = (FightMessage) msg.obj;
+					// Log.e(TAG, "self msg : " + selfMsg);
 					handleSelfMessage(selfMsg);
 					break;
 				case MESSAGE_SELF_DEATH:
@@ -80,7 +81,7 @@ public class PlayerBot extends Thread {
 				case MESSAGE_FROM_ENEMY:
 					// message from main thread are coming as FightMessage objects
 					FightMessage enemyMsg = (FightMessage) msg.obj;
-					if (D) Log.e(TAG, "enemy msg: " + enemyMsg);
+					// Log.e(TAG, "enemy msg: " + enemyMsg);
 
 					switch (enemyMsg.action) {
 					case FIGHT_END:

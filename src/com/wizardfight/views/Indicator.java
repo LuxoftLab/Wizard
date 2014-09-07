@@ -2,8 +2,6 @@ package com.wizardfight.views;
 
 import android.content.Context;
 import android.graphics.*;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -12,77 +10,73 @@ import android.view.View;
  * and specified color
  */
 public class Indicator extends View {
-	protected Paint paint;
-	protected RectF rect;
-	protected Rect textBounds;
+	protected Paint mPaint;
+	protected RectF mRect;
+	protected Rect mTextBounds;
 	 
-	protected int barColor;
-	protected int textColor;
+	protected int mBarColor;
+	protected int mTextColor;
 	
-	protected int maxValue;
-	protected int curValue;
+	protected int mMaxValue;
+	protected int mCurValue;
 	
     public Indicator (Context context,AttributeSet attrs) {
         super(context, attrs);
-        barColor = Color.BLACK;
-        textColor = Color.WHITE;
-        maxValue = 100;
-        curValue = maxValue;
-        paint = new Paint();
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        rect = new RectF();
-        textBounds = new Rect();
+        mBarColor = Color.BLACK;
+        mTextColor = Color.WHITE;
+        mMaxValue = 100;
+        mCurValue = mMaxValue;
+        mPaint = new Paint();
+        mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mRect = new RectF();
+        mTextBounds = new Rect();
     }
     
     @Override
     public void onDraw(Canvas canvas) {
         int width = getWidth();
         int height = getHeight();
-        rect.set(0,0,width,height);
+        mRect.set(0,0,width,height);
 
-        Path clipPath = new Path();
-        float radius = 10.0f;
-        float padding = radius / 2;
-        int w = this.getWidth();
-        int h = this.getHeight();
-/*        clipPath.addRoundRect(new RectF(padding, padding, w - padding, h - padding), radius, radius, Path.Direction.CW);
-        canvas.clipPath(clipPath);*/
+        mPaint.setColor(Color.GRAY);
+        canvas.drawRect(mRect, mPaint);
 
-        paint.setColor(Color.GRAY);
-        canvas.drawRect(rect, paint);
-
-        paint.setColor(barColor);
-        rect.right = width * curValue / maxValue;
-        canvas.drawRect(rect, paint);
+        mPaint.setColor(mBarColor);
+        mRect.right = width * mCurValue / mMaxValue;
+        canvas.drawRect(mRect, mPaint);
         
-        String label = curValue + "/" + maxValue;
-        paint.setTextSize(height * 0.3f);
-        paint.getTextBounds(label, 0, label.length(), textBounds);
+        String label = mCurValue + "/" + mMaxValue;
+        mPaint.setTextSize(height * 0.3f);
+        mPaint.getTextBounds(label, 0, label.length(), mTextBounds);
 
-        paint.setColor(Color.GRAY);
-        canvas.drawText(label, (width - textBounds.width()) * 0.5f,
-                (height+1+ textBounds.height()) * 0.5f, paint);
+        mPaint.setColor(Color.GRAY);
+        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f,
+                (height+1+ mTextBounds.height()) * 0.5f, mPaint);
 
-        paint.setColor(Color.BLACK);
-        canvas.drawText(label, (width - textBounds.width()) * 0.5f, 
-        		(height + textBounds.height()) * 0.5f, paint);
+        mPaint.setColor(Color.BLACK);
+        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f, 
+        		(height + mTextBounds.height()) * 0.5f, mPaint);
     }
     
     public void setValue(int value) {
-        if(value>maxValue)
-            value=maxValue;
+        if(value>mMaxValue)
+            value=mMaxValue;
         else if(value<0)
             value=0;
-    	curValue = value;
+    	mCurValue = value;
     	invalidate();
     }
     
     public void setMaxValue(int value) {
-    	curValue = maxValue = value;
+    	mCurValue = mMaxValue = value;
     	invalidate();
     }
     
     public int getValue() {
-    	return curValue;
+    	return mCurValue;
+    }
+    
+    public int getMaxValue() {
+    	return mMaxValue;
     }
 }
