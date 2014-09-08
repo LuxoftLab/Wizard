@@ -96,6 +96,11 @@ public class MainMenu extends Activity {
 		startActivity(new Intent(this, Spellbook.class));
 	}
 
+	public void goToSettings(View view) {
+		startActivity(new Intent(this, WizardPreferences.class));
+		Log.e("Wizard Fight", "go to settings");
+	}
+	
 	public void Exit(View view) {
 		BluetoothService.getInstance().release();
 		// return BT state to last one in 

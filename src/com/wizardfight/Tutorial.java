@@ -92,7 +92,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 
         readSpellXml();
         readTutotialXml();
-        Recognizer.init(getResources());
+        Recognizer.init(getResources(),"");
         
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

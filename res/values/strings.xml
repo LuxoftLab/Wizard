@@ -2,6 +2,8 @@
 
 <resources>
     <string name="app_name">Wizard Fight</string>
+    <!--  Preferences -->
+    <string name="recognition_type">Recognition type</string>
     <!--  BluetoothService -->
     <string name="send">Send</string>
     <string name="not_connected">You are not connected to a device</string>
@@ -30,6 +32,7 @@
     <string name="Join_game">Join game</string>
     <string name="Help">Help</string>
     <string name="Spellbook">Spellbook</string>
+    <string name="settings">Settings</string>
     <string name="Exit">Exit</string>
     <!--  Wizard Fight -->
     <string name="client_waiting">Waiting for opponent...</string>

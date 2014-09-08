@@ -14,17 +14,33 @@ public class Recognizer {
     private static KMeansQuantizer quantizer;
     private static HMM hmm;
 
-    public static void init(Resources res) {
+    public static void init(Resources res, String recoFileName) {
 		// The input to the HMM must be a quantized discrete value
 		// We therefore use a KMeansQuantizer to covert the N-dimensional
 		// continuous data into 1-dimensional discrete data
-		final int NUM_SYMBOLS = 20; // 10 - default
+		int quantizerFileId = R.raw.hmm_quantizer;
+		int modelFileId =  R.raw.hmm_model;
+		
+		// choose recognition base 
+		if(recoFileName.equals("23.08.14")) {
+			Log.e("Wizard Fight", "recognition 23.08.14");
+			quantizerFileId = R.raw.hmm_quantizer;
+			modelFileId = R.raw.hmm_model;
+		} else if (recoFileName.equals("07.09.14")){
+			Log.e("Wizard Fight", "recognition 07.09.14");
+			quantizerFileId = R.raw.hmm_quantizer_0709;
+			modelFileId = R.raw.hmm_model_0709;
+		} else {
+			Log.e("Wizard Fight", "recognition 23.08.14");
+		}
+
+    	final int NUM_SYMBOLS = 20; // 10 - default
 		quantizer = new KMeansQuantizer(NUM_SYMBOLS);
 
 		// Load quantizer from serialized file
 		try {
 			ObjectInputStream is = new ObjectInputStream(
-					res.openRawResource(R.raw.hmm_quantizer));
+					res.openRawResource(R.raw.hmm_quantizer_0709));
 			quantizer = (KMeansQuantizer) is.readObject();
 			is.close();
 		} catch (Exception ex) {
@@ -36,7 +52,7 @@ public class Recognizer {
 		// Load the HMM model from a file
 		try {
 			ObjectInputStream is = new ObjectInputStream(
-					res.openRawResource(R.raw.hmm_model));
+					res.openRawResource(R.raw.hmm_model_0709));
 			hmm = (HMM) is.readObject();
 			is.close();
 		} catch (Exception ex) {

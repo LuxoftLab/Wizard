@@ -14,11 +14,13 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -94,7 +96,11 @@ public class WizardFight extends Activity {
 		// show layout
 		setContentView(R.layout.main);
 		// init recognition resources
-		Recognizer.init(getResources());
+		SharedPreferences appPrefs = 
+				PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		String sType = appPrefs.getString("recognition_type", "");
+		Log.e(TAG, sType);
+		Recognizer.init(getResources(), sType);
 
 		// add countdown view to the top
 				LayoutInflater inflater = getLayoutInflater();
