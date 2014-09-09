@@ -2,6 +2,8 @@ package com.wizardfight;
 
 import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
+import com.wizardfight.FightMessage.Target;
+import com.wizardfight.FightMessage.FightAction;
 
 import java.util.ArrayList;
 

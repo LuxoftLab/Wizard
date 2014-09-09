@@ -42,4 +42,6 @@
     <string name="connection_fail">Unable to connect to the device</string>
     <!--  Tutorial  -->
     <string name="calibrating">Calibrating... Please wait</string>
+    <!--  Connection to desktop  -->
+    <string name="connect">Connect</string>
 </resources>

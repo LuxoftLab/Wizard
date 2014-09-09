@@ -271,4 +271,64 @@ public class FightMessage {
 	public String toString() {
 		return target + " " + action + " " + param + " " + health + " " + mana;
 	}
+	
+	public enum Target {
+		SELF,
+		ENEMY;
+		
+		static String[] names = { "self", "enemy" };
+		
+		@Override
+		public String toString() {
+			return names[ this.ordinal() ];
+		}
+	}
+
+	/*
+	 * Fight action type
+	 */
+	public enum FightAction {
+		ENEMY_READY,
+		FIGHT_START,
+		FIGHT_END,
+		DAMAGE,
+		HIGH_DAMAGE,
+		HEAL,
+		BUFF_ON,
+		BUFF_TICK,
+		BUFF_OFF,
+		NEW_HP_OR_MANA,
+		NONE;
+		
+		/*
+		 *  strings are needed for debugging or string message 
+		 *  sending, may be deleted in future
+		 */
+		static String[] names = {
+			"enemy ready",
+			"fight start",
+			"fight end",
+			"damage",
+			"high_damage",
+			"heal",
+			"buff_on",
+			"buff_tick",
+			"buff_off",
+			"new_hp_or_mana",
+			"none"
+		};
+		
+		@Override
+		public String toString() {
+			return names[ this.ordinal() ];
+		}
+		
+		public static FightAction getFromString(String s) {
+			for(int i=0; i<names.length; i++) {
+				if( s.equals(names[i]) ) 
+					return FightAction.values()[ i ];
+			}
+			return FightAction.NONE;
+		}
+	}
 }
