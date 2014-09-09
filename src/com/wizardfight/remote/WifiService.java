@@ -46,6 +46,7 @@ public class WifiService {
 			try {
 				InetAddress serverAddr = InetAddress.getByName(addr);
 				socket = new Socket(serverAddr, PORT);
+				socket.setTcpNoDelay(true);
 				OutputStream out = socket.getOutputStream();
 				while(socket.isConnected()) {
 					while(!queue.isEmpty()) {
