@@ -14,6 +14,8 @@ public class SelfGUI extends PlayerGUI {
 		playerName = (TextView) a.findViewById(R.id.self_name);
 		playerName.setText("Return buff logic");
 		debugField = (TextView) a.findViewById(R.id.self_debug);
+		playerName.setVisibility(android.view.View.GONE); // hide debug
+		debugField.setVisibility(android.view.View.GONE); // hide debug
 		healthBar = (HealthIndicator) a.findViewById(R.id.self_health);
 		healthBar.setMaxValue(hp);
 		manaBar = (ManaIndicator) a.findViewById(R.id.self_mana);

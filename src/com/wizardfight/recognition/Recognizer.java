@@ -40,7 +40,7 @@ public class Recognizer {
 		// Load quantizer from serialized file
 		try {
 			ObjectInputStream is = new ObjectInputStream(
-					res.openRawResource(R.raw.hmm_quantizer_0709));
+					res.openRawResource(quantizerFileId));
 			quantizer = (KMeansQuantizer) is.readObject();
 			is.close();
 		} catch (Exception ex) {
@@ -52,7 +52,7 @@ public class Recognizer {
 		// Load the HMM model from a file
 		try {
 			ObjectInputStream is = new ObjectInputStream(
-					res.openRawResource(R.raw.hmm_model_0709));
+					res.openRawResource(modelFileId));
 			hmm = (HMM) is.readObject();
 			is.close();
 		} catch (Exception ex) {

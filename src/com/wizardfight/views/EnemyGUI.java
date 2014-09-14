@@ -13,6 +13,8 @@ public class EnemyGUI extends PlayerGUI {
 		super(a);
 		playerName = (TextView) a.findViewById(R.id.enemy_name);
 		debugField = (TextView) a.findViewById(R.id.enemy_debug);
+		playerName.setVisibility(android.view.View.GONE); // hide debug
+		debugField.setVisibility(android.view.View.GONE); // hide debug
 		healthBar = (HealthIndicator) a.findViewById(R.id.enemy_health);
 		healthBar.setMaxValue(hp);
 		manaBar = (ManaIndicator) a.findViewById(R.id.enemy_mana);

@@ -414,9 +414,12 @@ public class WizardFight extends Activity {
 				break;
 			case MESSAGE_MANA_REGEN:
 				mSelfState.manaTick();
-				mEnemyState.manaTick();
 				mSelfGUI.getManaBar().setValue(mSelfState.getMana());
-				mEnemyGUI.getManaBar().setValue(mEnemyState.getMana());
+				// inform enemy about new mana
+				FightMessage fMsg = new FightMessage(Target.ENEMY, 
+						FightAction.NEW_HP_OR_MANA, Shape.NONE.ordinal());
+				sendFightMessage(fMsg);
+				// send next tick after 2 sec
 				Message msgManaReg = this.obtainMessage(
 						AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
 				this.sendMessageDelayed(msgManaReg, 2000);

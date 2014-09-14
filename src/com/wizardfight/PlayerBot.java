@@ -1,7 +1,6 @@
 package com.wizardfight;
 
 import com.wizardfight.WizardFight.AppMessage;
-
 import com.wizardfight.FightMessage.Target;
 import com.wizardfight.FightMessage.FightAction;
 
@@ -93,6 +92,11 @@ public class PlayerBot extends Thread {
 					break;
 				case MESSAGE_MANA_REGEN:
 					mSelfState.manaTick();
+					// inform enemy about new mana
+					FightMessage fMsg = new FightMessage(Target.ENEMY, 
+							FightAction.NEW_HP_OR_MANA, Shape.NONE.ordinal());
+					sendFightMessage(fMsg);
+					// send next tick after 2 sec
 					Message msgManaReg = this.obtainMessage(
 							AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
 					this.sendMessageDelayed(msgManaReg, 2000);
