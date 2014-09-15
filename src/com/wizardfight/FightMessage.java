@@ -231,7 +231,7 @@ public class FightMessage {
 			break;
 		}
 		
-		Log.e("Wizard Fight", "sdd: " + spellDealsDamage + ", tar: " + msg.target);
+		//Log.e("Wizard Fight", "sdd: " + spellDealsDamage + ", tar: " + msg.target);
 		return (spellDealsDamage != (msg.target == Target.ENEMY));
 	}
 	
