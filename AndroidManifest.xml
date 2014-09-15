@@ -46,6 +46,7 @@
             	  android:screenOrientation="portrait"
                   android:configChanges="orientation|keyboardHidden" />
         <activity android:name=".DesktopConnection"
+            	  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             	  android:screenOrientation="portrait"
                   android:configChanges="orientation" />
     </application>
