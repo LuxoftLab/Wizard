@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.wizardfight.components.Vector3d;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,11 +28,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,9 +44,9 @@ import android.widget.Toast;
 public class WizardFight extends Activity {
 	public static final int PLAYER_HP = 200;
 	public static final int PLAYER_MANA = 100;
-	// Debugging
 	private PlayerBot mPlayerBot;
 	private boolean mIsEnemyBot = false;
+	// Debugging
 	private int mMyCounter;
 	private static final String TAG = "Wizard Fight";
 	private static final boolean D = false;
@@ -61,8 +65,6 @@ public class WizardFight extends Activity {
 	// Key names received from the BluetoothChatService Handler
 	public static final String DEVICE_NAME = "device_name";
 	public static final String TOAST = "toast";
-	// Intent request codes
-	private static final int REQUEST_START_FIGHT = 1;
 	// Layout Views
 	private Countdown mCountdown;
 	private SelfGUI mSelfGUI;
@@ -76,16 +78,16 @@ public class WizardFight extends Activity {
 	private SensorAndSoundThread mSensorAndSoundThread = null;
 	// Member object for bluetooth services
 	private BluetoothService mBtService = null;
-	// Last key event action code 
-	private int mLastAction = -1;
-	// is volume click action is in process
-	private boolean mIsBetweenVolumeClicks = false;
-	private boolean mIsVolumeButtonBlocked = false; 
+	// Last touch action code
+	private int mLastTouchAction = -1;
+
+	private boolean mIsInCast = false;
+	private boolean mIsCastAbilityBlocked = false;
 	private boolean mIsSelfReady;
 	private boolean mIsEnemyReady;
 
 	private Dialog mClientWaitingDialog;
-	private EndDialog mEndDialog;
+	private FightEndDialog mFightEndDialog;
 	// test mode dialog with spell names
 	private ArrayAdapter<String> mShapeNames;
 	private AlertDialog.Builder mBotSpellDialog;
@@ -95,28 +97,47 @@ public class WizardFight extends Activity {
 		super.onCreate(savedInstanceState);
 		if (D)
 			Log.e(TAG, "+++ ON CREATE +++");
-		// show layout
-		setContentView(R.layout.main);
-		// init recognition resources
-		SharedPreferences appPrefs = 
-				PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		String sType = appPrefs.getString("recognition_type", "");
-		Log.e(TAG, sType);
-		Recognizer.init(getResources(), sType);
-
+		setContentView(R.layout.fight);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// add countdown view to the top
-				LayoutInflater inflater = getLayoutInflater();
-				View countdownView = inflater.inflate(R.layout.countdown, null);
-				mCountdown = new Countdown(this, countdownView, mHandler);
-		        getWindow().addContentView(countdownView,
-		                                   new ViewGroup.LayoutParams(
-		                                   ViewGroup.LayoutParams.FILL_PARENT,
-		                                   ViewGroup.LayoutParams.FILL_PARENT));
+		LayoutInflater inflater = getLayoutInflater();
+		View countdownView = inflater.inflate(R.layout.countdown, null);
+		mCountdown = new Countdown(this, countdownView, mHandler);
+		getWindow().addContentView(
+				countdownView,
+				new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+						ViewGroup.LayoutParams.FILL_PARENT));
+		// Init recognition resources
+		SharedPreferences appPrefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		String rType = appPrefs.getString("recognition_type", "");
+		Recognizer.init(getResources(), rType);
+
+		// Init on touch listener
+		LinearLayout rootLayout = (LinearLayout) findViewById(R.id.fight_layout_root);
+		rootLayout.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (mAreMessagesBlocked)
+					return false;
+				int action = event.getAction();
+				if (action == MotionEvent.ACTION_UP
+						|| action == MotionEvent.ACTION_DOWN) {
+					if (mLastTouchAction == action) {
+						return true;
+					}
+					buttonClick();
+					mLastTouchAction = action;
+				}
+				return false;
+			}
+		});
+
 		// Get sensors
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		// check if it`s test mode
+		// Check if it`s test mode
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			mIsEnemyBot = extras.getBoolean("IS_ENEMY_BOT");
@@ -124,14 +145,15 @@ public class WizardFight extends Activity {
 		if (D)
 			Log.e(TAG, "Enemy bot?: " + mIsEnemyBot);
 
-		// initialize GUI and logic
+		// Initialize GUI and logic
 		setupApp();
 		mIsSelfReady = false;
 		mIsEnemyReady = false;
-		// Start listening clients if server
+		
 		if (mIsEnemyBot) {
 			startFight();
 		} else {
+			// Start listening clients if server
 			if (mBtService.isServer()) {
 				mBtService.start();
 				initWaitingDialog(R.string.client_waiting);
@@ -144,7 +166,7 @@ public class WizardFight extends Activity {
 			initBotSpellDialog();
 		}
 		// Initialize end dialog object
-		mEndDialog = new EndDialog();
+		mFightEndDialog = new FightEndDialog();
 	}
 
 	@Override
@@ -160,8 +182,8 @@ public class WizardFight extends Activity {
 		mIsRunning = true;
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
-		if (mEndDialog.isNeedToShow()) {
-			mEndDialog.show();
+		if (mFightEndDialog.isNeedToShow()) {
+			mFightEndDialog.show();
 		}
 		// Initialize new accelerator thread
 		mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
@@ -196,16 +218,16 @@ public class WizardFight extends Activity {
 		if (mBtService != null) {
 			mBtService.stop();
 			mBtService = null;
-		}	
+		}
 		Log.e(TAG, "--- ON DESTROY ---");
 	}
 
 	private void stopSensorAndSound() {
 		Log.e("Wizard Fight", "stop sensor and sound called");
 		// stop cast if its started
-		if (mIsBetweenVolumeClicks) {
-			mIsBetweenVolumeClicks = false;
-			mIsVolumeButtonBlocked = false;
+		if (mIsInCast) {
+			mIsInCast = false;
+			mIsCastAbilityBlocked = false;
 		}
 
 		if (mSensorAndSoundThread != null) {
@@ -225,7 +247,8 @@ public class WizardFight extends Activity {
 		// for debugging
 		mMyCounter = 0;
 		if (mIsEnemyBot) {
-			if(mPlayerBot != null) mPlayerBot.release();
+			if (mPlayerBot != null)
+				mPlayerBot.release();
 			mPlayerBot = new PlayerBot(PLAYER_HP, PLAYER_MANA, mHandler);
 		}
 		// Create players states
@@ -309,8 +332,8 @@ public class WizardFight extends Activity {
 		// start countdown
 		if (D)
 			Log.e(TAG, "before start countdown");
-		
-        mCountdown.startCountdown();
+
+		mCountdown.startCountdown();
 		if (D)
 			Log.e(TAG, "after start countdown");
 		if (D)
@@ -379,7 +402,8 @@ public class WizardFight extends Activity {
 			case MESSAGE_FROM_ENEMY:
 				byte[] recvBytes = (byte[]) msg.obj;
 				FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
-				//mEnemyGUI.log("enemy msg: " + enemyMsg + " " + (mMyCounter++));
+				// mEnemyGUI.log("enemy msg: " + enemyMsg + " " +
+				// (mMyCounter++));
 				// if (D) Log.e(TAG, "enemy msg: " + enemyMsg + " " +
 				// (myCounter));
 
@@ -416,7 +440,7 @@ public class WizardFight extends Activity {
 				mSelfState.manaTick();
 				mSelfGUI.getManaBar().setValue(mSelfState.getMana());
 				// inform enemy about new mana
-				FightMessage fMsg = new FightMessage(Target.ENEMY, 
+				FightMessage fMsg = new FightMessage(Target.ENEMY,
 						FightAction.NEW_HP_OR_MANA, Shape.NONE.ordinal());
 				sendFightMessage(fMsg);
 				// send next tick after 2 sec
@@ -434,20 +458,21 @@ public class WizardFight extends Activity {
 		private void handleSelfMessage(FightMessage selfMsg) {
 			Shape sendShape = FightMessage.getShapeFromMessage(selfMsg);
 			if (sendShape != Shape.NONE) {
-				mIsVolumeButtonBlocked = false;
+				mIsCastAbilityBlocked = false;
 			}
-			//mSelfGUI.log("self msg : " + selfMsg + " " + (mMyCounter++));
+			// mSelfGUI.log("self msg : " + selfMsg + " " + (mMyCounter++));
 			Log.e(TAG, "self msg : " + selfMsg + " " + mMyCounter);
 			// request mana for spell
 			boolean canBeCasted = mSelfState.requestSpell(selfMsg);
 			if (!canBeCasted) {
 				return;
 			}
-			// play shape sound. condition is needed when game is suddenly paused after spell
-			if(mSensorAndSoundThread != null)  {
+			// play shape sound. condition is needed when game is suddenly
+			// paused after spell
+			if (mSensorAndSoundThread != null) {
 				mSensorAndSoundThread.playShapeSound(sendShape);
 			}
-			
+
 			mSelfGUI.getManaBar().setValue(mSelfState.mana);
 
 			if (selfMsg.target == Target.SELF) {
@@ -494,7 +519,7 @@ public class WizardFight extends Activity {
 				}
 			}
 
-			// refresh enemy 
+			// refresh enemy
 			if (FightMessage.isSpellCreatedByEnemy(enemyMsg)) {
 				mEnemyGUI.getSpellPicture().setShape(recvShape);
 			}
@@ -589,56 +614,36 @@ public class WizardFight extends Activity {
 			message = "You lose!";
 		}
 
-		mEndDialog.init(message);
+		mFightEndDialog.init(message);
 		// consider the dialog call while activity is not running
-		if(mIsRunning) {
-			mEndDialog.show();
+		if (mIsRunning) {
+			mFightEndDialog.show();
 		} else {
-			mEndDialog.setNeedToShow(true);
-		}
-	} 
-
-	public void buttonClick() {
-		if (mIsVolumeButtonBlocked)
-			return;
-
-		if (!mIsBetweenVolumeClicks) {
-			mSensorAndSoundThread.startGettingData();
-			mIsBetweenVolumeClicks = true;
-
-		} else {
-			mIsVolumeButtonBlocked = true;
-
-			ArrayList<Vector3d> records = mSensorAndSoundThread.stopAndGetResult();
-			mIsBetweenVolumeClicks = false;
-
-			if (records.size() > 10) {
-				new RecognitionThread(mHandler, records)
-						.start();
-			} else {
-				// if shord record - don`t recognize & unblock
-				mIsVolumeButtonBlocked = false;
-			}
+			mFightEndDialog.setNeedToShow(true);
 		}
 	}
 
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		
-		int action = event.getAction();
-		int keyCode = event.getKeyCode();
-		
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_VOLUME_UP:
-		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			if(mLastAction == action) {
-				return true;
+	public void buttonClick() {
+		if (mIsCastAbilityBlocked)
+			return;
+
+		if (!mIsInCast) {
+			mSensorAndSoundThread.startGettingData();
+			mIsInCast = true;
+
+		} else {
+			mIsCastAbilityBlocked = true;
+
+			ArrayList<Vector3d> records = mSensorAndSoundThread
+					.stopAndGetResult();
+			mIsInCast = false;
+
+			if (records.size() > 10) {
+				new RecognitionThread(mHandler, records).start();
+			} else {
+				// if shord record - don`t recognize & unblock
+				mIsCastAbilityBlocked = false;
 			}
-			buttonClick();
-			mLastAction = action;
-			return true;
-		default:
-			return super.dispatchKeyEvent(event);
 		}
 	}
 
@@ -650,17 +655,17 @@ public class WizardFight extends Activity {
 		}
 	}
 
-	class EndDialog {
+	class FightEndDialog {
 		private DialClickListener mmClickListener;
 		private DialKeyListener mmKeyListener;
 		private AlertDialog mmDialog;
 		private boolean mmIsNeedToShow;
-		
-		public EndDialog() {
+
+		public FightEndDialog() {
 			mmClickListener = new DialClickListener();
 			mmKeyListener = new DialKeyListener();
 		}
-		
+
 		public void init(String message) {
 			mmIsNeedToShow = false;
 			mmDialog = new AlertDialog.Builder(WizardFight.this).create();
@@ -671,20 +676,20 @@ public class WizardFight extends Activity {
 			mmDialog.setCancelable(false);
 			mmDialog.setOnKeyListener(mmKeyListener);
 		}
-		
+
 		public void setNeedToShow(boolean isNeed) {
 			mmIsNeedToShow = isNeed;
 		}
-		
+
 		public boolean isNeedToShow() {
 			return mmIsNeedToShow;
 		}
-		
+
 		public void show() {
 			mmDialog.show();
 		}
-		
-		class DialClickListener implements DialogInterface.OnClickListener  {
+
+		class DialClickListener implements DialogInterface.OnClickListener {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -699,8 +704,8 @@ public class WizardFight extends Activity {
 						startFight();
 					} else {
 						initWaitingDialog(R.string.client_waiting);
-						FightMessage fightRequest = new FightMessage(Target.ENEMY,
-								FightAction.ENEMY_READY);
+						FightMessage fightRequest = new FightMessage(
+								Target.ENEMY, FightAction.ENEMY_READY);
 						sendFightMessage(fightRequest);
 					}
 					break;
@@ -711,21 +716,19 @@ public class WizardFight extends Activity {
 				mmIsNeedToShow = false;
 			}
 		}
-		
+
 		class DialKeyListener implements Dialog.OnKeyListener {
 			@Override
 			public boolean onKey(DialogInterface dial, int key, KeyEvent ev) {
 				// ignore volume keys clicks at the dialog
-				if(key == KeyEvent.KEYCODE_VOLUME_UP ||
-				   key == KeyEvent.KEYCODE_VOLUME_DOWN) {
+				if (key == KeyEvent.KEYCODE_VOLUME_UP
+						|| key == KeyEvent.KEYCODE_VOLUME_DOWN) {
 					return true;
 				}
 				return false;
 			}
 		};
 	}
-	
-	
 
 	private void initBotSpellDialog() {
 		mBotSpellDialog = new AlertDialog.Builder(this);

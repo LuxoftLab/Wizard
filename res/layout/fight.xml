@@ -3,7 +3,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent" android:layout_height="fill_parent"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/fight_layout_root">
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_weight="1"

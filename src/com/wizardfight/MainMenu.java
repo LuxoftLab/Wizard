@@ -1,22 +1,14 @@
 package com.wizardfight;
 
-import com.wizardfight.remote.WifiService;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class MainMenu extends Activity {
@@ -26,6 +18,7 @@ public class MainMenu extends Activity {
 	// Local Bluetooth adapter
 	private BluetoothAdapter mBluetoothAdapter = null;
 	private boolean mIsUserCameWithBt;
+
 	// Intent request codes
 	enum BtRequest {
 		BT_CREATE_GAME, BT_JOIN_GAME;
@@ -64,7 +57,7 @@ public class MainMenu extends Activity {
 	}
 
 	public void goToCreateGame(View view) {
-		if(!mBluetoothAdapter.isEnabled()) {
+		if (!mBluetoothAdapter.isEnabled()) {
 			requestBluetooth(BtRequest.BT_CREATE_GAME);
 		} else {
 			BluetoothService btService = BluetoothService.getInstance();
@@ -75,7 +68,7 @@ public class MainMenu extends Activity {
 	}
 
 	public void goToJoinGame(View view) {
-		if(!mBluetoothAdapter.isEnabled()) {
+		if (!mBluetoothAdapter.isEnabled()) {
 			requestBluetooth(BtRequest.BT_JOIN_GAME);
 		} else {
 			startActivity(new Intent(this, DeviceListActivity.class));
@@ -97,7 +90,7 @@ public class MainMenu extends Activity {
 	public void goToSpellbook(View view) {
 		startActivity(new Intent(this, Spellbook.class));
 	}
-	
+
 	public void goToDesktopConnection(View view) {
 		startActivity(new Intent(this, DesktopConnection.class));
 	}
@@ -106,19 +99,18 @@ public class MainMenu extends Activity {
 		startActivity(new Intent(this, WizardPreferences.class));
 		Log.e("Wizard Fight", "go to settings");
 	}
-	
+
 	public void Exit(View view) {
 		BluetoothService.getInstance().release();
-		// return BT state to last one in 
-		if(!mIsUserCameWithBt && mBluetoothAdapter.isEnabled()) {
+		// return BT state to last one in
+		if (!mIsUserCameWithBt && mBluetoothAdapter.isEnabled()) {
 			mBluetoothAdapter.disable();
 		}
 		finish();
 	}
 
 	public void requestBluetooth(BtRequest r) {
-		Intent enableIntent = new Intent(
-				BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		startActivityForResult(enableIntent, r.ordinal());
 	}
 
@@ -126,7 +118,7 @@ public class MainMenu extends Activity {
 	public void onBackPressed() {
 		Exit(null);
 	}
-	
+
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d(TAG, "onActivityResult " + resultCode);
 		// When the request to enable Bluetooth returns
@@ -134,8 +126,8 @@ public class MainMenu extends Activity {
 			// User did not enable Bluetooth or an error occured
 			if (D)
 				Log.d(TAG, "BT not enabled");
-			Toast.makeText(this, R.string.bt_not_enabled,
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.bt_not_enabled, Toast.LENGTH_SHORT)
+					.show();
 			return;
 		}
 
