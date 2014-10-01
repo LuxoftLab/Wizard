@@ -6,4 +6,8 @@
         android:entries="@array/recognition_types_labels"
         android:entryValues="@array/recognition_types_values"
         android:summary="Select recognition type"/>
+    <CheckBoxPreference
+        android:title="Show spell button"
+        android:key="spell_button"
+        android:defaultValue="false"/>
 </PreferenceScreen>
