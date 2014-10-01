@@ -6,6 +6,7 @@
         android:weightSum="2"
         android:clickable="true"
         android:focusable="true"
+        android:background="@xml/fight_bg_transition"
         android:focusableInTouchMode="true"
         android:id="@+id/fight_layout_root">
     <RelativeLayout

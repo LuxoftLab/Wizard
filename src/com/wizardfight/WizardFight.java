@@ -18,6 +18,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
@@ -92,6 +94,8 @@ public class WizardFight extends Activity {
 	private ArrayAdapter<String> mShapeNames;
 	private AlertDialog.Builder mBotSpellDialog;
 
+	private TransitionDrawable mBgTransition;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,6 +129,11 @@ public class WizardFight extends Activity {
 						|| action == MotionEvent.ACTION_DOWN) {
 					if (mLastTouchAction == action) {
 						return true;
+					}
+					if(action == MotionEvent.ACTION_DOWN) {
+						mBgTransition.startTransition(250);
+					} else {
+						mBgTransition.reverseTransition(250);
 					}
 					buttonClick();
 					mLastTouchAction = action;
@@ -167,6 +176,8 @@ public class WizardFight extends Activity {
 		}
 		// Initialize end dialog object
 		mFightEndDialog = new FightEndDialog();
+		
+		mBgTransition = (TransitionDrawable) rootLayout.getBackground();
 	}
 
 	@Override

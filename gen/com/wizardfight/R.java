@@ -28,42 +28,45 @@ public final class R {
     }
     public static final class drawable {
         public static final int background=0x7f020000;
-        public static final int buff_blessing=0x7f020001;
-        public static final int buff_concentration=0x7f020002;
-        public static final int buff_pi=0x7f020003;
-        public static final int buff_shield=0x7f020004;
-        public static final int buff_weakness=0x7f020005;
-        public static final int cancel_button=0x7f020006;
-        public static final int card=0x7f020007;
-        public static final int circle=0x7f020008;
-        public static final int client_waiting_bg=0x7f020009;
-        public static final int client_waiting_bg_1=0x7f02000a;
-        public static final int clock=0x7f02000b;
-        public static final int fail=0x7f02000c;
-        public static final int free=0x7f02000d;
-        public static final int hmbar_m=0x7f02000e;
-        public static final int ic_launcher=0x7f02000f;
-        public static final int info=0x7f020010;
-        public static final int label=0x7f020011;
-        public static final int logo=0x7f020012;
-        public static final int next=0x7f020013;
-        public static final int nothing=0x7f020014;
-        public static final int paper=0x7f020015;
-        public static final int pi=0x7f020016;
-        public static final int replay=0x7f020017;
-        public static final int result_bad=0x7f020018;
-        public static final int result_ok=0x7f020019;
-        public static final int shield=0x7f02001a;
-        public static final int spell_name=0x7f02001b;
-        public static final int spell_name111=0x7f02001c;
-        public static final int square=0x7f02001d;
-        public static final int triangle=0x7f02001e;
-        public static final int v=0x7f02001f;
-        public static final int wd=0x7f020020;
-        public static final int wd2=0x7f020021;
-        public static final int wd3=0x7f020022;
-        public static final int wood=0x7f020023;
-        public static final int z=0x7f020024;
+        public static final int black=0x7f020001;
+        public static final int buff_blessing=0x7f020002;
+        public static final int buff_concentration=0x7f020003;
+        public static final int buff_pi=0x7f020004;
+        public static final int buff_shield=0x7f020005;
+        public static final int buff_weakness=0x7f020006;
+        public static final int cancel_button=0x7f020007;
+        public static final int card=0x7f020008;
+        public static final int circle=0x7f020009;
+        public static final int client_waiting_bg=0x7f02000a;
+        public static final int client_waiting_bg_1=0x7f02000b;
+        public static final int clock=0x7f02000c;
+        public static final int fail=0x7f02000d;
+        public static final int free=0x7f02000e;
+        public static final int hmbar_m=0x7f02000f;
+        public static final int ic_launcher=0x7f020010;
+        public static final int info=0x7f020011;
+        public static final int label=0x7f020012;
+        public static final int logo=0x7f020013;
+        public static final int next=0x7f020014;
+        public static final int nothing=0x7f020015;
+        public static final int paper=0x7f020016;
+        public static final int pi=0x7f020017;
+        public static final int replay=0x7f020018;
+        public static final int result_bad=0x7f020019;
+        public static final int result_ok=0x7f02001a;
+        public static final int shield=0x7f02001b;
+        public static final int space=0x7f02001c;
+        public static final int space_full=0x7f02001d;
+        public static final int spell_name=0x7f02001e;
+        public static final int spell_name111=0x7f02001f;
+        public static final int square=0x7f020020;
+        public static final int triangle=0x7f020021;
+        public static final int v=0x7f020022;
+        public static final int wd=0x7f020023;
+        public static final int wd2=0x7f020024;
+        public static final int wd3=0x7f020025;
+        public static final int wood=0x7f020026;
+        public static final int z=0x7f020027;
     }
     public static final class id {
         public static final int buttonCreateGame=0x7f0b0024;
@@ -84,6 +87,7 @@ public final class R {
         public static final int enemy_mana=0x7f0b001a;
         public static final int enemy_name=0x7f0b0022;
         public static final int enemy_spell=0x7f0b001b;
+        public static final int fight_bg_transition=0x7f0b0033;
         public static final int fight_layout_root=0x7f0b000b;
         public static final int horizontalScrollView=0x7f0b0029;
         public static final int imageView=0x7f0b000d;
@@ -234,8 +238,9 @@ public final class R {
     }
     public static final class xml {
         public static final int device_list_item=0x7f050000;
-        public static final int prefs=0x7f050001;
-        public static final int spells=0x7f050002;
-        public static final int tutorial_text=0x7f050003;
+        public static final int fight_bg_transition=0x7f050001;
+        public static final int prefs=0x7f050002;
+        public static final int spells=0x7f050003;
+        public static final int tutorial_text=0x7f050004;
     }
 }
