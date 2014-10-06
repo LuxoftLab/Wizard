@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 
 import com.wizardfight.components.Vector3d;
-
+import com.wizardfight.R;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

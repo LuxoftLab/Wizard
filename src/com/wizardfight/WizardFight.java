@@ -1,6 +1,7 @@
 package com.wizardfight;
 
 import android.view.*;
+
 import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
 import com.wizardfight.FightMessage.Target;
@@ -10,17 +11,12 @@ import java.util.ArrayList;
 
 import com.wizardfight.components.Vector3d;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
@@ -32,7 +28,6 @@ import android.util.Log;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -90,7 +85,7 @@ public class WizardFight extends Activity {
 	private ArrayAdapter<String> mShapeNames;
 	private AlertDialog.Builder mBotSpellDialog;
 
-	private TransitionDrawable mBgTransition;
+	private FightBackground mBgImage;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -118,7 +113,7 @@ public class WizardFight extends Activity {
 		rootLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (mAreMessagesBlocked)
+				if (mAreMessagesBlocked || mIsCastAbilityBlocked)
 					return false;
 				int action = event.getAction();
 				if (action == MotionEvent.ACTION_UP
@@ -127,15 +122,17 @@ public class WizardFight extends Activity {
 						return true;
 					}
 					if(action == MotionEvent.ACTION_DOWN) {
-						mBgTransition.startTransition(250);
+						Log.e(TAG, "space bright");
+						mBgImage.toBright();
 					} else {
-						mBgTransition.reverseTransition(250);
+						Log.e(TAG, "space dark");
+						mBgImage.toDark();
 					}
 					buttonClick();
 					mLastTouchAction = action;
 				}
 				return false;
-			}
+			}	
 		});
 
 		// Get sensors
@@ -173,7 +170,7 @@ public class WizardFight extends Activity {
 		// Initialize end dialog object
 		mFightEndDialog = new FightEndDialog();
 		
-		mBgTransition = (TransitionDrawable) rootLayout.getBackground();
+		mBgImage = (FightBackground) findViewById(R.id.fight_background);
 	}
 
 	@Override

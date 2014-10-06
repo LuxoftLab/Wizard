@@ -2,21 +2,21 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mainID"
-        android:layout_width="fill_parent" android:layout_height="fill_parent">
-    <ImageView
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent">
+    <view
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/background" android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true" android:layout_alignParentRight="true"
-            android:layout_above="@+id/mainID" android:src="@drawable/space_dark"/>
+            class="com.wizardfight.views.FightBackground"
+            android:id="@+id/fight_background" android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" android:layout_alignParentRight="true" />
     <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="fill_parent" android:layout_height="fill_parent"
             android:weightSum="2"
             android:clickable="true"
             android:focusable="true"
-            android:background="@xml/fight_bg_transition"
+            android:background="#00ffffff"
             android:focusableInTouchMode="true"
             android:id="@+id/fight_layout_root">
         <RelativeLayout
