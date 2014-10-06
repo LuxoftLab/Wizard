@@ -14,15 +14,22 @@ public class FightBackground extends ImageView {
 	
 	public FightBackground (Context context,AttributeSet attrs) {
         super(context, attrs);
-        setImageResource(R.drawable.space);
-        setAlpha(51);
         mDarkToBright = AnimationUtils
 				.loadAnimation(getContext(), R.anim.dark_to_bright);
         mBrightToDark = AnimationUtils
 				.loadAnimation(getContext(), R.anim.bright_to_dark);
 		mDarkToBright.setFillAfter(true);
 		mBrightToDark.setFillAfter(true);
+		setImageResource(R.drawable.space);
+		darkenImage();
     }
+	
+	public void darkenImage() {
+		mFirstAnim = true;
+		clearAnimation();
+		invalidate();
+		setAlpha(51);
+	}
 	
 	public void toBright() {
 		if (mFirstAnim) {

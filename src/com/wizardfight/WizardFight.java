@@ -72,7 +72,7 @@ public class WizardFight extends Activity {
 	// Member object for bluetooth services
 	private BluetoothService mBtService = null;
 	// Last touch action code
-	private int mLastTouchAction = -1;
+	private int mLastTouchAction;
 
 	private boolean mIsInCast = false;
 	private boolean mIsCastAbilityBlocked = false;
@@ -114,7 +114,7 @@ public class WizardFight extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (mAreMessagesBlocked || mIsCastAbilityBlocked)
-					return false;
+					return true;
 				int action = event.getAction();
 				if (action == MotionEvent.ACTION_UP
 						|| action == MotionEvent.ACTION_DOWN) {
@@ -122,10 +122,11 @@ public class WizardFight extends Activity {
 						return true;
 					}
 					if(action == MotionEvent.ACTION_DOWN) {
-						Log.e(TAG, "space bright");
+						Log.e(TAG, "act down");
 						mBgImage.toBright();
 					} else {
-						Log.e(TAG, "space dark");
+						if(mLastTouchAction == -1) return true;
+						Log.e(TAG, "act up");
 						mBgImage.toDark();
 					}
 					buttonClick();
@@ -266,6 +267,8 @@ public class WizardFight extends Activity {
 		mBtService.setHandler(mHandler);
 		// Drop flags
 		mAreMessagesBlocked = true;
+		// Last touch value
+		mLastTouchAction = -1;
 		// Start mana regeneration
 		mHandler.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
 		mHandler.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
@@ -603,6 +606,7 @@ public class WizardFight extends Activity {
 				mAccelerometer);
 		mSensorAndSoundThread.start();
 		// set GUI to initial state
+		mBgImage.darkenImage();
 		mSelfGUI.clear();
 		mEnemyGUI.clear();
 		// Recreate objects
