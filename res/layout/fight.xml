@@ -87,6 +87,7 @@
                 android:textSize="12sp"
                 android:text="Self_debug"/>
     </RelativeLayout>
+  
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_weight="1"

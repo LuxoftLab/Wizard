@@ -1,5 +1,6 @@
 package com.wizardfight;
 
+import android.view.*;
 import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
 import com.wizardfight.FightMessage.Target;
@@ -28,13 +29,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,6 +39,7 @@ import android.widget.Toast;
  * This is the main Activity that displays the current chat session.
  */
 public class WizardFight extends Activity {
+
 	public static final int PLAYER_HP = 200;
 	public static final int PLAYER_MANA = 100;
 	private PlayerBot mPlayerBot;
@@ -782,4 +778,5 @@ public class WizardFight extends Activity {
 		}
 		return super.onKeyUp(keyCode, event);
 	}
+
 }
