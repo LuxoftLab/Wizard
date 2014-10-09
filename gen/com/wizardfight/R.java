@@ -58,17 +58,18 @@ public final class R {
         public static final int result_ok=0x7f02001a;
         public static final int shield=0x7f02001b;
         public static final int space=0x7f02001c;
-        public static final int space_full=0x7f02001d;
-        public static final int spell_name=0x7f02001e;
-        public static final int spell_name111=0x7f02001f;
-        public static final int square=0x7f020020;
-        public static final int triangle=0x7f020021;
-        public static final int v=0x7f020022;
-        public static final int wd=0x7f020023;
-        public static final int wd2=0x7f020024;
-        public static final int wd3=0x7f020025;
-        public static final int wood=0x7f020026;
-        public static final int z=0x7f020027;
+        public static final int space_dark=0x7f02001d;
+        public static final int space_full=0x7f02001e;
+        public static final int spell_name=0x7f02001f;
+        public static final int spell_name111=0x7f020020;
+        public static final int square=0x7f020021;
+        public static final int triangle=0x7f020022;
+        public static final int v=0x7f020023;
+        public static final int wd=0x7f020024;
+        public static final int wd2=0x7f020025;
+        public static final int wd3=0x7f020026;
+        public static final int wood=0x7f020027;
+        public static final int z=0x7f020028;
     }
     public static final class id {
         public static final int buttonCreateGame=0x7f0b0026;

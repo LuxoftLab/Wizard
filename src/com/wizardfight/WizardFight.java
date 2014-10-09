@@ -122,11 +122,8 @@ public class WizardFight extends Activity {
 						return true;
 					}
 					if(action == MotionEvent.ACTION_DOWN) {
-						Log.e(TAG, "act down");
 						mBgImage.toBright();
 					} else {
-						if(mLastTouchAction == -1) return true;
-						Log.e(TAG, "act up");
 						mBgImage.toDark();
 					}
 					buttonClick();
@@ -184,9 +181,15 @@ public class WizardFight extends Activity {
 	@Override
 	public synchronized void onResume() {
 		super.onResume();
-		mIsRunning = true;
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
+		mIsRunning = true;
+		
+		//refresh last tap value and image 
+		mLastTouchAction = MotionEvent.ACTION_UP;
+		mBgImage.darkenImage();
+		
+		
 		if (mFightEndDialog.isNeedToShow()) {
 			mFightEndDialog.show();
 		}
@@ -268,7 +271,7 @@ public class WizardFight extends Activity {
 		// Drop flags
 		mAreMessagesBlocked = true;
 		// Last touch value
-		mLastTouchAction = -1;
+		mLastTouchAction = MotionEvent.ACTION_UP;
 		// Start mana regeneration
 		mHandler.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
 		mHandler.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
