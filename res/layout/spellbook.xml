@@ -5,14 +5,16 @@
               android:layout_height="fill_parent"
               android:background="@drawable/wood">
     <view
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             class="com.wizardfight.CustomScroller"
+            android:scaleType="fitXY"
             android:id="@+id/horizontalScrollView">
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:scaleType="fitXY"
                 android:id="@+id/layoutForCards">
         </LinearLayout>
     </view>

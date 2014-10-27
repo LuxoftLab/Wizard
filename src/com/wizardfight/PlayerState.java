@@ -140,40 +140,7 @@ public class PlayerState {
 	
 	/* take player mana for spell. Returns true if spell can be casted */
 	public boolean requestSpell(FightMessage message) {
-		int manaCost = 0;
-
-		switch( message.action ) {
-		case DAMAGE:
-			manaCost = 6;
-			break;
-		case HIGH_DAMAGE:
-			manaCost = 20;
-			break;
-		case HEAL:
-			manaCost = 25;
-			break;
-		case BUFF_ON:
-			Buff buff = Buff.values()[ message.param ];
-			switch(buff) {
-			case WEAKNESS:
-				manaCost = 15;
-				break;
-			case CONCENTRATION:
-				manaCost = 10;
-				break;
-			case BLESSING:
-				manaCost = 15;
-				break;
-			case HOLY_SHIELD:
-				manaCost = 10;
-				break;
-			default:
-				//nothing
-			}
-			break;
-		default:
-			//nothing
-		}
+		int manaCost = FightMessage.getShapeFromMessage(message).getManaCost();
 		if( mana >= manaCost ) {
 			mana -= manaCost;
 			return true;
