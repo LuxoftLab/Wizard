@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import com.wizardfight.WizardFight.AppMessage;
+import com.wizardfight.FightActivity.AppMessage;
 import com.wizardfight.remote.WifiService;
 
 import android.bluetooth.BluetoothAdapter;
@@ -143,7 +143,7 @@ public class BluetoothService {
         // Send the name of the connected device back to the UI Activity
         Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_DEVICE_NAME.ordinal());
         Bundle bundle = new Bundle();
-        bundle.putString(WizardFight.DEVICE_NAME, device.getName());
+        bundle.putString(BtFightActivity.DEVICE_NAME, device.getName());
         msg.setData(bundle);
         mHandler.sendMessage(msg);
         setState(STATE_CONNECTED);
@@ -182,7 +182,7 @@ public class BluetoothService {
         // Send a failure message back to the Activity
         Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal());
         Bundle bundle = new Bundle();
-        bundle.putInt(WizardFight.TOAST, R.string.connection_fail);
+        bundle.putInt(BtFightActivity.TOAST, R.string.connection_fail);
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -194,7 +194,7 @@ public class BluetoothService {
         // Send a failure message back to the Activity
         Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal());
         Bundle bundle = new Bundle();
-        bundle.putInt(WizardFight.TOAST, R.string.connection_lost);
+        bundle.putInt(BtFightActivity.TOAST, R.string.connection_lost);
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }

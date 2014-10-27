@@ -16,8 +16,6 @@ public class DesktopConnection extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.connection);
-
-		
 	}
 	
 	public void connect(View view) {

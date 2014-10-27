@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wizardfight.WizardFight.AppMessage;
+import com.wizardfight.FightActivity.AppMessage;
 import com.wizardfight.components.Vector3d;
 import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;

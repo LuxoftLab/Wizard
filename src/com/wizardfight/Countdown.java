@@ -1,7 +1,7 @@
 package com.wizardfight;
 
 import com.wizardfight.views.MyTextView;
-import com.wizardfight.WizardFight.AppMessage;
+import com.wizardfight.FightActivity.AppMessage;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;

@@ -1,8 +1,6 @@
 package com.wizardfight;
 
-import com.wizardfight.WizardFight.AppMessage;
-import com.wizardfight.FightMessage.Target;
-import com.wizardfight.FightMessage.FightAction;
+import com.wizardfight.FightActivity.AppMessage;
 
 import android.os.Handler;
 import android.os.Looper;

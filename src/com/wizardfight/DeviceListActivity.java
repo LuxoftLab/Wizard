@@ -28,8 +28,6 @@ public class DeviceListActivity extends Activity {
     // Debugging
     private static final String TAG = "DeviceListActivity";
     private static final boolean D = true;
-    // Intent request codes
-    private static final int REQUEST_ENABLE_BT = 2;
     // Return Intent extra
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     // Member fields
@@ -195,6 +193,6 @@ public class DeviceListActivity extends Activity {
     };
     
     private void startFight() {
-    	startActivity(new Intent(this, WizardFight.class));
+    	startActivity(new Intent(this, BtFightActivity.class));
     }
 }

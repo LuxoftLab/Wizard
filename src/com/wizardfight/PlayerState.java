@@ -1,9 +1,6 @@
 package com.wizardfight;
 
-import com.wizardfight.FightMessage.Target;
-
 import java.util.EnumMap;
-
 import android.util.Log;
 
 class BuffState {

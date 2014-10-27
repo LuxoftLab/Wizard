@@ -63,7 +63,7 @@ public class MainMenu extends Activity {
 			BluetoothService btService = BluetoothService.getInstance();
 			btService.init();
 			btService.setAsServer();
-			startActivity(new Intent(this, WizardFight.class));
+			startActivity(new Intent(this, BtFightActivity.class));
 		}
 	}
 
@@ -76,11 +76,7 @@ public class MainMenu extends Activity {
 	}
 
 	public void goToTestMode(View view) {
-		BluetoothService btService = BluetoothService.getInstance();
-		btService.init();
-		Intent i = new Intent(this, WizardFight.class);
-		i.putExtra("IS_ENEMY_BOT", true);
-		startActivity(i);
+		startActivity(new Intent(this, TestFightActivity.class));
 	}
 
 	public void goToHelp(View view) {
@@ -137,7 +133,7 @@ public class MainMenu extends Activity {
 			BluetoothService btService = BluetoothService.getInstance();
 			btService.init();
 			btService.setAsServer();
-			startActivity(new Intent(this, WizardFight.class));
+			startActivity(new Intent(this, BtFightActivity.class));
 			break;
 		case BT_JOIN_GAME:
 			startActivity(new Intent(this, DeviceListActivity.class));

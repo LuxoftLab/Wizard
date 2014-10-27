@@ -4,8 +4,6 @@ import android.view.*;
 
 import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
-import com.wizardfight.FightMessage.Target;
-import com.wizardfight.FightMessage.FightAction;
 
 import java.util.ArrayList;
 
@@ -13,7 +11,6 @@ import com.wizardfight.components.Vector3d;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -25,24 +22,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
  * This is the main Activity that displays the current chat session.
  */
-public class WizardFight extends Activity {
+public class FightActivity extends Activity {
 
 	public static final int PLAYER_HP = 200;
 	public static final int PLAYER_MANA = 100;
-	private PlayerBot mPlayerBot;
-	private boolean mIsEnemyBot = false;
 	// Debugging
 	private int mMyCounter;
-	private static final String TAG = "Wizard Fight";
-	private static final boolean D = false;
+	protected static final String TAG = "Wizard Fight";
+	protected static final boolean D = false;
 	// is activity running
 	private boolean mIsRunning;
 	// States of players
@@ -69,21 +62,15 @@ public class WizardFight extends Activity {
 	private Sensor mAccelerometer = null;
 	// Accelerator Thread link
 	private SensorAndSoundThread mSensorAndSoundThread = null;
-	// Member object for bluetooth services
-	private BluetoothService mBtService = null;
 	// Last touch action code
 	private int mLastTouchAction;
 
 	private boolean mIsInCast = false;
 	private boolean mIsCastAbilityBlocked = false;
-	private boolean mIsSelfReady;
-	private boolean mIsEnemyReady;
-
-	private Dialog mClientWaitingDialog;
-	private FightEndDialog mFightEndDialog;
+	
+	//private Dialog mClientWaitingDialog;
+	protected FightEndDialog mFightEndDialog;
 	// test mode dialog with spell names
-	private ArrayAdapter<String> mShapeNames;
-	private AlertDialog.Builder mBotSpellDialog;
 
 	private FightBackground mBgImage;
 	
@@ -137,37 +124,10 @@ public class WizardFight extends Activity {
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		// Check if it`s test mode
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			mIsEnemyBot = extras.getBoolean("IS_ENEMY_BOT");
-		}
-		if (D)
-			Log.e(TAG, "Enemy bot?: " + mIsEnemyBot);
 
 		// Initialize GUI and logic
 		setupApp();
-		mIsSelfReady = false;
-		mIsEnemyReady = false;
-		
-		if (mIsEnemyBot) {
-			startFight();
-		} else {
-			// Start listening clients if server
-			if (mBtService.isServer()) {
-				mBtService.start();
-				initWaitingDialog(R.string.client_waiting);
-			} else {
-				initWaitingDialog(R.string.trying_to_connect);
-			}
-		}
-		// Initialize bot spells dialog
-		if (mIsEnemyBot) {
-			initBotSpellDialog();
-		}
 		// Initialize end dialog object
-		mFightEndDialog = new FightEndDialog();
-		
 		mBgImage = (FightBackground) findViewById(R.id.fight_background);
 	}
 
@@ -185,15 +145,13 @@ public class WizardFight extends Activity {
 			Log.e(TAG, "+ ON RESUME +");
 		mIsRunning = true;
 		
-		//refresh last tap value and image 
 		mLastTouchAction = MotionEvent.ACTION_UP;
 		mBgImage.darkenImage();
-		
 		
 		if (mFightEndDialog.isNeedToShow()) {
 			mFightEndDialog.show();
 		}
-		// Initialize new accelerator thread
+
 		mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
 				mAccelerometer);
 		mSensorAndSoundThread.start();
@@ -222,11 +180,6 @@ public class WizardFight extends Activity {
 		super.onDestroy();
 		// remove all messages from handler
 		mHandler.removeCallbacksAndMessages(null);
-		// Stop the Bluetooth services
-		if (mBtService != null) {
-			mBtService.stop();
-			mBtService = null;
-		}
 		Log.e(TAG, "--- ON DESTROY ---");
 	}
 
@@ -249,25 +202,17 @@ public class WizardFight extends Activity {
 		}
 	}
 
-	private void setupApp() {
+	protected void setupApp() {
 		if (D)
 			Log.d(TAG, "setupApp()");
 		// for debugging
 		mMyCounter = 0;
-		if (mIsEnemyBot) {
-			if (mPlayerBot != null)
-				mPlayerBot.release();
-			mPlayerBot = new PlayerBot(PLAYER_HP, PLAYER_MANA, mHandler);
-		}
 		// Create players states
 		mEnemyState = new EnemyState(PLAYER_HP, PLAYER_MANA, null);
 		mSelfState = new SelfState(PLAYER_HP, PLAYER_MANA, mEnemyState);
 		// Initialize players UI
 		mSelfGUI = new SelfGUI(this, PLAYER_HP, PLAYER_MANA);
 		mEnemyGUI = new EnemyGUI(this, PLAYER_HP, PLAYER_MANA);
-		// Initialize the BluetoothChatService to BT connections
-		mBtService = BluetoothService.getInstance();
-		mBtService.setHandler(mHandler);
 		// Drop flags
 		mAreMessagesBlocked = true;
 		// Last touch value
@@ -278,67 +223,16 @@ public class WizardFight extends Activity {
 				.sendToTarget();
 	}
 
-	private void initWaitingDialog(int stringId) {
-		View v = getLayoutInflater().inflate(R.layout.client_waiting, null);
-		mClientWaitingDialog = new Dialog(this, R.style.ClientWaitingDialog);
-		mClientWaitingDialog.setTitle(stringId);
-		CancelButton cancel = (CancelButton) v
-				.findViewById(R.id.button_cancel_waiting);
-		cancel.setOnClickListener(new CancelButtonListener());
-		mClientWaitingDialog.setContentView(v);
-		if (D)
-			Log.e(TAG, "Before show dialog");
-		mClientWaitingDialog.show();
-		mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
-			@Override
-			public boolean onKey(DialogInterface arg0, int keyCode,
-					KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK) {
-					finish();
-					mClientWaitingDialog.dismiss();
-				}
-				return true;
-			}
-		});
-		if (D)
-			Log.e(TAG, "After show dialog");
-	}
-
-	private void sendFightMessage(FightMessage fMessage) {
+	protected void sendFightMessage(FightMessage fMessage) {
 		// always send own health and mana
 		fMessage.health = mSelfState.getHealth();
 		fMessage.mana = mSelfState.getMana();
 
 		mSelfGUI.getPlayerName().setText(
 				"send fm: " + fMessage + " " + (mMyCounter++));
-
-		if (mIsEnemyBot) {
-			if (mPlayerBot.getHandler() == null)
-				return;
-			Message msg = mPlayerBot.getHandler().obtainMessage(
-					AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage);
-			msg.sendToTarget();
-			return;
-		}
-		// if (D) Log.e(TAG, "send fm: " + fMessage + " " + myCounter);
-		// if (D) Log.e(TAG, "state: " + mChatService.getState());
-
-		// Check that we're actually connected before trying anything
-		if (mBtService.getState() != BluetoothService.STATE_CONNECTED) {
-			Toast.makeText(getApplicationContext(), R.string.not_connected,
-					Toast.LENGTH_SHORT).show();
-			return;
-		}
-
-		byte[] send = fMessage.getBytes();
-		mBtService.write(send);
 	}
 
-	private void startFight() {
-		// close waiting dialog if opened
-		if (mClientWaitingDialog != null) {
-			mClientWaitingDialog.dismiss();
-		}
+	protected void startFight() {
 		// start countdown
 		if (D)
 			Log.e(TAG, "before start countdown");
@@ -348,13 +242,10 @@ public class WizardFight extends Activity {
 			Log.e(TAG, "after start countdown");
 		if (D)
 			Log.e(TAG, "accelerator thread all stuff called");
-		// drop ready flags
-		mIsSelfReady = false;
-		mIsEnemyReady = false;
 	}
 
 	// The Handler that gets information back from the BluetoothChatService
-	private final Handler mHandler = new Handler() {
+	protected final Handler mHandler = new Handler() {
 		/**
 		 * Sends a message.
 		 * 
@@ -412,32 +303,16 @@ public class WizardFight extends Activity {
 			case MESSAGE_FROM_ENEMY:
 				byte[] recvBytes = (byte[]) msg.obj;
 				FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
-				// mEnemyGUI.log("enemy msg: " + enemyMsg + " " +
-				// (mMyCounter++));
-				// if (D) Log.e(TAG, "enemy msg: " + enemyMsg + " " +
-				// (myCounter));
 
 				switch (enemyMsg.action) {
 				case ENEMY_READY:
-					mIsEnemyReady = true;
-					if (D)
-						Log.e(TAG, "self ready: " + mIsSelfReady
-								+ ",enemy ready: " + mIsEnemyReady);
-					if (!mBtService.isServer()) {
-						return;
-					}
-					// if server: check whether we can start fight
-					if (mIsSelfReady && mIsEnemyReady) {
-						FightMessage startMsg = new FightMessage(Target.ENEMY,
-								FightAction.FIGHT_START);
-						sendFightMessage(startMsg);
-						startFight();
-					}
+					handleEnemyReadyMessage();
 					break;
 				case FIGHT_START:
 					startFight();
 					break;
 				case FIGHT_END:
+					Log.e(TAG, "MESSAGE FIGHT END!!!");
 					finishFight(Target.SELF);
 					break;
 				default:
@@ -600,7 +475,12 @@ public class WizardFight extends Activity {
 
 	};
 
+	protected void handleEnemyReadyMessage() {
+		// BETTER DO THIS VIA INTERFACE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	}
+	
 	private void finishFight(Target winner) {
+		Log.e(TAG, "FINISH FIGHT");
 		mAreMessagesBlocked = true;
 		// stop sensor thread work
 		stopSensorAndSound();
@@ -658,34 +538,18 @@ public class WizardFight extends Activity {
 		}
 	}
 
-	class CancelButtonListener implements OnClickListener {
-		@Override
-		public void onClick(View v) {
-			mClientWaitingDialog.dismiss();
-			finish();
-		}
-	}
-
-	class FightEndDialog {
-		private DialClickListener mmClickListener;
-		private DialKeyListener mmKeyListener;
-		private AlertDialog mmDialog;
-		private boolean mmIsNeedToShow;
-
-		public FightEndDialog() {
-			mmClickListener = new DialClickListener();
-			mmKeyListener = new DialKeyListener();
-		}
+	class FightEndDialog implements DialogInterface.OnClickListener {
+		protected AlertDialog mmDialog;
+		protected boolean mmIsNeedToShow;
 
 		public void init(String message) {
+			Log.e(TAG, "INIT FIGHT");
 			mmIsNeedToShow = false;
-			mmDialog = new AlertDialog.Builder(WizardFight.this).create();
 			mmDialog.setTitle("Fight ended");
 			mmDialog.setMessage(message);
-			mmDialog.setButton("Restart", mmClickListener);
-			mmDialog.setButton2("Exit", mmClickListener);
+			mmDialog.setButton("Restart", this);
+			mmDialog.setButton2("Exit", this);
 			mmDialog.setCancelable(false);
-			mmDialog.setOnKeyListener(mmKeyListener);
 		}
 
 		public void setNeedToShow(boolean isNeed) {
@@ -700,87 +564,10 @@ public class WizardFight extends Activity {
 			mmDialog.show();
 		}
 
-		class DialClickListener implements DialogInterface.OnClickListener {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				switch (which) {
-				case -1:
-					// send restart message
-					mIsSelfReady = true;
-					if (mIsEnemyReady || mIsEnemyBot) {
-						FightMessage startMsg = new FightMessage(Target.ENEMY,
-								FightAction.FIGHT_START);
-						sendFightMessage(startMsg);
-						startFight();
-					} else {
-						initWaitingDialog(R.string.client_waiting);
-						FightMessage fightRequest = new FightMessage(
-								Target.ENEMY, FightAction.ENEMY_READY);
-						sendFightMessage(fightRequest);
-					}
-					break;
-				case -2:
-					finish();
-					break;
-				}
-				mmIsNeedToShow = false;
-			}
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			
 		}
-
-		class DialKeyListener implements Dialog.OnKeyListener {
-			@Override
-			public boolean onKey(DialogInterface dial, int key, KeyEvent ev) {
-				// ignore volume keys clicks at the dialog
-				if (key == KeyEvent.KEYCODE_VOLUME_UP
-						|| key == KeyEvent.KEYCODE_VOLUME_DOWN) {
-					return true;
-				}
-				return false;
-			}
-		};
 	}
-
-	private void initBotSpellDialog() {
-		mBotSpellDialog = new AlertDialog.Builder(this);
-		mBotSpellDialog.setIcon(R.drawable.ic_launcher);
-		mBotSpellDialog.setTitle("Enemy spell: ");
-		mShapeNames = new ArrayAdapter<String>(this,
-				android.R.layout.select_dialog_singlechoice);
-		for (Shape s : Shape.values()) {
-			if (s != Shape.NONE && s != Shape.FAIL)
-				mShapeNames.add(s.toString());
-		}
-
-		mBotSpellDialog.setNegativeButton("cancel",
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-
-		mBotSpellDialog.setAdapter(mShapeNames,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						String str = mShapeNames.getItem(which);
-						FightMessage fMsg = new FightMessage(Shape
-								.getShapeFromString(str));
-						Message msg = mPlayerBot.getHandler().obtainMessage(
-								AppMessage.MESSAGE_FROM_SELF.ordinal(), fMsg);
-						mPlayerBot.getHandler().sendMessageDelayed(msg, 500);
-					}
-				});
-	}
-
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_MENU) {
-			mBotSpellDialog.show();
-			return true;
-		}
-		return super.onKeyUp(keyCode, event);
-	}
-
 }

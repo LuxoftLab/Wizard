@@ -1,7 +1,7 @@
 package com.wizardfight;
 
 import java.util.ArrayList;
-import com.wizardfight.WizardFight.AppMessage;
+import com.wizardfight.FightActivity.AppMessage;
 import com.wizardfight.components.*;
 import com.wizardfight.recognition.Recognizer;
 
