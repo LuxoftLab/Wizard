@@ -10,17 +10,17 @@ import android.view.View;
  * and specified color
  */
 public class Indicator extends View {
-	protected Paint mPaint;
-	protected RectF mRect;
-	protected Rect mTextBounds;
+	final Paint mPaint;
+	final RectF mRect;
+	final Rect mTextBounds;
 	 
-	protected int mBarColor;
-	protected int mTextColor;
+	int mBarColor;
+	int mTextColor;
 	
-	protected int mMaxValue;
-	protected int mCurValue;
+	int mMaxValue;
+	int mCurValue;
 	
-    public Indicator (Context context,AttributeSet attrs) {
+    Indicator(Context context, AttributeSet attrs) {
         super(context, attrs);
         mBarColor = Color.BLACK;
         mTextColor = Color.WHITE;

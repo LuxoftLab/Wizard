@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class WifiService {
 
-	public static final int PORT = 8880;
+	private static final int PORT = 8880;
 	
 	private static Worker worker;
 	
@@ -33,9 +33,9 @@ public class WifiService {
 	
 	static class Worker extends Thread {
 		
-		String addr;
+		final String addr;
 		Socket socket;
-		LinkedList<byte[]> queue;
+		final LinkedList<byte[]> queue;
 		
 		public Worker(String _addr) {
 			addr = _addr;

@@ -1,6 +1,6 @@
 package com.wizardfight.recognition;
 
-public class MinMax {
+class MinMax {
 
     public MinMax() {
         minValue = 0;
@@ -24,6 +24,6 @@ public class MinMax {
         return false;
     }
 
-    public double minValue;
-    public double maxValue;
+    private double minValue;
+    private double maxValue;
 }

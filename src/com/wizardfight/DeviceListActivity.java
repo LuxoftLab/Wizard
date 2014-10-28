@@ -24,7 +24,7 @@ import android.widget.Toast;
  * by the user, the MAC address of the device is sent back to the parent
  * Activity in the result Intent.
  */
-class DeviceListActivity extends Activity {
+public class DeviceListActivity extends Activity {
     // Debugging
     private static final String TAG = "DeviceListActivity";
     private static final boolean D = true;
@@ -144,7 +144,7 @@ class DeviceListActivity extends Activity {
         mBtAdapter.startDiscovery();
     }
     // The on-click listener for all devices in the ListViews
-    private OnClickListener mDeviceClickListener = new OnClickListener() {
+    private final OnClickListener mDeviceClickListener = new OnClickListener() {
         public void onClick(View v) {
         	isSearchCanceledByUser = true;
             // Cancel discovery because it's costly and we're about to connect

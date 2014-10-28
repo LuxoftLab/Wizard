@@ -10,13 +10,13 @@ import android.widget.TextView;
  *            + spell picture + buff panel
  */
 public class PlayerGUI {
-	protected Activity mainActivity;
-	protected HealthIndicator healthBar;
-	protected ManaIndicator manaBar;
-	protected SpellPicture spellPicture;
-	protected BuffPanel buffPanel;
+	private final Activity mainActivity;
+	HealthIndicator healthBar;
+	ManaIndicator manaBar;
+	SpellPicture spellPicture;
+	BuffPanel buffPanel;
 	
-	public PlayerGUI(Activity a) {
+	PlayerGUI(Activity a) {
 		mainActivity = a;
 	}
 	

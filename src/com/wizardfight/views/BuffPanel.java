@@ -11,7 +11,7 @@ import android.view.View;
  * Class that contains links to player`s buff views
  */
 public class BuffPanel {
-	private BuffPicture[] buffPics;
+	private final BuffPicture[] buffPics;
 	public BuffPanel(BuffPicture[] buffPictures) {
 		buffPics = buffPictures;
 	}

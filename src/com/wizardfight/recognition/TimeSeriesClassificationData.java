@@ -15,28 +15,28 @@ import com.wizardfight.components.Vector3d;
  * dimensional time series of length M. The length of each time series sample
  * (i.e. M) can be different for each datum in the dataset.
  */
-public class TimeSeriesClassificationData {
+class TimeSeriesClassificationData {
 
-    int numDimensions = 0; // /< The number of dimensions in the dataset
+    private int numDimensions = 0; // /< The number of dimensions in the dataset
 
     int kFoldValue; // /< The number of folds the dataset has been spilt into
     // for cross valiation
     boolean crossValidationSetup = false; // /< A flag to show if the dataset is
     // ready for cross validation
-    boolean useExternalRanges = false; // /< A flag to show if the dataset
+    private boolean useExternalRanges = false; // /< A flag to show if the dataset
     // should be scaled using the
     // externalRanges values
-    boolean allowNullGestureClass = false; // /< A flag that enables/disables a
+    private final boolean allowNullGestureClass = false; // /< A flag that enables/disables a
     // user from adding new samples with
     // a class label matching the
     // default null gesture label
 
-    ArrayList<MinMax> externalRanges = new ArrayList<MinMax>();
+    private final ArrayList<MinMax> externalRanges = new ArrayList<MinMax>();
     // ArrayList containing a set of externalRanges set by the user
-    ArrayList<ClassTracker> classTracker = new ArrayList<ClassTracker>();
+    private final ArrayList<ClassTracker> classTracker = new ArrayList<ClassTracker>();
     // ArrayList of ClassTracker, which keeps track of the number of
     // samples of each class
-    TimeSeriesClassificationSample data = new TimeSeriesClassificationSample();
+    private TimeSeriesClassificationSample data = new TimeSeriesClassificationSample();
 
     /**
      * Constructor, sets the number of dimensions of the training data. The name
@@ -157,7 +157,7 @@ public class TimeSeriesClassificationData {
     /**
      * Clears any previous training data and counters
      */
-    public void clear() {
+    void clear() {
         data = null;
     }
 

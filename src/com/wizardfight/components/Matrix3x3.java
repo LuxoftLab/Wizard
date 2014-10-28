@@ -1,6 +1,6 @@
 package com.wizardfight.components;
 
-public class Matrix3x3 {
+class Matrix3x3 {
     double x11, x12, x13;
     double x21, x22, x23;
     double x31, x32, x33;

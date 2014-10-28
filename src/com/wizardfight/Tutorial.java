@@ -12,7 +12,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.*;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -64,7 +63,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 
 	private boolean isCastAbilityBlocked = false;
 	private boolean isInCast = false;
-	private SensorAndSoundThread mAcceleratorThread = null;
+	private SensorAndSoundThread mSensorAndSoundThread = null;
 	private final Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -73,7 +72,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 			case MESSAGE_FROM_SELF:
 				FightMessage fMsg = (FightMessage) msg.obj;
 				Shape s = FightMessage.getShapeFromMessage(fMsg);
-				mAcceleratorThread.playShapeSound(s);
+				mSensorAndSoundThread.playShapeSound(s);
 				String shape = s + "";
 				// todo uncomment
 				if (shape.equals(spellDatas.get(partCounter).shape)) {
@@ -92,7 +91,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 	private Sensor mAccelerometer = null;
 	private SensorManager mSensorManager = null;
 
-	private ArrayList<ArrayList<WizardDialContent>> parts = new ArrayList<ArrayList<WizardDialContent>>();
+	private final ArrayList<ArrayList<WizardDialContent>> parts = new ArrayList<ArrayList<WizardDialContent>>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -164,9 +163,9 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 	protected void onResume() {
 		super.onResume();
 
-		mAcceleratorThread = new SensorAndSoundThread(this, mSensorManager,
+		mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
 				mAccelerometer);
-		mAcceleratorThread.start();
+		mSensorAndSoundThread.start();
 	}
 
 	@Override
@@ -176,10 +175,10 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		if (isInCast)
 			buttonClick();
 		// unregister accelerator listener and end its event loop
-		if (mAcceleratorThread != null) {
+		if (mSensorAndSoundThread != null) {
 			Log.e("Wizard Fight", "accelerator thread try to stop loop");
-			mAcceleratorThread.stopLoop();
-			mAcceleratorThread = null;
+			mSensorAndSoundThread.stopLoop();
+			mSensorAndSoundThread = null;
 		}
 	}
 
@@ -352,13 +351,13 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 			return;
 
 		if (!isInCast) {
-			mAcceleratorThread.startGettingData();
+			mSensorAndSoundThread.startGettingData();
 			isInCast = true;
 
 		} else {
 			isCastAbilityBlocked = true;
 
-			ArrayList<Vector3d> records = mAcceleratorThread.stopAndGetResult();
+			ArrayList<Vector3d> records = mSensorAndSoundThread.stopAndGetResult();
 			isInCast = false;
 
 			if (records.size() > 10) {

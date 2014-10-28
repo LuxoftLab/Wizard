@@ -4,29 +4,29 @@ public class Vector2d {
     public double x;
     public double y;
 
-    public Vector2d() {
+    Vector2d() {
         x = y = 0;
     }
 
-    public Vector2d(double X, double Y) {
+    Vector2d(double X, double Y) {
         x = X;
         y = Y;
     }
 
     /**
-     * Функция расчитывает угол между прямой, проходящей через точки a и b, и осью абсцисс.
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ a пїЅ b, пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
      *
-     * @param a первая точка.
-     * @param b вторая точка.
+     * @param a пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+     * @param b пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
      *
-     * @return угол в градусах.
+     * @return пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
      */
     public static double AngleLineAndAxis(Vector2d a, Vector2d b) {
         return Math.abs(Math.atan2(a.y - b.y, a.x - b.x) / Math.PI * 180);
     }
 
     /**
-     * Функция проверки пересецений
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
      * @param A
      * @param B
      * @param C
@@ -46,11 +46,11 @@ public class Vector2d {
         return true;
     }
 
-    public double getX() {
+    double getX() {
         return x;
     }
 
-    public double getY() {
+    double getY() {
         return y;
     }
 

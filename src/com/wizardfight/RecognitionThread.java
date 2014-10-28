@@ -8,9 +8,9 @@ import com.wizardfight.recognition.Recognizer;
 import android.os.Handler;
 import android.util.Log;
 
-public class RecognitionThread extends Thread {
-	private Handler mHandler;
-	private ArrayList<Vector3d> records;
+class RecognitionThread extends Thread {
+	private final Handler mHandler;
+	private final ArrayList<Vector3d> records;
 
 	
 	public RecognitionThread(Handler mainHandler, ArrayList<Vector3d> recs) {

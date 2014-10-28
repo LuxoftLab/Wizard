@@ -15,10 +15,10 @@ import java.io.IOException;
  *
  * @author Konstantin
  */
-public class Loader {
-    final int NUM_SYMBOLS = 20; // 10 - default
-    public KMeansQuantizer quantizer = new KMeansQuantizer(NUM_SYMBOLS);
-    public HMM hmm = new HMM();
+class Loader {
+    private final int NUM_SYMBOLS = 20; // 10 - default
+    public final KMeansQuantizer quantizer = new KMeansQuantizer(NUM_SYMBOLS);
+    public final HMM hmm = new HMM();
     
     public boolean loadHMMFromFile(String file) throws IOException {
         hmm.clear();

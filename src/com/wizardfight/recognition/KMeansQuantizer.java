@@ -8,20 +8,20 @@ public class KMeansQuantizer implements Serializable {// extends
 
     private static final long serialVersionUID = 4L;
 
-    protected boolean trained = false;
-    protected boolean featureDataReady = false;
-    protected boolean initialized;
-    protected int numClusters;
-    protected int minNumEpochs = 0;
-    protected int maxNumEpochs = 100;
-    protected int numInputDimensions = 0;
-    protected int numOutputDimensions = 0;
-    protected double minChange = 1.0e-5;
-    protected MatrixDouble clusters = new MatrixDouble();
-    protected String featureExtractionType;
-    protected String classType = "";
-    protected ArrayList<Double> featureVector = new ArrayList<Double>();
-    protected ArrayList<Double> quantizationDistances = new ArrayList<Double>();
+    boolean trained = false;
+    boolean featureDataReady = false;
+    boolean initialized;
+    int numClusters;
+    int minNumEpochs = 0;
+    int maxNumEpochs = 100;
+    int numInputDimensions = 0;
+    int numOutputDimensions = 0;
+    double minChange = 1.0e-5;
+    final MatrixDouble clusters = new MatrixDouble();
+    private final String featureExtractionType;
+    private String classType = "";
+    private final ArrayList<Double> featureVector = new ArrayList<Double>();
+    ArrayList<Double> quantizationDistances = new ArrayList<Double>();
 
     /**
      * Default constructor. Initalizes the KMeansQuantizer, setting the number

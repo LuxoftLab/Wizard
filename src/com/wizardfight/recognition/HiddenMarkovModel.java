@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * This class implements a discrete Hidden Markov Model.
  */
-public class HiddenMarkovModel implements Serializable {
+class HiddenMarkovModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class HiddenMarkovModel implements Serializable {
     // training loop
 
     int[] observationSequence = new int[0];
-    int[] estimatedStates = new int[0];
+    private int[] estimatedStates = new int[0];
 
     double[] pi; // The state start probability vector
 
@@ -38,8 +38,8 @@ public class HiddenMarkovModel implements Serializable {
     ArrayList<Double> trainingIterationLog = new ArrayList<Double>(); 
     // Stores the loglikelihood at each iteration the BaumWelch algorithm
 
-    MatrixDouble a = new MatrixDouble(); // The transitions probability matrix
-    MatrixDouble b = new MatrixDouble(); // The emissions probability matrix
+    final MatrixDouble a = new MatrixDouble(); // The transitions probability matrix
+    final MatrixDouble b = new MatrixDouble(); // The emissions probability matrix
 
     private double getRandomNumberUniform(double minRange, double maxRange) {
         return (Math.random() * (maxRange - minRange)) + minRange;

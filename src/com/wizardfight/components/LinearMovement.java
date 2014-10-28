@@ -1,9 +1,9 @@
 package com.wizardfight.components;
 
-public class LinearMovement {
-    protected double v;
-    protected double s;
-    protected double a;
+class LinearMovement {
+    private double v;
+    private double s;
+    private double a;
 
     public LinearMovement() {
         v = s = a = 0;

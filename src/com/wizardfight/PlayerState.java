@@ -5,7 +5,7 @@ import android.util.Log;
 
 class BuffState {
 	// last tick timestamp
-	public long tickTime;
+	public final long tickTime;
 	// buff ticks count
 	public int ticksLeft;
 	
@@ -20,17 +20,17 @@ class BuffState {
  */
 public class PlayerState {
 	private static final boolean D = false;
-	protected int health;
-	protected int mana;
-	protected int maxHealth;
-	protected int maxMana;
-	EnumMap <Buff, BuffState> buffs;
-	protected Shape spellShape;
-	protected Buff addedBuff;
-	protected Buff refreshedBuff;
-	protected Buff removedBuff;
-	protected boolean buffRemovedByEnemy;
-	protected PlayerState enemyState;
+	int health;
+	int mana;
+	private final int maxHealth;
+	private final int maxMana;
+	private final EnumMap <Buff, BuffState> buffs;
+	private Shape spellShape;
+	private Buff addedBuff;
+	private Buff refreshedBuff;
+	private Buff removedBuff;
+	private boolean buffRemovedByEnemy;
+	private final PlayerState enemyState;
 	
 	public PlayerState(int startHP, int startMana, PlayerState enemy) {
 		health = maxHealth = startHP;
@@ -40,7 +40,7 @@ public class PlayerState {
 		enemyState = enemy;
 	}
 	
-	protected void dropSpellInfluence() {
+	void dropSpellInfluence() {
 		spellShape = Shape.NONE;
 		addedBuff = null;
 		refreshedBuff = null;
@@ -48,7 +48,7 @@ public class PlayerState {
 		buffRemovedByEnemy = false;
 	}
 	
-	protected void dealDamage(int damage) {
+	void dealDamage(int damage) {
 		if( buffs.containsKey(Buff.HOLY_SHIELD) ) {
 			handleBuffTick(Buff.HOLY_SHIELD, false);
 			return;
@@ -58,7 +58,7 @@ public class PlayerState {
 		setHealth(health - damage);
 	}
 	
-	protected void heal(int hp) {
+	void heal(int hp) {
 		setHealth(health + hp);
 	}
 	
@@ -67,7 +67,7 @@ public class PlayerState {
 		mana = mp;
 	}
 	
-	public int recountDamage(int damage) {
+	int recountDamage(int damage) {
 		if (D) Log.e("Wizard Fight", "have V?: " + buffs.containsKey(Buff.CONCENTRATION));
 		if(buffs.containsKey(Buff.CONCENTRATION)) {
 			damage *= 1.5;
@@ -148,7 +148,7 @@ public class PlayerState {
 		return false;
 	}
 	
-	public void addBuff(Buff buff) {
+	void addBuff(Buff buff) {
 		BuffState buffState = new BuffState( 
 				System.currentTimeMillis(), buff.getTicksCount());
 		// if map contains buff, it will be replaced with new time value
@@ -157,7 +157,7 @@ public class PlayerState {
 		addedBuff = buff;
 	}
 	
-	public void handleBuffTick(Buff buff, boolean calledByTimer) {
+	void handleBuffTick(Buff buff, boolean calledByTimer) {
 		if (D) Log.e("Wizard Fight", "handleBuffTick called");
 		boolean hasBuffAlready = buffs.containsKey(buff);
 		if (D) Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
@@ -200,7 +200,7 @@ public class PlayerState {
 		if(mana > maxMana) mana = maxMana;
 	}
 	
-	protected void setHealth(int hp) {
+	void setHealth(int hp) {
 		health = hp;
 		if(health < 0) health = 0;
 		if(health > maxHealth) health = maxHealth;

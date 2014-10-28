@@ -11,15 +11,15 @@ class KMeans implements Serializable {
     private static final long serialVersionUID = 3L;
 
     protected boolean trained = false;
-    protected boolean computeTheta = true;
-    protected int numClusters = 10;
-    protected int minNumEpochs = 5;
-    protected int maxNumEpochs = 1000;
+    private boolean computeTheta = true;
+    private int numClusters = 10;
+    private int minNumEpochs = 5;
+    private int maxNumEpochs = 1000;
     protected int numTrainingSamples = 0; // /<Number of training examples
     protected int nchg = 0; // /<Number of values changes
     protected double finalTheta = 0;
-    protected double minChange = 1.0e-5;
-    protected MatrixDouble clusters = new MatrixDouble();
+    private double minChange = 1.0e-5;
+    private final MatrixDouble clusters = new MatrixDouble();
 
     protected ArrayList<Double> thetaTracker = new ArrayList<Double>();
     protected ArrayList<MinMax> ranges = new ArrayList<MinMax>();

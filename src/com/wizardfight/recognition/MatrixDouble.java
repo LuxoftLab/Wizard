@@ -8,10 +8,10 @@ import java.util.ArrayList;
 public class MatrixDouble implements Serializable {
 
     private static final long serialVersionUID = 5L;
-    protected int rows; // /< The number of rows in the Matrix
-    protected int cols; // /< The number of columns in the Matrix
-    protected int capacity; // /< The actual capacity of the Matrix, this will
-    protected double[][] dataPtr; // /< A pointer to the data
+    int rows; // /< The number of rows in the Matrix
+    int cols; // /< The number of columns in the Matrix
+    private int capacity; // /< The actual capacity of the Matrix, this will
+    double[][] dataPtr; // /< A pointer to the data
 
     public MatrixDouble() {
         rows = 0;

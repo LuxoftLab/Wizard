@@ -96,7 +96,7 @@ public class MainMenu extends Activity {
 		Log.e("Wizard Fight", "go to settings");
 	}
 
-	public void Exit(View view) {
+	void Exit(View view) {
 		BluetoothService.getInstance().release();
 		// return BT state to last one in
 		if (!mIsUserCameWithBt && mBluetoothAdapter.isEnabled()) {
@@ -105,7 +105,7 @@ public class MainMenu extends Activity {
 		finish();
 	}
 
-	public void requestBluetooth(BtRequest r) {
+	void requestBluetooth(BtRequest r) {
 		Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		startActivityForResult(enableIntent, r.ordinal());
 	}

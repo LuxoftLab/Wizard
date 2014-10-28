@@ -13,7 +13,7 @@ import android.view.animation.AnimationUtils;
  * Image view with fading out
  */
 public class SpellPicture extends ImageView {
-	private Animation animFadeOut;
+	private final Animation animFadeOut;
 	
     public SpellPicture (Context context,AttributeSet attrs) {
         super(context, attrs);

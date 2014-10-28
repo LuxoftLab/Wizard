@@ -4,11 +4,11 @@ package com.wizardfight.views;
  * Created by 350z6_000 on 04.09.2014.
  */
 public class WizardDialContent {
-    protected String text="";
-    protected boolean ui=false;
-    protected boolean health=false;
-    protected boolean mana=false;
-    protected boolean pause=false;
+    private String text="";
+    private boolean ui=false;
+    private boolean health=false;
+    private boolean mana=false;
+    private boolean pause=false;
 
     public WizardDialContent() {
     }

@@ -6,8 +6,8 @@ package com.wizardfight.recognition;
  */
 public class TimeSeriesClassificationSample {
 
-	protected int classLabel;
-	protected MatrixDouble data;
+	private int classLabel;
+	private MatrixDouble data;
 
 	public TimeSeriesClassificationSample() {
 		classLabel = 0;

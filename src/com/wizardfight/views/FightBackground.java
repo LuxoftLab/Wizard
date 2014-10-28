@@ -9,8 +9,8 @@ import android.widget.ImageView;
 
 public class FightBackground extends ImageView {
 	private boolean mFirstAnim = true;
-	private Animation mDarkToBright;
-	private Animation mBrightToDark;
+	private final Animation mDarkToBright;
+	private final Animation mBrightToDark;
 	
 	public FightBackground (Context context,AttributeSet attrs) {
         super(context, attrs);

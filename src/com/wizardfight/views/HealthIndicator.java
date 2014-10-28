@@ -10,12 +10,12 @@ import android.util.AttributeSet;
  * and specified color
  */
 public class HealthIndicator extends Indicator {
-    private int mUnderBarColor;
+    private final int mUnderBarColor;
     private float mPrevValue;
     private double mAnimStep;
     
-    private Handler mHandler = new Handler();
-    private Runnable mTick = new Runnable() {
+    private final Handler mHandler = new Handler();
+    private final Runnable mTick = new Runnable() {
         public void run() {
             if(mPrevValue != mCurValue)
             {

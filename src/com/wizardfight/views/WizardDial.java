@@ -18,16 +18,16 @@ import java.util.ArrayList;
  * Created by 350z6_000 on 22.07.2014.
  */
 public class WizardDial extends RelativeLayout {
-    private TextView textView;
-    private CancelButton nextButton;
-    private Animation animFadeOut;
-    private Animation animFadeIn;
+    private final TextView textView;
+    private final CancelButton nextButton;
+    private final Animation animFadeOut;
+    private final Animation animFadeIn;
     private ArrayList<WizardDialContent> content=new ArrayList<WizardDialContent>();
     private int count = -1;
-    private ManaIndicator mi;
-    private HealthIndicator hi;
-    private RelativeLayout r;
-    final int popupId =Integer.MAX_VALUE;
+    private final ManaIndicator mi;
+    private final HealthIndicator hi;
+    private final RelativeLayout r;
+    private final int popupId =Integer.MAX_VALUE;
 
     public WizardDial(Context context) {
         super(context);
@@ -142,10 +142,10 @@ public class WizardDial extends RelativeLayout {
             textView.setText(content.get(count).getText());
         }
     }
-    Handler mHandler = new Handler();
-    int health=3;
-    int mana=3;
-    Runnable mTick = new Runnable() {
+    private final Handler mHandler = new Handler();
+    private int health=3;
+    private int mana=3;
+    private final Runnable mTick = new Runnable() {
         public void run() {
             if(content.get(count).isHealth())
             {
@@ -171,13 +171,13 @@ public class WizardDial extends RelativeLayout {
             mHandler.postDelayed(this, 1000);
         }
     };
-    public void close() {
+    void close() {
         mHandler.removeCallbacks(mTick);
         setEnabled(false);
         setVisibility(INVISIBLE);
         startAnimation(animFadeOut);
     }
-    public void setCanNext(boolean canNext) {
+    void setCanNext(boolean canNext) {
         nextButton.setEnabled(canNext);
         nextButton.setClickable(canNext);
     }

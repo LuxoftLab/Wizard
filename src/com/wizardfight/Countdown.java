@@ -15,10 +15,10 @@ import android.view.animation.AnimationUtils;
 class Countdown {
 	private final int NUMBERS_COUNT = 3;
     private int mNumCount;
-    private View mRootView;
-    private MyTextView mText;
-    private Animation mAnim;
-    private Handler mHandler;
+    private final View mRootView;
+    private final MyTextView mText;
+    private final Animation mAnim;
+    private final Handler mHandler;
 
     public Countdown (Context context, View rootView, Handler h){
     	mHandler = h;

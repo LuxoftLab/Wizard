@@ -88,7 +88,7 @@ public class Recognizer {
         return getShape(hmm.getPredictedClassLabel());
     }
 
-    static Shape getShape(int val) {
+    private static Shape getShape(int val) {
         Shape s;
         switch (val) {
             case 1:

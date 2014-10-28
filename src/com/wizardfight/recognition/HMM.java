@@ -9,33 +9,33 @@ public class HMM implements Serializable {
 
     private static final long serialVersionUID = 2L;
     // Variables for all the HMMs
-    protected boolean trained = false;
-    protected boolean useScaling = false;
-    protected boolean useNullRejection = false;
+    boolean trained = false;
+    boolean useScaling = false;
+    boolean useNullRejection = false;
 
-    protected int delta = 1; // The number of states a model can move to in a
+    int delta = 1; // The number of states a model can move to in a
     // HMMModelTipes.LEFTRIGHT model
     protected int maxNumIter = 100; // The maximum number of iter allowed during
     // the full training
-    protected int numClasses;
-    protected int numInputDimensions = 0;
-    protected int numRandomTrainingIterations;
-    protected int numStates = 5; // The number of states for each model
-    protected int numSymbols = 10; // The number of symbols for each model
-    protected int predictedClassLabel;
+    int numClasses;
+    int numInputDimensions = 0;
+    int numRandomTrainingIterations;
+    int numStates = 5; // The number of states for each model
+    int numSymbols = 10; // The number of symbols for each model
+    private int predictedClassLabel;
 
-    protected double bestDistance;
-    protected double maxLikelihood;
+    double bestDistance;
+    double maxLikelihood;
     protected double minImprovement = 1.0e-2; // The minimum improvement value
     // for each model during training
-    protected int[] classLabels = new int[0];
-    protected double[] classLikelihoods = new double[0];
-    protected double[] classDistances = new double[0];
-    protected double[] nullRejectionThresholds;
+    int[] classLabels = new int[0];
+    double[] classLikelihoods = new double[0];
+    double[] classDistances = new double[0];
+    double[] nullRejectionThresholds;
 
-    protected HMMModelTypes modelType = HMMModelTypes.LEFTRIGHT;
+    HMMModelTypes modelType = HMMModelTypes.LEFTRIGHT;
 
-    protected ArrayList<HiddenMarkovModel> models = new ArrayList<HiddenMarkovModel>();
+    final ArrayList<HiddenMarkovModel> models = new ArrayList<HiddenMarkovModel>();
 
     public int getPredictedClassLabel() {
         if (trained) {
@@ -108,7 +108,7 @@ public class HMM implements Serializable {
         return Math.exp(d);
     }
 
-    protected void clear() {
+    void clear() {
         models.clear();
     }
 }

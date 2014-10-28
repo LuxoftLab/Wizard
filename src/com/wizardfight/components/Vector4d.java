@@ -1,7 +1,7 @@
 package com.wizardfight.components;
 
 public class Vector4d extends Vector3d {
-	public long t;
+	private final long t;
 
     public Vector4d() {
         super();

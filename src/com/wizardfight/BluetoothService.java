@@ -47,7 +47,7 @@ public class BluetoothService {
     private static boolean mIsServer = false;
     
     private static class InstanceHolder {
-        private static BluetoothService instance = new BluetoothService();
+        private static final BluetoothService instance = new BluetoothService();
     }
 
     public static BluetoothService getInstance() {

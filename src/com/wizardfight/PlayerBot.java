@@ -7,13 +7,13 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-public class PlayerBot extends Thread {
+class PlayerBot extends Thread {
 	// for debugging 
 	private final boolean D = false;
 	private final static String TAG = "Wizard Fight Bot";
 	
-	private int mStartHP;
-	private int mStartMana;
+	private final int mStartHP;
+	private final int mStartMana;
 	private Looper mLooper;
 	private PlayerState mSelfState;
 	private PlayerState mEnemyState;
@@ -26,7 +26,7 @@ public class PlayerBot extends Thread {
 		setupApp();
 	}
 	
-	public void setupApp() {
+	void setupApp() {
 		mEnemyState = new EnemyState(mStartHP, mStartMana, null);
 		mSelfState = new PlayerState(mStartHP, mStartMana, mEnemyState);
 		// Start mana regeneration

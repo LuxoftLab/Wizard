@@ -17,19 +17,19 @@ import android.os.Looper;
 import android.util.Log;
 
 
-public class SensorAndSoundThread extends Thread implements SensorEventListener {
+class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
 	private boolean listening;
 	private boolean soundPlaying;
 	private Looper mLooper;
-	private SensorManager mSensorManager;
-	private Sensor mAccelerometer;
+	private final SensorManager mSensorManager;
+	private final Sensor mAccelerometer;
 	private ArrayList<Vector3d> records;
 	private SoundPool soundPool;
-	private int wandSoundID;
+	private final int wandSoundID;
 	private int wandStreamID;
-	private EnumMap<Shape, Integer> shapeSoundIDs;
-	private EnumMap<Buff, Integer> buffSoundIDs;
+	private final EnumMap<Shape, Integer> shapeSoundIDs;
+	private final EnumMap<Buff, Integer> buffSoundIDs;
 
 	public SensorAndSoundThread(Context context, SensorManager sm, Sensor s) {
 		setName("Sensor and Sound thread");

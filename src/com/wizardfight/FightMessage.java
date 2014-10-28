@@ -6,7 +6,7 @@ enum Target {
 	SELF,
 	ENEMY;
 	
-	static String[] names = { "self", "enemy" };
+	static final String[] names = { "self", "enemy" };
 	
 	@Override
 	public String toString() {
@@ -34,7 +34,7 @@ enum FightAction {
 	 *  strings are needed for debugging or string message 
 	 *  sending, may be deleted in future
 	 */
-	static String[] names = {
+	static final String[] names = {
 		"enemy ready",
 		"fight start",
 		"fight end",
@@ -67,7 +67,7 @@ enum FightAction {
  */
 public class FightMessage {
 	public Target target;
-	public FightAction action;
+	public final FightAction action;
 	public int param;
 	public int health;
 	public int mana;

@@ -18,10 +18,11 @@ public class Spellbook extends Activity {
 	/**
 	 * Called when the activity is first created.
 	 */
-	LinearLayout cardLayout;
-	CustomScroller scroller;
-	int displayWidth, displayHeight;
-	ArrayList<RelativeLayout> cards = new ArrayList<RelativeLayout>();
+    private LinearLayout cardLayout;
+	private CustomScroller scroller;
+	private int displayWidth;
+    private int displayHeight;
+	private final ArrayList<RelativeLayout> cards = new ArrayList<RelativeLayout>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class Spellbook extends Activity {
 		}
 	}
 
-	public void addSpellCard(String name, String description, String img) {
+	void addSpellCard(String name, String description, String img) {
 		Log.e("Wizard Fight", "IMG: " + img );
 		int w = displayWidth;
 		int h = (int) (displayWidth * 1.5);
