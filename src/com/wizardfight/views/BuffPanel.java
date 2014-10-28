@@ -1,11 +1,6 @@
 package com.wizardfight.views;
 
 import com.wizardfight.Buff;
-import com.wizardfight.FightMessage;
-
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.View;
 
 /*
  * Class that contains links to player`s buff views
@@ -17,17 +12,17 @@ public class BuffPanel {
 	}
 	
 	public void addBuff(Buff buff) {
-		for(int i=0; i<buffPics.length; i++) {
-			Buff b = buffPics[i].getBuff();
-			// if exists already
-			if( b == buff ) {
-				return;
-			}
-			if( b == Buff.NONE ) {
-				buffPics[i].setBuff(buff);
-				return;
-			}
-		}
+        for (BuffPicture buffPic : buffPics) {
+            Buff b = buffPic.getBuff();
+            // if exists already
+            if (b == buff) {
+                return;
+            }
+            if (b == Buff.NONE) {
+                buffPic.setBuff(buff);
+                return;
+            }
+        }
 	}
 	
 	public void removeBuff(Buff buff) {
@@ -49,8 +44,8 @@ public class BuffPanel {
 	}
 	
 	public void removeBuffs() {
-		for(int i=0; i<buffPics.length; i++) {
-			buffPics[i].setBuff(Buff.NONE);
-		}
+        for (BuffPicture buffPic : buffPics) {
+            buffPic.setBuff(Buff.NONE);
+        }
 	}
 }

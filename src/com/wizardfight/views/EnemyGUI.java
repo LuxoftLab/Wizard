@@ -3,14 +3,13 @@ package com.wizardfight.views;
 import  com.wizardfight.R;
 
 import android.app.Activity;
-import android.widget.TextView;
 
 /*
  * Enemy player GUI (locatated on the bottom)
  */
 public class EnemyGUI extends PlayerGUI {
 	public EnemyGUI(Activity a, int hp, int mana) {
-		super(a);
+		super();
 		healthBar = (HealthIndicator) a.findViewById(R.id.enemy_health);
 		healthBar.setMaxValue(hp);
 		manaBar = (ManaIndicator) a.findViewById(R.id.enemy_mana);

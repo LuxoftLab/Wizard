@@ -19,10 +19,6 @@ public class TimeSeriesClassificationSample {
 		this.data = data;
 	}
 
-	public double getData(int i, int j) {
-		return data.dataPtr[i][j];
-	}
-
 	public int getLength() {
 		return data.rows;
 	}

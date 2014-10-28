@@ -3,14 +3,13 @@ package com.wizardfight.views;
 import  com.wizardfight.R;
 
 import android.app.Activity;
-import android.widget.TextView;
 
 /*
  * Self GUI (locatated on the top)
  */
 public class SelfGUI extends PlayerGUI {
 	public SelfGUI(Activity a, int hp, int mana) {
-		super(a);
+		super();
 
 		healthBar = (HealthIndicator) a.findViewById(R.id.self_health);
 		healthBar.setMaxValue(hp);

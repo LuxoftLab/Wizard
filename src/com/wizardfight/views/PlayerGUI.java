@@ -2,23 +2,16 @@ package com.wizardfight.views;
 
 import com.wizardfight.Shape;
 
-import android.app.Activity;
-import android.widget.TextView;
-
 /*
  * Player GUI: name + mana bar + health bar 
  *            + spell picture + buff panel
  */
 public class PlayerGUI {
-	private final Activity mainActivity;
 	HealthIndicator healthBar;
 	ManaIndicator manaBar;
 	SpellPicture spellPicture;
 	BuffPanel buffPanel;
-	
-	PlayerGUI(Activity a) {
-		mainActivity = a;
-	}
+
 	
 	public void clear() {
 		buffPanel.removeBuffs();

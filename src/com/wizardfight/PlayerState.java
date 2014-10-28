@@ -193,21 +193,12 @@ public class PlayerState {
 		mana += 5;
 		if(mana > maxMana) mana = maxMana;
 	}
-	
-	protected void setMana(int mp) {
-		mana = mp;
-		if(mana < 0) mana = 0;
-		if(mana > maxMana) mana = maxMana;
-	}
+
 	
 	void setHealth(int hp) {
 		health = hp;
 		if(health < 0) health = 0;
 		if(health > maxHealth) health = maxHealth;
-	}
-	
-	public void removeBuffs() {
-		buffs.clear();
 	}
 	
 	public Shape getSpellShape() { return spellShape; }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.*;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class SpellAnimation extends View {
                 Bitmap p = BitmapFactory.decodeStream(getContext().getAssets().open("phone/phone" + i + ".png"));
                 phoneIm.add(Bitmap.createScaledBitmap(p, (int) (wb), (int) (hb), false));
             } catch (IOException e) {
+                Log.e("Wizard Fight","SpellAnimationError",e);
             }
         }
 
@@ -179,19 +181,6 @@ public class SpellAnimation extends View {
                 }
             }
             canvas.drawBitmap(bm, (float) (tt[0] * w), (float) (tt[1] * h), paint);
-            /*Random rand = new Random();
-            drawI(tl,(int)(Math.random()*30),(int)(Math.random()*20),canvas,h,w);*/
-        }
-    }
-
-    /**
-     * function that draws sparks
-     */
-    protected void drawI(Double[] point, int count, int radius, Canvas canvas, double h, double w) {
-        for (int i = 0; i < count; i++) {
-            paint.setStrokeWidth((int) (Math.random() * 3) + 1);
-            paint.setColor(Color.rgb(255, (int) (Math.random() * 255), (int) (Math.random() * 255)));
-            canvas.drawPoint((float) ((point[0] + Math.random() * radius - radius / 2) * h), (float) ((point[1] + Math.random() * radius - radius / 2) * w), paint);
         }
     }
 

@@ -2,7 +2,6 @@ package com.wizardfight;
 
 import android.view.*;
 
-import android.widget.LinearLayout;
 import com.wizardfight.views.*;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -65,7 +64,7 @@ public class BtFightActivity extends FightActivity {
 			return;
 		}
 		// if server: check whether we can start fight
-		if (mIsSelfReady && mIsEnemyReady) {
+		if (mIsSelfReady) {
 			FightMessage startMsg = new FightMessage(Target.ENEMY,
 					FightAction.FIGHT_START);
 			sendFightMessage(startMsg);

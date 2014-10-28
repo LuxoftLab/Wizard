@@ -68,15 +68,14 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		
 		Integer soundID = shapeSoundIDs.get(shape);
 		if( soundPlaying && soundID != null ) {
-			int res = soundPool.play(soundID.intValue(), 1, 1, 0, 0, 1);
-			if (D) Log.e("Wizard Fight", "play result: "  + res);
+		    soundPool.play(soundID, 1, 1, 0, 0, 1);
 		}
 	}
 
 	public void playBuffSound(Buff buff) {
 		Integer soundID = buffSoundIDs.get(buff);
 		if( soundPlaying && soundID != null ) {
-			soundPool.play(soundID.intValue(), 1, 1, 0, 0, 1);
+			soundPool.play(soundID, 1, 1, 0, 0, 1);
 		}
 	}
 	
@@ -113,10 +112,6 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		return resize(records,50);
 	}
 
-	public void setSoundPlaying(boolean isPlaying) {
-		soundPlaying = isPlaying;
-	}
-	
 	public void stopLoop() {
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)

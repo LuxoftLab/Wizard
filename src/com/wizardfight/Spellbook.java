@@ -19,7 +19,6 @@ public class Spellbook extends Activity {
 	 * Called when the activity is first created.
 	 */
     private LinearLayout cardLayout;
-	private CustomScroller scroller;
 	private int displayWidth;
     private int displayHeight;
 	private final ArrayList<RelativeLayout> cards = new ArrayList<RelativeLayout>();
@@ -29,7 +28,6 @@ public class Spellbook extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spellbook);
 		cardLayout = (LinearLayout) findViewById(R.id.layoutForCards);
-		scroller = (CustomScroller) findViewById(R.id.horizontalScrollView);
 		Display display = getWindowManager().getDefaultDisplay();
 
 		displayWidth = display.getWidth();
@@ -137,7 +135,7 @@ public class Spellbook extends Activity {
 			imV.setImageBitmap(BitmapFactory
 					.decodeStream(getAssets().open(img)));
 		} catch (IOException e) {
-
+            Log.e("Wizard Fight","SpellBookError",e);
 		}
 
 		r.setBackgroundResource(R.drawable.card);

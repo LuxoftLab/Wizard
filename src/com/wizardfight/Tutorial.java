@@ -55,7 +55,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 	private TextView spellName;
 	private TextView spellCounter;
 
-	private int pause = -1;
+
 	private int partCounter = 0;
 	private int spellCount = -1;
 	private int lastTouchAction = -1;

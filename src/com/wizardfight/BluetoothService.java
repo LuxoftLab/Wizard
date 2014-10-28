@@ -54,8 +54,6 @@ public class BluetoothService {
     	return InstanceHolder.instance;
     }
     
-    public boolean isInitialized() { return (mHandler != null); }
-    
     public void setHandler(Handler handler) {
     	if(mHandler != null) mHandler.removeCallbacksAndMessages(null);
     	mHandler = handler;
@@ -219,7 +217,7 @@ public class BluetoothService {
         public void run() {
             if (D) Log.d(TAG, "BEGIN mAcceptThread" + this);
             setName("AcceptThread");
-            BluetoothSocket socket = null;
+            BluetoothSocket socket;
             // Listen to the server socket if we're not connected
             while (mState != STATE_CONNECTED) {
                 try {

@@ -48,7 +48,7 @@ class HiddenMarkovModel implements Serializable {
     double predict(int[] obs) {
         final int N = numStates;
         final int T = obs.length;
-        int t, i, j = 0;
+        int t, i, j;
         MatrixDouble alpha = new MatrixDouble(T, numStates);
         double[] c = new double[T];
 

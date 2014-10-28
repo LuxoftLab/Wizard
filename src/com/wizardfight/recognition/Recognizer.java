@@ -90,7 +90,7 @@ public class Recognizer {
 
     private static Shape getShape(int val) {
         Shape s;
-        switch (val) {
+        switch (val) {//todo
             case 1:
                 s = Shape.CIRCLE;
                 break;
@@ -116,79 +116,5 @@ public class Recognizer {
                 s = Shape.FAIL;
         }
         return s;
-    }
-
-    // Converting class id into label
-    static void printLabel(int val) {
-        System.out.print("Figure is ");
-        switch (val) {
-            case 1:
-                System.out.print("circle");
-                break;
-            case 2:
-                System.out.print("clock");
-                break;
-            case 3:
-                System.out.print("pi");
-                break;
-            case 4:
-                System.out.print("shield");
-                break;
-            case 5:
-                System.out.print("triangle");
-                break;
-            case 6:
-                System.out.print("v");
-                break;
-            case 7:
-                System.out.print("z");
-                break;
-        }
-        System.out.println();
-    }
-
-    public static void writeSerialized() {
-        Loader loader = new Loader();
-        // Load quantizer from serialized file
-        try {
-            ObjectOutputStream os = new ObjectOutputStream(
-                    new FileOutputStream(new File("HMMQuantizer.ser")));
-            loader.loadQuantizerFromFile("HMMQuantizer.txt");
-            os.writeObject(loader.quantizer);
-            os.close();
-        } catch (Exception ex) {
-            System.err.println("ERROR: Failed to write quantizer! " + ex);
-        }
-
-        // Load the HMM model from a file
-        try {
-            ObjectOutputStream os = new ObjectOutputStream(
-                    new FileOutputStream(new File("HMMModel.ser")));
-            loader.loadHMMFromFile("HMMModel.txt");
-            os.writeObject(loader.hmm);
-            os.close();
-        } catch (Exception ex) {
-            System.err.println("ERROR: Failed to write hmm! " + ex);
-        }
-    }
-
-    public static ArrayList<Vector3d> getRecordsFromFile(File file) {
-        ArrayList<Vector3d> recs = new ArrayList<Vector3d>();
-        try {
-            Scanner sc = new Scanner(file);
-
-            while (sc.hasNext()) {
-                String[] nums = sc.nextLine().split(" ");
-                Vector3d rec = new Vector3d();
-                rec.x = Double.parseDouble(nums[0]);
-                rec.y = Double.parseDouble(nums[1]);
-                rec.z = Double.parseDouble(nums[2]);
-                recs.add(rec);
-            }
-            sc.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Records file not found");
-        }
-        return recs;
     }
 }
