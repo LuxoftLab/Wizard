@@ -10,8 +10,6 @@ import android.widget.TextView;
  *            + spell picture + buff panel
  */
 public class PlayerGUI {
-	protected TextView playerName;
-	protected TextView debugField;
 	protected Activity mainActivity;
 	protected HealthIndicator healthBar;
 	protected ManaIndicator manaBar;
@@ -23,8 +21,6 @@ public class PlayerGUI {
 	}
 	
 	public void clear() {
-		//healthBar.setValue(healthBar.getMaxValue());
-		//manaBar.setValue(manaBar.getMaxValue());
 		buffPanel.removeBuffs();
 		spellPicture.setShape(Shape.NONE);
 	}
@@ -33,8 +29,4 @@ public class PlayerGUI {
 	public ManaIndicator getManaBar() { return manaBar; }
 	public SpellPicture getSpellPicture() { return spellPicture; }
 	public BuffPanel getBuffPanel() { return buffPanel; }
-//	public BuffPicture[] getBuffs() { return buffPanel.getBuffs(); }
-	public TextView getPlayerName() { return playerName; }
-	public void log(String s) { debugField.setText(s); }
-	
 }

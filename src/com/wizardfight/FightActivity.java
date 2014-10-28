@@ -227,9 +227,6 @@ public class FightActivity extends Activity {
 		// always send own health and mana
 		fMessage.health = mSelfState.getHealth();
 		fMessage.mana = mSelfState.getMana();
-
-		mSelfGUI.getPlayerName().setText(
-				"send fm: " + fMessage + " " + (mMyCounter++));
 	}
 
 	protected void startFight() {
@@ -381,9 +378,6 @@ public class FightActivity extends Activity {
 
 			// refresh enemy health and mana (every enemy message contains it)
 			mEnemyState.setHealthAndMana(enemyMsg.health, enemyMsg.mana);
-			mEnemyGUI.getPlayerName().setText(
-					"enemy hp and mana: " + enemyMsg.health + ", "
-							+ enemyMsg.mana);
 			Log.e(TAG, "enemy msg: " + enemyMsg + " " + mMyCounter);
 			if (enemyMsg.target == Target.SELF) {
 				handleMessageToSelf(enemyMsg);

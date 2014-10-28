@@ -19,7 +19,7 @@ public class SpellPicture extends ImageView {
         super(context, attrs);
         setImageDrawable(null);
         animFadeOut = AnimationUtils
-				.loadAnimation(getContext(), R.anim.fade_out_nodelay);
+				.loadAnimation(getContext(), R.anim.fade_out);
 		animFadeOut.setFillAfter(true);
     }
     /* 

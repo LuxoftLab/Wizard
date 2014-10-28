@@ -82,21 +82,6 @@
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/self_buff5" />
             </LinearLayout>
-            <TextView
-                    android:id="@+id/self_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/self_buff_line"
-                    android:textSize="12sp"
-                    android:text="Me"/>
-
-            <TextView
-                    android:id="@+id/self_debug"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/self_name"
-                    android:textSize="12sp"
-                    android:text="Self_debug"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -162,22 +147,6 @@
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/enemy_buff5" />
             </LinearLayout>
-            <TextView
-                    android:id="@+id/enemy_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/enemy_buff_line"
-                    android:textSize="12sp"
-
-                    android:text="Enemy"/>
-
-            <TextView
-                    android:id="@+id/enemy_debug"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/enemy_name"
-                    android:textSize="12sp"
-                    android:text="Enemy_debug"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

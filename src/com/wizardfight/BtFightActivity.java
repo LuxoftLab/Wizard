@@ -2,6 +2,7 @@ package com.wizardfight;
 
 import android.view.*;
 
+import android.widget.LinearLayout;
 import com.wizardfight.views.*;
 import android.app.AlertDialog;
 import android.app.Dialog;

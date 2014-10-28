@@ -3,7 +3,6 @@ package com.wizardfight.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.wizardfight.R;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by 350z6_000 on 22.07.2014.
@@ -29,6 +27,7 @@ public class WizardDial extends RelativeLayout {
     private ManaIndicator mi;
     private HealthIndicator hi;
     private RelativeLayout r;
+    final int popupId =Integer.MAX_VALUE;
 
     public WizardDial(Context context) {
         super(context);
@@ -42,8 +41,7 @@ public class WizardDial extends RelativeLayout {
         textView.setLayoutParams(params);
         textView.setTextSize(15);
         textView.setTextColor(Color.rgb(92,67,51));
-        int id=555;
-        textView.setId(id);
+        textView.setId(popupId);
         nextButton = new CancelButton(context);
         nextButton.setBackgroundResource(R.drawable.next);
         double size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
@@ -52,7 +50,7 @@ public class WizardDial extends RelativeLayout {
         );
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         params.setMargins(0,(int)(80*size/3), (int)(20*size), 0);
-        params.addRule(RelativeLayout.ALIGN_TOP,id);
+        params.addRule(RelativeLayout.ALIGN_TOP, popupId);
         nextButton.setLayoutParams(params);
         nextButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -97,7 +95,7 @@ public class WizardDial extends RelativeLayout {
 
 
         animFadeOut = AnimationUtils
-                .loadAnimation(getContext(), R.anim.fade_out_nodelay);
+                .loadAnimation(getContext(), R.anim.fade_out);
         animFadeIn = AnimationUtils
                 .loadAnimation(getContext(), R.anim.fade_in);
         setVisibility(INVISIBLE);

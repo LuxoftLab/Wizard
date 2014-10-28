@@ -5,43 +5,32 @@
     <!--  Preferences -->
     <string name="recognition_type">Recognition type</string>
     <!--  BluetoothService -->
-    <string name="send">Send</string>
     <string name="not_connected">You are not connected to a device</string>
     <string name="bt_not_enabled">Bluetooth is not enabled. </string>
-    <string name="title_connecting">connecting...</string>
-    <string name="title_connected_to">connected: </string>
-    <string name="title_not_connected">not connected</string>
     <!--  DeviceListActivity -->
-    <string name="scanning">Scanning for devices...</string>
+    <string name="scanning">Scanning for devices…</string>
     <string name="select_device">Select a device to connect</string>
     <string name="none_paired">No devices have been paired</string>
     <string name="none_found">No devices found</string>
     <string name="title_paired_devices">Paired Devices</string>
     <string name="title_other_devices">Other Available Devices</string>
     <string name="button_scan">Scan for devices</string>
-    <!-- Options Menu -->
-    <string name="triangle">triangle</string>
-    <string name="circle">circle</string>
-    <string name="clock">clock</string>
-    <string name="z">z</string>
-    <string name="v">v</string>
-    <string name="pi">pi</string>
-    <string name="shield">shield</string>
     <!--  Main Menu -->
     <string name="Create_game">Create game</string>
     <string name="Join_game">Join game</string>
+    <string name="Connect">Connect</string>
     <string name="Help">Help</string>
     <string name="Spellbook">Spellbook</string>
     <string name="settings">Settings</string>
     <string name="Exit">Exit</string>
     <!--  Wizard Fight -->
-    <string name="client_waiting">Waiting for opponent...</string>
+    <string name="client_waiting">Waiting for opponent…</string>
     <string name="trying_to_connect">Trying to connect..</string>
     <string name="cancel">Cancel</string>
     <string name="connection_lost">Connection was lost. Leaving fight</string>
     <string name="connection_fail">Unable to connect to the device</string>
     <!--  Tutorial  -->
-    <string name="calibrating">Calibrating... Please wait</string>
+    <string name="calibrating">Calibrating… Please wait</string>
     <!--  Connection to desktop  -->
     <string name="connect">Connect</string>
 </resources>
