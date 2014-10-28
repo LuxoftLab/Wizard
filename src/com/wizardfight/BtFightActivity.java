@@ -18,7 +18,7 @@ import android.widget.Toast;
 public class BtFightActivity extends FightActivity {
 	private BluetoothService mBtService = null;
 	private boolean mIsEnemyReady;
-	protected boolean mIsSelfReady;
+	private boolean mIsSelfReady;
 	private Dialog mClientWaitingDialog;
 
 	@Override
@@ -122,7 +122,7 @@ public class BtFightActivity extends FightActivity {
 			Log.e(TAG, "After show dialog");
 	}
 
-	class CancelButtonListener implements OnClickListener {
+	private class CancelButtonListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
 			mClientWaitingDialog.dismiss();

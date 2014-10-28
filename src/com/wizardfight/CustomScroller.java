@@ -7,12 +7,12 @@ import android.widget.HorizontalScrollView;
 /**
  * Created by 350z6_000 on 08.07.2014.
  */
-public class CustomScroller extends HorizontalScrollView {
+class CustomScroller extends HorizontalScrollView {
 	long lastScrollMillis;
 	Handler mHandler = new Handler();
-	boolean f = false;
-	int size = 0;
-	int selected = 0;
+	private boolean f = false;
+	private int size = 0;
+	private int selected = 0;
 	int u = 0;
 
 	public CustomScroller(android.content.Context context,

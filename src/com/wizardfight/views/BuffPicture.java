@@ -14,7 +14,7 @@ import android.widget.ImageView;
 /*
  * Square with image describing buff (in future)
  */
-public class BuffPicture extends ImageView {
+class BuffPicture extends ImageView {
 	private Buff buff;
 	
 	public BuffPicture(Context context,AttributeSet attrs) {

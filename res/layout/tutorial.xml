@@ -74,15 +74,5 @@
               android:layout_below="@+id/spell_anim_view_l"
               android:layout_alignRight="@+id/spell_anim_view_l"
               class="com.wizardfight.views.CancelButton" android:id="@+id/view"/>
-
-
-        <!--<Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:onClick="addcount"/>-->
     </RelativeLayout>
 </RelativeLayout>

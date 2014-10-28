@@ -132,9 +132,7 @@ public class TimeSeriesClassificationData {
             return false;
         }
 
-        TimeSeriesClassificationSample newSample = new TimeSeriesClassificationSample(
-                classLabel, trainingSample);
-        data = newSample;
+        data = new TimeSeriesClassificationSample(classLabel, trainingSample);
 
         if (classTracker.isEmpty()) {
             ClassTracker tracker = new ClassTracker(classLabel, 1);

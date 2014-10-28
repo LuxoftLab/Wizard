@@ -32,9 +32,9 @@ public class CancelButton extends Button {
         super.setBackgroundDrawable(layer);
     }
 
-    protected class SAutoBgButtonBackgroundDrawable extends LayerDrawable {
+    class SAutoBgButtonBackgroundDrawable extends LayerDrawable {
         // The color filter to apply when the button is pressed
-        protected ColorFilter _pressedFilter = new LightingColorFilter(Color.DKGRAY, 1);
+        ColorFilter _pressedFilter = new LightingColorFilter(Color.DKGRAY, 1);
         // Alpha value when the button is disabled
         protected int _disabledAlpha = 100;
 

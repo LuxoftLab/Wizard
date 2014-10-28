@@ -169,7 +169,6 @@ public class SensorAndSoundThread extends Thread implements SensorEventListener 
         double x= a.get((int)i).x+( a.get((int)i+1).x- a.get((int)i).x)*fPart;
         double y= a.get((int)i).y+( a.get((int)i+1).y- a.get((int)i).y)*fPart;
         double z= a.get((int)i).z+( a.get((int)i+1).z- a.get((int)i).z)*fPart;
-        Vector3d t=new Vector3d(x,y,z);
-        return t;
+        return new Vector3d(x,y,z);
     }
 }

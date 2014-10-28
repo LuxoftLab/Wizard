@@ -12,13 +12,12 @@ import android.view.animation.AnimationUtils;
 /**
  * Created by 350z6_000 on 15.07.2014.
  */
-public class Countdown {
-	private int NUMBERS_COUNT = 3;
+class Countdown {
+	private final int NUMBERS_COUNT = 3;
     private int mNumCount;
     private View mRootView;
     private MyTextView mText;
     private Animation mAnim;
-    private AnimListener mAnimListener;
     private Handler mHandler;
 
     public Countdown (Context context, View rootView, Handler h){
@@ -27,8 +26,8 @@ public class Countdown {
     	mText = (MyTextView) mRootView.findViewById(R.id.starting_text);
         mText.setVisibility(View.INVISIBLE);
         mAnim = AnimationUtils.loadAnimation(context, R.anim.countdown);
-        mAnimListener = new AnimListener();
-        mAnim.setAnimationListener(mAnimListener);
+        AnimListener animListener = new AnimListener();
+        mAnim.setAnimationListener(animListener);
         mAnim.setFillAfter(true);
     }
 
@@ -41,17 +40,12 @@ public class Countdown {
         mText.setIsDraw(true);
     }
     
-    public void goOut() {
+    void goOut() {
     	mRootView.setVisibility(View.INVISIBLE);
         mHandler.obtainMessage(AppMessage.MESSAGE_COUNTDOWN_END.ordinal()).sendToTarget();
     }
-    
-//    public void setVisible(boolean isVisible) {
-//    	mRootView.setVisibility(
-//    			(isVisible)? View.VISIBLE : View.GONE);
-//    }
-    
-    class AnimListener implements Animation.AnimationListener {
+
+    private class AnimListener implements Animation.AnimationListener {
         public void onAnimationEnd(Animation animation) {
         	if( mAnim.hasEnded() ) {
         		return;

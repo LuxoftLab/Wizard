@@ -30,12 +30,12 @@ import android.widget.Toast;
  */
 public class FightActivity extends Activity {
 
-	public static final int PLAYER_HP = 200;
-	public static final int PLAYER_MANA = 100;
+	static final int PLAYER_HP = 200;
+	static final int PLAYER_MANA = 100;
 	// Debugging
 	private int mMyCounter;
-	protected static final String TAG = "Wizard Fight";
-	protected static final boolean D = false;
+	static final String TAG = "Wizard Fight";
+	static final boolean D = false;
 	// is activity running
 	private boolean mIsRunning;
 	// States of players
@@ -45,7 +45,7 @@ public class FightActivity extends Activity {
 
 	// Message types sent from the BluetoothChatService Handler
 	enum AppMessage {
-		MESSAGE_STATE_CHANGE, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_DEVICE_NAME, MESSAGE_TOAST, MESSAGE_COUNTDOWN_END, MESSAGE_CONNECTION_FAIL, MESSAGE_FROM_SELF, MESSAGE_SELF_DEATH, MESSAGE_FROM_ENEMY, MESSAGE_MANA_REGEN;
+		MESSAGE_STATE_CHANGE, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_DEVICE_NAME, MESSAGE_TOAST, MESSAGE_COUNTDOWN_END, MESSAGE_CONNECTION_FAIL, MESSAGE_FROM_SELF, MESSAGE_SELF_DEATH, MESSAGE_FROM_ENEMY, MESSAGE_MANA_REGEN
 	}
 
 	// Key names received from the BluetoothChatService Handler
@@ -55,9 +55,7 @@ public class FightActivity extends Activity {
 	private Countdown mCountdown;
 	private SelfGUI mSelfGUI;
 	private EnemyGUI mEnemyGUI;
-	// Name of the connected device
-	private String mConnectedDeviceName = null;
-	// Objects referred to accelerometer
+    // Objects referred to accelerometer
 	private SensorManager mSensorManager = null;
 	private Sensor mAccelerometer = null;
 	// Accelerator Thread link
@@ -69,7 +67,7 @@ public class FightActivity extends Activity {
 	private boolean mIsCastAbilityBlocked = false;
 	
 	//private Dialog mClientWaitingDialog;
-	protected FightEndDialog mFightEndDialog;
+    FightEndDialog mFightEndDialog;
 	// test mode dialog with spell names
 
 	private FightBackground mBgImage;
@@ -202,7 +200,7 @@ public class FightActivity extends Activity {
 		}
 	}
 
-	protected void setupApp() {
+	void setupApp() {
 		if (D)
 			Log.d(TAG, "setupApp()");
 		// for debugging
@@ -223,13 +221,13 @@ public class FightActivity extends Activity {
 				.sendToTarget();
 	}
 
-	protected void sendFightMessage(FightMessage fMessage) {
+	void sendFightMessage(FightMessage fMessage) {
 		// always send own health and mana
 		fMessage.health = mSelfState.getHealth();
 		fMessage.mana = mSelfState.getMana();
 	}
 
-	protected void startFight() {
+	void startFight() {
 		// start countdown
 		if (D)
 			Log.e(TAG, "before start countdown");
@@ -242,7 +240,7 @@ public class FightActivity extends Activity {
 	}
 
 	// The Handler that gets information back from the BluetoothChatService
-	protected final Handler mHandler = new Handler() {
+	final Handler mHandler = new Handler() {
 		/**
 		 * Sends a message.
 		 * 
@@ -268,7 +266,7 @@ public class FightActivity extends Activity {
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
-				mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
+                String mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
 				Toast.makeText(getApplicationContext(),
 						"Connected to " + mConnectedDeviceName,
 						Toast.LENGTH_SHORT).show();
@@ -469,7 +467,7 @@ public class FightActivity extends Activity {
 
 	};
 
-	protected void handleEnemyReadyMessage() {
+	void handleEnemyReadyMessage() {
 		// BETTER DO THIS VIA INTERFACE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 	
@@ -508,7 +506,7 @@ public class FightActivity extends Activity {
 		}
 	}
 
-	public void buttonClick() {
+	void buttonClick() {
 		if (mIsCastAbilityBlocked)
 			return;
 
@@ -533,8 +531,8 @@ public class FightActivity extends Activity {
 	}
 
 	class FightEndDialog implements DialogInterface.OnClickListener {
-		protected AlertDialog mmDialog;
-		protected boolean mmIsNeedToShow;
+		AlertDialog mmDialog;
+		boolean mmIsNeedToShow;
 
 		public void init(String message) {
 			Log.e(TAG, "INIT FIGHT");

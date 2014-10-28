@@ -1,10 +1,10 @@
 package com.wizardfight.recognition;
 
-public class ClassTracker {
+class ClassTracker {
 
     public int classLabel = 0;
     public int counter = 0;
-    public String className = "NOT_SET";
+    private String className = "NOT_SET";
 
     public ClassTracker(int classLabel, int counter, String className) {
         this.classLabel = classLabel;

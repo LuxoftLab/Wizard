@@ -120,13 +120,13 @@ public class FightMessage {
 		
 	}
 	
-	public FightMessage(int targetIndex, int actionIndex, int parameter) {
+	private FightMessage(int targetIndex, int actionIndex, int parameter) {
 		target = Target.values()[ targetIndex ];
 		action = FightAction.values() [ actionIndex ];
 		param = parameter;
 	}
 	
-	public FightMessage(int targetIndex, int actionIndex, int parameter, int hp, int mp) {
+	private FightMessage(int targetIndex, int actionIndex, int parameter, int hp, int mp) {
 		this(targetIndex, actionIndex, parameter);
 		health = hp;
 		mana = mp;
@@ -173,7 +173,7 @@ public class FightMessage {
 		return shape;
 	}
 	
-	public static FightAction getActionFromShape(Shape shape) {
+	private static FightAction getActionFromShape(Shape shape) {
 		FightAction action;
 		switch(shape) {
 		case CIRCLE:

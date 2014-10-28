@@ -21,7 +21,7 @@ public class MainMenu extends Activity {
 
 	// Intent request codes
 	enum BtRequest {
-		BT_CREATE_GAME, BT_JOIN_GAME;
+		BT_CREATE_GAME, BT_JOIN_GAME
 	}
 
 	/**
