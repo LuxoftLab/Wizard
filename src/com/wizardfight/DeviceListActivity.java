@@ -28,8 +28,6 @@ public class DeviceListActivity extends Activity {
     // Debugging
     private static final String TAG = "DeviceListActivity";
     private static final boolean D = true;
-    // Return Intent extra
-    public static String EXTRA_DEVICE_ADDRESS = "device_address";
     // Member fields
     private BluetoothAdapter mBtAdapter;
     private LinearLayout mPairedList;

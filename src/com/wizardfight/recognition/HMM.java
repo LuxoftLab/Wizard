@@ -48,9 +48,8 @@ public class HMM implements Serializable {
      * This predicts the class of the timeseries.
      *
      * @param MatrixDouble timeSeries: the input timeseries to classify
-     * @return returns true if the prediction was performed, false otherwise
      */
-    public boolean predict(MatrixDouble timeseries) {
+    public void predict(MatrixDouble timeseries) {
         // Covert the matrix double to observations
         final int M = timeseries.rows;
         int[] observationSequence = new int[M];
@@ -100,8 +99,6 @@ public class HMM implements Serializable {
                 predictedClassLabel = 0;
             }
         }
-
-        return true;
     }
 
     private double antilog(double d) {

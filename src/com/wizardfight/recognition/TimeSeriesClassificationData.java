@@ -161,7 +161,7 @@ class TimeSeriesClassificationData {
         data = null;
     }
 
-    public boolean loadDatasetFromRecords(ArrayList<Vector3d> records) {
+    public void loadDatasetFromRecords(ArrayList<Vector3d> records) {
         int numClasses = 1;
         numDimensions = 3;
         clear();
@@ -183,7 +183,5 @@ class TimeSeriesClassificationData {
 
         data = new TimeSeriesClassificationSample();
         data.setTrainingSample(classLabel, trainingExample);
-
-        return true;
     }
 }

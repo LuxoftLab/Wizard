@@ -40,25 +40,6 @@ public class MatrixDouble implements Serializable {
         return rowVector;
     }
 
-    /**
-     * Gets the ranges (min and max values) of each column in the matrix.
-     *
-     * @return a vector with the ranges (min and max values) of each column in
-     * the matrix
-     */
-    public ArrayList<MinMax> getRanges() {
-        if (rows == 0) {
-            return new ArrayList<MinMax>();
-        }
-        ArrayList<MinMax> ranges = new ArrayList<MinMax>(cols);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                ranges.add(new MinMax());
-                ranges.get(j).updateMinMax(dataPtr[i][j]);
-            }
-        }
-        return ranges;
-    }
 
     public void clear() {
         rows = 0;

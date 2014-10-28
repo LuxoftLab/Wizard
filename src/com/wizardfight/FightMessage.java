@@ -52,14 +52,6 @@ enum FightAction {
 	public String toString() {
 		return names[ this.ordinal() ];
 	}
-	
-	public static FightAction getFromString(String s) {
-		for(int i=0; i<names.length; i++) {
-			if( s.equals(names[i]) ) 
-				return FightAction.values()[ i ];
-		}
-		return FightAction.NONE;
-	}
 }
 
 /*
@@ -234,10 +226,6 @@ public class FightMessage {
 		//Log.e("Wizard Fight", "sdd: " + spellDealsDamage + ", tar: " + msg.target);
 		return (spellDealsDamage != (msg.target == Target.ENEMY));
 	}
-	
-	public void setParam(int parameter) {
-		param = parameter;
-	}
 
 	public static FightMessage fromBytes(byte[] bytes) {
 		if(bytes.length < 8) { 
@@ -246,7 +234,7 @@ public class FightMessage {
 		}
 		int targetIndex = (int)bytes[0];
 		int actionIndex = (int)bytes[1];
-		int par = ((int)bytes[2] << 8) | ((int)bytes[3] & 0xFF);
+		int par = ((int)bytes[2] << 8) | ((int)bytes[3] & 0xFF);//todo
 		int hp = ((int)bytes[4] << 8) | ((int)bytes[5] & 0xFF);
 		int mp = ((int)bytes[6] << 8) | ((int)bytes[7] & 0xFF);
 		return new FightMessage(targetIndex, actionIndex, par, hp, mp);

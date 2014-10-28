@@ -75,8 +75,4 @@ public class Indicator extends View {
     public int getValue() {
     	return mCurValue;
     }
-    
-    public int getMaxValue() {
-    	return mMaxValue;
-    }
 }
