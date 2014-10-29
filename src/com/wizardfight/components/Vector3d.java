@@ -1,20 +1,22 @@
 package com.wizardfight.components;
 
-public class Vector3d extends Vector2d {
+public class Vector3d {
+    public double x;
+    public double y;
 	public double z;
 
     public Vector3d() {
-        super();
-        z = 0;
+        x = y = z = 0;
     }
 
     public Vector3d(double X, double Y, double Z) {
-        super(X, Y);
+        x = X;
+        y = Y;
         z = Z;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "; z = " + z;
+        return "x = " + x + "; y = " + y + " z = " + z;
     }
 }

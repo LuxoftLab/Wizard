@@ -5,7 +5,7 @@ import  com.wizardfight.R;
 import android.app.Activity;
 
 /*
- * Enemy player GUI (locatated on the bottom)
+ * Enemy player GUI (located on the bottom)
  */
 public class EnemyGUI extends PlayerGUI {
 	public EnemyGUI(Activity a, int hp, int mana) {

@@ -74,7 +74,6 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 				Shape s = FightMessage.getShapeFromMessage(fMsg);
 				mSensorAndSoundThread.playShapeSound(s);
 				String shape = s + "";
-				// todo uncomment
 				if (shape.equals(spellDatas.get(partCounter).shape)) {
 					addSpellCounter();
 					castResult.setPictureAndFade(R.drawable.result_ok);

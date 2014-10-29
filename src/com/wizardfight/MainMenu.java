@@ -96,7 +96,7 @@ public class MainMenu extends Activity {
 		Log.e("Wizard Fight", "go to settings");
 	}
 
-	void Exit(View view) {
+    public void exit(View view) {
 		BluetoothService.getInstance().release();
 		// return BT state to last one in
 		if (!mIsUserCameWithBt && mBluetoothAdapter.isEnabled()) {
@@ -112,7 +112,7 @@ public class MainMenu extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Exit(null);
+		exit(null);
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
