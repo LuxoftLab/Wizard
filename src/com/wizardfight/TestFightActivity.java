@@ -3,6 +3,7 @@ package com.wizardfight;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,25 +18,37 @@ public class TestFightActivity extends FightActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPlayerBot = new PlayerBot(PLAYER_HP, PLAYER_MANA, mHandler);
+        mPlayerBot.start();
         initBotSpellDialog();
         mFightEndDialog = new TestFightEndDialog();
+        Log.e("testFAThread", Thread.currentThread().getName());
         startFight();
     }
 
     @Override
     protected void setupApp() {
-        if (mPlayerBot != null)
-            mPlayerBot.release();
-        mPlayerBot = new PlayerBot(PLAYER_HP, PLAYER_MANA, mHandler);
         super.setupApp();
     }
 
     @Override
+    protected void startFight() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FightMessage startMsg = new FightMessage(Target.ENEMY,
+                        FightAction.FIGHT_START);
+                sendFightMessage(startMsg);
+
+            }
+        }, 4500);
+        super.startFight();
+
+    }
+    @Override
     protected void sendFightMessage(FightMessage fMessage) {
         super.sendFightMessage(fMessage);
-
-        if (mPlayerBot.getHandler() == null)
-            return;
         Message msg = mPlayerBot.getHandler().obtainMessage(
                 AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage);
         msg.sendToTarget();
@@ -107,9 +120,6 @@ public class TestFightActivity extends FightActivity {
             switch (which) {
                 case -1:
                     // send restart message
-                    FightMessage startMsg = new FightMessage(Target.ENEMY,
-                            FightAction.FIGHT_START);
-                    sendFightMessage(startMsg);
                     startFight();
                     break;
                 case -2:

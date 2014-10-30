@@ -448,7 +448,7 @@ public class FightActivity extends Activity {
         fMessage.mana = mSelfState.getMana();
     }
 
-    void startFight() {
+    protected void startFight() {
         // start countdown
         if (D)
             Log.e(TAG, "before start countdown");

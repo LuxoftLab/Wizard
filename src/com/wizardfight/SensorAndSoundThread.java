@@ -80,6 +80,8 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	}
 	
 	public void run() {
+
+//        Log.e("accThread",Thread.currentThread().getName());
 		Looper.prepare();
 		Handler handler = new Handler();
 		mLooper = Looper.myLooper();
@@ -130,6 +132,7 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
+//        Log.e("accThread",Thread.currentThread().getName());
 		if (!listening)
 			return;
 		if (records.size() > 1000) return;
