@@ -1,23 +1,14 @@
 package com.wizardfight;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wizardfight.FightActivity.AppMessage;
-import com.wizardfight.components.Vector3d;
-import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.*;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -26,7 +17,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Tutorial extends Activity implements WizardDialDelegate {
+public class Tutorial extends CastActivity implements WizardDialDelegate {
 	class SpellData {
 		String name = "";
 		ArrayList<Double> pointsX = new ArrayList<Double>();
@@ -47,84 +38,48 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		}
 	}
 
-	private final ArrayList<SpellData> spellDatas = new ArrayList<SpellData>();
+	private final ArrayList<SpellData> mSpellDatas = new ArrayList<SpellData>();
 
-	private WizardDial wd;
-	private SpellAnimation sa;
-	private SpellPicture castResult;
-	private TextView spellName;
-	private TextView spellCounter;
+	private WizardDial mWizardDial;
+	private SpellAnimation mSpellAnim;
+	private SpellPicture mCastResult;
+	private TextView mSpellName;
+	private TextView mSpellCounter;
 
+	private int mPartCounter = 0;
+	private int mSpellCount = -1;
+	private final int mSpellRepeat = 2;
 
-	private int partCounter = 0;
-	private int spellCount = -1;
-	private int lastTouchAction = -1;
-	private final int spellRepeat = 2;
-
-	private boolean isCastAbilityBlocked = false;
-	private boolean isInCast = false;
-	private SensorAndSoundThread mSensorAndSoundThread = null;
-	private final Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			AppMessage type = AppMessage.values()[msg.what];
-			switch (type) {
-			case MESSAGE_FROM_SELF:
-				FightMessage fMsg = (FightMessage) msg.obj;
-				Shape s = FightMessage.getShapeFromMessage(fMsg);
-				mSensorAndSoundThread.playShapeSound(s);
-				String shape = s + "";
-				if (shape.equals(spellDatas.get(partCounter).shape)) {
-					addSpellCounter();
-					castResult.setPictureAndFade(R.drawable.result_ok);
-				} else {
-					castResult.setPictureAndFade(R.drawable.result_bad);
-				}
-				Log.e("Wizard Fight", shape);
-				isCastAbilityBlocked = false;
-				break;
-			default:
-			}
-		}
-	};
-	private Sensor mAccelerometer = null;
-	private SensorManager mSensorManager = null;
-
-	private final ArrayList<ArrayList<WizardDialContent>> parts = new ArrayList<ArrayList<WizardDialContent>>();
+	private final ArrayList<ArrayList<WizardDialContent>> mChapters = new ArrayList<ArrayList<WizardDialContent>>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tutorial);
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
+
 		readSpellXml();
 		readTutotialXml();
-		
-		// Init recognition resources
-		SharedPreferences appPrefs = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		String rType = appPrefs.getString("recognition_type", "");
-		Log.e("Wizard Fight", rType);
-		Recognizer.init(getResources(), rType);
 
 		// Init on touch listener
 		RelativeLayout rootLayout = (RelativeLayout) findViewById(R.id.tutorial_layout_root);
 		rootLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
+				if (mIsCastAbilityBlocked)
+                    return true;
 				int action = event.getAction();
 				if (action == MotionEvent.ACTION_UP
 						|| action == MotionEvent.ACTION_DOWN) {
-					if (wd.isEnabled()) {
-						if (wd.isOnPause())
-							wd.goNext();
+					if (mWizardDial.isEnabled()) {
+						if (mWizardDial.isOnPause())
+							mWizardDial.goNext();
 					} else {
-						if (lastTouchAction == action) {
+						if (mLastTouchAction == action) {
 							return true;
 						}
 						buttonClick();
-						lastTouchAction = action;
+						mLastTouchAction = action;
 					}
 					return true;
 				}
@@ -132,61 +87,64 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 			}
 		});
 
-		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		mAccelerometer = mSensorManager
-				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-		wd = new WizardDial(this);
+		mWizardDial = new WizardDial(this);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
-		wd.setContent(parts.get(0));
-		wd.setLayoutParams(params);
+		mWizardDial.setContent(mChapters.get(0));
+		mWizardDial.setLayoutParams(params);
 
-		castResult = (SpellPicture) findViewById(R.id.tutorial_cast_result);
+		mCastResult = (SpellPicture) findViewById(R.id.tutorial_cast_result);
 
-		spellName = (TextView) findViewById(R.id.spell_name);
-		spellName.setText("");
+		mSpellName = (TextView) findViewById(R.id.spell_name);
+		mSpellName.setText("");
 
-		sa = (SpellAnimation) findViewById(R.id.spell_anim_view);
+		mSpellAnim = (SpellAnimation) findViewById(R.id.spell_anim_view);
 
-		spellCounter = (TextView) findViewById(R.id.number_correct_spell);
-		spellCounter.setText("");
+		mSpellCounter = (TextView) findViewById(R.id.number_correct_spell);
+		mSpellCounter.setText("");
 		addSpellCounter();
 
-		((RelativeLayout) findViewById(R.id.tutorial_layout)).addView(wd);
-		wd.showQuick();
+		((RelativeLayout) findViewById(R.id.tutorial_layout)).addView(mWizardDial);
+		mWizardDial.showQuick();
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
 
-		mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
-				mAccelerometer);
-		mSensorAndSoundThread.start();
+
+	protected void initHandler() {
+		mHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				AppMessage type = AppMessage.values()[msg.what];
+				switch (type) {
+				case MESSAGE_FROM_SELF:
+					FightMessage fMsg = (FightMessage) msg.obj;
+					Shape s = FightMessage.getShapeFromMessage(fMsg);
+					if (mSensorAndSoundThread != null) {
+						mSensorAndSoundThread.playShapeSound(s);
+					}
+					String shape = s + "";
+					if (shape.equals(mSpellDatas.get(mPartCounter).shape)) {
+						addSpellCounter();
+						mCastResult.setPictureAndFade(R.drawable.result_ok);
+					} else {
+						mCastResult.setPictureAndFade(R.drawable.result_bad);
+					}
+					Log.e("Wizard Fight", shape);
+					mIsCastAbilityBlocked = false;
+					break;
+				default:
+				}
+			}
+		};
 	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		// stop cast if its started
-		if (isInCast)
-			buttonClick();
-		// unregister accelerator listener and end its event loop
-		if (mSensorAndSoundThread != null) {
-			Log.e("Wizard Fight", "accelerator thread try to stop loop");
-			mSensorAndSoundThread.stopLoop();
-			mSensorAndSoundThread = null;
-		}
-	}
-
+	
 	public void open(View view) {
-		wd.show();
+		mWizardDial.show();
 	}
 
 	public void replay(View view) {
-		sa.startAnimation();
+		mSpellAnim.startAnimation();
 	}
 
 	private void readTutotialXml() {
@@ -228,7 +186,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 								a.setMana(true);
 							p.add(a);
 						}
-						parts.add(p);
+						mChapters.add(p);
 						ui = -1;
 						uih = -1;
 						uim = -1;
@@ -296,7 +254,7 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 					break;
 				case XmlPullParser.END_TAG:
 					if (xpp.getName().equals("spell")) {
-						spellDatas.add(new SpellData(name, pointX, pointY,
+						mSpellDatas.add(new SpellData(name, pointX, pointY,
 								round, rotate, shape));
 						pointX = new ArrayList<Double>();
 						pointY = new ArrayList<Double>();
@@ -345,52 +303,29 @@ public class Tutorial extends Activity implements WizardDialDelegate {
 		setupSpellScreen();
 	}
 
-	void buttonClick() {
-		if (isCastAbilityBlocked)
-			return;
-
-		if (!isInCast) {
-			mSensorAndSoundThread.startGettingData();
-			isInCast = true;
-
-		} else {
-			isCastAbilityBlocked = true;
-
-			ArrayList<Vector3d> records = mSensorAndSoundThread.stopAndGetResult();
-			isInCast = false;
-
-			if (records.size() > 10) {
-				new RecognitionThread(mHandler, records).start();
-			} else {
-				// if shord record - don`t recognize & unblock
-				isCastAbilityBlocked = false;
-			}
-		}
-	}
-
 	void setupSpellScreen() {
-		if (partCounter >= spellDatas.size()) {
+		if (mPartCounter >= mSpellDatas.size()) {
 			finish();
 			return;
 		}
-		SpellData sd = spellDatas.get(partCounter);
-		spellName.setText(sd.name);
+		SpellData sd = mSpellDatas.get(mPartCounter);
+		mSpellName.setText(sd.name);
 		ArrayList<Double[]> t = new ArrayList<Double[]>();
 		for (int i = 0; (i < sd.pointsX.size()) && (i < sd.pointsY.size()); i++) {
 			t.add(new Double[] { sd.pointsX.get(i), sd.pointsY.get(i) });
 		}
-		sa.setTrajectory(t, sd.rotate, sd.round);
-		sa.startAnimation();
+		mSpellAnim.setTrajectory(t, sd.rotate, sd.round);
+		mSpellAnim.startAnimation();
 	}
 
 	void addSpellCounter() {
-		spellCount++;
-		if (spellCount == spellRepeat) {
-			spellCount = 0;
-			partCounter++;
-			wd.setContent(parts.get(partCounter));
-			wd.show();
+		mSpellCount++;
+		if (mSpellCount == mSpellRepeat) {
+			mSpellCount = 0;
+			mPartCounter++;
+			mWizardDial.setContent(mChapters.get(mPartCounter));
+			mWizardDial.show();
 		}
-		spellCounter.setText(spellCount + "/" + spellRepeat);
+		mSpellCounter.setText(mSpellCount + "/" + mSpellRepeat);
 	}
 }

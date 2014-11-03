@@ -14,7 +14,7 @@ class PlayerBot extends Thread {
     private final int mStartHP;
     private final int mStartMana;
     private final double timeToThink = 0.5;
-    private final double k = 1.5;
+    private final double k = 2;
     private Timer clockA;
     private Looper mLooper;
     private PlayerState mSelfState;

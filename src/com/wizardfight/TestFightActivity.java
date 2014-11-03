@@ -42,7 +42,7 @@ public class TestFightActivity extends FightActivity {
                 sendFightMessage(startMsg);
 
             }
-        }, 4500);
+        }, 4500);//TODO Fix fast exit
         super.startFight();
 
     }
