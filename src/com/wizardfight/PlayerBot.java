@@ -245,7 +245,7 @@ class PlayerBot extends Thread {
     }
 
     public void run() {
-        Log.e("1234", "run");
+        Log.d("", "run");
         Log.e("player bot", Thread.currentThread().getName());
         Looper.prepare();
         mLooper = Looper.myLooper();

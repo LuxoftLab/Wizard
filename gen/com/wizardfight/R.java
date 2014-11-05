@@ -55,7 +55,7 @@ public final class R {
     }
     public static final class id {
         public static final int buttonCreateGame=0x7f0a0020;
-        public static final int buttonDesktoConnection=0x7f0a0023;
+        public static final int buttonDesktopConnection =0x7f0a0023;
         public static final int buttonJoinGame=0x7f0a0021;
         public static final int buttonTestMode=0x7f0a0022;
         public static final int button_cancel_waiting=0x7f0a0000;
@@ -132,7 +132,7 @@ public final class R {
          */
         public static final int Create_game=0x7f08000b;
         public static final int Exit=0x7f080011;
-        public static final int Help=0x7f08000e;
+        public static final int Tutorial =0x7f08000e;
         public static final int Join_game=0x7f08000c;
         public static final int Spellbook=0x7f08000f;
         public static final int app_name=0x7f080000;

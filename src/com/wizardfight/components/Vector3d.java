@@ -1,13 +1,9 @@
 package com.wizardfight.components;
 
 public class Vector3d {
-    public double x;
-    public double y;
-	public double z;
-
-    public Vector3d() {
-        x = y = z = 0;
-    }
+    public final double x;
+    public final double y;
+	public final double z;
 
     public Vector3d(double X, double Y, double Z) {
         x = X;

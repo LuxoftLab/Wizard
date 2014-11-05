@@ -20,11 +20,11 @@ import java.util.ArrayList;
 public class Tutorial extends CastActivity implements WizardDialDelegate {
 	class SpellData {
 		String name = "";
-		ArrayList<Double> pointsX = new ArrayList<Double>();
+		ArrayList<Double> pointsX = new ArrayList<Double>();//todo one list of points
 		ArrayList<Double> pointsY = new ArrayList<Double>();
 		boolean round = false;
 		boolean rotate = false;
-		String shape = "";
+		Shape shape = Shape.NONE;
 
 		SpellData(String name, ArrayList<Double> pointsX,
 				ArrayList<Double> pointsY, boolean round, boolean rotate,
@@ -34,7 +34,7 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 			this.pointsY = pointsY;
 			this.round = round;
 			this.rotate = rotate;
-			this.shape = shape;
+			this.shape = Shape.getShapeFromString(shape);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 		readTutotialXml();
 
 		// Init on touch listener
-		RelativeLayout rootLayout = (RelativeLayout) findViewById(R.id.tutorial_layout_root);
+		RelativeLayout rootLayout = (RelativeLayout) findViewById(R.id.tutorial_layout);
 		rootLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -119,18 +119,18 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 				switch (type) {
 				case MESSAGE_FROM_SELF:
 					FightMessage fMsg = (FightMessage) msg.obj;
-					Shape s = FightMessage.getShapeFromMessage(fMsg);
+					Shape shape = FightMessage.getShapeFromMessage(fMsg);
 					if (mSensorAndSoundThread != null) {
-						mSensorAndSoundThread.playShapeSound(s);
+						mSensorAndSoundThread.playShapeSound(shape);
 					}
-					String shape = s + "";
-					if (shape.equals(mSpellDatas.get(mPartCounter).shape)) {
+
+					if (shape==mSpellDatas.get(mPartCounter).shape) {
 						addSpellCounter();
 						mCastResult.setPictureAndFade(R.drawable.result_ok);
 					} else {
 						mCastResult.setPictureAndFade(R.drawable.result_bad);
 					}
-					Log.e("Wizard Fight", shape);
+					Log.e("Wizard Fight", shape.toString());
 					mIsCastAbilityBlocked = false;
 					break;
 				default:

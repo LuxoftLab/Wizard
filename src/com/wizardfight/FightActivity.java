@@ -1,16 +1,10 @@
 package com.wizardfight;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,13 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.wizardfight.components.Vector3d;
-import com.wizardfight.recognition.Recognizer;
 import com.wizardfight.views.EnemyGUI;
 import com.wizardfight.views.FightBackground;
 import com.wizardfight.views.SelfGUI;
-
-import java.util.ArrayList;
 
 /**
  * This is the main Activity that displays the current chat session.

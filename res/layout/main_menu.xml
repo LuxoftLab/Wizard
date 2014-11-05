@@ -1,83 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-	android:layout_weight="1"
-	android:background="@drawable/background"
-    android:fillViewport="true" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+
+            android:background="@drawable/background"
+            android:fillViewport="true">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:id="@+id/mainLayout">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:background="@drawable/logo" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/logo"
+                android:id="@+id/logo"/>
 
         <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="40dp"
-        android:orientation="vertical" 
-        android:layout_gravity="center">
-        	<Button
-            android:id="@+id/buttonCreateGame"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToCreateGame"
-            android:text="@string/Create_game" android:visibility="visible"/>
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center">
+            <Button
+                    android:id="@+id/buttonCreateGame"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
 
-        <Button
-            android:id="@+id/buttonJoinGame"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToJoinGame"
-            android:text="@string/Join_game" android:visibility="visible" />
+                    android:onClick="goToCreateGame"
+                    android:text="@string/Create_game" android:visibility="visible"/>
 
-        <Button
-            android:id="@+id/buttonTestMode"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToTestMode"
-            android:text="Test mode" />
-        
-        <Button
-            android:id="@+id/buttonDesktoConnection"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToDesktopConnection"
-            android:text="@string/Connect" android:visibility="visible"/>
+            <Button
+                    android:id="@+id/buttonJoinGame"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="goToJoinGame"
+                    android:text="@string/Join_game" android:visibility="visible"/>
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:onClick="goToHelp"
-            android:text="@string/Help" />
+            <Button
+                    android:id="@+id/buttonTestMode"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="goToTestMode"
+                    android:text="Test mode"/>
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToSpellbook"
-            android:text="@string/Spellbook" />
+            <Button
+                    android:id="@+id/buttonDesktopConnection"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="goToDesktopConnection"
+                    android:text="@string/Connect" android:visibility="visible"/>
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="goToSettings"
-            android:text="@string/settings" />
-        
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="exit"
-            android:text="@string/Exit" />
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:onClick="goToHelp"
+                    android:text="@string/Tutorial"/>
+
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="goToSpellbook"
+                    android:text="@string/Spellbook"/>
+
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="goToSettings"
+                    android:text="@string/settings"/>
+
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="exit"
+                    android:text="@string/Exit"/>
         </LinearLayout>
-        
+
     </LinearLayout>
 
 </ScrollView>

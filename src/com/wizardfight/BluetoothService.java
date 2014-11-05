@@ -30,7 +30,7 @@ public class BluetoothService {
     // Name for the SDP record when creating server socket
     private static final String NAME = "WizardFight";
     // Unique UUID for this application
-    private static final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+    private static final UUID MY_UUID = UUID.fromString("fa6dc0d0-af9c-1fff-8aaa-08ccccafcaf6");
     // Member fields
     private BluetoothAdapter mAdapter;
     private Handler mHandler;

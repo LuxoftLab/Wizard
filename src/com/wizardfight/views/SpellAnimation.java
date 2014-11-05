@@ -43,6 +43,14 @@ public class SpellAnimation extends View {
         }
     };
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int size=widthMeasureSpec;
+        if (size>heightMeasureSpec)
+            size=heightMeasureSpec;
+        super.onMeasure(size,size);//Creating a square view
+    }
+
 
     public void setTrajectory(ArrayList<Double[]> trajectory, boolean rotate, boolean round) {
         wb = getWidth() / 10;

@@ -8,7 +8,6 @@ import android.widget.HorizontalScrollView;
  */
 class CustomScroller extends HorizontalScrollView {
 	private boolean f = false;
-	private int size = 0;
 	private int selected = 0;
 
 	public CustomScroller(android.content.Context context,
@@ -20,7 +19,7 @@ class CustomScroller extends HorizontalScrollView {
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		if (f) {
 			int childCount = getChildCount();
-			size = getWidth() / childCount;
+			int size = getWidth() / childCount;
 			f = false;
 			int s = selected * size;
 			int x = getScrollX();

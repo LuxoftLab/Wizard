@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="@drawable/paper"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:id="@+id/tutorial_layout_root">
+        android:id="@+id/tutorial_layout"
+        android:background="@drawable/paper">
+    <!--Second RelativeLayout needed to properly display the wizard's dialog.-->
     <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tutorial_layout" android:layout_centerInParent="true">
+            android:layout_centerInParent="true">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
                 android:id="@+id/spell_name"
-                android:textSize="25dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/spell_name"
                 android:gravity="center_vertical|center_horizontal"
                 android:textColor="#ffc8c8c8"
-                android:shadowColor="#355"/>
+                />
 
         <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spell_name"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/spell_anim_view_l"
                 android:layout_margin="10dp">
 
-            <view android:layout_width="290dp"
-                  android:layout_height="290dp"
+            <view android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   class="com.wizardfight.views.SpellAnimation"
                   android:id="@+id/spell_anim_view"
                   android:layout_centerHorizontal="true"/>
@@ -49,8 +45,8 @@
                   android:layout_centerVertical="true"/>
         </RelativeLayout>
 
-        <view android:layout_width="40dp"
-              android:layout_height="40dp"
+        <view android:layout_width="60dp"
+              android:layout_height="60dp"
               android:onClick="open"
               android:background="@drawable/info"
               android:layout_below="@+id/spell_anim_view_l"
@@ -67,12 +63,13 @@
                 android:textColor="#000"
                 android:layout_centerHorizontal="true"/>
 
-        <view android:layout_width="40dp"
-              android:layout_height="40dp"
+        <view android:layout_width="60dp"
+              android:layout_height="60dp"
               android:onClick="replay"
               android:background="@drawable/replay"
               android:layout_below="@+id/spell_anim_view_l"
               android:layout_alignRight="@+id/spell_anim_view_l"
               class="com.wizardfight.views.CancelButton" android:id="@+id/view"/>
+
     </RelativeLayout>
 </RelativeLayout>
