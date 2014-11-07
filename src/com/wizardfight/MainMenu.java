@@ -2,10 +2,13 @@ package com.wizardfight;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -49,6 +52,10 @@ public class MainMenu extends Activity {
 		mIsUserCameWithBt = mBluetoothAdapter.isEnabled();
 		// volume buttons control multimedia volume
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		// get default device orientation
+		int screenOrientation = getDeviceDefaultOrientation();	
+		SensorAndSoundThread.ORIENTATION_HORIZONTAL = 
+			(screenOrientation == Configuration.ORIENTATION_LANDSCAPE);
 	}
 
 	@Override
@@ -110,6 +117,22 @@ public class MainMenu extends Activity {
 		startActivityForResult(enableIntent, r.ordinal());
 	}
 
+	private final int getDeviceDefaultOrientation() { 
+        WindowManager windowManager =  ((WindowManager)getSystemService(Context.WINDOW_SERVICE));
+
+        Configuration config = getResources().getConfiguration();
+
+        int rotation = windowManager.getDefaultDisplay().getRotation();
+
+        if ( ((rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) &&
+                config.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            || ((rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) &&    
+                config.orientation == Configuration.ORIENTATION_PORTRAIT)) {
+          return Configuration.ORIENTATION_LANDSCAPE;
+        } else {
+          return Configuration.ORIENTATION_PORTRAIT;
+        }
+    }
 	@Override
 	public void onBackPressed() {
 		exit(null);

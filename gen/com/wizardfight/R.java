@@ -128,42 +128,43 @@ public final class R {
         public static final int z_sound=0x7f06000c;
     }
     public static final class string {
-        public static final int Connect=0x7f08000d;
+        public static final int Connect=0x7f08000e;
         /**   Main Menu 
          */
-        public static final int Create_game=0x7f08000b;
-        public static final int Exit=0x7f080011;
-        public static final int Join_game=0x7f08000c;
-        public static final int Spellbook=0x7f08000f;
-        public static final int Tutorial=0x7f08000e;
+        public static final int Create_game=0x7f08000c;
+        public static final int Exit=0x7f080012;
+        public static final int Join_game=0x7f08000d;
+        public static final int Spellbook=0x7f080010;
+        public static final int Tutorial=0x7f08000f;
         public static final int app_name=0x7f080000;
-        public static final int bt_not_enabled=0x7f080003;
-        public static final int button_scan=0x7f08000a;
-        public static final int cancel=0x7f080014;
+        public static final int bt_not_enabled=0x7f080004;
+        public static final int button_scan=0x7f08000b;
+        public static final int cancel=0x7f080015;
         /**   Wizard Fight 
          */
-        public static final int client_waiting=0x7f080012;
+        public static final int client_waiting=0x7f080013;
         /**   Connection to desktop  
          */
-        public static final int connect=0x7f080017;
-        public static final int connection_fail=0x7f080016;
-        public static final int connection_lost=0x7f080015;
-        public static final int none_found=0x7f080007;
-        public static final int none_paired=0x7f080006;
+        public static final int connect=0x7f080018;
+        public static final int connection_fail=0x7f080017;
+        public static final int connection_lost=0x7f080016;
+        public static final int none_found=0x7f080008;
+        public static final int none_paired=0x7f080007;
         /**   BluetoothService 
          */
-        public static final int not_connected=0x7f080002;
+        public static final int not_connected=0x7f080003;
         /**   Preferences 
          */
         public static final int recognition_type=0x7f080001;
+        public static final int recognition_type_summary=0x7f080002;
         /**   DeviceListActivity 
          */
-        public static final int scanning=0x7f080004;
-        public static final int select_device=0x7f080005;
-        public static final int settings=0x7f080010;
-        public static final int title_other_devices=0x7f080009;
-        public static final int title_paired_devices=0x7f080008;
-        public static final int trying_to_connect=0x7f080013;
+        public static final int scanning=0x7f080005;
+        public static final int select_device=0x7f080006;
+        public static final int settings=0x7f080011;
+        public static final int title_other_devices=0x7f08000a;
+        public static final int title_paired_devices=0x7f080009;
+        public static final int trying_to_connect=0x7f080014;
     }
     public static final class style {
         /** 

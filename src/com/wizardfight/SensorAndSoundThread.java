@@ -19,6 +19,7 @@ import android.util.Log;
 
 class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
+	protected static boolean ORIENTATION_HORIZONTAL;
 	private boolean listening;
 	private boolean soundPlaying;
 	private Looper mLooper;
@@ -136,9 +137,16 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		if (!listening)
 			return;
 		if (records.size() > 1000) return;
-		double x = event.values[0];
-		double y = event.values[1];
-		double z = event.values[2];
+		double x, y, z;
+		if(ORIENTATION_HORIZONTAL) {
+			x = event.values[1];
+			y = -event.values[0];
+			z = event.values[2];
+		} else {
+			x = event.values[0];
+			y = event.values[1];
+			z = event.values[2];
+		}
 		double len = Math.sqrt(x * x + y * y + z * z);
 		Vector3d rec = new Vector3d(x , y, z);
 		records.add(rec);

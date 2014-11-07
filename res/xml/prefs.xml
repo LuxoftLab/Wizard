@@ -5,6 +5,6 @@
         android:key="recognition_type"
         android:entries="@array/recognition_types_labels"
         android:entryValues="@array/recognition_types_values"
-        android:summary="Select recognition type"
+        android:summary="@string/recognition_type_summary"
         android:defaultValue="23.08.14"/>
 </PreferenceScreen>
