@@ -19,7 +19,7 @@ import com.wizardfight.views.SelfGUI;
 /**
  * This is the main Activity that displays the current chat session.
  */
-public class FightActivity extends CastActivity {
+public abstract class FightActivity extends CastActivity {
 
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -34,8 +34,8 @@ public class FightActivity extends CastActivity {
     // is activity running
     private boolean mIsRunning;
     // States of players
-    private SelfState mSelfState;
-    private EnemyState mEnemyState;
+    private PlayerState mSelfState;
+    private PlayerState mEnemyState;
     private boolean mAreMessagesBlocked;
     // Layout Views
     private Countdown mCountdown;
@@ -125,8 +125,9 @@ public class FightActivity extends CastActivity {
         Log.e(TAG, "--- ON DESTROY ---");
     }
 
-    protected void initHandler() {
-    	mHandler = new Handler() {
+    @Override
+    protected Handler getHandler() {
+    	return new Handler() {
             /**
              * Sends a message.
              *
@@ -361,8 +362,8 @@ public class FightActivity extends CastActivity {
         // for debugging
         mMyCounter = 0;
         // Create players states
-        mEnemyState = new EnemyState(PLAYER_HP, PLAYER_MANA, null);
-        mSelfState = new SelfState(PLAYER_HP, PLAYER_MANA, mEnemyState);
+        mEnemyState = new PlayerState(PLAYER_HP, PLAYER_MANA, null);
+        mSelfState = new PlayerState(PLAYER_HP, PLAYER_MANA, mEnemyState);
         // Initialize players UI
         mSelfGUI = new SelfGUI(this, PLAYER_HP, PLAYER_MANA);
         mEnemyGUI = new EnemyGUI(this, PLAYER_HP, PLAYER_MANA);
@@ -376,7 +377,7 @@ public class FightActivity extends CastActivity {
                 .sendToTarget();
     }
 
-    void sendFightMessage(FightMessage fMessage) {
+     void sendFightMessage(FightMessage fMessage) {
         // always send own health and mana
         fMessage.health = mSelfState.getHealth();
         fMessage.mana = mSelfState.getMana();

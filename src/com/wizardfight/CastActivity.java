@@ -50,7 +50,7 @@ public abstract class CastActivity extends Activity {
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		initHandler();
+		mHandler=getHandler();
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public abstract class CastActivity extends Activity {
         stopSensorAndSound();
 	}
 
-	protected void initHandler() {}
+	protected abstract Handler getHandler();
 
 	protected void stopSensorAndSound() {
 		Log.e("Wizard Fight", "stop sensor and sound called");

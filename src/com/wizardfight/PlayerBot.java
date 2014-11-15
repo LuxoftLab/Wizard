@@ -236,7 +236,7 @@ class PlayerBot extends Thread {
         if(clockA!=null)clockA.cancel();
         clockA = new Timer();
         shape = Shape.NONE;
-        mEnemyState = new EnemyState(mStartHP, mStartMana, null);
+        mEnemyState = new PlayerState(mStartHP, mStartMana, null);
         mSelfState = new PlayerState(mStartHP, mStartMana, mEnemyState);
         // Start mana regeneration
         mHandler.removeCallbacksAndMessages(null);

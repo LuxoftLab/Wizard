@@ -109,10 +109,9 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 		mWizardDial.showQuick();
 	}
 
-
-
-	protected void initHandler() {
-		mHandler = new Handler() {
+	@Override
+	protected Handler getHandler() {
+		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				AppMessage type = AppMessage.values()[msg.what];
