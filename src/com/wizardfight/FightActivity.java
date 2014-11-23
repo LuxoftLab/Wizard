@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.wizardfight.views.EnemyGUI;
 import com.wizardfight.views.FightBackground;
 import com.wizardfight.views.SelfGUI;
@@ -231,11 +234,14 @@ public abstract class FightActivity extends CastActivity {
                 Log.e(TAG, "self msg : " + selfMsg + " " + mMyCounter);
                 // request mana for spell
                 boolean canBeCasted = mSelfState.requestSpell(selfMsg);
+                
                 if (!canBeCasted) {
+                	if (mSensorAndSoundThread != null) {
+                		mSensorAndSoundThread.playNoManaSound();
+                	}
                     return;
                 }
-                // play shape sound. condition is needed when game is suddenly
-                // paused after spell
+                
                 if (mSensorAndSoundThread != null) {
                     mSensorAndSoundThread.playShapeSound(sendShape);
                 }
@@ -395,9 +401,7 @@ public abstract class FightActivity extends CastActivity {
             Log.e(TAG, "accelerator thread all stuff called");
     }
 
-    void handleEnemyReadyMessage() {
-        //todo BETTER DO THIS VIA INTERFACE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    }
+    abstract void handleEnemyReadyMessage();
 
     private void finishFight(Target winner) {
         Log.e(TAG, "FINISH FIGHT");
@@ -440,7 +444,7 @@ public abstract class FightActivity extends CastActivity {
         MESSAGE_STATE_CHANGE, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_DEVICE_NAME, MESSAGE_TOAST, MESSAGE_COUNTDOWN_END, MESSAGE_CONNECTION_FAIL, MESSAGE_FROM_SELF, MESSAGE_SELF_DEATH, MESSAGE_FROM_ENEMY, MESSAGE_MANA_REGEN
     }
 
-    class FightEndDialog implements DialogInterface.OnClickListener {
+    abstract class FightEndDialog implements DialogInterface.OnClickListener {
         AlertDialog mmDialog;
         boolean mmIsNeedToShow;
 
@@ -467,9 +471,76 @@ public abstract class FightActivity extends CastActivity {
         }
 
         @Override
-        public void onClick(DialogInterface dialog, int which) {
-            // TODO Auto-generated method stub
+        abstract public void onClick(DialogInterface dialog, int which);
+    }
+    
+    // scale GUI
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        super.onWindowFocusChanged(hasFocus);
 
+        ImageView indicator = (ImageView) findViewById(R.id.imageView);
+        int w = indicator.getWidth();
+        int h = indicator.getHeight();
+        int barW = w*2/3, barH = h*2/10;
+        int barMarginW = w*8/1000, hpMarginH = h*15/100, mpMarginH = h*36/100; 
+        int picSize = w*37/100, picMarginH = w*14/1000;
+        int buffSize = h*2/10, buffMargin = 5;
+        View hpself = (View) findViewById(R.id.self_health);
+        View mpself = (View) findViewById(R.id.self_mana);
+        View hpenemy = (View) findViewById(R.id.enemy_health);
+        View mpenemy = (View) findViewById(R.id.enemy_mana);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(barW, barH);
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
+        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView);
+        params.setMargins(barMarginW, hpMarginH, 0, 0);
+        hpself.setLayoutParams(params);
+
+        params = new RelativeLayout.LayoutParams(barW, barH);
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
+        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView);
+        params.setMargins(barMarginW, mpMarginH, 0, 0);
+        mpself.setLayoutParams(params);
+
+        params = new RelativeLayout.LayoutParams(barW, barH);
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView2);
+        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView2);
+        params.setMargins(barMarginW, hpMarginH, 0, 0);
+        hpenemy.setLayoutParams(params);
+
+        params = new RelativeLayout.LayoutParams(barW, barH);
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView2);
+        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView2);
+        params.setMargins(barMarginW, mpMarginH, 0, 0);
+        mpenemy.setLayoutParams(params);
+
+        View spell = (View) findViewById(R.id.self_spell);
+        params = new RelativeLayout.LayoutParams(picSize, picSize);
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
+        params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.imageView);
+        params.setMargins(0, picMarginH, picMarginH, 0);
+        spell.setLayoutParams(params);
+
+        spell = (View) findViewById(R.id.enemy_spell);
+        params = new RelativeLayout.LayoutParams(picSize, picSize);
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView2);
+        params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.imageView2);
+        params.setMargins(0, picMarginH, picMarginH, 0);
+        spell.setLayoutParams(params);
+
+        int[] buffs = {R.id.self_buff1, R.id.self_buff2, R.id.self_buff3, R.id.self_buff4, R.id.self_buff5,
+                        R.id.enemy_buff1, R.id.enemy_buff2, R.id.enemy_buff3, R.id.enemy_buff4, R.id.enemy_buff5};
+        View buff;
+        LinearLayout.LayoutParams params1;
+        for(int i=0; i < buffs.length; i++)
+        {
+            buff = (View) findViewById(buffs[i]);
+            params1 = new LinearLayout.LayoutParams(buffSize, buffSize);
+            params1.setMargins(buffMargin, buffMargin, buffMargin, buffMargin);
+            buff.setLayoutParams(params1);
         }
     }
+
 }

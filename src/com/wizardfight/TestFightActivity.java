@@ -129,4 +129,8 @@ public class TestFightActivity extends FightActivity {
             mmIsNeedToShow = false;
         }
     }
+
+    //dont care in case with bot
+	@Override
+	void handleEnemyReadyMessage() {}
 }

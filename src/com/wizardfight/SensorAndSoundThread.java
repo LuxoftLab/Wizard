@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-
 class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
 	protected static boolean ORIENTATION_HORIZONTAL;
@@ -31,7 +30,8 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private int wandStreamID;
 	private final EnumMap<Shape, Integer> shapeSoundIDs;
 	private final EnumMap<Buff, Integer> buffSoundIDs;
-
+	private final int manaSoundID;
+	
 	public SensorAndSoundThread(Context context, SensorManager sm, Sensor s) {
 		setName("Sensor and Sound thread");
 		mSensorManager = sm;
@@ -62,6 +62,8 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		buffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
 		buffSoundIDs.put(Buff.HOLY_SHIELD, 
 				soundPool.load(context, R.raw.buff_off_shield_sound, 1));
+		
+		manaSoundID = soundPool.load(context, R.raw.more_mana, 1);
 	}
 
 	public void playShapeSound(Shape shape) {
@@ -80,8 +82,13 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		}
 	}
 	
+	public void playNoManaSound() {
+		if( soundPlaying ) {
+			soundPool.play(manaSoundID, 1, 1, 0, 0, 1);
+		}
+	}
+	
 	public void run() {
-
 //        Log.e("accThread",Thread.currentThread().getName());
 		Looper.prepare();
 		Handler handler = new Handler();

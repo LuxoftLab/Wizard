@@ -35,16 +35,17 @@
                   android:layout_alignTop="@+id/imageView" android:layout_alignLeft="@+id/imageView"
                   android:layout_marginLeft="2dp" android:layout_marginTop="63dp"/>
             <ImageView
-                    android:layout_width="310dp"
-                    android:layout_height="176dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
                     android:layout_centerHorizontal="true" android:src="@drawable/hmbar_m" android:id="@+id/imageView"
-                    android:layout_marginLeft="2dp"/>
+                    android:layout_margin="30dp"/>
             <view
                   class="com.wizardfight.views.SpellPicture"
-                  android:id="@+id/self_spell" android:layout_height="116dp" android:layout_width="116dp"
+                  android:id="@+id/self_spell" android:layout_height="wrap_content" android:layout_width="wrap_content"
                   android:layout_alignTop="@+id/imageView" android:layout_alignRight="@+id/imageView"
-                  android:layout_margin="4dp"/>
+                  />
             <LinearLayout
                     android:id="@+id/self_buff_line"
                     android:orientation="horizontal"
@@ -99,14 +100,15 @@
                   android:layout_alignTop="@+id/imageView2" android:layout_alignLeft="@+id/imageView2"
                   android:layout_marginLeft="2dp" android:layout_marginTop="63dp"/>
             <ImageView
-                    android:layout_width="310dp"
-                    android:layout_height="176dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
                     android:layout_centerHorizontal="true" android:src="@drawable/hmbar_m" android:id="@+id/imageView2"
-                    android:layout_marginLeft="2dp"/>
+                    android:layout_margin="30dp"/>
             <view
                     class="com.wizardfight.views.SpellPicture"
-                    android:id="@+id/enemy_spell" android:layout_height="116dp" android:layout_width="116dp"
+                    android:id="@+id/enemy_spell" android:layout_height="wrap_content" android:layout_width="wrap_content"
                     android:layout_alignTop="@+id/imageView2" android:layout_alignRight="@+id/imageView2"
                     android:layout_margin="4dp"/>
             <LinearLayout
