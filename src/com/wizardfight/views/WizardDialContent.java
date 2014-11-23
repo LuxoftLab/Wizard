@@ -1,8 +1,5 @@
 package com.wizardfight.views;
 
-/**
- * Created by 350z6_000 on 04.09.2014.
- */
 public class WizardDialContent {
     private String text="";
     private boolean ui=false;

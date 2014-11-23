@@ -79,7 +79,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:onClick="exit"
-                    android:text="@string/Exit"/>
+                    android:text="@string/exit"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -3,9 +3,6 @@ package com.wizardfight;
 import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
-/**
- * Created by 350z6_000 on 08.07.2014.
- */
 class CustomScroller extends HorizontalScrollView {
 	private boolean f = false;
 	private int selected = 0;

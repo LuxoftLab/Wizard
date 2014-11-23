@@ -9,9 +9,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-/**
- * Created by 350z6_000 on 13.07.2014.
- */
 public class CancelButton extends Button {
 
     public CancelButton(Context context) {

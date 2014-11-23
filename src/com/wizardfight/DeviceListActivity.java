@@ -49,14 +49,14 @@ public class DeviceListActivity extends Activity {
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBtAdapter == null) {
-			Toast.makeText(this, "Bluetooth is not available",
+			Toast.makeText(this, R.string.bt_not_available,
 					Toast.LENGTH_LONG).show();
 			finish();
 			return;
 		}
         // Initialize strings 
-        noNewDevices = getResources().getText(R.string.none_found).toString();
-        noPairedDevices = getResources().getText(R.string.none_paired).toString();
+        noNewDevices = getResources().getString(R.string.none_found);
+        noPairedDevices = getResources().getString(R.string.none_paired);
         // Initialize the button to perform device discovery
         Button scanButton = (Button) findViewById(R.id.button_scan);
         scanButton.setOnClickListener(new OnClickListener() {

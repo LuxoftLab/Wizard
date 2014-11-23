@@ -9,6 +9,7 @@
     <string name="not_connected">You are not connected to a device</string>
     <string name="bt_not_enabled">Bluetooth is not enabled. </string>
     <!--  DeviceListActivity -->
+    <string name="bt_not_available">Bluetooth is not available</string>
     <string name="scanning">Scanning for devices…</string>
     <string name="select_device">Select a device to connect</string>
     <string name="none_paired">No devices have been paired</string>
@@ -23,13 +24,29 @@
     <string name="Tutorial">Tutorial</string>
     <string name="Spellbook">Spellbook</string>
     <string name="settings">Settings</string>
-    <string name="Exit">Exit</string>
-    <!--  Wizard Fight -->
+    <string name="exit">Exit</string>
+    <!--  Bt Fight Activity -->
+    <string name="connected_to">Connected to&#160;</string>
     <string name="client_waiting">Waiting for opponent…</string>
     <string name="trying_to_connect">Trying to connect..</string>
     <string name="cancel">Cancel</string>
     <string name="connection_lost">Connection was lost. Leaving fight</string>
     <string name="connection_fail">Unable to connect to the device</string>
+    <!-- Fight Activity -->
+    <string name="countdown_fight">Fight!</string>
+    <string name="you_win">"You win!"</string>
+    <string name="you_lose">"You lose!"</string>
+    <string name="fight_ended">Fight ended</string>
+    <string name="restart">Restart</string>
     <!--  Connection to desktop  -->
     <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="show_settings">Show settings</string>
+    <string name="net_name">Net name:&#160;</string>
+	<string name="pc_conn_established">Connection to PC: established</string>
+	<string name="pc_conn_not_established">Connection to PC: not established</string>
+	<string name="no_network_conn">No network connection</string>
+	<string name="disabled">disabled</string>
+	<string name="enabled">enabled</string>
+	
 </resources>

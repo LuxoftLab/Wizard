@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-/**
- * Created by 350z6_000 on 15.07.2014.
- */
 class Countdown {
 	private final int NUMBERS_COUNT = 3;
     private int mNumCount;
@@ -57,7 +54,7 @@ class Countdown {
             	if( mNumCount != 0) {
             		mText.setText(""+mNumCount);
             	} else {
-            		mText.setText("FIGHT!");
+            		mText.setText(R.string.countdown_fight);
             	}
                 mText.startAnimation(mAnim);
             }

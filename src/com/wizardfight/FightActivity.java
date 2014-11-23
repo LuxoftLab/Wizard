@@ -158,7 +158,7 @@ public abstract class FightActivity extends CastActivity {
                         // save the connected device's name
                         String mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
                         Toast.makeText(getApplicationContext(),
-                                "Connected to " + mConnectedDeviceName,
+                                getString(R.string.connected_to) + mConnectedDeviceName,
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case MESSAGE_TOAST:
@@ -406,9 +406,9 @@ public abstract class FightActivity extends CastActivity {
     private void finishFight(Target winner) {
         Log.e(TAG, "FINISH FIGHT");
         mAreMessagesBlocked = true;
-        // stop sensor thread work
+
         stopSensorAndSound();
-        // Initialize new accelerator thread
+
         mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
                 mAccelerometer);
         mSensorAndSoundThread.start();
@@ -421,12 +421,12 @@ public abstract class FightActivity extends CastActivity {
 
         String message;
         if (winner == Target.SELF) {
-            message = "You win!";
+            message = getString(R.string.you_win);
         } else {
             // we must inform enemy about loss
             mHandler.obtainMessage(AppMessage.MESSAGE_SELF_DEATH.ordinal())
                     .sendToTarget();
-            message = "You lose!";
+            message = getString(R.string.you_lose);
         }
 
         mFightEndDialog.init(message);
@@ -451,10 +451,10 @@ public abstract class FightActivity extends CastActivity {
         public void init(String message) {
             Log.e(TAG, "INIT FIGHT");
             mmIsNeedToShow = false;
-            mmDialog.setTitle("Fight ended");
+            mmDialog.setTitle(getString(R.string.fight_ended));
             mmDialog.setMessage(message);
-            mmDialog.setButton("Restart", this);
-            mmDialog.setButton2("Exit", this);
+            mmDialog.setButton(getString(R.string.restart), this);
+            mmDialog.setButton2(getString(R.string.exit), this);
             mmDialog.setCancelable(false);
         }
 
