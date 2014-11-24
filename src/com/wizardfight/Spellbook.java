@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -95,12 +96,14 @@ public class Spellbook extends Activity {
 
 		int textC = Color.argb(200, 102, 60, 22);
 
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		//pixelSize = (int)scaledPixelSize * dm.scaledDensity;
 		TextView nameV = new TextView(this);
 		nameV.setText(name);
 		nameV.setLayoutParams(new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
-		nameV.setTextSize(30);
+		nameV.setTextSize(metrics.widthPixels/15  / (metrics.xdpi/160));
 		nameV.setPadding(0, (int) (h / 2.18), 0, 0);
 		nameV.setTextColor(textC);
 		nameV.setGravity(Gravity.CENTER);
@@ -115,7 +118,7 @@ public class Spellbook extends Activity {
 		descriptionV.setLayoutParams(new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
-		descriptionV.setTextSize(20);
+		descriptionV.setTextSize(metrics.widthPixels/20 / (metrics.xdpi/160));
 		descriptionV.setTextColor(textC);
 		textSV.addView(descriptionV);
 

@@ -36,6 +36,11 @@ public class BtFightActivity extends FightActivity {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+	}
+	
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		if (mBtService != null) {
@@ -48,6 +53,7 @@ public class BtFightActivity extends FightActivity {
 	protected void startFight() {
 		if (mClientWaitingDialog != null) {
 			mClientWaitingDialog.dismiss();
+			mClientWaitingDialog = null;
 		}
 		super.startFight();
 		mIsEnemyReady = false;
@@ -84,10 +90,7 @@ public class BtFightActivity extends FightActivity {
 	protected void sendFightMessage(FightMessage fMessage) {
 		super.sendFightMessage(fMessage);
 		
-		// Check that we're actually connected before trying anything
 		if (mBtService.getState() != BluetoothService.STATE_CONNECTED) {
-			Toast.makeText(getApplicationContext(), R.string.not_connected,
-					Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -103,22 +106,18 @@ public class BtFightActivity extends FightActivity {
 				.findViewById(R.id.button_cancel_waiting);
 		cancel.setOnClickListener(new CancelButtonListener());
 		mClientWaitingDialog.setContentView(v);
-		if (D)
-			Log.e(TAG, "Before show dialog");
-		mClientWaitingDialog.show();
+		Log.e(TAG, "Show waiting dialog!");
 		mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
 			@Override
 			public boolean onKey(DialogInterface arg0, int keyCode,
 					KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_BACK) {
-					finish();
 					mClientWaitingDialog.dismiss();
+					finish();
 				}
 				return true;
 			}
 		});
-		if (D)
-			Log.e(TAG, "After show dialog");
 	}
 
 	private class CancelButtonListener implements OnClickListener {
@@ -162,6 +161,14 @@ public class BtFightActivity extends FightActivity {
 				break;
 			}
 			mmIsNeedToShow = false;
+		}
+	}
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if(mClientWaitingDialog != null) {
+			mClientWaitingDialog.show();
 		}
 	}
 }

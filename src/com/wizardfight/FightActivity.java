@@ -93,8 +93,16 @@ public abstract class FightActivity extends CastActivity {
         setupApp();
         // Initialize end dialog object
         mBgImage = (FightBackground) findViewById(R.id.fight_background);
+        
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (D)
+            Log.e(TAG, "-- ON START --");
+    }
+    
     @Override
     public void onResume() {
         mIsRunning = true;
@@ -474,11 +482,10 @@ public abstract class FightActivity extends CastActivity {
         abstract public void onClick(DialogInterface dialog, int which);
     }
     
-    // scale GUI
-    @Override
     public void onWindowFocusChanged(boolean hasFocus)
     {
         super.onWindowFocusChanged(hasFocus);
+        Log.e(TAG, "-- WINDOW FOCUS CHANGED --");
 
         ImageView indicator = (ImageView) findViewById(R.id.imageView);
         int w = indicator.getWidth();

@@ -3,6 +3,7 @@ package com.wizardfight.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,9 +15,6 @@ import com.wizardfight.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by 350z6_000 on 22.07.2014.
- */
 public class WizardDial extends RelativeLayout {
     private final TextView textView;
     private final CancelButton nextButton;
@@ -35,11 +33,13 @@ public class WizardDial extends RelativeLayout {
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT
         );
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         textView = new TextView(context);
         textView.setBackgroundResource(R.drawable.wd3);
         textView.setLayoutParams(params);
-        textView.setTextSize(15);
+        textView.setTextSize(metrics.widthPixels/20  / (metrics.xdpi/160));
+
         textView.setTextColor(Color.rgb(92,67,51));
         textView.setId(popupId);
         nextButton = new CancelButton(context);
