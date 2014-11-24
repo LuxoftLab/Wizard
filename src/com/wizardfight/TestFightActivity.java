@@ -23,11 +23,6 @@ public class TestFightActivity extends FightActivity {
     }
 
     @Override
-    protected void setupApp() {
-        super.setupApp();
-    }
-
-    @Override
     protected void startFight() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -38,12 +33,15 @@ public class TestFightActivity extends FightActivity {
                 sendFightMessage(startMsg);
 
             }
-        }, 4500);//TODO Fix fast exit
+        }, 4500);
         super.startFight();
 
     }
+    
     @Override
     protected void sendFightMessage(FightMessage fMessage) {
+    	if(mPlayerBot == null) return; // if user exists at start
+    	
         super.sendFightMessage(fMessage);
         Message msg = mPlayerBot.getHandler().obtainMessage(
                 AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage);

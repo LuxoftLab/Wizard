@@ -80,8 +80,7 @@ public class BluetoothService {
         mState = state;
         // Give the new state to the Handler so the UI Activity can update
         if(mHandler != null) {
-        	mHandler.obtainMessage(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), state, -1)
-        		.sendToTarget();
+        	sendMsgToHandler(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), state, -1);
         }
     }
     /**
@@ -139,11 +138,9 @@ public class BluetoothService {
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
         // Send the name of the connected device back to the UI Activity
-        Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_DEVICE_NAME.ordinal());
         Bundle bundle = new Bundle();
         bundle.putString(BtFightActivity.DEVICE_NAME, device.getName());
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        sendMsgToHandler(AppMessage.MESSAGE_DEVICE_NAME.ordinal(), bundle);
         setState(STATE_CONNECTED);
     }
     /**
@@ -178,11 +175,9 @@ public class BluetoothService {
     private void connectionFailed() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal());
         Bundle bundle = new Bundle();
         bundle.putInt(BtFightActivity.TOAST, R.string.connection_fail);
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        sendMsgToHandler(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal(), bundle);
     }
     /**
      * Indicate that the connection was lost and notify the UI Activity.
@@ -190,12 +185,29 @@ public class BluetoothService {
     private void connectionLost() {
         setState(STATE_LISTEN);
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal());
         Bundle bundle = new Bundle();
         bundle.putInt(BtFightActivity.TOAST, R.string.connection_lost);
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
+        sendMsgToHandler(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal(), bundle);
     }
+    
+    private void sendMsgToHandler(int what, Bundle bundle) {
+    	if(mHandler != null) {
+    		Message msg = mHandler.obtainMessage(what);
+            msg.setData(bundle);
+            mHandler.sendMessage(msg);
+    	}
+    }
+    
+    private void sendMsgToHandler(int what, int arg1, int arg2, Object o) {
+    	if(mHandler != null)
+    		mHandler.obtainMessage(what, arg1, arg2, o).sendToTarget();
+    }
+    
+    private void sendMsgToHandler(int what, int arg1, int arg2) {
+    	if(mHandler != null)
+    		mHandler.obtainMessage(what, arg1, arg2).sendToTarget();
+    }
+    
     /**
      * This thread runs while listening for incoming connections. It behaves
      * like a server-side client. It runs until a connection is accepted
@@ -353,8 +365,8 @@ public class BluetoothService {
                     bytes = mmInStream.read(buffer);
                     Log.e("Wizard Fight", "read from stream");
                     // Send the obtained object to the UI Activity
-                    mHandler.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), 
-                    		bytes, -1, buffer).sendToTarget();
+                    sendMsgToHandler(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), 
+                    		bytes, -1, buffer);
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();

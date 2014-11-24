@@ -269,7 +269,6 @@ class PlayerBot extends Thread {
         clockA.cancel();
         clockA = null;
         shape = null;
-        stop();
     }
 
     private void finishFight(Target winner) {
