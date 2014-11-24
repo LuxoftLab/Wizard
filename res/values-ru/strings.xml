@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Wizard Fight</string>
+    <!--  Preferences -->
+    <string name="recognition_type">Тип распознавания</string>
+    <string name="recognition_type_summary">Выбрать тип распознавания</string>
+    <!--  BluetoothService -->
+    <string name="not_connected">Вы не подсоединены к устройству</string>
+    <string name="bt_not_enabled">Bluetooth выключен.</string>
+    <!--  DeviceListActivity -->
+    <string name="bt_not_available">Bluetooth недоступен</string>
+    <string name="scanning">Поиск устройств...</string>
+    <string name="select_device">Выбрать устройство для подключения</string>
+    <string name="none_paired">Устройства не сопряжены</string>
+    <string name="none_found">Устройства не найдены</string>
+    <string name="title_paired_devices">Сопряженные устройства</string>
+    <string name="title_other_devices">Другие доступные устройства</string>
+    <string name="button_scan">Поиск устройств</string>
+    <!--  Main Menu -->
+    <string name="create_game">Создать игру</string>
+    <string name="join_game">Присоединиться к игре</string>
+    <string name="training">Тренировка</string>
+    <string name="Connect">Подключиться</string>
+    <string name="tutorial">Обучение</string>
+    <string name="spellbook">Книга заклинаний</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выход</string>
+    <!--  Bt Fight Activity -->
+    <string name="connected_to">Подключиться к&#160;</string>
+    <string name="client_waiting">Ожидание противника...</string>
+    <string name="trying_to_connect">Попытка подключения...</string>
+    <string name="cancel">Отмена</string>
+    <string name="connection_lost">Подключение было прервано. Покинуть бой</string>
+    <string name="connection_fail">Невозможно подключиться к устройству</string>
+    <!-- Fight Activity -->
+    <string name="countdown_fight">Бой!</string>
+    <string name="you_win">"Вы выиграли!"</string>
+    <string name="you_lose">"Вы проиграли!"</string>
+    <string name="fight_ended">Бой окончен</string>
+    <string name="restart">Начать заново</string>
+    <!--  Connection to desktop  -->
+    <string name="connect">Подключиться</string>
+    <string name="disconnect">Отключиться</string>
+    <string name="show_settings">Показать настройки</string>
+    <string name="net_name">Сетевое имя:&#160;</string>
+	<string name="pc_conn_established">Подключение к ПК: установлено</string>
+	<string name="pc_conn_not_established">Подключение к ПК: не установлено</string>
+	<string name="no_network_conn">Нет сетевого подключения</string>
+	<string name="disabled">отключен</string>
+	<string name="enabled">включен</string>
+	
+</resources>

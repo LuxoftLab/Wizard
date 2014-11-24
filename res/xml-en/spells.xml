@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<spells>
+    <spell>
+        <name>Cone of cold</name>
+        <description>Cost: 6 mana.
+Effect: takes 10 health points from opponent.</description>
+        <img>triangle.png</img>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <shape>triangle</shape>
+    </spell>
+    <spell>
+        <name>Circle of fire</name>
+        <description>Cost: 20 mana.
+Effect: takes 30 health points from opponent.</description>
+        <img>
+            circle.png
+        </img>
+        <pointX>50</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>50</pointY>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>50</pointY>
+        <pointX>11</pointX>
+        <pointY>100</pointY>
+        <round>true</round>
+        <shape>circle</shape>
+    </spell>
+    <spell>
+        <name>Healing</name>
+        <description>Cost: 25 mana.
+Effect: recovers 40 health points.</description>
+        <img>
+            clock.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <shape>clock</shape>
+    </spell>
+    <spell>
+        <name>Weakness</name>
+        <description>Cost: 15 mana.
+Effect: takes 5 health points from opponent per second (5 times).</description>
+        <img>
+            z.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <shape>z</shape>
+    </spell>
+    <spell>
+        <name>Concentration</name>
+        <description>Cost: 10 mana.
+Effect: increase attack by 50% for 5 seconds.</description>
+        <img>
+            v.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>50</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <shape>v</shape>
+    </spell>
+    <spell>
+        <name>Blessing</name>
+        <description>Cost: 15 mana.
+Effect: recovers 5 health points per second (5 times).</description>
+        <img>
+            pi.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <shape>pi</shape>
+    </spell>
+    <spell>
+        <name>Holy
+Shield</name>
+        <description>
+Cost: 10 mana.
+Effect: blocks one opponent`s hit for 5 seconds.</description>
+        <img>
+            shield.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>60</pointY>
+        <pointX>50</pointX>
+        <pointY>30</pointY>
+        <pointX>100</pointX>
+        <pointY>60</pointY>
+        <round>true</round>
+        <rotate>true</rotate>
+        <shape>shield</shape>
+    </spell>
+</spells>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<spells>
+    <spell>
+        <name>Конус Холода</name>
+        <description>Стоимость: 6 маны.
+Воздействие: снимает 10 единиц здоровья у противника.</description>
+        <img>triangle.png</img>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <shape>triangle</shape>
+    </spell>
+    <spell>
+        <name>Кольцо Огня</name>
+        <description>Стоимость: 20 маны.
+Воздействие: снимает 30 единиц здоровья у противника.</description>
+        <img>
+            circle.png
+        </img>
+        <pointX>50</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>50</pointY>
+        <pointX>50</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>50</pointY>
+        <pointX>11</pointX>
+        <pointY>100</pointY>
+        <round>true</round>
+        <shape>circle</shape>
+    </spell>
+    <spell>
+        <name>Исцеление</name>
+        <description>Стоимость: 25 маны.
+Воздействие: восстанавливает 40 единиц здоровья.</description>
+        <img>
+            clock.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <shape>clock</shape>
+    </spell>
+    <spell>
+        <name>Порча</name>
+        <description>Стоимость: 15 маны.
+Воздействие: снимает у противника по 5 единиц здоровья в секунду (5 раз).</description>
+        <img>
+            z.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <shape>z</shape>
+    </spell>
+    <spell>
+        <name>Концентрация</name>
+        <description>Стоимость: 10 маны.
+Воздействие: усиливает атаку на 50% на 5 секунд.</description>
+        <img>
+            v.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>50</pointX>
+        <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <shape>v</shape>
+    </spell>
+    <spell>
+        <name>Благословение</name>
+        <description>Стоимость: 15 маны.
+Воздействие: востанавливает по 5 единиц здоровья в секунду (5 раз).</description>
+        <img>
+            pi.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>100</pointY>
+        <pointX>0</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
+        <pointX>100</pointX>
+        <pointY>100</pointY>
+        <shape>pi</shape>
+    </spell>
+    <spell>
+        <name>Божественный
+Щит</name>
+        <description>
+Стоимость: 10 маны.
+Воздействие: блокирует один удар противника в течение 5 секунд.</description>
+        <img>
+            shield.png
+        </img>
+        <pointX>0</pointX>
+        <pointY>60</pointY>
+        <pointX>50</pointX>
+        <pointY>30</pointY>
+        <pointX>100</pointX>
+        <pointY>60</pointY>
+        <round>true</round>
+        <rotate>true</rotate>
+        <shape>shield</shape>
+    </spell>
+</spells>
