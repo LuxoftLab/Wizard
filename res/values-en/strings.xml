@@ -21,7 +21,7 @@
     <string name="create_game">Create game</string>
     <string name="join_game">Join game</string>
     <string name="training">Training</string>
-    <string name="Connect">Connect</string>
+    <string name="connect_to_pc">Connect to PC</string>
     <string name="tutorial">Tutorial</string>
     <string name="spellbook">Spellbook</string>
     <string name="settings">Settings</string>
@@ -44,6 +44,7 @@
     <string name="disconnect">Disconnect</string>
     <string name="show_settings">Show settings</string>
     <string name="net_name">Net name:&#160;</string>
+    <string name="pc_conn_fail">Unable to connect</string>
 	<string name="pc_conn_established">Connection to PC: established</string>
 	<string name="pc_conn_not_established">Connection to PC: not established</string>
 	<string name="no_network_conn">No network connection</string>

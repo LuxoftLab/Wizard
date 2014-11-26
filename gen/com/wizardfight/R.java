@@ -134,7 +134,6 @@ public final class R {
         public static final int z_sound=0x7f06000d;
     }
     public static final class string {
-        public static final int Connect=0x7f080010;
         public static final int app_name=0x7f080000;
         /**   DeviceListActivity 
   DeviceListActivity 
@@ -148,6 +147,7 @@ public final class R {
   Connection to desktop  
          */
         public static final int connect=0x7f080020;
+        public static final int connect_to_pc=0x7f080010;
         /**   Bt Fight Activity 
   Bt Fight Activity 
          */
@@ -162,22 +162,23 @@ public final class R {
   Main Menu 
          */
         public static final int create_game=0x7f08000d;
-        public static final int disabled=0x7f080027;
+        public static final int disabled=0x7f080028;
         public static final int disconnect=0x7f080021;
-        public static final int enabled=0x7f080028;
+        public static final int enabled=0x7f080029;
         public static final int exit=0x7f080014;
         public static final int fight_ended=0x7f08001e;
         public static final int join_game=0x7f08000e;
         public static final int net_name=0x7f080023;
-        public static final int no_network_conn=0x7f080026;
+        public static final int no_network_conn=0x7f080027;
         public static final int none_found=0x7f080009;
         public static final int none_paired=0x7f080008;
         /**   BluetoothService 
   BluetoothService 
          */
         public static final int not_connected=0x7f080003;
-        public static final int pc_conn_established=0x7f080024;
-        public static final int pc_conn_not_established=0x7f080025;
+        public static final int pc_conn_established=0x7f080025;
+        public static final int pc_conn_fail=0x7f080024;
+        public static final int pc_conn_not_established=0x7f080026;
         /**   Preferences 
   Preferences 
          */

@@ -18,7 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 public abstract class CastActivity extends Activity {
-	protected static final boolean D = true;
+	protected static final boolean D = false;
 	protected static String TAG = "Wizard Fight";
 
 	// Objects referred to accelerometer
@@ -100,10 +100,12 @@ public abstract class CastActivity extends Activity {
 			return;
 
 		if (!mIsInCast) {
+			Log.e(TAG, "START GETTING DATA");
 			mSensorAndSoundThread.startGettingData();
 			mIsInCast = true;
 
 		} else {
+			Log.e(TAG, "END GETTING DATA");
 			mIsCastAbilityBlocked = true;
 
 			ArrayList<Vector3d> records = mSensorAndSoundThread

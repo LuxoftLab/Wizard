@@ -171,7 +171,6 @@ public class BtFightActivity extends FightActivity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if(mClientWaitingDialog != null) {
-			Log.e(TAG, "SHOW DIALOG!!!!!!!");
 			mClientWaitingDialog.show();
 		}
 	}

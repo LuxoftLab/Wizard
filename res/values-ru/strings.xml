@@ -21,7 +21,7 @@
     <string name="create_game">Создать игру</string>
     <string name="join_game">Присоединиться к игре</string>
     <string name="training">Тренировка</string>
-    <string name="Connect">Подключиться</string>
+    <string name="connect_to_pc">Подключиться к ПК</string>
     <string name="tutorial">Обучение</string>
     <string name="spellbook">Книга заклинаний</string>
     <string name="settings">Настройки</string>
@@ -45,6 +45,7 @@
     <string name="show_settings">Показать настройки</string>
     <string name="net_name">Сетевое имя:&#160;</string>
 	<string name="pc_conn_established">Подключение к ПК: установлено</string>
+	<string name="pc_conn_fail">Не удалось подключиться по адресу</string>
 	<string name="pc_conn_not_established">Подключение к ПК: не установлено</string>
 	<string name="no_network_conn">Нет сетевого подключения</string>
 	<string name="disabled">отключен</string>

@@ -150,6 +150,7 @@ public abstract class FightActivity extends CastActivity {
             @Override
             public void handleMessage(Message msg) {
                 AppMessage appMsg = AppMessage.values()[msg.what];
+                Log.e(TAG, "!!!!!!!!!!!!  " + appMsg.name());
                 switch (appMsg) {
                     case MESSAGE_STATE_CHANGE:
                         if (D)
@@ -181,6 +182,7 @@ public abstract class FightActivity extends CastActivity {
                     case MESSAGE_CONNECTION_FAIL:
                         Toast.makeText(getApplicationContext(),
                                 msg.getData().getInt(TOAST), Toast.LENGTH_SHORT).show();
+                        mAreMessagesBlocked = true;
                         finish();
                         break;
                     case MESSAGE_FROM_SELF:
@@ -486,7 +488,7 @@ public abstract class FightActivity extends CastActivity {
     public void onWindowFocusChanged(boolean hasFocus)
     {
         super.onWindowFocusChanged(hasFocus);
-        Log.e(TAG, "-- WINDOW FOCUS CHANGED --");
+//        Log.e(TAG, "-- WINDOW FOCUS CHANGED --");
 
         ImageView indicator = (ImageView) findViewById(R.id.imageView);
         int w = indicator.getWidth();

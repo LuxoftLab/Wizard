@@ -54,7 +54,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:onClick="goToDesktopConnection"
-                    android:text="@string/Connect" android:visibility="visible"/>
+                    android:text="@string/connect_to_pc" android:visibility="visible"/>
 
             <Button
                     android:layout_width="fill_parent"

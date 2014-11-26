@@ -2,8 +2,10 @@ package com.wizardfight.remote;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 
@@ -11,16 +13,24 @@ import android.os.Handler;
 import android.util.Log;
 
 public class WifiService {
-	public static final int INIT_NO_ERROR = 0;
-	public static final int INIT_FAILED = 1;
+	public static final int NO_ERROR = 0;
+	public static final int IO_FAIL = 1;
 	public static final int PORT = 8880;
 	private static Worker mWorker;
+	private static String ip;
 	
 	public static void init(String addr, Handler handler) {
 		close();
-		Log.d("wifi", "init "+addr);
-		mWorker = new Worker(addr, handler);
+		ip = addr;
+		Log.d("wifi", "init "+ip);
+		mWorker = new Worker(ip, handler);
 		mWorker.start();
+	}
+	
+	public static void clearHandler() {
+		if(mWorker != null) {
+			mWorker.clearHandler();
+		}
 	}
 	
 	public static void send(byte[] buffer) {
@@ -29,15 +39,19 @@ public class WifiService {
 		}
 	}
 	
+	public static String getIP() { return ip; }
+	
 	public static boolean isConnected() {
 		if(mWorker == null) return false;
-		return mWorker.isAlive();
+		return mWorker.isWorking();
 	}
 	
 	public static void close() {
+		Log.e("WIFI", "WifiService.close");
 		if(mWorker != null) {
 			mWorker.close();
 		}
+		Log.e("WIFI", "connected? (after close): " + isConnected());
 	}
 	
 	static class Worker extends Thread {
@@ -57,26 +71,30 @@ public class WifiService {
 				InetAddress serverAddr = InetAddress.getByName(mmAddr);
 				mmSocket = new Socket(serverAddr, PORT);
 				mmSocket.setTcpNoDelay(true);
-				sendMsgToHandler(INIT_NO_ERROR);
+				sendMsgToHandler(NO_ERROR);
 				
 				OutputStream out = mmSocket.getOutputStream();
-				while(mmSocket.isConnected()) {
+				while(!mmSocket.isClosed()) {
+					Log.e("wifi", "thread loop");
 					while(!mmQueue.isEmpty()) {
 						out.write(mmQueue.poll());
 					}
 					try {
-						Log.d("wifi", "sleep");
+						Log.e("wifi", "sleep");
 						synchronized (this) {
 							wait();
 						}
-						Log.d("wifi", "wakeup");
+						Log.e("wifi", "wakeup");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
-			} catch (IOException e1) {
-				sendMsgToHandler(INIT_FAILED);
+			} 
+			catch (IOException e1) {
+				sendMsgToHandler(IO_FAIL);
 				Log.e("WIFI", "--- io exception ---", e1);
+			} finally {
+				close();
 			}
 		}
 		
@@ -96,8 +114,17 @@ public class WifiService {
 			notifyAll();
 		}
 		
+		public boolean isWorking() {
+			return (mmSocket != null && mmSocket.isConnected() 
+					&& !mmSocket.isClosed());
+		}
+		
+		public void clearHandler() { mmHandler = null; }
+		
 		private void sendMsgToHandler(int what) {
-			mmHandler.obtainMessage(what).sendToTarget();
+			if(mmHandler != null) {
+				mmHandler.obtainMessage(what).sendToTarget();
+			}	
 		}
 	}
 }

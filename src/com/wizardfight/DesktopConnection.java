@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DesktopConnection extends Activity {
 	private Button mConnect;
@@ -28,17 +29,16 @@ public class DesktopConnection extends Activity {
 	private TextView mConnStatus;
 	private TextView mNetName;
 	private EditText mIP;
-	private boolean mConnected;
 	private BroadcastReceiver mBroadcastReceiver;
 	
 	private final Handler mHandler = new Handler() {
 		public void dispatchMessage(Message msg) {
-			if (msg.what == WifiService.INIT_NO_ERROR) {
-				mConnected = true;
-				setConnectedToPC();
-			} else if (msg.what == WifiService.INIT_FAILED) {
-				mConnected = false;
-				setConnectedToPC();
+			if (msg.what == WifiService.NO_ERROR) {
+				showConnectedToPC();
+			} else if (msg.what == WifiService.IO_FAIL) {
+				Toast.makeText(getApplicationContext(), 
+						getString(R.string.pc_conn_fail),Toast.LENGTH_SHORT).show();
+				showConnectedToPC();
 			}
 		};
 	};
@@ -65,7 +65,15 @@ public class DesktopConnection extends Activity {
 		this.registerReceiver(mBroadcastReceiver, new IntentFilter(
 				ConnectivityManager.CONNECTIVITY_ACTION));
 	}
-
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		this.unregisterReceiver(mBroadcastReceiver);
+		WifiService.clearHandler();
+		mHandler.removeCallbacksAndMessages(null);
+	}
+	
 	private void showNoConnectionPage() {
 		setContentView(R.layout.net_conn_not_found);
 		mSettings = (Button) findViewById(R.id.net_settings_button);
@@ -96,30 +104,33 @@ public class DesktopConnection extends Activity {
 		mIP = (EditText) findViewById(R.id.ip);
 
 		mNetName.setText(getString(R.string.net_name) + wifiInfo.getSSID());
-		mIP.setText(convertIp(dhcpInfo.ipAddress));
+		String lastIP = WifiService.getIP();
+		if(lastIP != null) {
+			mIP.setText(lastIP);
+		} else {
+			mIP.setText(convertIp(dhcpInfo.ipAddress));
+		}
 		mConnect = (Button) findViewById(R.id.connect_to_pc);
-		mConnected = false;
-		setConnectedToPC();
+		
+		showConnectedToPC();
 		mConnect.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!(mConnected)) {
+				if (!WifiService.isConnected()) {
 					WifiService.init(mIP.getText().toString(), mHandler);
 					Log.e("Wizard Fight", mIP.getText().toString());
 				} else {
 					WifiService.close();
-					mConnected = false;
-					setConnectedToPC();
+					showConnectedToPC();
 				}
 			}
 		});
-
 	}
 	
-	private void setConnectedToPC() {
-//		mConnected = WifiService.isConnected();
-		if (mConnected) {
-			Log.e("Wizard Fight", " -- INIT NO ERROR -- ");
+	private void showConnectedToPC() {
+		boolean connected = WifiService.isConnected();
+		
+		if (connected) {
 			mConnStatus.setText(R.string.pc_conn_established);
 			mConnect.setText(R.string.disconnect);
 		} else {
@@ -127,14 +138,6 @@ public class DesktopConnection extends Activity {
 			mConnStatus.setText(R.string.pc_conn_not_established);
 			mConnect.setText(R.string.connect);
 		}
-		Log.e("Wizard Fight", "IS ALIVE: " + WifiService.isConnected());
-	}
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		this.unregisterReceiver(mBroadcastReceiver);
-		mHandler.removeCallbacksAndMessages(null);
 	}
 	
 	private String convertIp(int adr) {
