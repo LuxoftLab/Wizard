@@ -197,7 +197,7 @@ public abstract class FightActivity extends CastActivity {
                         byte[] recvBytes = (byte[]) msg.obj;
                         FightMessage enemyMsg = FightMessage.fromBytes(recvBytes);
 
-                        switch (enemyMsg.action) {
+                        switch (enemyMsg.mAction) {
                             case ENEMY_READY:
                                 handleEnemyReadyMessage();
                                 break;
@@ -256,13 +256,13 @@ public abstract class FightActivity extends CastActivity {
 
                 mSelfGUI.getManaBar().setValue(mSelfState.getMana());
 
-                if (selfMsg.target == Target.SELF) {
+                if (selfMsg.mTarget == Target.SELF) {
                     // self influence to self
                     handleMessageToSelf(selfMsg);
                 } else {
                     // self influence to enemy
                     // tell enemy : target is he
-                    selfMsg.target = Target.SELF;
+                    selfMsg.mTarget = Target.SELF;
                     sendFightMessage(selfMsg);
                 }
                 // draw casted shape
@@ -276,9 +276,9 @@ public abstract class FightActivity extends CastActivity {
                 Shape recvShape = FightMessage.getShapeFromMessage(enemyMsg);
 
                 // refresh enemy health and mana (every enemy message contains it)
-                mEnemyState.setHealthAndMana(enemyMsg.health, enemyMsg.mana);
+                mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
                 Log.e(TAG, "enemy msg: " + enemyMsg + " " + mMyCounter);
-                if (enemyMsg.target == Target.SELF) {
+                if (enemyMsg.mTarget == Target.SELF) {
                     handleMessageToSelf(enemyMsg);
                 } else {
                     // Enemy influence to himself
@@ -393,8 +393,8 @@ public abstract class FightActivity extends CastActivity {
 
      void sendFightMessage(FightMessage fMessage) {
         // always send own health and mana
-        fMessage.health = mSelfState.getHealth();
-        fMessage.mana = mSelfState.getMana();
+        fMessage.mHealth = mSelfState.getHealth();
+        fMessage.mMana = mSelfState.getMana();
     }
 
     protected void startFight() {

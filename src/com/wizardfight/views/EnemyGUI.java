@@ -10,17 +10,17 @@ import android.app.Activity;
 public class EnemyGUI extends PlayerGUI {
 	public EnemyGUI(Activity a, int hp, int mana) {
 		super();
-		healthBar = (HealthIndicator) a.findViewById(R.id.enemy_health);
-		healthBar.setMaxValue(hp);
-		manaBar = (ManaIndicator) a.findViewById(R.id.enemy_mana);
-		manaBar.setMaxValue(mana);
-		spellPicture = (SpellPicture) a.findViewById(R.id.enemy_spell);
+		mHealthBar = (HealthIndicator) a.findViewById(R.id.enemy_health);
+		mHealthBar.setMaxValue(hp);
+		mManaBar = (ManaIndicator) a.findViewById(R.id.enemy_mana);
+		mManaBar.setMaxValue(mana);
+		mSpellPicture = (SpellPicture) a.findViewById(R.id.enemy_spell);
 		BuffPicture[] buffs = new BuffPicture[5];
 		buffs[0] = (BuffPicture)a.findViewById(R.id.enemy_buff1);
 		buffs[1] = (BuffPicture)a.findViewById(R.id.enemy_buff2);
 		buffs[2] = (BuffPicture)a.findViewById(R.id.enemy_buff3);
 		buffs[3] = (BuffPicture)a.findViewById(R.id.enemy_buff4);
 		buffs[4] = (BuffPicture)a.findViewById(R.id.enemy_buff5);
-		buffPanel = new BuffPanel(buffs);
+		mBuffPanel = new BuffPanel(buffs);
 	}
 }

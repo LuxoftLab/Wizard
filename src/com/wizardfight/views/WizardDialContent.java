@@ -1,52 +1,52 @@
 package com.wizardfight.views;
 
 public class WizardDialContent {
-    private String text="";
-    private boolean ui=false;
-    private boolean health=false;
-    private boolean mana=false;
-    private boolean pause=false;
+    private String mText = "";
+    private boolean mUI = false;
+    private boolean mHealth = false;
+    private boolean mMana = false;
+    private boolean mPause = false;
 
     public WizardDialContent() {
     }
 
     public String getText() {
-        return text;
+        return mText;
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.mText = text;
     }
 
     public boolean isUi() {
-        return ui||health||mana;
+        return mUI||mHealth||mMana;
     }
 
     public void setUi(boolean ui) {
-        this.ui = ui;
+        this.mUI = ui;
     }
 
     public boolean isHealth() {
-        return health;
+        return mHealth;
     }
 
     public void setHealth(boolean health) {
-        this.health = health;
+        this.mHealth = health;
     }
 
     public boolean isMana() {
-        return mana;
+        return mMana;
     }
 
     public void setMana(boolean mana) {
-        this.mana = mana;
+        this.mMana = mana;
     }
 
     public boolean isPause() {
-        return pause;
+        return mPause;
     }
 
     public void setPause(boolean pause) {
-        this.pause = pause;
+        this.mPause = pause;
     }
 }

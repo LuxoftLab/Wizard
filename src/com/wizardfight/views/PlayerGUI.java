@@ -7,19 +7,19 @@ import com.wizardfight.Shape;
  *            + spell picture + buff panel
  */
 public class PlayerGUI {
-	HealthIndicator healthBar;
-	ManaIndicator manaBar;
-	SpellPicture spellPicture;
-	BuffPanel buffPanel;
+	HealthIndicator mHealthBar;
+	ManaIndicator mManaBar;
+	SpellPicture mSpellPicture;
+	BuffPanel mBuffPanel;
 
 	
 	public void clear() {
-		buffPanel.removeBuffs();
-		spellPicture.setShape(Shape.NONE);
+		mBuffPanel.removeBuffs();
+		mSpellPicture.setShape(Shape.NONE);
 	}
 	
-	public HealthIndicator getHealthBar() { return healthBar; }
-	public ManaIndicator getManaBar() { return manaBar; }
-	public SpellPicture getSpellPicture() { return spellPicture; }
-	public BuffPanel getBuffPanel() { return buffPanel; }
+	public HealthIndicator getHealthBar() { return mHealthBar; }
+	public ManaIndicator getManaBar() { return mManaBar; }
+	public SpellPicture getSpellPicture() { return mSpellPicture; }
+	public BuffPanel getBuffPanel() { return mBuffPanel; }
 }

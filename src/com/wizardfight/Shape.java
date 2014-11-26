@@ -11,14 +11,14 @@ public enum Shape {
     FAIL("fail", 0, 0.3),
     NONE("none", 0, 0.3);
 
-    private final String name;
-    private final int manaCost;
-    private final double castTime;
+    private final String mName;
+    private final int mManaCost;
+    private final double mCastTime;
 
     private Shape(String name, int manaCost,double castTime) {
-        this.name = name;
-        this.manaCost = manaCost;
-        this.castTime = castTime;
+        mName = name;
+        mManaCost = manaCost;
+        mCastTime = castTime;
     }
 
     public static int getPictureId(Shape s) {
@@ -50,15 +50,15 @@ public enum Shape {
     }
 
     public int getManaCost() {
-        return manaCost;
+        return mManaCost;
     }
 
     public double getCastTime() {
-        return castTime;
+        return mCastTime;
     }
 
     @Override
     public String toString() {
-        return name;
+        return mName;
     }
 }

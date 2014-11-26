@@ -6,13 +6,13 @@ import com.wizardfight.Buff;
  * Class that contains links to player`s buff views
  */
 public class BuffPanel {
-	private final BuffPicture[] buffPics;
+	private final BuffPicture[] mBuffPics;
 	public BuffPanel(BuffPicture[] buffPictures) {
-		buffPics = buffPictures;
+		mBuffPics = buffPictures;
 	}
 	
 	public void addBuff(Buff buff) {
-        for (BuffPicture buffPic : buffPics) {
+        for (BuffPicture buffPic : mBuffPics) {
             Buff b = buffPic.getBuff();
             // if exists already
             if (b == buff) {
@@ -27,24 +27,24 @@ public class BuffPanel {
 	
 	public void removeBuff(Buff buff) {
 		int rmIndex = -1;
-		for(int i=0; i<buffPics.length; i++) {
-			if(buffPics[i].getBuff() == buff) {
+		for(int i=0; i<mBuffPics.length; i++) {
+			if(mBuffPics[i].getBuff() == buff) {
 				rmIndex = i;
 				break;
 			}
 		}
 		if(rmIndex == -1) return;
 		
-		for(int i=rmIndex; i<buffPics.length-1; i++) {
-			if(buffPics[i].getBuff() == Buff.NONE) break;
+		for(int i=rmIndex; i<mBuffPics.length-1; i++) {
+			if(mBuffPics[i].getBuff() == Buff.NONE) break;
 			
-			Buff rightBuff = buffPics[i+1].getBuff();
-			buffPics[i].setBuff(rightBuff);
+			Buff rightBuff = mBuffPics[i+1].getBuff();
+			mBuffPics[i].setBuff(rightBuff);
 		}
 	}
 	
 	public void removeBuffs() {
-        for (BuffPicture buffPic : buffPics) {
+        for (BuffPicture buffPic : mBuffPics) {
             buffPic.setBuff(Buff.NONE);
         }
 	}

@@ -19,22 +19,22 @@ import java.util.ArrayList;
 
 public class Tutorial extends CastActivity implements WizardDialDelegate {
 	class SpellData {
-		String name = "";
-		ArrayList<Double> pointsX = new ArrayList<Double>();//todo one list of points
-		ArrayList<Double> pointsY = new ArrayList<Double>();
-		boolean round = false;
-		boolean rotate = false;
-		Shape shape = Shape.NONE;
+		String mmName = "";
+		ArrayList<Double> mmPointsX = new ArrayList<Double>();//todo one list of points
+		ArrayList<Double> mmPointsY = new ArrayList<Double>();
+		boolean mmRound = false;
+		boolean mmRotate = false;
+		Shape mmShape = Shape.NONE;
 
 		SpellData(String name, ArrayList<Double> pointsX,
 				ArrayList<Double> pointsY, boolean round, boolean rotate,
 				String shape) {
-			this.name = name;
-			this.pointsX = pointsX;
-			this.pointsY = pointsY;
-			this.round = round;
-			this.rotate = rotate;
-			this.shape = Shape.getShapeFromString(shape);
+			mmName = name;
+			mmPointsX = pointsX;
+			mmPointsY = pointsY;
+			mmRound = round;
+			mmRotate = rotate;
+			mmShape = Shape.getShapeFromString(shape);
 		}
 	}
 
@@ -123,7 +123,7 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 						mSensorAndSoundThread.playShapeSound(shape);
 					}
 
-					if (shape==mSpellDatas.get(mPartCounter).shape) {
+					if (shape==mSpellDatas.get(mPartCounter).mmShape) {
 						addSpellCounter();
 						mCastResult.setPictureAndFade(R.drawable.result_ok);
 					} else {
@@ -308,12 +308,12 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 			return;
 		}
 		SpellData sd = mSpellDatas.get(mPartCounter);
-		mSpellName.setText(sd.name);
+		mSpellName.setText(sd.mmName);
 		ArrayList<Double[]> t = new ArrayList<Double[]>();
-		for (int i = 0; (i < sd.pointsX.size()) && (i < sd.pointsY.size()); i++) {
-			t.add(new Double[] { sd.pointsX.get(i), sd.pointsY.get(i) });
+		for (int i = 0; (i < sd.mmPointsX.size()) && (i < sd.mmPointsY.size()); i++) {
+			t.add(new Double[] { sd.mmPointsX.get(i), sd.mmPointsY.get(i) });
 		}
-		mSpellAnim.setTrajectory(t, sd.rotate, sd.round);
+		mSpellAnim.setTrajectory(t, sd.mmRotate, sd.mmRound);
 		mSpellAnim.startAnimation();
 	}
 

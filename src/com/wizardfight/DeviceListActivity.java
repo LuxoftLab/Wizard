@@ -32,21 +32,18 @@ public class DeviceListActivity extends Activity {
     private BluetoothAdapter mBtAdapter;
     private LinearLayout mPairedList;
     private LinearLayout mNewDevicesList;
-    private int newDevicesCount;
-    private String noNewDevices;
-    private String noPairedDevices;
+    private int mNewDevicesCount;
+    private String mNoNewDevices;
+    private String mNoPairedDevices;
     // Member object for bluetooth services
  	private BluetoothService mChatService = null;
- 	private boolean isSearchCanceledByUser = false;
+ 	private boolean mSearchCanceledByUser = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Setup the window
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.device_list);
-        // Set result CANCELED incase the user backs out
         setResult(Activity.RESULT_CANCELED);
-        // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBtAdapter == null) {
 			Toast.makeText(this, R.string.bt_not_available,
@@ -54,10 +51,10 @@ public class DeviceListActivity extends Activity {
 			finish();
 			return;
 		}
-        // Initialize strings 
-        noNewDevices = getResources().getString(R.string.none_found);
-        noPairedDevices = getResources().getString(R.string.none_paired);
-        // Initialize the button to perform device discovery
+
+        mNoNewDevices = getResources().getString(R.string.none_found);
+        mNoPairedDevices = getResources().getString(R.string.none_paired);
+
         Button scanButton = (Button) findViewById(R.id.button_scan);
         scanButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -65,9 +62,9 @@ public class DeviceListActivity extends Activity {
                 v.setVisibility(View.GONE);
             }
         });
-        // Find and set up the list for paired devices
+
         mPairedList = (LinearLayout) findViewById(R.id.paired_devices);
-        // Find and set up the list for newly discovered devices
+        
         mNewDevicesList = (LinearLayout) findViewById(R.id.new_devices);
         // Register for broadcasts when a device is discovered
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -84,7 +81,7 @@ public class DeviceListActivity extends Activity {
             	addPairedDevice(device.getName() + "\n" + device.getAddress());
             }
         } else {
-            addPairedDevice(noPairedDevices);
+            addPairedDevice(mNoPairedDevices);
         }
     }
     
@@ -97,16 +94,14 @@ public class DeviceListActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Make sure we're not doing discovery anymore
+
         if (mBtAdapter != null) {
             mBtAdapter.cancelDiscovery();
         }
-        // Unregister broadcast listeners
         this.unregisterReceiver(mReceiver);
     }
     
     private void setup() {
-    	// Initialize the BluetoothChatService to perform bluetooth connections
     	mChatService = BluetoothService.getInstance();
     	mChatService.init();
     }
@@ -127,7 +122,7 @@ public class DeviceListActivity extends Activity {
      * Start device discover with the BluetoothAdapter
      */
     private void doDiscovery() {
-    	isSearchCanceledByUser = false;
+    	mSearchCanceledByUser = false;
         if (D) Log.d(TAG, "doDiscovery()");
         // Indicate scanning in the title
         setProgressBarIndeterminateVisibility(true);
@@ -141,15 +136,15 @@ public class DeviceListActivity extends Activity {
         // Request discover from BluetoothAdapter
         mBtAdapter.startDiscovery();
     }
-    // The on-click listener for all devices in the ListViews
+
     private final OnClickListener mDeviceClickListener = new OnClickListener() {
         public void onClick(View v) {
-        	isSearchCanceledByUser = true;
+        	mSearchCanceledByUser = true;
             // Cancel discovery because it's costly and we're about to connect
             mBtAdapter.cancelDiscovery();
             
             String info = ((TextView) v).getText().toString();
-            if( info.equals(noNewDevices) || info.equals(noPairedDevices)) {
+            if( info.equals(mNoNewDevices) || info.equals(mNoPairedDevices)) {
             	return;
             }
             
@@ -176,15 +171,15 @@ public class DeviceListActivity extends Activity {
                 // If it's already paired, skip it, because it's been listed already
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
                     addNewDevice(device.getName() + "\n" + device.getAddress());
-                    newDevicesCount++;
+                    mNewDevicesCount++;
                 }
             // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 setProgressBarIndeterminateVisibility(false);
                 setTitle(R.string.select_device);
-                if (newDevicesCount == 0) {
-                	if(!isSearchCanceledByUser)
-                		addNewDevice(noNewDevices);
+                if (mNewDevicesCount == 0) {
+                	if(!mSearchCanceledByUser)
+                		addNewDevice(mNoNewDevices);
                 }
             }
         }

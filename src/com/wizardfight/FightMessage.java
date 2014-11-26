@@ -58,75 +58,75 @@ enum FightAction {
  * contains all needed info that is transfered between devices
  */
 public class FightMessage {
-	public Target target;
-	public final FightAction action;
-	public int param;
-	public int health;
-	public int mana;
+	public Target mTarget;
+	public final FightAction mAction;
+	public int mParam;
+	public int mHealth;
+	public int mMana;
 	
 	public FightMessage(Target tar, FightAction act) {
-		target = tar;
-		action = act;
-		param = -1;
+		mTarget = tar;
+		mAction = act;
+		mParam = -1;
 	}
 	
 	public FightMessage(Target tar, FightAction act, int parameter) {
-		target = tar;
-		action = act;
-		param = parameter;
+		mTarget = tar;
+		mAction = act;
+		mParam = parameter;
 	}
 	
 	public FightMessage(Shape shape) {
-		param = -1;
+		mParam = -1;
 		
 		switch(shape) {
 		case TRIANGLE:
 		case CIRCLE:
-			target = Target.ENEMY;
+			mTarget = Target.ENEMY;
 			break;
 		case CLOCK:
-			target = Target.SELF;
-			param = Buff.getBuffFromShape(shape).ordinal();
+			mTarget = Target.SELF;
+			mParam = Buff.getBuffFromShape(shape).ordinal();
 			break;
 		case Z:
-			target = Target.ENEMY;
-			param = Buff.getBuffFromShape(shape).ordinal();
+			mTarget = Target.ENEMY;
+			mParam = Buff.getBuffFromShape(shape).ordinal();
 			break;
 		case V:
-			target = Target.SELF;
-			param = Buff.getBuffFromShape(shape).ordinal();
+			mTarget = Target.SELF;
+			mParam = Buff.getBuffFromShape(shape).ordinal();
 			break;
 		case PI:
-			target = Target.SELF;
-			param = Buff.getBuffFromShape(shape).ordinal();
+			mTarget = Target.SELF;
+			mParam = Buff.getBuffFromShape(shape).ordinal();
 			break;
 		case SHIELD:
-			target = Target.SELF;
-			param = Buff.getBuffFromShape(shape).ordinal();
+			mTarget = Target.SELF;
+			mParam = Buff.getBuffFromShape(shape).ordinal();
 			break;
 		default:
-			target = Target.SELF;
+			mTarget = Target.SELF;
 			break;
 		}
-		action = getActionFromShape(shape);
+		mAction = getActionFromShape(shape);
 		
 	}
 	
 	private FightMessage(int targetIndex, int actionIndex, int parameter) {
-		target = Target.values()[ targetIndex ];
-		action = FightAction.values() [ actionIndex ];
-		param = parameter;
+		mTarget = Target.values()[ targetIndex ];
+		mAction = FightAction.values() [ actionIndex ];
+		mParam = parameter;
 	}
 	
 	private FightMessage(int targetIndex, int actionIndex, int parameter, int hp, int mp) {
 		this(targetIndex, actionIndex, parameter);
-		health = hp;
-		mana = mp;
+		mHealth = hp;
+		mMana = mp;
 	}
 	
 	public static Shape getShapeFromMessage(FightMessage message) {
 		Shape shape = Shape.NONE;
-		switch( message.action ) {
+		switch( message.mAction ) {
 		case HIGH_DAMAGE:
 			shape = Shape.CIRCLE;
 			break;
@@ -134,7 +134,7 @@ public class FightMessage {
 			shape = Shape.TRIANGLE;
 			break;
 		case BUFF_ON:
-			Buff buff = Buff.values()[ message.param  ];
+			Buff buff = Buff.values()[ message.mParam  ];
 			switch(buff) {
 			case WEAKNESS:
 				shape = Shape.Z;
@@ -156,8 +156,8 @@ public class FightMessage {
 			shape = Shape.CLOCK;
 			break;
 		case NEW_HP_OR_MANA:
-			if(message.param >= 0)
-				shape = Shape.values()[ message.param ];
+			if(message.mParam >= 0)
+				shape = Shape.values()[ message.mParam ];
 			break;
 		default:
 			shape = Shape.NONE;
@@ -191,9 +191,9 @@ public class FightMessage {
 
 	public static boolean isSpellCreatedByEnemy(FightMessage msg) {
 		boolean spellDealsDamage = true;
-		switch(msg.action) {
+		switch(msg.mAction) {
 		case BUFF_ON:
-			Buff buff = Buff.values()[ msg.param ];
+			Buff buff = Buff.values()[ msg.mParam ];
 			switch(buff) {
 			case BLESSING:
 			case CONCENTRATION:
@@ -214,7 +214,7 @@ public class FightMessage {
 			spellDealsDamage = false;
 			break;
 		case NEW_HP_OR_MANA:
-			Shape s = Shape.values()[ msg.param ];
+			Shape s = Shape.values()[ msg.mParam ];
 			FightAction a = FightMessage.getActionFromShape(s);
 			spellDealsDamage = ( a != FightAction.HEAL);
 			break;
@@ -224,7 +224,7 @@ public class FightMessage {
 		}
 		
 		//Log.e("Wizard Fight", "sdd: " + spellDealsDamage + ", tar: " + msg.target);
-		return (spellDealsDamage != (msg.target == Target.ENEMY));
+		return (spellDealsDamage != (msg.mTarget == Target.ENEMY));
 	}
 
 	public static FightMessage fromBytes(byte[] bytes) {
@@ -242,21 +242,21 @@ public class FightMessage {
 	
 	public byte[] getBytes() {
 		byte[] b = new byte[8];
-		b[0] = (byte) target.ordinal();
-		b[1] = (byte) action.ordinal();
-		b[2] = (byte) ((param >> 8) & 0xFF); //high byte
-		b[3] = (byte) (param & 0xFF);        //low byte
+		b[0] = (byte) mTarget.ordinal();
+		b[1] = (byte) mAction.ordinal();
+		b[2] = (byte) ((mParam >> 8) & 0xFF); //high byte
+		b[3] = (byte) (mParam & 0xFF);        //low byte
 		
-		b[4] = (byte) ((health >> 8) & 0xFF); //high byte
-		b[5] = (byte) (health & 0xFF);        //low byte
+		b[4] = (byte) ((mHealth >> 8) & 0xFF); //high byte
+		b[5] = (byte) (mHealth & 0xFF);        //low byte
 		
-		b[6] = (byte) ((mana >> 8) & 0xFF); //high byte
-		b[7] = (byte) (mana & 0xFF);        //low byte
+		b[6] = (byte) ((mMana >> 8) & 0xFF); //high byte
+		b[7] = (byte) (mMana & 0xFF);        //low byte
 		return b;
 	}
 	
 	@Override 
 	public String toString() {
-		return target + " " + action + " " + param + " " + health + " " + mana;
+		return mTarget + " " + mAction + " " + mParam + " " + mHealth + " " + mMana;
 	}
 }

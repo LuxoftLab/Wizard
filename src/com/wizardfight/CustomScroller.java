@@ -4,8 +4,8 @@ import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
 class CustomScroller extends HorizontalScrollView {
-	private boolean f = false;
-	private int selected = 0;
+	private boolean mFlag = false;
+	private int mSelectedIndex = 0;
 
 	public CustomScroller(android.content.Context context,
 			android.util.AttributeSet attrs) {
@@ -14,27 +14,27 @@ class CustomScroller extends HorizontalScrollView {
 
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-		if (f) {
+		if (mFlag) {
 			int childCount = getChildCount();
 			int size = getWidth() / childCount;
-			f = false;
-			int s = selected * size;
+			mFlag = false;
+			int s = mSelectedIndex * size;
 			int x = getScrollX();
 			if (x < s) {
-				selected--;
+				mSelectedIndex--;
 			} else if(x > s) {
-				selected++;
+				mSelectedIndex++;
 			}
-			smoothScrollTo(selected * size, 0);
+			smoothScrollTo(mSelectedIndex * size, 0);
 		}
 		super.onScrollChanged(l, t, oldl, oldt);
 	}
 
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-			f = true;
+			mFlag = true;
 		}
-		if (!f)
+		if (!mFlag)
 			return true;
 		return super.dispatchTouchEvent(ev);
 	}

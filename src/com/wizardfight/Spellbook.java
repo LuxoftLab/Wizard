@@ -19,20 +19,20 @@ public class Spellbook extends Activity {
 	/**
 	 * Called when the activity is first created.
 	 */
-    private LinearLayout cardLayout;
-	private int displayWidth;
-    private int displayHeight;
-	private final ArrayList<RelativeLayout> cards = new ArrayList<RelativeLayout>();
+    private LinearLayout mCardLayout;
+	private int mDisplayWidth;
+    private int mDisplayHeight;
+	private final ArrayList<RelativeLayout> mCards = new ArrayList<RelativeLayout>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.spellbook);
-		cardLayout = (LinearLayout) findViewById(R.id.layoutForCards);
+		mCardLayout = (LinearLayout) findViewById(R.id.layoutForCards);
 		Display display = getWindowManager().getDefaultDisplay();
 
-		displayWidth = display.getWidth();
-		displayHeight = display.getHeight();
+		mDisplayWidth = display.getWidth();
+		mDisplayHeight = display.getHeight();
 		String name = "";
 		String desc = "";
 		String img = "";
@@ -84,10 +84,10 @@ public class Spellbook extends Activity {
 
 	void addSpellCard(String name, String description, String img) {
 		Log.e("Wizard Fight", "IMG: " + img );
-		int w = displayWidth;
-		int h = (int) (displayWidth * 1.5);
-		if (h > displayHeight) {
-			h = displayHeight;
+		int w = mDisplayWidth;
+		int h = (int) (mDisplayWidth * 1.5);
+		if (h > mDisplayHeight) {
+			h = mDisplayHeight;
 			w = (int) (h / 1.5);
 		}
 
@@ -147,7 +147,7 @@ public class Spellbook extends Activity {
 		r.addView(nameV);
 		r.addView(textSV);
 		r.addView(imV);
-		cards.add(r);
-		cardLayout.addView(r);
+		mCards.add(r);
+		mCardLayout.addView(r);
 	}
 }

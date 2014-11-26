@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MyTextView extends TextView {
-	private boolean isDraw;
+	private boolean mIsDraw;
 	public MyTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -15,10 +15,10 @@ public class MyTextView extends TextView {
 	public void setIsDraw(boolean isDraw) {
 		int visibility = (isDraw) ? View.VISIBLE : View.INVISIBLE;
 		this.setVisibility(visibility);
-		this.isDraw = isDraw;
+		this.mIsDraw = isDraw;
 	}
 	
 	public void onDraw(Canvas canvas) {
-		if(isDraw) super.onDraw(canvas);
+		if(mIsDraw) super.onDraw(canvas);
 	}
 }

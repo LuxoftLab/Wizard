@@ -10,7 +10,7 @@ import android.widget.ImageView;
  * Square with image describing buff (in future)
  */
 class BuffPicture extends ImageView {
-	private Buff buff;
+	private Buff mBuff;
 	
 	public BuffPicture(Context context,AttributeSet attrs) {
 		super(context, attrs);
@@ -18,8 +18,8 @@ class BuffPicture extends ImageView {
 	}
 	
 	public void setBuff(Buff b) {
-		buff = b;
-		if( buff == Buff.NONE ) {
+		mBuff = b;
+		if( mBuff == Buff.NONE ) {
 			this.setImageDrawable(null);
 		} else {
 			this.setImageResource( Buff.getPictureId(b) );
@@ -28,6 +28,6 @@ class BuffPicture extends ImageView {
 	}
 	
 	public Buff getBuff() {
-		return buff;
+		return mBuff;
 	}
 }

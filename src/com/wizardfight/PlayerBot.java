@@ -13,15 +13,15 @@ class PlayerBot extends Thread {
     private final static String TAG = "Wizard Fight Bot";
     private final int mStartHP;
     private final int mStartMana;
-    private final double timeToThink = 0.5;
-    private final double k = 2;
-    private Timer clockA;
+    private final double mTimeToThink = 0.5;
+    private final double mK = 2;
+    private Timer mTimer;
     private Looper mLooper;
     private PlayerState mSelfState;
     private PlayerState mEnemyState;
     private Handler mMainHandler;
     /**
-     * The figure, which is drawn at the moment by the bot.
+     * The figure which is drawn at the moment by the bot.
      */
     private Shape shape;
     // The Handler that gets information back from the BluetoothChatService
@@ -61,7 +61,7 @@ class PlayerBot extends Thread {
                     case MESSAGE_FROM_ENEMY:
                         // message from main thread are coming as FightMessage objects
                         FightMessage enemyMsg = (FightMessage) msg.obj;
-                        switch (enemyMsg.action) {
+                        switch (enemyMsg.mAction) {
                             case FIGHT_START:
                                 attack();
                                 break;
@@ -95,10 +95,10 @@ class PlayerBot extends Thread {
                     FightMessage selfMsg = new FightMessage(shape);
                     boolean canBeCasted = mSelfState.requestSpell(selfMsg);
                     if (canBeCasted) {
-                        if (selfMsg.target == Target.SELF) {
+                        if (selfMsg.mTarget == Target.SELF) {
                             handleMessageToSelf(selfMsg);
                         } else {
-                            selfMsg.target = Target.SELF;
+                            selfMsg.mTarget = Target.SELF;
                             sendFightMessage(selfMsg);
                         }
                     }
@@ -128,13 +128,13 @@ class PlayerBot extends Thread {
                     shape = Shape.CLOCK;
                 }
                 try {
-                    clockA.schedule(new TimerTask() {
+                    mTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             attack();
                         }
 
-                    }, (int) ((shape.getCastTime() + timeToThink) * 1000 * k));
+                    }, (int) ((shape.getCastTime() + mTimeToThink) * 1000 * mK));
                 } catch (IllegalStateException e) {
                     Log.w("PlayerBot","");
                 }
@@ -155,22 +155,22 @@ class PlayerBot extends Thread {
                 if (!canBeCasted)
                     return;
 
-                if (selfMsg.target == Target.SELF) {
+                if (selfMsg.mTarget == Target.SELF) {
                     // self influence to self
                     handleMessageToSelf(selfMsg);
                 } else {
                     // self influence to enemy
                     // tell enemy : target is he
-                    selfMsg.target = Target.SELF;
+                    selfMsg.mTarget = Target.SELF;
                     sendFightMessage(selfMsg);
                 }
             }
 
             private void handleEnemyMessage(FightMessage enemyMsg) {
                 // refresh enemy health and mana (every enemy message contains it)
-                mEnemyState.setHealthAndMana(enemyMsg.health, enemyMsg.mana);
+                mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
                 Log.d(TAG, "enemy msg: " + enemyMsg);
-                if (enemyMsg.target == Target.SELF) {
+                if (enemyMsg.mTarget == Target.SELF) {
                     handleMessageToSelf(enemyMsg);
                 } else {
                     // Enemy influence to himself
@@ -233,8 +233,8 @@ class PlayerBot extends Thread {
     }
 
     void setupApp() {
-        if(clockA!=null)clockA.cancel();
-        clockA = new Timer();
+        if(mTimer!=null)mTimer.cancel();
+        mTimer = new Timer();
         shape = Shape.NONE;
         mEnemyState = new PlayerState(mStartHP, mStartMana, null);
         mSelfState = new PlayerState(mStartHP, mStartMana, mEnemyState);
@@ -266,8 +266,8 @@ class PlayerBot extends Thread {
         mMainHandler = null;
         mLooper.quit();
         mLooper = null;
-        clockA.cancel();
-        clockA = null;
+        mTimer.cancel();
+        mTimer = null;
         shape = null;
     }
 
@@ -280,8 +280,8 @@ class PlayerBot extends Thread {
     }
 
     private void sendFightMessage(FightMessage msg) {
-        msg.health = mSelfState.getHealth();
-        msg.mana = mSelfState.getMana();
+        msg.mHealth = mSelfState.getHealth();
+        msg.mMana = mSelfState.getMana();
         byte[] sendBytes = msg.getBytes();
         mMainHandler.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), sendBytes)
                 .sendToTarget();

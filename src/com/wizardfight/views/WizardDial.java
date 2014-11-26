@@ -16,16 +16,16 @@ import com.wizardfight.R;
 import java.util.ArrayList;
 
 public class WizardDial extends RelativeLayout {
-    private final TextView textView;
-    private final CancelButton nextButton;
-    private final Animation animFadeOut;
-    private final Animation animFadeIn;
-    private ArrayList<WizardDialContent> content=new ArrayList<WizardDialContent>();
-    private int count = -1;
-    private final ManaIndicator mi;
-    private final HealthIndicator hi;
-    private final RelativeLayout r;
-    private final int popupId =Integer.MAX_VALUE;
+    private final TextView mTextView;
+    private final CancelButton mNextButton;
+    private final Animation mAnimFadeOut;
+    private final Animation mAnimFadeIn;
+    private ArrayList<WizardDialContent> mContent = new ArrayList<WizardDialContent>();
+    private int mCount = -1;
+    private final ManaIndicator mManaBar;
+    private final HealthIndicator mHealthBar;
+    private final RelativeLayout mRelLayout;
+    private final int mPopupId = Integer.MAX_VALUE;
 
     public WizardDial(Context context) {
         super(context);
@@ -35,52 +35,53 @@ public class WizardDial extends RelativeLayout {
         );
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        textView = new TextView(context);
-        textView.setBackgroundResource(R.drawable.wd3);
-        textView.setLayoutParams(params);
-        textView.setTextSize(metrics.widthPixels/20  / (metrics.xdpi/160));
+        mTextView = new TextView(context);
+        mTextView.setBackgroundResource(R.drawable.wd3);
+        mTextView.setLayoutParams(params);
+        mTextView.setTextSize(metrics.widthPixels/20  / (metrics.xdpi/160));
 
-        textView.setTextColor(Color.rgb(92,67,51));
-        textView.setId(popupId);
-        nextButton = new CancelButton(context);
-        nextButton.setBackgroundResource(R.drawable.next);
-        double size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+        mTextView.setTextColor(Color.rgb(92,67,51));
+        mTextView.setId(mPopupId);
+        mNextButton = new CancelButton(context);
+        mNextButton.setBackgroundResource(R.drawable.next);
+        double size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+        		1, getResources().getDisplayMetrics());
         params = new LayoutParams(
                 (int)(size*40), (int)(size*40)
         );
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         params.setMargins(0,(int)(80*size/3), (int)(20*size), 0);
-        params.addRule(RelativeLayout.ALIGN_TOP, popupId);
-        nextButton.setLayoutParams(params);
-        nextButton.setOnClickListener(new OnClickListener() {
+        params.addRule(RelativeLayout.ALIGN_TOP, mPopupId);
+        mNextButton.setLayoutParams(params);
+        mNextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 goNext();
             }
         });
-        addView(textView);
-        addView(nextButton);
+        addView(mTextView);
+        addView(mNextButton);
         setBackgroundColor(Color.argb(200, 0, 0, 0));
 
 
-        r=new RelativeLayout(context);
-        addView(r);
+        mRelLayout=new RelativeLayout(context);
+        addView(mRelLayout);
         params = new LayoutParams(
                 (int)(196*size), (int)(36*size)
         );
         params.setMargins((int)(2*size),(int)(25*size),0,0);
-        hi=new HealthIndicator(context,null);
-        hi.setLayoutParams(params);
-        hi.setValue(100);
-        r.addView(hi);
+        mHealthBar=new HealthIndicator(context,null);
+        mHealthBar.setLayoutParams(params);
+        mHealthBar.setValue(100);
+        mRelLayout.addView(mHealthBar);
         params = new LayoutParams(
                 (int)(196*size), (int)(36*size)
         );
         params.setMargins((int)(2*size),(int)(63*size),0,0);
-        mi=new ManaIndicator(context,null);
-        mi.setLayoutParams(params);
-        mi.setValue(200);
-        r.addView(mi);
+        mManaBar=new ManaIndicator(context,null);
+        mManaBar.setLayoutParams(params);
+        mManaBar.setValue(200);
+        mRelLayout.addView(mManaBar);
         params = new LayoutParams(
                 (int)(310*size), (int)(176*size)
         );
@@ -88,58 +89,55 @@ public class WizardDial extends RelativeLayout {
         ImageView hmb=new ImageView(context);
         hmb.setImageResource(R.drawable.hmbar_m);
         hmb.setLayoutParams(params);
-        r.addView(hmb);
-        r.setVisibility(INVISIBLE);
+        mRelLayout.addView(hmb);
+        mRelLayout.setVisibility(INVISIBLE);
 
-
-
-
-        animFadeOut = AnimationUtils
+        mAnimFadeOut = AnimationUtils
                 .loadAnimation(getContext(), R.anim.fade_out);
-        animFadeIn = AnimationUtils
+        mAnimFadeIn = AnimationUtils
                 .loadAnimation(getContext(), R.anim.fade_in);
         setVisibility(INVISIBLE);
     }
 
     public void show() {
         if (getVisibility() == INVISIBLE) {
-            setContent(content);
+            setContent(mContent);
             setEnabled(true);
             setVisibility(VISIBLE);
-            startAnimation(animFadeIn);
+            startAnimation(mAnimFadeIn);
         }
     }
     public void showQuick() {
         if (getVisibility() == INVISIBLE) {
-            setContent(content);
+            setContent(mContent);
             setEnabled(true);
             setVisibility(VISIBLE);
         }
     }
 
     public void setContent(ArrayList<WizardDialContent> content){
-        this.content = content;
-        count = -1;
+        this.mContent = content;
+        mCount = -1;
         goNext();
     }
     public void goNext() {
         setCanNext(true);
-        count++;
-        r.setVisibility(INVISIBLE);
-        if (count >= content.size()) {
+        mCount++;
+        mRelLayout.setVisibility(INVISIBLE);
+        if (mCount >= mContent.size()) {
             ((WizardDialDelegate) getContext()).onWizardDialClose();
             setCanNext(false);
             close();
         } else {
             mHandler.removeCallbacks(mTick);
-            if(content.get(count).isUi()) {
-                hi.setMaxValue(100);
-                mi.setMaxValue(100);
-                r.setVisibility(VISIBLE);
+            if(mContent.get(mCount).isUi()) {
+                mHealthBar.setMaxValue(100);
+                mManaBar.setMaxValue(100);
+                mRelLayout.setVisibility(VISIBLE);
                 mHandler.post(mTick);
             }
-            setCanNext(!content.get(count).isPause());
-            textView.setText(content.get(count).getText());
+            setCanNext(!mContent.get(mCount).isPause());
+            mTextView.setText(mContent.get(mCount).getText());
         }
     }
     private final Handler mHandler = new Handler();
@@ -147,25 +145,25 @@ public class WizardDial extends RelativeLayout {
     private int mana=3;
     private final Runnable mTick = new Runnable() {
         public void run() {
-            if(content.get(count).isHealth())
+            if(mContent.get(mCount).isHealth())
             {
                 if(health%2==1)
-                    hi.setValue(hi.getValue()-20);
+                    mHealthBar.setValue(mHealthBar.getValue()-20);
                 health++;
                 if(health>=6)
                 {
                     health=0;
-                    hi.setValue(hi.getValue()+60);
+                    mHealthBar.setValue(mHealthBar.getValue()+60);
                 }
             }
-            if(content.get(count).isMana())
+            if(mContent.get(mCount).isMana())
             {
-                mi.setValue(mi.getValue()+5);
+                mManaBar.setValue(mManaBar.getValue()+5);
                 mana++;
                 if(mana>=3)
                 {
                     mana=0;
-                    mi.setValue(mi.getValue()-20);
+                    mManaBar.setValue(mManaBar.getValue()-20);
                 }
             }
             mHandler.postDelayed(this, 1000);
@@ -175,13 +173,13 @@ public class WizardDial extends RelativeLayout {
         mHandler.removeCallbacks(mTick);
         setEnabled(false);
         setVisibility(INVISIBLE);
-        startAnimation(animFadeOut);
+        startAnimation(mAnimFadeOut);
     }
     void setCanNext(boolean canNext) {
-        nextButton.setEnabled(canNext);
-        nextButton.setClickable(canNext);
+        mNextButton.setEnabled(canNext);
+        mNextButton.setClickable(canNext);
     }
     public boolean isOnPause(){
-        return !nextButton.isEnabled();
+        return !mNextButton.isEnabled();
     }
 }

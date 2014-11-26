@@ -5,13 +5,13 @@ import java.util.EnumMap;
 
 class BuffState {
     // last tick timestamp
-    public final long tickTime;
+    public final long mTickTime;
     // buff ticks count
-    public int ticksLeft;
+    public int mTicksLeft;
 
-    public BuffState(long time, int ticks) {
-        tickTime = time;
-        ticksLeft = ticks;
+    public BuffState(long tickTime, int ticksCount) {
+        mTickTime = tickTime;
+        mTicksLeft = ticksCount;
     }
 }
 
@@ -21,56 +21,56 @@ class BuffState {
  */
 public class PlayerState {
     private static final boolean D = false;
-    private final int maxHealth;
-    private final int maxMana;
-    private final EnumMap<Buff, BuffState> buffs;
-    private final PlayerState enemyState;
-    private int health;
-    private int mana;
-    private Shape spellShape;
-    private Buff addedBuff;
-    private Buff refreshedBuff;
-    private Buff removedBuff;
-    private boolean buffRemovedByEnemy;
+    private final int mMaxHealth;
+    private final int mMaxMana;
+    private final EnumMap<Buff, BuffState> mBuffs;
+    private final PlayerState mEnemyState;
+    private int mHealth;
+    private int mMana;
+    private Shape mSpellShape;
+    private Buff mAddedBuff;
+    private Buff mRefreshedBuff;
+    private Buff mRemovedBuff;
+    private boolean mBuffRemovedByEnemy;
 
     public PlayerState(int startHP, int startMana, PlayerState enemy) {
-        health = maxHealth = startHP;
-        mana = maxMana = startMana;
-        buffs = new EnumMap<Buff, BuffState>(Buff.class);
+        mHealth = mMaxHealth = startHP;
+        mMana = mMaxMana = startMana;
+        mBuffs = new EnumMap<Buff, BuffState>(Buff.class);
         dropSpellInfluence();
-        enemyState = enemy;
+        mEnemyState = enemy;
     }
 
     void dropSpellInfluence() {
-        spellShape = Shape.NONE;
-        addedBuff = null;
-        refreshedBuff = null;
-        removedBuff = null;
-        buffRemovedByEnemy = false;
+        mSpellShape = Shape.NONE;
+        mAddedBuff = null;
+        mRefreshedBuff = null;
+        mRemovedBuff = null;
+        mBuffRemovedByEnemy = false;
     }
 
     void dealDamage(int damage) {
-        if (buffs.containsKey(Buff.HOLY_SHIELD)) {
+        if (mBuffs.containsKey(Buff.HOLY_SHIELD)) {
             handleBuffTick(Buff.HOLY_SHIELD, false);
             return;
         }
-        damage = enemyState.recountDamage(damage);
+        damage = mEnemyState.recountDamage(damage);
         if (D) Log.e("Wizard Fight", "deal damage: " + damage);
-        setHealth(health - damage);
+        setHealth(mHealth - damage);
     }
 
     void heal(int hp) {
-        setHealth(health + hp);
+        setHealth(mHealth + hp);
     }
 
     public void setHealthAndMana(int hp, int mp) {
-        health = hp;
-        mana = mp;
+        mHealth = hp;
+        mMana = mp;
     }
 
     int recountDamage(int damage) {
-        if (D) Log.e("Wizard Fight", "have V?: " + buffs.containsKey(Buff.CONCENTRATION));
-        if (buffs.containsKey(Buff.CONCENTRATION)) {
+        if (D) Log.e("Wizard Fight", "have V?: " + mBuffs.containsKey(Buff.CONCENTRATION));
+        if (mBuffs.containsKey(Buff.CONCENTRATION)) {
             damage *= 1.5;
         }
         return damage;
@@ -78,9 +78,9 @@ public class PlayerState {
 
     public void handleSpell(FightMessage message) {
         dropSpellInfluence();
-        spellShape = FightMessage.getShapeFromMessage(message);
+        mSpellShape = FightMessage.getShapeFromMessage(message);
 
-        switch (message.action) {
+        switch (message.mAction) {
             case DAMAGE:
                 dealDamage(10);
                 break;
@@ -90,25 +90,25 @@ public class PlayerState {
                 break;
 
             case HEAL:
-                if (message.target == Target.SELF) {
+                if (message.mTarget == Target.SELF) {
                     heal(40);
                 } else {
-                    setHealth(message.param);
+                    setHealth(message.mParam);
                 }
                 break;
 
             case BUFF_ON:
-                if (message.param < 0) break;
+                if (message.mParam < 0) break;
                 // message parameter is buff index
-                Buff newBuff = Buff.values()[message.param];
+                Buff newBuff = Buff.values()[message.mParam];
                 addBuff(newBuff);
                 break;
 
             case BUFF_TICK:
                 if (D) Log.e("Wizard Fight", "BUFF OFF RECEIVED IN STATE");
-                if (message.param < 0) break;
+                if (message.mParam < 0) break;
                 // message parameter is buff index
-                Buff tickBuff = Buff.values()[message.param];
+                Buff tickBuff = Buff.values()[message.mParam];
                 // apply player state changes
                 switch (tickBuff) {
                     case WEAKNESS:
@@ -123,13 +123,13 @@ public class PlayerState {
                         break;
                     default:
                 }
-                handleBuffTick(tickBuff, (message.target == Target.SELF));
+                handleBuffTick(tickBuff, (message.mTarget == Target.SELF));
                 break;
 
             case BUFF_OFF:
-                Buff delBuff = Buff.values()[message.param];
-                buffs.remove(delBuff);
-                removedBuff = delBuff;
+                Buff delBuff = Buff.values()[message.mParam];
+                mBuffs.remove(delBuff);
+                mRemovedBuff = delBuff;
                 if (D) Log.e("Wizard Fight", delBuff + "was removed");
                 break;
             case NEW_HP_OR_MANA:
@@ -142,8 +142,8 @@ public class PlayerState {
     /* take player mana for spell. Returns true if spell can be casted */
     public boolean requestSpell(FightMessage message) {
         int manaCost = FightMessage.getShapeFromMessage(message).getManaCost();
-        if (mana >= manaCost) {
-            mana -= manaCost;
+        if (mMana >= manaCost) {
+            mMana -= manaCost;
             return true;
         }
         return false;
@@ -153,18 +153,18 @@ public class PlayerState {
         BuffState buffState = new BuffState(
                 System.currentTimeMillis(), buff.getTicksCount());
         // if map contains buff, it will be replaced with new time value
-        buffs.put(buff, buffState);
-        if (D) Log.e("Wizard Fight", "new buff was added: " + buff + " " + buffs.get(buff).tickTime);
-        addedBuff = buff;
+        mBuffs.put(buff, buffState);
+        if (D) Log.e("Wizard Fight", "new buff was added: " + buff + " " + mBuffs.get(buff).mTickTime);
+        mAddedBuff = buff;
     }
 
     void handleBuffTick(Buff buff, boolean calledByTimer) {
         if (D) Log.e("Wizard Fight", "handleBuffTick called");
-        boolean hasBuffAlready = buffs.containsKey(buff);
+        boolean hasBuffAlready = mBuffs.containsKey(buff);
         if (D) Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
         if (hasBuffAlready) {
-            BuffState buffState = buffs.get(buff);
-            long timeLeft = System.currentTimeMillis() - buffState.tickTime;
+            BuffState buffState = mBuffs.get(buff);
+            long timeLeft = System.currentTimeMillis() - buffState.mTickTime;
             /*
 			 * Checking time left need in case when buff was added few times in a row.
 			 * Every buff adding causes BUFF_OFF message, that will be sent after specific time,
@@ -176,60 +176,60 @@ public class PlayerState {
                 return;
             }
 
-            buffState.ticksLeft--;
-            if (buffState.ticksLeft == 0) {
+            buffState.mTicksLeft--;
+            if (buffState.mTicksLeft == 0) {
                 // last tick => need to fully remove buff
-                buffs.remove(buff);
-                removedBuff = buff;
-                if (!calledByTimer) buffRemovedByEnemy = true;
+                mBuffs.remove(buff);
+                mRemovedBuff = buff;
+                if (!calledByTimer) mBuffRemovedByEnemy = true;
                 if (D) Log.e("Wizard Fight", buff + "was removed from handleBuffTick");
             } else {
                 // not last tick => say that buff is refreshed
-                refreshedBuff = buff;
+                mRefreshedBuff = buff;
             }
         }
     }
 
     public void manaTick() {
-        mana += 5;
-        if (mana > maxMana) mana = maxMana;
+        mMana += 5;
+        if (mMana > mMaxMana) mMana = mMaxMana;
     }
 
     public Shape getSpellShape() {
-        return spellShape;
+        return mSpellShape;
     }
 
     public Buff getAddedBuff() {
-        return addedBuff;
+        return mAddedBuff;
     }
 
     public Buff getRefreshedBuff() {
-        return refreshedBuff;
+        return mRefreshedBuff;
     }
 
     public Buff getRemovedBuff() {
-        return removedBuff;
+        return mRemovedBuff;
     }
 
     public int getHealth() {
-        return health;
+        return mHealth;
     }
 
     void setHealth(int hp) {
-        health = hp;
-        if (health < 0) health = 0;
-        if (health > maxHealth) health = maxHealth;
+        mHealth = hp;
+        if (mHealth < 0) mHealth = 0;
+        if (mHealth > mMaxHealth) mHealth = mMaxHealth;
     }
 
     public int getMana() {
-        return mana;
+        return mMana;
     }
 
     public boolean isBuffRemovedByEnemy() {
-        return buffRemovedByEnemy;
+        return mBuffRemovedByEnemy;
     }
 
     public boolean hasBuff(Buff buff) {
-        return (buffs.containsKey(buff));
+        return (mBuffs.containsKey(buff));
     }
 }

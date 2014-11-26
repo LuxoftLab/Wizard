@@ -10,26 +10,26 @@ public enum Buff {
 	HOLY_SHIELD(5000L, 1, 0),
 	NONE(-1L, 0, 0);
 	
-	private final long duration;
-	private final int ticksCount;
-	private final int tickValue;
+	private final long mDuration;
+	private final int mTicksCount;
+	private final int mTickValue;
 	
 	private Buff(long durationMillis, int ticks, int value) {
-		duration = durationMillis;
-		ticksCount = ticks;
-		tickValue = value;
+		mDuration = durationMillis;
+		mTicksCount = ticks;
+		mTickValue = value;
 	}
 	
 	public long getDuration() {
-		return duration;
+		return mDuration;
 	}
 	
 	public int getTicksCount() { 
-		return ticksCount;
+		return mTicksCount;
 	}
 	
 	public int getValue() {
-		return tickValue;
+		return mTickValue;
 	}
 	
 	public static int getPictureId(Buff b) {

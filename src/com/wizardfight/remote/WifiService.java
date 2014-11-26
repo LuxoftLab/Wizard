@@ -13,21 +13,21 @@ public class WifiService {
 
 	private static final int PORT = 8880;
 	
-	private static Worker worker;
+	private static Worker mWorker;
 	
 	public static void init(String addr) {
-		if(worker != null) {
-			worker.close();
+		if(mWorker != null) {
+			mWorker.close();
 		}
 		Log.d("wifi", "init "+addr);
-		worker = new Worker(addr);
+		mWorker = new Worker(addr);
 		//worker = new Worker("192.168.1.205");
-		worker.start();
+		mWorker.start();
 	}
 	
 	public static void send(byte[] buffer) {
-		if(worker != null) {
-			worker.send(buffer);
+		if(mWorker != null) {
+			mWorker.send(buffer);
 		}
 	}
 	

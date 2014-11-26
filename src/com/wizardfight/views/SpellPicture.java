@@ -13,14 +13,14 @@ import android.view.animation.AnimationUtils;
  * Image view with fading out
  */
 public class SpellPicture extends ImageView {
-	private final Animation animFadeOut;
+	private final Animation mAnimFadeOut;
 	
     public SpellPicture (Context context,AttributeSet attrs) {
         super(context, attrs);
         setImageDrawable(null);
-        animFadeOut = AnimationUtils
+        mAnimFadeOut = AnimationUtils
 				.loadAnimation(getContext(), R.anim.fade_out);
-		animFadeOut.setFillAfter(true);
+		mAnimFadeOut.setFillAfter(true);
     }
     /* 
      * sets shape and starts fading out
@@ -30,12 +30,12 @@ public class SpellPicture extends ImageView {
     		this.setImageDrawable(null);
     	} else {
     		this.setImageResource( Shape.getPictureId(s) );
-    		startAnimation(animFadeOut);
+    		startAnimation(mAnimFadeOut);
     	}
     }
     
     public void setPictureAndFade(int id) {
     	this.setImageResource(id);
-    	startAnimation(animFadeOut);
+    	startAnimation(mAnimFadeOut);
     }
 }

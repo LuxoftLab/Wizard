@@ -19,72 +19,72 @@ import android.util.Log;
 class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
 	protected static boolean ORIENTATION_HORIZONTAL;
-	private boolean listening;
-	private boolean soundPlaying;
+	private boolean mListening;
+	private boolean mSoundPlaying;
 	private Looper mLooper;
 	private final SensorManager mSensorManager;
 	private final Sensor mAccelerometer;
-	private ArrayList<Vector3d> records;
-	private SoundPool soundPool;
-	private final int wandSoundID;
-	private int wandStreamID;
-	private final EnumMap<Shape, Integer> shapeSoundIDs;
-	private final EnumMap<Buff, Integer> buffSoundIDs;
-	private final int manaSoundID;
+	private ArrayList<Vector3d> mRecords;
+	private SoundPool mSoundPool;
+	private final int mWandSoundID;
+	private int mWandStreamID;
+	private final EnumMap<Shape, Integer> mShapeSoundIDs;
+	private final EnumMap<Buff, Integer> mBuffSoundIDs;
+	private final int mNoManaSoundID;
 	
 	public SensorAndSoundThread(Context context, SensorManager sm, Sensor s) {
 		setName("Sensor and Sound thread");
 		mSensorManager = sm;
 		mAccelerometer = s;
-		soundPlaying = true;
-		listening = false;
+		mSoundPlaying = true;
+		mListening = false;
 		// Initialize sound
-		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-		wandSoundID = soundPool.load(context, R.raw.magic, 1);
-		wandStreamID = -1;
+		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+		mWandSoundID = mSoundPool.load(context, R.raw.magic, 1);
+		mWandStreamID = -1;
 		
-		shapeSoundIDs = new EnumMap<Shape, Integer>(Shape.class);
-		shapeSoundIDs.put(Shape.TRIANGLE,
-				soundPool.load(context, R.raw.triangle_sound, 1));
-		shapeSoundIDs.put(Shape.CIRCLE,
-				soundPool.load(context, R.raw.circle_sound, 1));
-		shapeSoundIDs.put(Shape.SHIELD,
-				soundPool.load(context, R.raw.shield_sound, 1));
-		shapeSoundIDs.put(Shape.Z,
-				soundPool.load(context, R.raw.z_sound, 1));
-		shapeSoundIDs.put(Shape.V,
-				soundPool.load(context, R.raw.v_sound, 1));
-		shapeSoundIDs.put(Shape.PI,
-				soundPool.load(context, R.raw.pi_sound, 1));
-		shapeSoundIDs.put(Shape.CLOCK,
-				soundPool.load(context, R.raw.clock_sound, 1));
+		mShapeSoundIDs = new EnumMap<Shape, Integer>(Shape.class);
+		mShapeSoundIDs.put(Shape.TRIANGLE,
+				mSoundPool.load(context, R.raw.triangle_sound, 1));
+		mShapeSoundIDs.put(Shape.CIRCLE,
+				mSoundPool.load(context, R.raw.circle_sound, 1));
+		mShapeSoundIDs.put(Shape.SHIELD,
+				mSoundPool.load(context, R.raw.shield_sound, 1));
+		mShapeSoundIDs.put(Shape.Z,
+				mSoundPool.load(context, R.raw.z_sound, 1));
+		mShapeSoundIDs.put(Shape.V,
+				mSoundPool.load(context, R.raw.v_sound, 1));
+		mShapeSoundIDs.put(Shape.PI,
+				mSoundPool.load(context, R.raw.pi_sound, 1));
+		mShapeSoundIDs.put(Shape.CLOCK,
+				mSoundPool.load(context, R.raw.clock_sound, 1));
 		
-		buffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
-		buffSoundIDs.put(Buff.HOLY_SHIELD, 
-				soundPool.load(context, R.raw.buff_off_shield_sound, 1));
+		mBuffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
+		mBuffSoundIDs.put(Buff.HOLY_SHIELD, 
+				mSoundPool.load(context, R.raw.buff_off_shield_sound, 1));
 		
-		manaSoundID = soundPool.load(context, R.raw.more_mana, 1);
+		mNoManaSoundID = mSoundPool.load(context, R.raw.more_mana, 1);
 	}
 
 	public void playShapeSound(Shape shape) {
-		if (D) Log.e("Wizard Fight", "[shape] sound playing?: " + soundPlaying);
+		if (D) Log.e("Wizard Fight", "[shape] sound playing?: " + mSoundPlaying);
 		
-		Integer soundID = shapeSoundIDs.get(shape);
-		if( soundPlaying && soundID != null ) {
-		    soundPool.play(soundID, 1, 1, 0, 0, 1);
+		Integer soundID = mShapeSoundIDs.get(shape);
+		if( mSoundPlaying && soundID != null ) {
+		    mSoundPool.play(soundID, 1, 1, 0, 0, 1);
 		}
 	}
 
 	public void playBuffSound(Buff buff) {
-		Integer soundID = buffSoundIDs.get(buff);
-		if( soundPlaying && soundID != null ) {
-			soundPool.play(soundID, 1, 1, 0, 0, 1);
+		Integer soundID = mBuffSoundIDs.get(buff);
+		if( mSoundPlaying && soundID != null ) {
+			mSoundPool.play(soundID, 1, 1, 0, 0, 1);
 		}
 	}
 	
 	public void playNoManaSound() {
-		if( soundPlaying ) {
-			soundPool.play(manaSoundID, 1, 1, 0, 0, 1);
+		if( mSoundPlaying ) {
+			mSoundPool.play(mNoManaSoundID, 1, 1, 0, 0, 1);
 		}
 	}
 	
@@ -100,35 +100,35 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 
 	public void startGettingData() {
 		if (D) Log.e("Wizard Fight", "start getting data called");
-		records = new ArrayList<Vector3d>();
-		listening = true;
-		if(!soundPlaying) return;
-		if (wandStreamID == -1) {
-			wandStreamID = soundPool.play(wandSoundID, 0.25f, 0.25f, 0, -1, 1);
-			if (D) Log.e("Wizard Fight", "wand stream id: " + wandStreamID);
+		mRecords = new ArrayList<Vector3d>();
+		mListening = true;
+		if(!mSoundPlaying) return;
+		if (mWandStreamID == -1) {
+			mWandStreamID = mSoundPool.play(mWandSoundID, 0.25f, 0.25f, 0, -1, 1);
+			if (D) Log.e("Wizard Fight", "wand stream id: " + mWandStreamID);
 		} else {
-			soundPool.resume(wandStreamID);
+			mSoundPool.resume(mWandStreamID);
 		}
 	}
 
 	public void stopGettingData() {
-		listening = false;
-		soundPool.pause(wandStreamID);
+		mListening = false;
+		mSoundPool.pause(mWandStreamID);
 	}
 
 	public ArrayList<Vector3d> stopAndGetResult() {
-		listening = false;
-		soundPool.pause(wandStreamID);
-		return resize(records,50);
+		mListening = false;
+		mSoundPool.pause(mWandStreamID);
+		return resize(mRecords,50);
 	}
 
 	public void stopLoop() {
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)
 			mLooper.quit();
-		if (soundPool != null) {
-			soundPool.release();
-			soundPool = null;
+		if (mSoundPool != null) {
+			mSoundPool.release();
+			mSoundPool = null;
 			if (D) Log.e("Wizard Fight", "sound pool stop and release");
 		}
 	}
@@ -141,9 +141,9 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 //        Log.e("accThread",Thread.currentThread().getName());
-		if (!listening)
+		if (!mListening)
 			return;
-		if (records.size() > 1000) return;
+		if (mRecords.size() > 1000) return;
 		double x, y, z;
 		if(ORIENTATION_HORIZONTAL) {
 			x = event.values[1];
@@ -156,12 +156,12 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		}
 		double len = Math.sqrt(x * x + y * y + z * z);
 		Vector3d rec = new Vector3d(x , y, z);
-		records.add(rec);
-		if (D) Log.e("Wizard Fight", "size: " + records.size());
+		mRecords.add(rec);
+		if (D) Log.e("Wizard Fight", "size: " + mRecords.size());
 		float amplitude = (float) len / 10 + 0.1f;
 		if (amplitude > 1.0f)
 			amplitude = 1.0f;
-		soundPool.setVolume(wandStreamID, amplitude, amplitude);
+		mSoundPool.setVolume(mWandStreamID, amplitude, amplitude);
 	}
     private static ArrayList<Vector3d> resize(ArrayList<Vector3d> a,int size)
     {
