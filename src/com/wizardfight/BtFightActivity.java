@@ -3,6 +3,7 @@ package com.wizardfight;
 import android.view.*;
 
 import com.wizardfight.views.*;
+import com.wizardfight.FightMessage.*;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -113,6 +114,7 @@ public class BtFightActivity extends FightActivity {
 					KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_BACK) {
 					mClientWaitingDialog.dismiss();
+					mClientWaitingDialog = null;
 					finish();
 				}
 				return true;
@@ -124,6 +126,7 @@ public class BtFightActivity extends FightActivity {
 		@Override
 		public void onClick(View v) {
 			mClientWaitingDialog.dismiss();
+			mClientWaitingDialog = null;
 			finish();
 		}
 	}
@@ -168,6 +171,7 @@ public class BtFightActivity extends FightActivity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if(mClientWaitingDialog != null) {
+			Log.e(TAG, "SHOW DIALOG!!!!!!!");
 			mClientWaitingDialog.show();
 		}
 	}

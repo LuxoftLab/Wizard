@@ -29,10 +29,11 @@
         android:id="@+id/ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."/>
 
     <TextView
         android:id="@+id/net_name"

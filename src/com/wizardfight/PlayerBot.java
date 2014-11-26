@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import com.wizardfight.FightMessage.*;
 import com.wizardfight.FightActivity.AppMessage;
 
 import java.util.Timer;

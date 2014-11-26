@@ -2,58 +2,6 @@ package com.wizardfight;
 
 import android.util.Log;
 
-enum Target {
-	SELF,
-	ENEMY;
-	
-	static final String[] names = { "self", "enemy" };
-	
-	@Override
-	public String toString() {
-		return names[ this.ordinal() ];
-	}
-}
-
-/*
- * Fight action type
- */
-enum FightAction {
-	ENEMY_READY,
-	FIGHT_START,
-	FIGHT_END,
-	DAMAGE,
-	HIGH_DAMAGE,
-	HEAL,
-	BUFF_ON,
-	BUFF_TICK,
-	BUFF_OFF,
-	NEW_HP_OR_MANA,
-	NONE;
-	
-	/*
-	 *  strings are needed for debugging or string message 
-	 *  sending, may be deleted in future
-	 */
-	static final String[] names = {
-		"enemy ready",
-		"fight start",
-		"fight end",
-		"damage",
-		"high_damage",
-		"heal",
-		"buff_on",
-		"buff_tick",
-		"buff_off",
-		"new_hp_or_mana",
-		"none"
-	};
-	
-	@Override
-	public String toString() {
-		return names[ this.ordinal() ];
-	}
-}
-
 /*
  * contains all needed info that is transfered between devices
  */
@@ -258,5 +206,57 @@ public class FightMessage {
 	@Override 
 	public String toString() {
 		return mTarget + " " + mAction + " " + mParam + " " + mHealth + " " + mMana;
+	}
+	
+	public enum Target {
+		SELF,
+		ENEMY;
+		
+		static final String[] names = { "self", "enemy" };
+		
+		@Override
+		public String toString() {
+			return names[ this.ordinal() ];
+		}
+	}
+
+	/*
+	 * Fight action type
+	 */
+	public enum FightAction {
+		ENEMY_READY,
+		FIGHT_START,
+		FIGHT_END,
+		DAMAGE,
+		HIGH_DAMAGE,
+		HEAL,
+		BUFF_ON,
+		BUFF_TICK,
+		BUFF_OFF,
+		NEW_HP_OR_MANA,
+		NONE;
+		
+		/*
+		 *  strings are needed for debugging or string message 
+		 *  sending, may be deleted in future
+		 */
+		static final String[] names = {
+			"enemy ready",
+			"fight start",
+			"fight end",
+			"damage",
+			"high_damage",
+			"heal",
+			"buff_on",
+			"buff_tick",
+			"buff_off",
+			"new_hp_or_mana",
+			"none"
+		};
+		
+		@Override
+		public String toString() {
+			return names[ this.ordinal() ];
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.wizardfight;
 
+import com.wizardfight.FightMessage.Target;
 import android.util.Log;
 import java.util.EnumMap;
 

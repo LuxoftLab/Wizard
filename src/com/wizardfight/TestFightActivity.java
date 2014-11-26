@@ -1,13 +1,13 @@
 package com.wizardfight;
 
+import com.wizardfight.FightMessage.*;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.widget.ArrayAdapter;
 
 public class TestFightActivity extends FightActivity {
     private PlayerBot mPlayerBot;

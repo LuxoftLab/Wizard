@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.wizardfight.FightMessage.*;
 import com.wizardfight.views.EnemyGUI;
 import com.wizardfight.views.FightBackground;
 import com.wizardfight.views.SelfGUI;
@@ -27,8 +28,8 @@ public abstract class FightActivity extends CastActivity {
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
-    static final int PLAYER_HP = 200;
-    static final int PLAYER_MANA = 100;
+    public static final int PLAYER_HP = 200;
+    public static final int PLAYER_MANA = 100;
     
     //private Dialog mClientWaitingDialog;
     FightEndDialog mFightEndDialog;
