@@ -1,13 +1,11 @@
 package com.wizardfight;
 
+import android.app.Dialog;
+import android.content.*;
+import android.view.KeyEvent;
 import com.wizardfight.remote.WifiService;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
@@ -54,10 +52,9 @@ public class DesktopConnection extends Activity {
 						.getSystemService(Context.CONNECTIVITY_SERVICE);
 				NetworkInfo networkInfo = conn
 						.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-				if (networkInfo.isConnected()) {
-					showConnectionPage();
-				} else {
+				showConnectionPage();
+				if (!networkInfo.isConnected()) {
+					findViewById(R.id.pc_conn_layout).setVisibility(View.INVISIBLE);
 					showNoConnectionPage();
 				}
 			}
@@ -69,14 +66,24 @@ public class DesktopConnection extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		if(mClientWaitingDialog!=null) {
+			mClientWaitingDialog.dismiss();
+			mClientWaitingDialog = null;
+		}
 		this.unregisterReceiver(mBroadcastReceiver);
 		WifiService.clearHandler();
 		mHandler.removeCallbacksAndMessages(null);
+
 	}
-	
+	Dialog mClientWaitingDialog;
 	private void showNoConnectionPage() {
-		setContentView(R.layout.net_conn_not_found);
-		mSettings = (Button) findViewById(R.id.net_settings_button);
+
+		//setContentView(R.layout.net_conn_not_found);
+		View v = getLayoutInflater().inflate(R.layout.net_conn_not_found, null);
+		mClientWaitingDialog = new Dialog(this, R.style.ClientWaitingDialog);
+		mClientWaitingDialog.setTitle(R.string.no_network_conn);
+
+		mSettings = (Button) v.findViewById(R.id.net_settings_button);
 		mSettings.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -91,6 +98,20 @@ public class DesktopConnection extends Activity {
 				startActivity(intent);
 			}
 		});
+		mClientWaitingDialog.setContentView(v);
+		mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+			@Override
+			public boolean onKey(DialogInterface arg0, int keyCode,
+								 KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					mClientWaitingDialog.dismiss();
+					mClientWaitingDialog = null;
+					finish();
+				}
+				return true;
+			}
+		});
+		mClientWaitingDialog.show();
 	}
 	
 	private void showConnectionPage() {
@@ -99,11 +120,17 @@ public class DesktopConnection extends Activity {
 		DhcpInfo dhcpInfo = m.getDhcpInfo();
 
 		setContentView(R.layout.net_conn_found);
+		if(mClientWaitingDialog!=null) {
+			mClientWaitingDialog.dismiss();
+			mClientWaitingDialog = null;
+		}
 		mConnStatus = (TextView) findViewById(R.id.pc_conn_status);
 		mNetName = (TextView) findViewById(R.id.net_name);
 		mIP = (EditText) findViewById(R.id.ip);
-
-		mNetName.setText(getString(R.string.net_name) + wifiInfo.getSSID());
+		if(wifiInfo.getSSID()==null)
+			mNetName.setText(getString(R.string.net_name));
+		else
+			mNetName.setText(getString(R.string.net_name)+": " + wifiInfo.getSSID());
 		String lastIP = WifiService.getIP();
 		if(lastIP != null) {
 			mIP.setText(lastIP);

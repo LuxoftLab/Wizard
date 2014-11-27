@@ -42,12 +42,13 @@
     <!--  Connection to desktop  -->
     <string name="connect">Подключиться</string>
     <string name="disconnect">Отключиться</string>
-    <string name="show_settings">Показать настройки</string>
-    <string name="net_name">Сетевое имя:&#160;</string>
+    <string name="show_settings">Настройки</string>
+    <string name="net_name">Сетевое имя</string>
 	<string name="pc_conn_established">Подключение к ПК: установлено</string>
 	<string name="pc_conn_fail">Не удалось подключиться по адресу</string>
 	<string name="pc_conn_not_established">Подключение к ПК: не установлено</string>
-	<string name="no_network_conn">Нет сетевого подключения</string>
+	<string name="no_network_conn">Нет подключения</string>
+    <string name="no_network_conn2">Пожалуйста,  подключитесь к WIFI сети</string>
 	<string name="disabled">отключен</string>
 	<string name="enabled">включен</string>
 	

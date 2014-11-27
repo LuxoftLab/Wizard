@@ -72,7 +72,6 @@ public class WifiService {
 				mmSocket = new Socket(serverAddr, PORT);
 				mmSocket.setTcpNoDelay(true);
 				sendMsgToHandler(NO_ERROR);
-				
 				OutputStream out = mmSocket.getOutputStream();
 				while(!mmSocket.isClosed()) {
 					Log.e("wifi", "thread loop");

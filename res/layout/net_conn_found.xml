@@ -2,18 +2,20 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent" android:background="@drawable/paper">
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/pc_conn_layout" android:layout_margin="10dp">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/connect"
         android:id="@+id/connect_to_pc"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="55dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_below="@+id/pc_conn_status" android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/pc_conn_status"
@@ -21,29 +23,27 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/pc_conn_not_established"
-        android:layout_marginBottom="43dp"
-        android:layout_above="@+id/connect_to_pc"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/ip" android:layout_centerHorizontal="true" android:layout_marginTop="20dp"
+        android:textColor="#ff000000"/>
 
     <EditText
         android:id="@+id/ip"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
         android:inputType="numberDecimal"
-        android:digits="0123456789."/>
+        android:digits="0123456789." android:layout_below="@+id/net_name" android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"/>
 
     <TextView
-        android:id="@+id/net_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/net_name"
-        android:layout_above="@+id/ip"
-        android:layout_marginBottom="45dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/net_name"
+            android:text="@string/net_name"
+            android:background="@drawable/spell_name"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#ffc8c8c8"
+            android:layout_alignParentTop="true" android:layout_alignParentLeft="true"/>
 
+    </RelativeLayout>
 </RelativeLayout>
