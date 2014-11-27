@@ -31,7 +31,7 @@ public abstract class FightActivity extends CastActivity {
     public static final int PLAYER_HP = 200;
     public static final int PLAYER_MANA = 100;
     
-    //private Dialog mClientWaitingDialog;
+    //private Dialog mNetDialog;
     FightEndDialog mFightEndDialog;
     // Debugging
     private int mMyCounter;
@@ -497,10 +497,10 @@ public abstract class FightActivity extends CastActivity {
         int barMarginW = w*8/1000, hpMarginH = h*15/100, mpMarginH = h*36/100; 
         int picSize = w*37/100, picMarginH = w*14/1000;
         int buffSize = h*2/10, buffMargin = 5;
-        View hpself = (View) findViewById(R.id.self_health);
-        View mpself = (View) findViewById(R.id.self_mana);
-        View hpenemy = (View) findViewById(R.id.enemy_health);
-        View mpenemy = (View) findViewById(R.id.enemy_mana);
+        View hpself =  findViewById(R.id.self_health);
+        View mpself = findViewById(R.id.self_mana);
+        View hpenemy = findViewById(R.id.enemy_health);
+        View mpenemy = findViewById(R.id.enemy_mana);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(barW, barH);
         params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
@@ -526,14 +526,14 @@ public abstract class FightActivity extends CastActivity {
         params.setMargins(barMarginW, mpMarginH, 0, 0);
         mpenemy.setLayoutParams(params);
 
-        View spell = (View) findViewById(R.id.self_spell);
+        View spell = findViewById(R.id.self_spell);
         params = new RelativeLayout.LayoutParams(picSize, picSize);
         params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
         params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.imageView);
         params.setMargins(0, picMarginH, picMarginH, 0);
         spell.setLayoutParams(params);
 
-        spell = (View) findViewById(R.id.enemy_spell);
+        spell = findViewById(R.id.enemy_spell);
         params = new RelativeLayout.LayoutParams(picSize, picSize);
         params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView2);
         params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.imageView2);
@@ -544,9 +544,8 @@ public abstract class FightActivity extends CastActivity {
                         R.id.enemy_buff1, R.id.enemy_buff2, R.id.enemy_buff3, R.id.enemy_buff4, R.id.enemy_buff5};
         View buff;
         LinearLayout.LayoutParams params1;
-        for(int i=0; i < buffs.length; i++)
-        {
-            buff = (View) findViewById(buffs[i]);
+        for (int buff1 : buffs) {
+            buff = findViewById(buff1);
             params1 = new LinearLayout.LayoutParams(buffSize, buffSize);
             params1.setMargins(buffMargin, buffMargin, buffMargin, buffMargin);
             buff.setLayoutParams(params1);
