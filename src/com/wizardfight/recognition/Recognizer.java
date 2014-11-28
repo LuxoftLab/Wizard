@@ -10,6 +10,9 @@ import com.wizardfight.R;
 import com.wizardfight.Shape;
 import com.wizardfight.components.Vector3d;
 
+/*
+ * class that runs recognition
+ */
 public class Recognizer {
     private static KMeansQuantizer quantizer;
     private static HMM hmm;

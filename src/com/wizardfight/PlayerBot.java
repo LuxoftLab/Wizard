@@ -10,6 +10,10 @@ import com.wizardfight.FightActivity.AppMessage;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*
+ * Represents a bot which fights via message handlers
+ * (one handler to send messages, one to receive)
+ */
 class PlayerBot extends Thread {
     private final static String TAG = "Wizard Fight Bot";
     private final int mStartHP;

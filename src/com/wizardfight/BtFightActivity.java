@@ -13,7 +13,9 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 /**
- * This is the main Activity that displays the current chat session.
+ * Bluetooth fight activity. Extends Fight Activity with 
+ * sending messages via Bluetooth, waiting second player,
+ * receiving messages about Bluetooth state
  */
 public class BtFightActivity extends FightActivity {
 	private BluetoothService mBtService = null;

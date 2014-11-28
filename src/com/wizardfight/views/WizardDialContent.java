@@ -1,5 +1,8 @@
 package com.wizardfight.views;
 
+/*
+ * ?
+ */
 public class WizardDialContent {
     private String mText = "";
     private boolean mUI = false;

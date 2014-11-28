@@ -18,7 +18,8 @@ class BuffState {
 
 /*
  * Describes player state. Contains mana/hp current and max value,
- * set of buffs, and more in future
+ * set of buffs, reference to enemy state (for reading only).
+ * Handles spells and stores info about appropriate state changes
  */
 public class PlayerState {
     private static final boolean D = false;

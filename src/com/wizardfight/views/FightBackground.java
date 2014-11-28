@@ -7,6 +7,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+/*
+ * ImageView with fade in / fade out animation 
+ */
 public class FightBackground extends ImageView {
 	private boolean mFirstAnim = true;
 	private final Animation mDarkToBright;

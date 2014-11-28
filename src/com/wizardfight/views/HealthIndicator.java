@@ -6,8 +6,8 @@ import android.os.Handler;
 import android.util.AttributeSet;
 
 /*
- * Horizontal bar with current and maximum value
- * and specified color
+ * Indicator with its own color
+ * and health loss animation
  */
 public class HealthIndicator extends Indicator {
     private final int mUnderBarColor;

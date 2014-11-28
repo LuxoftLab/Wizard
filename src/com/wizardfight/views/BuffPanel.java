@@ -3,7 +3,7 @@ package com.wizardfight.views;
 import com.wizardfight.Buff;
 
 /*
- * Class that contains links to player`s buff views
+ * Class that manages buff views
  */
 public class BuffPanel {
 	private final BuffPicture[] mBuffPics;

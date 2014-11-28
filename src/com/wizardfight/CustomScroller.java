@@ -3,6 +3,10 @@ package com.wizardfight;
 import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
+/*
+ * horizontal scroller with stopping on 
+ * one of its same-width childs (used in spellbook)
+ */
 class CustomScroller extends HorizontalScrollView {
 	private boolean mFlag = false;
 	private int mSelectedIndex = 0;

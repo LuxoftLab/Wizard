@@ -12,6 +12,10 @@ import java.util.LinkedList;
 import android.os.Handler;
 import android.util.Log;
 
+/*
+ * Class that is responsible for pc connection
+ * VIA TCP socket
+ */
 public class WifiService {
 	public static final int NO_ERROR = 0;
 	public static final int IO_FAIL = 1;

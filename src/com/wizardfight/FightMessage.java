@@ -208,6 +208,9 @@ public class FightMessage {
 		return mTarget + " " + mAction + " " + mParam + " " + mHealth + " " + mMana;
 	}
 	
+	/*
+	 * target of spell
+	 */
 	public enum Target {
 		SELF,
 		ENEMY;

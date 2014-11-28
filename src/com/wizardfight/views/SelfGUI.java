@@ -5,7 +5,7 @@ import  com.wizardfight.R;
 import android.app.Activity;
 
 /*
- * Self GUI (locatated on the top)
+ * Self GUI
  */
 public class SelfGUI extends PlayerGUI {
 	public SelfGUI(Activity a, int hp, int mana) {

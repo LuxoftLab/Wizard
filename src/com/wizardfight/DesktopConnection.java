@@ -20,6 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.wizardfight.remote.WifiService;
 
+/*
+ * Manages Desktop connection for fight translation . 
+ * Class checks net connection, shows its info, 
+ * initiates connects/disconnects device to pc via TCP socket
+ */
 public class DesktopConnection extends Activity {
     private final Handler mHandler = new Handler() {
         public void dispatchMessage(Message msg) {

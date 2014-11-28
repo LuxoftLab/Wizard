@@ -10,6 +10,9 @@ import android.view.View;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/*
+ * View that shows animated spell trajectory
+ */
 public class SpellAnimation extends View {
 	private final double mMaxP = 100;
 	private double mProgress = 0;

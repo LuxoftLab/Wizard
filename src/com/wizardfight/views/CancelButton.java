@@ -9,6 +9,9 @@ import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.widget.Button;
 
+/* 
+ * Custom rectangular button
+ */
 public class CancelButton extends Button {
 
     public CancelButton(Context context) {

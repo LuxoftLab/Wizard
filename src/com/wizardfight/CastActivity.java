@@ -17,20 +17,24 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 
+/*
+ * Class listens to screen touches, activates accelerator 
+ * data gathering and activates the recognition
+ */
 public abstract class CastActivity extends Activity {
 	protected static final boolean D = false;
 	protected static String TAG = "Wizard Fight";
 
 	// Objects referred to accelerometer
-	protected SensorManager mSensorManager = null; // !!!!
-	protected Sensor mAccelerometer = null; // !!!!
+	protected SensorManager mSensorManager = null; 
+	protected Sensor mAccelerometer = null; 
 	// Accelerator Thread link
-	protected SensorAndSoundThread mSensorAndSoundThread = null; // !!!!
+	protected SensorAndSoundThread mSensorAndSoundThread = null; 
 	// Last touch action code
-	protected int mLastTouchAction; // !!!!
+	protected int mLastTouchAction; 
 
-	protected boolean mIsInCast = false; // !!!!
-	protected boolean mIsCastAbilityBlocked = false; // !!!!
+	protected boolean mIsInCast = false; 
+	protected boolean mIsCastAbilityBlocked = false; 
 	// The Handler that gets information back from the BluetoothChatService
 	protected Handler mHandler;
 

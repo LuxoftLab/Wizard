@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /*
- * Square with image describing buff (in future)
+ * Active buff indicator
  */
 class BuffPicture extends ImageView {
 	private Buff mBuff;

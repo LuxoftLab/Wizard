@@ -21,7 +21,10 @@ import com.wizardfight.views.FightBackground;
 import com.wizardfight.views.SelfGUI;
 
 /**
- * This is the main Activity that displays the current chat session.
+ * Extends CastActivity for two players fighting.
+ * Adds two player states with current hp, mana, activated buffs...
+ * Handles players messages (implements fight logic)
+ * Adds countdown at start and dialog for restart.
  */
 public abstract class FightActivity extends CastActivity {
 

@@ -1,5 +1,8 @@
 package com.wizardfight;
 
+/* 
+ * Contains all recognizable shapes
+ */
 public enum Shape {
     TRIANGLE("triangle", 6, 1.38),
     CIRCLE("circle", 20, 0.85),

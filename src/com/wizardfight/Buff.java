@@ -1,7 +1,7 @@
 package com.wizardfight;
 
 /* 
- * contains all possible buffs, in development
+ * all game buffs
  */
 public enum Buff {
 	WEAKNESS(1000L, 5, 5),

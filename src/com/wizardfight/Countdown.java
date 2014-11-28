@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+/*
+ * Manages countdown of its text view: 3.. 2.. 1.. FIGHT!
+ */
 class Countdown {
 	private final int NUMBERS_COUNT = 3;
     private int mNumCount;

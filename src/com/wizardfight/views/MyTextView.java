@@ -6,6 +6,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+/*
+ * Text view with switching between
+ * fully visible/invisible states
+ */
 public class MyTextView extends TextView {
 	private boolean mIsDraw;
 	public MyTextView(Context context, AttributeSet attrs) {

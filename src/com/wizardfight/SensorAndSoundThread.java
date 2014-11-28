@@ -16,6 +16,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+/* 
+ * Thread that listens to accelerometer and gathers data 
+ * when its needed. Also plays music
+ */
 class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
 	protected static boolean ORIENTATION_HORIZONTAL;

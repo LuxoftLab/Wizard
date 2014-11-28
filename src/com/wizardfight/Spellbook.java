@@ -15,6 +15,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/*
+ * Shows spell book (reads data from XML)
+ */
 public class Spellbook extends Activity {
 	/**
 	 * Called when the activity is first created.

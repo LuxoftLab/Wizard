@@ -9,6 +9,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+/*
+ * Performs fighting with bot
+ */
 public class TestFightActivity extends FightActivity {
     private PlayerBot mPlayerBot;
 

@@ -15,6 +15,9 @@ import com.wizardfight.R;
 
 import java.util.ArrayList;
 
+/*
+ * Tutorial part that appears at the top
+ */
 public class WizardDial extends RelativeLayout {
     private final TextView mTextView;
     private final CancelButton mNextButton;

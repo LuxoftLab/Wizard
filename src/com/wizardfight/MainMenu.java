@@ -14,6 +14,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+/*
+ * Main menu. Checks Bluetooth availability and 
+ * checks default screen orientation (for sensor data purposes)
+ */
 public class MainMenu extends Activity {
 	// Debugging
 	private static final String TAG = "Wizard Fight";
@@ -39,17 +43,19 @@ public class MainMenu extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.main_menu);
 
-		// Get local Bluetooth adapter
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		// If the adapter is null, then Bluetooth is not supported
 		if (mBluetoothAdapter == null) {
 			Toast.makeText(this, R.string.bt_not_available,
 					Toast.LENGTH_LONG).show();
-			finish();
-			return;
+			findViewById(R.id.buttonCreateGame).setVisibility(View.GONE);
+			findViewById(R.id.buttonJoinGame).setVisibility(View.GONE);
+			findViewById(R.id.buttonDesktopConnection).setVisibility(View.GONE);
+		} else {
+			// remember user's BT initial state
+			mIsUserCameWithBt = mBluetoothAdapter.isEnabled();
 		}
-		// remember user's BT initial state
-		mIsUserCameWithBt = mBluetoothAdapter.isEnabled();
+		
 		// volume buttons control multimedia volume
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// get default device orientation
@@ -106,7 +112,8 @@ public class MainMenu extends Activity {
     public void exit(View view) {
 		BluetoothService.getInstance().release();
 		// return BT state to last one in
-		if (!mIsUserCameWithBt && mBluetoothAdapter.isEnabled()) {
+		if (mBluetoothAdapter != null && !mIsUserCameWithBt 
+				&& mBluetoothAdapter.isEnabled()) {
 			mBluetoothAdapter.disable();
 		}
 		finish();

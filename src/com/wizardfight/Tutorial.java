@@ -17,6 +17,11 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/*
+ * Runs tutorial with data from XML.
+ * Shows info, spells trajectory and 
+ * checks user spells
+ */
 public class Tutorial extends CastActivity implements WizardDialDelegate {
 	class SpellData {
 		String mmName = "";

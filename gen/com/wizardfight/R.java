@@ -60,7 +60,7 @@ public final class R {
         public static final int buttonTestMode=0x7f0a0022;
         public static final int button_cancel_waiting=0x7f0a0000;
         public static final int button_scan=0x7f0a0006;
-        public static final int connect_to_pc=0x7f0a0024;
+        public static final int connect_to_pc=0x7f0a0025;
         public static final int enemy_buff1=0x7f0a0019;
         public static final int enemy_buff2=0x7f0a001a;
         public static final int enemy_buff3=0x7f0a001b;
@@ -72,21 +72,22 @@ public final class R {
         public static final int enemy_spell=0x7f0a0017;
         public static final int fight_background=0x7f0a0008;
         public static final int fight_layout_root=0x7f0a0009;
-        public static final int horizontalScrollView=0x7f0a002a;
+        public static final int horizontalScrollView=0x7f0a002b;
         public static final int imageView=0x7f0a000b;
         public static final int imageView2=0x7f0a0015;
-        public static final int ip=0x7f0a0026;
-        public static final int layoutForCards=0x7f0a002b;
+        public static final int ip=0x7f0a0027;
+        public static final int layoutForCards=0x7f0a002c;
         public static final int logo=0x7f0a001f;
         public static final int mainID=0x7f0a0007;
         public static final int mainLayout=0x7f0a001e;
         public static final int net_conn_status=0x7f0a0029;
-        public static final int net_name=0x7f0a0027;
-        public static final int net_settings_button=0x7f0a0028;
+        public static final int net_name=0x7f0a0028;
+        public static final int net_settings_button=0x7f0a002a;
         public static final int new_devices=0x7f0a0005;
-        public static final int number_correct_spell=0x7f0a0031;
+        public static final int number_correct_spell=0x7f0a0032;
         public static final int paired_devices=0x7f0a0003;
-        public static final int pc_conn_status=0x7f0a0025;
+        public static final int pc_conn_layout=0x7f0a0024;
+        public static final int pc_conn_status=0x7f0a0026;
         public static final int self_buff1=0x7f0a000f;
         public static final int self_buff2=0x7f0a0010;
         public static final int self_buff3=0x7f0a0011;
@@ -96,15 +97,15 @@ public final class R {
         public static final int self_health=0x7f0a000a;
         public static final int self_mana=0x7f0a000c;
         public static final int self_spell=0x7f0a000d;
-        public static final int spell_anim_view=0x7f0a002f;
-        public static final int spell_anim_view_l=0x7f0a002e;
-        public static final int spell_name=0x7f0a002d;
+        public static final int spell_anim_view=0x7f0a0030;
+        public static final int spell_anim_view_l=0x7f0a002f;
+        public static final int spell_name=0x7f0a002e;
         public static final int starting_text=0x7f0a0001;
         public static final int title_new_devices=0x7f0a0004;
         public static final int title_paired_devices=0x7f0a0002;
-        public static final int tutorial_cast_result=0x7f0a0030;
-        public static final int tutorial_layout=0x7f0a002c;
-        public static final int view=0x7f0a0032;
+        public static final int tutorial_cast_result=0x7f0a0031;
+        public static final int tutorial_layout=0x7f0a002d;
+        public static final int view=0x7f0a0033;
     }
     public static final class layout {
         public static final int client_waiting=0x7f030000;
@@ -162,14 +163,15 @@ public final class R {
   Main Menu 
          */
         public static final int create_game=0x7f08000d;
-        public static final int disabled=0x7f080028;
+        public static final int disabled=0x7f080029;
         public static final int disconnect=0x7f080021;
-        public static final int enabled=0x7f080029;
+        public static final int enabled=0x7f08002a;
         public static final int exit=0x7f080014;
         public static final int fight_ended=0x7f08001e;
         public static final int join_game=0x7f08000e;
         public static final int net_name=0x7f080023;
         public static final int no_network_conn=0x7f080027;
+        public static final int no_network_conn2=0x7f080028;
         public static final int none_found=0x7f080009;
         public static final int none_paired=0x7f080008;
         /**   BluetoothService 
