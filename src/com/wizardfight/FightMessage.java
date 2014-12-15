@@ -6,6 +6,7 @@ import android.util.Log;
  * contains all needed info that is transfered between devices
  */
 public class FightMessage {
+	public static final int SIZE = 8;
 	public Target mTarget;
 	public final FightAction mAction;
 	public int mParam;
