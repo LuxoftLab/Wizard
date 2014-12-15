@@ -153,7 +153,10 @@ public abstract class FightActivity extends CastActivity {
             @Override
             public void handleMessage(Message msg) {
                 AppMessage appMsg = AppMessage.values()[msg.what];
-                Log.e(TAG, "!!!!!!!!!!!!  " + appMsg.name());
+                Log.e("azaza", "!!!!!!!!!!!!  " + appMsg.name());
+                if(appMsg != AppMessage.MESSAGE_MANA_REGEN) {
+                	Log.e("azaza", appMsg+"");
+                }
                 switch (appMsg) {
                     case MESSAGE_STATE_CHANGE:
                         if (D)
@@ -195,6 +198,7 @@ public abstract class FightActivity extends CastActivity {
                         handleSelfMessage(selfMsg);
                         break;
                     case MESSAGE_SELF_DEATH:
+                    	Log.e("azaza", "send fight end message to enemy");
                         FightMessage selfDeath = new FightMessage(Target.ENEMY,
                                 FightAction.FIGHT_END);
                         sendFightMessage(selfDeath);
@@ -211,7 +215,7 @@ public abstract class FightActivity extends CastActivity {
                                 startFight();
                                 break;
                             case FIGHT_END:
-                                Log.e(TAG, "MESSAGE FIGHT END!!!");
+                                Log.e("azaza", "MESSAGE FIGHT END!!!");
                                 finishFight(Target.SELF);
                                 break;
                             default:
@@ -398,6 +402,7 @@ public abstract class FightActivity extends CastActivity {
     }
 
      void sendFightMessage(FightMessage fMessage) {
+    	Log.e("azaza", "send fight message: " + fMessage);
         // always send own health and mana
         fMessage.mHealth = mSelfState.getHealth();
         fMessage.mMana = mSelfState.getMana();
@@ -418,7 +423,7 @@ public abstract class FightActivity extends CastActivity {
     abstract void handleEnemyReadyMessage();
 
     private void finishFight(Target winner) {
-        Log.e(TAG, "FINISH FIGHT");
+        Log.e("azaza", "FINISH FIGHT");
         mAreMessagesBlocked = true;
 
         stopSensorAndSound();
@@ -438,6 +443,7 @@ public abstract class FightActivity extends CastActivity {
             message = getString(R.string.you_win);
         } else {
             // we must inform enemy about loss
+        	Log.e("azaza", "send MESSAGE_SELF_DEATH to myself");
             mHandler.obtainMessage(AppMessage.MESSAGE_SELF_DEATH.ordinal())
                     .sendToTarget();
             message = getString(R.string.you_lose);
