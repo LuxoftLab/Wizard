@@ -1,6 +1,7 @@
 package com.wizardfight;
 
 import com.wizardfight.FightMessage.*;
+import com.wizardfight.remote.WifiService;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,8 +45,12 @@ public class TestFightActivity extends FightActivity {
     @Override
     protected void sendFightMessage(FightMessage fMessage) {
     	if(mPlayerBot == null) return; // if user exists at start
-    	
         super.sendFightMessage(fMessage);
+        
+        // send to pc if connected
+        WifiService.send( fMessage.getBytes() );
+        
+        // send to bot
         Message msg = mPlayerBot.getHandler().obtainMessage(
                 AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage);
         msg.sendToTarget();

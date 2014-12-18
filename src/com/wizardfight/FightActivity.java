@@ -405,6 +405,7 @@ public abstract class FightActivity extends CastActivity {
         // always send own health and mana
         fMessage.mHealth = mSelfState.getHealth();
         fMessage.mMana = mSelfState.getMana();
+        fMessage.mIsBotMessage = false;
     }
 
     protected void startFight() {

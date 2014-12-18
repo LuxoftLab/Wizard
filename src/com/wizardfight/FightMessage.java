@@ -6,12 +6,14 @@ import android.util.Log;
  * contains all needed info that is transfered between devices
  */
 public class FightMessage {
-	public static final int SIZE = 8;
+	public static final int SIZE = 9;
 	public Target mTarget;
 	public final FightAction mAction;
 	public int mParam;
 	public int mHealth;
 	public int mMana;
+	// thing needed for server to define is bot
+	public boolean mIsBotMessage;
 	
 	public FightMessage(Target tar, FightAction act) {
 		mTarget = tar;
@@ -67,10 +69,11 @@ public class FightMessage {
 		mParam = parameter;
 	}
 	
-	private FightMessage(int targetIndex, int actionIndex, int parameter, int hp, int mp) {
+	private FightMessage(int targetIndex, int actionIndex, int parameter, int hp, int mp, boolean isBot) {
 		this(targetIndex, actionIndex, parameter);
 		mHealth = hp;
 		mMana = mp;
+		mIsBotMessage = isBot;
 	}
 	
 	public static Shape getShapeFromMessage(FightMessage message) {
@@ -176,10 +179,6 @@ public class FightMessage {
 	}
 
 	public static FightMessage fromBytes(byte[] bytes) {
-		if(bytes.length < 8) { 
-			Log.e("Wizard fight", "BYTE ARR LENGTH " + bytes.length);
-			return null;
-		}
 		int c = 0;
 		
 		int targetIndex = (int)bytes[ c++ ];
@@ -187,8 +186,9 @@ public class FightMessage {
 		int par = ((int)bytes[ c++ ] << 8) | ((int)bytes[ c++ ] & 0xFF);//todo
 		int hp = ((int)bytes[ c++ ] << 8) | ((int)bytes[ c++ ] & 0xFF);
 		int mp = ((int)bytes[ c++ ] << 8) | ((int)bytes[ c++ ] & 0xFF);
+		boolean isBot = ( bytes[ c ] == (byte)1 );
 		
-		return new FightMessage(targetIndex, actionIndex, par, hp, mp);
+		return new FightMessage(targetIndex, actionIndex, par, hp, mp, isBot);
 	}
 	
 	public byte[] getBytes() {
@@ -206,12 +206,14 @@ public class FightMessage {
 		b[ c++ ] = (byte) ((mMana >> 8) & 0xFF); //high byte
 		b[ c++ ] = (byte) (mMana & 0xFF);        //low byte
 		
+		b[ c++ ] = (mIsBotMessage) ? (byte)1 : (byte)0;
+		
 		return b;
 	}
 	
 	@Override 
 	public String toString() {
-		return mTarget + " " + mAction + " " + mParam + " " + mHealth + " " + mMana;
+		return mTarget + " " + mAction + " " + mParam + " " + mHealth + " " + mMana + " " + mIsBotMessage;
 	}
 	
 	/*

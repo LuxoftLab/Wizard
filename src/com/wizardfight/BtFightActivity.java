@@ -2,8 +2,10 @@ package com.wizardfight;
 
 import android.view.*;
 
+import com.wizardfight.remote.WifiService;
 import com.wizardfight.views.*;
 import com.wizardfight.FightMessage.*;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -98,7 +100,10 @@ public class BtFightActivity extends FightActivity {
 		}
 
 		byte[] send = fMessage.getBytes();
+		// send to 2nd phone
 		mBtService.write(send);
+		// send to pc if connected
+		WifiService.send(send);
 	}
 	
 	private void initWaitingDialog(int stringId) {

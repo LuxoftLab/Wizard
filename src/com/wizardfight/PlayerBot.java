@@ -4,8 +4,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
 import com.wizardfight.FightMessage.*;
 import com.wizardfight.FightActivity.AppMessage;
+import com.wizardfight.remote.WifiService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -287,7 +289,11 @@ class PlayerBot extends Thread {
     private void sendFightMessage(FightMessage msg) {
         msg.mHealth = mSelfState.getHealth();
         msg.mMana = mSelfState.getMana();
+        msg.mIsBotMessage = true;
+
         byte[] sendBytes = msg.getBytes();
+        // send to pc if connected
+        WifiService.send(sendBytes);
         mMainHandler.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), sendBytes)
                 .sendToTarget();
     }

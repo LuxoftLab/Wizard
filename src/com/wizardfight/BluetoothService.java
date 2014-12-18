@@ -379,7 +379,6 @@ public class BluetoothService {
          * @param buffer  The bytes to wr	ite
          */
         public void write(byte[] buffer) {
-        	WifiService.send(buffer);
             try {
             	mmOutStream.write(buffer);
             } catch (IOException e) {
