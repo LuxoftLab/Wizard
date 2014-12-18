@@ -359,23 +359,20 @@ public class BluetoothService {
             
             int bytes;
             // Keep listening to the InputStream while connected
-            while (true) {
-            	synchronized(mmInStream) {
-            		try {
-                        // Read from the InputStream
-            			byte[] buffer = new byte[ FightMessage.SIZE ];
-                        bytes = mmInStream.read(buffer);
-                        // Send the obtained object to the UI Activity
-                        sendMsgToHandler(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), 
-                        		bytes, -1, buffer);
-                    } catch (IOException e) {
-                        Log.e(TAG, "disconnected", e);
-                        connectionLost();
-                        break;
-                    }
-            	}
-                
-            }
+			while (true) {
+				try {
+					// Read from the InputStream
+					byte[] buffer = new byte[FightMessage.SIZE];
+					bytes = mmInStream.read(buffer);
+					// Send the obtained object to the UI Activity
+					sendMsgToHandler(AppMessage.MESSAGE_FROM_ENEMY.ordinal(),
+							bytes, -1, buffer);
+				} catch (IOException e) {
+					Log.e(TAG, "disconnected", e);
+					connectionLost();
+					break;
+				}
+			}
         }
         /**
          * Write to the connected OutStream.
@@ -383,13 +380,11 @@ public class BluetoothService {
          */
         public void write(byte[] buffer) {
         	WifiService.send(buffer);
-        	synchronized(mmOutStream) {
             try {
             	mmOutStream.write(buffer);
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
             }
-        	}
         }
         
         public void cancel() {
