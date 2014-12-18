@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.wizardfight.FightMessage.*;
+import com.wizardfight.remote.WifiMessage;
+import com.wizardfight.remote.WifiService;
 import com.wizardfight.views.EnemyGUI;
 import com.wizardfight.views.FightBackground;
 import com.wizardfight.views.SelfGUI;
@@ -136,6 +138,7 @@ public abstract class FightActivity extends CastActivity {
     public void onDestroy() {
         super.onDestroy();
         // remove all messages from handler
+        WifiService.send(WifiMessage.LEAVE_FIGHT);
         mHandler.removeCallbacksAndMessages(null);
         Log.e(TAG, "--- ON DESTROY ---");
     }

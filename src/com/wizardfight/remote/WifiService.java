@@ -1,6 +1,7 @@
 package com.wizardfight.remote;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
@@ -37,9 +38,9 @@ public class WifiService {
 		}
 	}
 	
-	public static void send(byte[] buffer) {
+	public static void send(Object obj) {
 		if(mWorker != null) {
-			mWorker.send(buffer);
+			mWorker.send(obj);
 		}
 	}
 	
@@ -62,12 +63,12 @@ public class WifiService {
 		private final String mmAddr;
 		private Socket mmSocket;
 		private Handler mmHandler;
-		private final LinkedList<byte[]> mmQueue;
+		private final LinkedList<Object> mmQueue;
 		
 		public Worker(String _addr, Handler handler) {
 			mmAddr = _addr;
 			mmHandler = handler;
-			mmQueue = new LinkedList<byte[]>();
+			mmQueue = new LinkedList<Object>();
 		}
 		
 		public void run() {
@@ -76,11 +77,16 @@ public class WifiService {
 				mmSocket = new Socket(serverAddr, PORT);
 				mmSocket.setTcpNoDelay(true);
 				sendMsgToHandler(NO_ERROR);
-				OutputStream out = mmSocket.getOutputStream();
+				ObjectOutputStream out = 
+						new ObjectOutputStream( mmSocket.getOutputStream() );
+				
+				//TODO get player name here 
+				out.writeObject(new String("asdasdasda"));
+				
 				while(!mmSocket.isClosed()) {
 					Log.e("wifi", "thread loop");
 					while(!mmQueue.isEmpty()) {
-						out.write(mmQueue.poll());
+						out.writeObject(mmQueue.poll());
 					}
 					try {
 						Log.e("wifi", "sleep");
@@ -101,8 +107,8 @@ public class WifiService {
 			}
 		}
 		
-		public synchronized void send(byte[] buffer) {
-			mmQueue.add(buffer);
+		public synchronized void send(Object obj) {
+			mmQueue.add(obj);
 			notifyAll();
 		}
 		

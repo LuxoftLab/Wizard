@@ -1,14 +1,16 @@
 package com.wizardfight;
 
-import android.util.Log;
+import java.io.Serializable;
 
 /*
  * contains all needed info that is transfered between devices
  */
-public class FightMessage {
+public class FightMessage implements Serializable {
+	private static final long serialVersionUID = 160794200294L;
+	
 	public static final int SIZE = 9;
 	public Target mTarget;
-	public final FightAction mAction;
+	public FightAction mAction;
 	public int mParam;
 	public int mHealth;
 	public int mMana;
@@ -215,7 +217,7 @@ public class FightMessage {
 	public String toString() {
 		return mTarget + " " + mAction + " " + mParam + " " + mHealth + " " + mMana + " " + mIsBotMessage;
 	}
-	
+
 	/*
 	 * target of spell
 	 */

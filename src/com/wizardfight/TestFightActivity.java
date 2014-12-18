@@ -48,7 +48,7 @@ public class TestFightActivity extends FightActivity {
         super.sendFightMessage(fMessage);
         
         // send to pc if connected
-        WifiService.send( fMessage.getBytes() );
+        WifiService.send(fMessage);
         
         // send to bot
         Message msg = mPlayerBot.getHandler().obtainMessage(

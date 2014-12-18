@@ -103,7 +103,7 @@ public class BtFightActivity extends FightActivity {
 		// send to 2nd phone
 		mBtService.write(send);
 		// send to pc if connected
-		WifiService.send(send);
+		WifiService.send(fMessage);
 	}
 	
 	private void initWaitingDialog(int stringId) {

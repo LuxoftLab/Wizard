@@ -291,9 +291,10 @@ class PlayerBot extends Thread {
         msg.mMana = mSelfState.getMana();
         msg.mIsBotMessage = true;
 
-        byte[] sendBytes = msg.getBytes();
         // send to pc if connected
-        WifiService.send(sendBytes);
+        WifiService.send(msg);
+        
+        byte[] sendBytes = msg.getBytes();
         mMainHandler.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), sendBytes)
                 .sendToTarget();
     }
