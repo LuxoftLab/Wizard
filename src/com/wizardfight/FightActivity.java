@@ -153,10 +153,7 @@ public abstract class FightActivity extends CastActivity {
             @Override
             public void handleMessage(Message msg) {
                 AppMessage appMsg = AppMessage.values()[msg.what];
-                Log.e("azaza", "!!!!!!!!!!!!  " + appMsg.name());
-                if(appMsg != AppMessage.MESSAGE_MANA_REGEN) {
-                	Log.e("azaza", appMsg+"");
-                }
+
                 switch (appMsg) {
                     case MESSAGE_STATE_CHANGE:
                         if (D)
@@ -351,6 +348,7 @@ public abstract class FightActivity extends CastActivity {
                     sendFightMessage(sendMsg);
                     // add buff to panel
                     mSelfGUI.getBuffPanel().addBuff(addedBuff);
+                    Log.e("azaza", "! send buff on" + sendMsg);
                 }
 
                 if (addedBuff != null || refreshedBuff != null) {
@@ -363,6 +361,7 @@ public abstract class FightActivity extends CastActivity {
                             AppMessage.MESSAGE_FROM_SELF.ordinal(), fm);
                     this.sendMessageDelayed(buffTickMsg,
                             refreshedBuff.getDuration());
+                    Log.e("azaza", "! send buff tick " + buffTickMsg);
                 }
 
                 if (addedBuff == null && removedBuff == null) {

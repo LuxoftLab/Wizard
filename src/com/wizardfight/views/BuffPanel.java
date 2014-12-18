@@ -20,6 +20,7 @@ public class BuffPanel {
             }
             if (b == Buff.NONE) {
                 buffPic.setBuff(buff);
+                buffPic.invalidate();
                 return;
             }
         }

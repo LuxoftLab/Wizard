@@ -107,10 +107,11 @@ public class PlayerState {
                 break;
 
             case BUFF_TICK:
-                if (D) Log.e("Wizard Fight", "BUFF OFF RECEIVED IN STATE");
                 if (message.mParam < 0) break;
                 // message parameter is buff index
                 Buff tickBuff = Buff.values()[message.mParam];
+                boolean hasEffect = handleBuffTick(tickBuff, (message.mTarget == Target.SELF));
+                if(!hasEffect) break;
                 // apply player state changes
                 switch (tickBuff) {
                     case WEAKNESS:
@@ -125,7 +126,7 @@ public class PlayerState {
                         break;
                     default:
                 }
-                handleBuffTick(tickBuff, (message.mTarget == Target.SELF));
+                
                 break;
 
             case BUFF_OFF:
@@ -160,36 +161,40 @@ public class PlayerState {
         mAddedBuff = buff;
     }
 
-    void handleBuffTick(Buff buff, boolean calledByTimer) {
+    private boolean handleBuffTick(Buff buff, boolean calledByTimer) {
         if (D) Log.e("Wizard Fight", "handleBuffTick called");
         boolean hasBuffAlready = mBuffs.containsKey(buff);
+        
         if (D) Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);
-        if (hasBuffAlready) {
-            BuffState buffState = mBuffs.get(buff);
-            long timeLeft = System.currentTimeMillis() - buffState.mTickTime;
-            /*
-			 * Checking time left need in case when buff was added few times in a row.
-			 * Every buff adding causes BUFF_OFF message, that will be sent after specific time,
-			 * and it cannot be denied. With this checking messages BUFF_OFF will be 
-			 * rejected for previous buff addings.
-			 */
-            if (calledByTimer && timeLeft < buff.getDuration()) {
-                if (D) Log.e("Wizard Fight", "not enough time left: " + timeLeft + " vs " + buff.getDuration());
-                return;
-            }
-
-            buffState.mTicksLeft--;
-            if (buffState.mTicksLeft == 0) {
-                // last tick => need to fully remove buff
-                mBuffs.remove(buff);
-                mRemovedBuff = buff;
-                if (!calledByTimer) mBuffRemovedByEnemy = true;
-                if (D) Log.e("Wizard Fight", buff + "was removed from handleBuffTick");
-            } else {
-                // not last tick => say that buff is refreshed
-                mRefreshedBuff = buff;
-            }
+        
+        if(!hasBuffAlready) return false;
+        
+        BuffState buffState = mBuffs.get(buff);
+        long timeLeft = System.currentTimeMillis() - buffState.mTickTime;
+        /*
+		 * Checking time left need in case when buff was added few times in a row.
+		 * Every buff adding causes BUFF_OFF message, that will be sent after specific time,
+		 * and it cannot be denied. With this checking messages BUFF_OFF will be 
+		 * rejected for previous buff addings.
+		 */
+        if (calledByTimer && timeLeft < buff.getDuration()) {
+            Log.e("azaza", "not enough time left: " + timeLeft + " vs " + buff.getDuration());
+            return false;
         }
+
+        buffState.mTicksLeft--;
+        if (buffState.mTicksLeft == 0) {
+            // last tick => need to fully remove buff
+            mBuffs.remove(buff);
+            mRemovedBuff = buff;
+            if (!calledByTimer) mBuffRemovedByEnemy = true;
+            if (D) Log.e("Wizard Fight", buff + "was removed from handleBuffTick");
+        } else {
+            // not last tick => say that buff is refreshed
+            mRefreshedBuff = buff;
+        }
+        
+        return true;
     }
 
     public void manaTick() {

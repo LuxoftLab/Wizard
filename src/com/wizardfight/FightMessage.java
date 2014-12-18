@@ -172,7 +172,6 @@ public class FightMessage {
 			break;
 		}
 		
-		//Log.e("Wizard Fight", "sdd: " + spellDealsDamage + ", tar: " + msg.target);
 		return (spellDealsDamage != (msg.mTarget == Target.ENEMY));
 	}
 
@@ -181,26 +180,32 @@ public class FightMessage {
 			Log.e("Wizard fight", "BYTE ARR LENGTH " + bytes.length);
 			return null;
 		}
-		int targetIndex = (int)bytes[0];
-		int actionIndex = (int)bytes[1];
-		int par = ((int)bytes[2] << 8) | ((int)bytes[3] & 0xFF);//todo
-		int hp = ((int)bytes[4] << 8) | ((int)bytes[5] & 0xFF);
-		int mp = ((int)bytes[6] << 8) | ((int)bytes[7] & 0xFF);
+		int c = 0;
+		
+		int targetIndex = (int)bytes[ c++ ];
+		int actionIndex = (int)bytes[ c++ ];
+		int par = ((int)bytes[ c++ ] << 8) | ((int)bytes[ c++ ] & 0xFF);//todo
+		int hp = ((int)bytes[ c++ ] << 8) | ((int)bytes[ c++ ] & 0xFF);
+		int mp = ((int)bytes[ c++ ] << 8) | ((int)bytes[ c++ ] & 0xFF);
+		
 		return new FightMessage(targetIndex, actionIndex, par, hp, mp);
 	}
 	
 	public byte[] getBytes() {
-		byte[] b = new byte[8];
-		b[0] = (byte) mTarget.ordinal();
-		b[1] = (byte) mAction.ordinal();
-		b[2] = (byte) ((mParam >> 8) & 0xFF); //high byte
-		b[3] = (byte) (mParam & 0xFF);        //low byte
+		byte[] b = new byte[SIZE];
+		int c = 0;
 		
-		b[4] = (byte) ((mHealth >> 8) & 0xFF); //high byte
-		b[5] = (byte) (mHealth & 0xFF);        //low byte
+		b[ c++ ] = (byte) mTarget.ordinal();
+		b[ c++ ] = (byte) mAction.ordinal();
+		b[ c++ ] = (byte) ((mParam >> 8) & 0xFF); //high byte
+		b[ c++ ] = (byte) (mParam & 0xFF);        //low byte
 		
-		b[6] = (byte) ((mMana >> 8) & 0xFF); //high byte
-		b[7] = (byte) (mMana & 0xFF);        //low byte
+		b[ c++ ] = (byte) ((mHealth >> 8) & 0xFF); //high byte
+		b[ c++ ] = (byte) (mHealth & 0xFF);        //low byte
+		
+		b[ c++ ] = (byte) ((mMana >> 8) & 0xFF); //high byte
+		b[ c++ ] = (byte) (mMana & 0xFF);        //low byte
+		
 		return b;
 	}
 	
