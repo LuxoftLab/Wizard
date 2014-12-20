@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WizardPreferences"
+        <activity android:name=".WPreferences"
                   android:screenOrientation="portrait"
                   android:configChanges="orientation|keyboardHidden" >
         </activity>

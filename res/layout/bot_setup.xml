@@ -8,7 +8,7 @@
     <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioСomplexity"
+            android:id="@+id/radio_complexity"
             android:layout_marginTop="35dp"
             android:layout_marginBottom="20dp">
         <RadioButton
@@ -31,7 +31,7 @@
     <view android:id="@+id/button_cancel_waiting"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        class="com.wizardfight.views.CancelButton" 
+        class="com.wizardfight.views.RectButton" 
         android:text="@string/cancel"
-        style="@style/ClientWaitingDialog.Button" />
+        style="@style/WDialog.Button" />
 </LinearLayout>

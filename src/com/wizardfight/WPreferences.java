@@ -6,7 +6,7 @@ import android.preference.PreferenceActivity;
 /*
  * Class needed for settings menu
  */
-public class WizardPreferences extends PreferenceActivity {
+public class WPreferences extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

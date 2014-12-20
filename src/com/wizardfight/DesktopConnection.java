@@ -84,7 +84,7 @@ public class DesktopConnection extends Activity {
 
         //setContentView(R.layout.net_conn_not_found);
         View v = getLayoutInflater().inflate(R.layout.net_conn_not_found, null);
-        mNetDialog = new Dialog(this, R.style.ClientWaitingDialog);
+        mNetDialog = new Dialog(this, R.style.WDialog);
         mNetDialog.setTitle(R.string.no_network_conn);
 
         mSettings = (Button) v.findViewById(R.id.net_settings_button);

@@ -10,9 +10,9 @@ import android.widget.TextView;
  * Text view with switching between
  * fully visible/invisible states
  */
-public class MyTextView extends TextView {
+public class HideableTextView extends TextView {
 	private boolean mIsDraw;
-	public MyTextView(Context context, AttributeSet attrs) {
+	public HideableTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 	

@@ -105,7 +105,7 @@ public class MainMenu extends Activity {
 	}
 
 	public void goToSettings(View view) {
-		startActivity(new Intent(this, WizardPreferences.class));
+		startActivity(new Intent(this, WPreferences.class));
 		Log.e("Wizard Fight", "go to settings");
 	}
 

@@ -6,7 +6,7 @@
               android:background="#80000000">
 
     <view 
-        class="com.wizardfight.views.MyTextView" 
+        class="com.wizardfight.views.HideableTextView" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"

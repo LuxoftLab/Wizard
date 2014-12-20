@@ -1,6 +1,6 @@
 package com.wizardfight;
 
-import com.wizardfight.views.MyTextView;
+import com.wizardfight.views.HideableTextView;
 import com.wizardfight.FightActivity.AppMessage;
 import android.content.Context;
 import android.os.Handler;
@@ -15,14 +15,14 @@ class Countdown {
 	private final int NUMBERS_COUNT = 3;
     private int mNumCount;
     private final View mRootView;
-    private final MyTextView mText;
+    private final HideableTextView mText;
     private final Animation mAnim;
     private final Handler mHandler;
 
     public Countdown (Context context, View rootView, Handler h){
     	mHandler = h;
     	mRootView = rootView;
-    	mText = (MyTextView) mRootView.findViewById(R.id.starting_text);
+    	mText = (HideableTextView) mRootView.findViewById(R.id.starting_text);
         mText.setVisibility(View.INVISIBLE);
         mAnim = AnimationUtils.loadAnimation(context, R.anim.countdown);
         AnimListener animListener = new AnimListener();

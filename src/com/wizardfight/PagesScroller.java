@@ -7,11 +7,11 @@ import android.widget.HorizontalScrollView;
  * horizontal scroller with stopping on 
  * one of its same-width childs (used in spellbook)
  */
-class CustomScroller extends HorizontalScrollView {
+class PagesScroller extends HorizontalScrollView {
 	private boolean mFlag = false;
 	private int mSelectedIndex = 0;
 
-	public CustomScroller(android.content.Context context,
+	public PagesScroller(android.content.Context context,
 			android.util.AttributeSet attrs) {
 		super(context, attrs);
 	}

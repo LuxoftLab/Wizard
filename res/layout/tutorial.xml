@@ -51,7 +51,7 @@
               android:background="@drawable/info"
               android:layout_below="@+id/spell_anim_view_l"
               android:layout_alignLeft="@+id/spell_anim_view_l"
-              class="com.wizardfight.views.CancelButton"/>
+              class="com.wizardfight.views.RectButton"/>
 
         <TextView
                 android:gravity="center"
@@ -69,7 +69,7 @@
               android:background="@drawable/replay"
               android:layout_below="@+id/spell_anim_view_l"
               android:layout_alignRight="@+id/spell_anim_view_l"
-              class="com.wizardfight.views.CancelButton" android:id="@+id/view"/>
+              class="com.wizardfight.views.RectButton" android:id="@+id/view"/>
 
     </RelativeLayout>
 </RelativeLayout>

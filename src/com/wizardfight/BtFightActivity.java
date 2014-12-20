@@ -108,9 +108,9 @@ public class BtFightActivity extends FightActivity {
 	
 	private void initWaitingDialog(int stringId) {
 		View v = getLayoutInflater().inflate(R.layout.client_waiting, null);
-		mClientWaitingDialog = new Dialog(this, R.style.ClientWaitingDialog);
+		mClientWaitingDialog = new Dialog(this, R.style.WDialog);
 		mClientWaitingDialog.setTitle(stringId);
-		CancelButton cancel = (CancelButton) v
+		RectButton cancel = (RectButton) v
 				.findViewById(R.id.button_cancel_waiting);
 		cancel.setOnClickListener(new CancelButtonListener());
 		mClientWaitingDialog.setContentView(v);

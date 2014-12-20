@@ -15,8 +15,8 @@
     <view
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            class="com.wizardfight.views.CancelButton"
+            class="com.wizardfight.views.RectButton"
             android:text="@string/show_settings"
             android:id="@+id/net_settings_button"
-            style="@style/ClientWaitingDialog.Button"/>
+            style="@style/WDialog.Button"/>
 </LinearLayout>

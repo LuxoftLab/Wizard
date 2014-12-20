@@ -12,17 +12,17 @@ import android.widget.Button;
 /* 
  * Custom rectangular button
  */
-public class CancelButton extends Button {
+public class RectButton extends Button {
 
-    public CancelButton(Context context) {
+    public RectButton(Context context) {
         super(context);
     }
 
-    public CancelButton(Context context, AttributeSet attrs) {
+    public RectButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CancelButton(Context context, AttributeSet attrs, int defStyle) {
+    public RectButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

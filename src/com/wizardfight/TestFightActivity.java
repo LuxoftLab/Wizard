@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import com.wizardfight.views.CancelButton;
+import com.wizardfight.views.RectButton;
 
 /*
  * Performs fighting with bot
@@ -33,12 +33,12 @@ public class TestFightActivity extends FightActivity {
         setupBot();
     }
 
-    private Dialog mClientWaitingDialog;
+    private Dialog mDificultyDialog;
     void setupBot(){
         final View v = getLayoutInflater().inflate(R.layout.bot_setup, null);
-        mClientWaitingDialog = new Dialog(this, R.style.ClientWaitingDialog);
-        mClientWaitingDialog.setTitle(R.string.title_bot);
-        CancelButton cancel = (CancelButton) v
+        mDificultyDialog = new Dialog(this, R.style.WDialog);
+        mDificultyDialog.setTitle(R.string.title_bot);
+        RectButton cancel = (RectButton) v
                 .findViewById(R.id.button_cancel_waiting);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +47,7 @@ public class TestFightActivity extends FightActivity {
             }
         });
         RadioGroup complexity = (RadioGroup) v
-                .findViewById(R.id.radioСomplexity);
+                .findViewById(R.id.radio_complexity);
         complexity.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -56,8 +56,8 @@ public class TestFightActivity extends FightActivity {
 
             }
         });
-        mClientWaitingDialog.setContentView(v);
-        mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+        mDificultyDialog.setContentView(v);
+        mDificultyDialog.setOnKeyListener(new Dialog.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface arg0, int keyCode,
                                  KeyEvent event) {
@@ -67,17 +67,17 @@ public class TestFightActivity extends FightActivity {
                 return true;
             }
         });
-        mClientWaitingDialog.show();
+        mDificultyDialog.show();
     }
     void onComSetup(double k){
         mPlayerBot.setK(k);
         startFight();
-        mClientWaitingDialog.dismiss();
-        mClientWaitingDialog = null;
+        mDificultyDialog.dismiss();
+        mDificultyDialog = null;
     }
     void onDialClose(){
-        mClientWaitingDialog.dismiss();
-        mClientWaitingDialog = null;
+        mDificultyDialog.dismiss();
+        mDificultyDialog = null;
         finish();
     }
     @Override

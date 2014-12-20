@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class WizardDial extends RelativeLayout {
     private final TextView mTextView;
-    private final CancelButton mNextButton;
+    private final RectButton mNextButton;
     private final Animation mAnimFadeOut;
     private final Animation mAnimFadeIn;
     private ArrayList<WizardDialContent> mContent = new ArrayList<WizardDialContent>();
@@ -45,7 +45,7 @@ public class WizardDial extends RelativeLayout {
 
         mTextView.setTextColor(Color.rgb(92,67,51));
         mTextView.setId(mPopupId);
-        mNextButton = new CancelButton(context);
+        mNextButton = new RectButton(context);
         mNextButton.setBackgroundResource(R.drawable.next);
         double size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
         		1, getResources().getDisplayMetrics());

@@ -17,13 +17,13 @@
     </style>
 
     <!-- Client Waiting theme -->
-    <style name="ClientWaitingDialog" parent="android:Theme.Dialog">
+    <style name="WDialog" parent="android:Theme.Dialog">
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">#cccccc</item>
         <item name="android:windowBackground">@drawable/client_waiting_bg</item>
-        <item name="android:buttonStyle">@style/ClientWaitingDialog.Button</item>
+        <item name="android:buttonStyle">@style/WDialog.Button</item>
     </style>
-    <style name="ClientWaitingDialog.Button" parent="@android:style/Widget.Button">
+    <style name="WDialog.Button" parent="@android:style/Widget.Button">
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">#bebebe</item>
         <item name="android:shadowColor">#151515</item>
