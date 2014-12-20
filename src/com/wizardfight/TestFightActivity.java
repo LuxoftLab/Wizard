@@ -1,5 +1,11 @@
 package com.wizardfight;
 
+import android.app.Dialog;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 import com.wizardfight.FightMessage.*;
 import com.wizardfight.remote.WifiService;
 
@@ -9,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import com.wizardfight.views.CancelButton;
 
 /*
  * Performs fighting with bot
@@ -23,9 +30,56 @@ public class TestFightActivity extends FightActivity {
         mPlayerBot.start();
         mFightEndDialog = new TestFightEndDialog();
         Log.e("testFAThread", Thread.currentThread().getName());
-        startFight();
+        setupBot();
     }
 
+    private Dialog mClientWaitingDialog;
+    void setupBot(){
+        final View v = getLayoutInflater().inflate(R.layout.bot_setup, null);
+        mClientWaitingDialog = new Dialog(this, R.style.ClientWaitingDialog);
+        mClientWaitingDialog.setTitle(R.string.title_bot);
+        CancelButton cancel = (CancelButton) v
+                .findViewById(R.id.button_cancel_waiting);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onDialClose();
+            }
+        });
+        RadioGroup complexity = (RadioGroup) v
+                .findViewById(R.id.radioСomplexity);
+        complexity.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton rb=(RadioButton) v.findViewById(i);
+                onComSetup(Double.parseDouble(rb.getHint().toString()));
+
+            }
+        });
+        mClientWaitingDialog.setContentView(v);
+        mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    onDialClose();
+                }
+                return true;
+            }
+        });
+        mClientWaitingDialog.show();
+    }
+    void onComSetup(double k){
+        mPlayerBot.setK(k);
+        startFight();
+        mClientWaitingDialog.dismiss();
+        mClientWaitingDialog = null;
+    }
+    void onDialClose(){
+        mClientWaitingDialog.dismiss();
+        mClientWaitingDialog = null;
+        finish();
+    }
     @Override
     protected void startFight() {
         final Handler handler = new Handler();

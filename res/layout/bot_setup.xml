@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical" >
+
+    <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioСomplexity"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="20dp">
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="3"
+                android:text="@string/bot_easy"/>
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="2"
+                android:text="@string/bot_mid"/>
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="1"
+                android:text="@string/bot_hard"/>
+    </RadioGroup>
+
+    <view android:id="@+id/button_cancel_waiting"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        class="com.wizardfight.views.CancelButton" 
+        android:text="@string/cancel"
+        style="@style/ClientWaitingDialog.Button" />
+</LinearLayout>

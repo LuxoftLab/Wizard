@@ -21,7 +21,7 @@ class PlayerBot extends Thread {
     private final int mStartHP;
     private final int mStartMana;
     private final double mTimeToThink = 0.5;
-    private final double mK = 2;
+    private double mK = 2;
     private Timer mTimer;
     private Looper mLooper;
     private PlayerState mSelfState;
@@ -284,6 +284,14 @@ class PlayerBot extends Thread {
             mHandler.obtainMessage(AppMessage.MESSAGE_SELF_DEATH.ordinal())
                     .sendToTarget();
         }
+    }
+
+    public void setK(double mK) {
+        this.mK = mK;
+    }
+
+    public double getK() {
+        return mK;
     }
 
     private void sendFightMessage(FightMessage msg) {

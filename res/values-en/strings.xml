@@ -35,6 +35,10 @@
     <string name="connection_fail">Unable to connect to the device</string>
     <!-- Fight Activity -->
     <string name="countdown_fight">Fight!</string>
+    <string name="title_bot">Select complexity</string>
+    <string name="bot_easy">Easy</string>
+    <string name="bot_mid">Middle</string>
+    <string name="bot_hard">Hard</string>
     <string name="you_win">"You win!"</string>
     <string name="you_lose">"You lose!"</string>
     <string name="fight_ended">Fight ended</string>
@@ -51,5 +55,6 @@
     <string name="no_network_conn2">Please connect to the WIFI network</string>
 	<string name="disabled">disabled</string>
 	<string name="enabled">enabled</string>
-	
+
+
 </resources>

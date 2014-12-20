@@ -35,7 +35,7 @@ public abstract class FightActivity extends CastActivity {
     public static final String TOAST = "toast";
     public static final int PLAYER_HP = 200;
     public static final int PLAYER_MANA = 100;
-    
+
     //private Dialog mNetDialog;
     FightEndDialog mFightEndDialog;
     // Debugging
@@ -60,7 +60,7 @@ public abstract class FightActivity extends CastActivity {
         if (D)
             Log.e(TAG, "+++ ON CREATE +++");
         setContentView(R.layout.fight);
-        
+
         // add countdown view to the top
         LayoutInflater inflater = getLayoutInflater();
         View countdownView = inflater.inflate(R.layout.countdown, null);
@@ -99,7 +99,7 @@ public abstract class FightActivity extends CastActivity {
         setupApp();
         // Initialize end dialog object
         mBgImage = (FightBackground) findViewById(R.id.fight_background);
-        
+
     }
 
     @Override
@@ -108,13 +108,13 @@ public abstract class FightActivity extends CastActivity {
         if (D)
             Log.e(TAG, "-- ON START --");
     }
-    
+
     @Override
     public void onResume() {
         mIsRunning = true;
         super.onResume();
         mBgImage.darkenImage();
-        
+
         if (mFightEndDialog.isNeedToShow()) {
             mFightEndDialog.show();
         }
@@ -124,7 +124,7 @@ public abstract class FightActivity extends CastActivity {
     public void onPause() {
         super.onPause();
         mIsRunning = false;
-        
+
     }
 
     @Override
@@ -145,7 +145,7 @@ public abstract class FightActivity extends CastActivity {
 
     @Override
     protected Handler getHandler() {
-    	return new Handler() {
+        return new Handler() {
             /**
              * Sends a message.
              *
@@ -198,7 +198,7 @@ public abstract class FightActivity extends CastActivity {
                         handleSelfMessage(selfMsg);
                         break;
                     case MESSAGE_SELF_DEATH:
-                    	Log.e("azaza", "send fight end message to enemy");
+                        Log.e("azaza", "send fight end message to enemy");
                         FightMessage selfDeath = new FightMessage(Target.ENEMY,
                                 FightAction.FIGHT_END);
                         sendFightMessage(selfDeath);
@@ -252,14 +252,14 @@ public abstract class FightActivity extends CastActivity {
                 Log.e(TAG, "self msg : " + selfMsg + " " + mMyCounter);
                 // request mana for spell
                 boolean canBeCasted = mSelfState.requestSpell(selfMsg);
-                
+
                 if (!canBeCasted) {
-                	if (mSensorAndSoundThread != null) {
-                		mSensorAndSoundThread.playNoManaSound();
-                	}
+                    if (mSensorAndSoundThread != null) {
+                        mSensorAndSoundThread.playNoManaSound();
+                    }
                     return;
                 }
-                
+
                 if (mSensorAndSoundThread != null) {
                     mSensorAndSoundThread.playShapeSound(sendShape);
                 }
@@ -403,8 +403,8 @@ public abstract class FightActivity extends CastActivity {
                 .sendToTarget();
     }
 
-     void sendFightMessage(FightMessage fMessage) {
-    	Log.e("azaza", "send fight message: " + fMessage);
+    void sendFightMessage(FightMessage fMessage) {
+        Log.e("azaza", "send fight message: " + fMessage);
         // always send own health and mana
         fMessage.mHealth = mSelfState.getHealth();
         fMessage.mMana = mSelfState.getMana();
@@ -446,7 +446,7 @@ public abstract class FightActivity extends CastActivity {
             message = getString(R.string.you_win);
         } else {
             // we must inform enemy about loss
-        	Log.e("azaza", "send MESSAGE_SELF_DEATH to myself");
+            Log.e("azaza", "send MESSAGE_SELF_DEATH to myself");
             mHandler.obtainMessage(AppMessage.MESSAGE_SELF_DEATH.ordinal())
                     .sendToTarget();
             message = getString(R.string.you_lose);
@@ -496,7 +496,7 @@ public abstract class FightActivity extends CastActivity {
         @Override
         abstract public void onClick(DialogInterface dialog, int which);
     }
-    
+
     public void onWindowFocusChanged(boolean hasFocus)
     {
         super.onWindowFocusChanged(hasFocus);
@@ -506,7 +506,7 @@ public abstract class FightActivity extends CastActivity {
         int w = indicator.getWidth();
         int h = indicator.getHeight();
         int barW = w*2/3, barH = h*2/10;
-        int barMarginW = w*8/1000, hpMarginH = h*15/100, mpMarginH = h*36/100; 
+        int barMarginW = w*8/1000, hpMarginH = h*15/100, mpMarginH = h*36/100;
         int picSize = w*37/100, picMarginH = w*14/1000;
         int buffSize = h*2/10, buffMargin = 5;
         View hpself =  findViewById(R.id.self_health);
@@ -553,7 +553,7 @@ public abstract class FightActivity extends CastActivity {
         spell.setLayoutParams(params);
 
         int[] buffs = {R.id.self_buff1, R.id.self_buff2, R.id.self_buff3, R.id.self_buff4, R.id.self_buff5,
-                        R.id.enemy_buff1, R.id.enemy_buff2, R.id.enemy_buff3, R.id.enemy_buff4, R.id.enemy_buff5};
+                R.id.enemy_buff1, R.id.enemy_buff2, R.id.enemy_buff3, R.id.enemy_buff4, R.id.enemy_buff5};
         View buff;
         LinearLayout.LayoutParams params1;
         for (int buff1 : buffs) {

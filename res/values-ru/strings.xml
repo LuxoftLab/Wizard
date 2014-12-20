@@ -35,6 +35,10 @@
     <string name="connection_fail">Невозможно подключиться к устройству</string>
     <!-- Fight Activity -->
     <string name="countdown_fight">Бой!</string>
+    <string name="title_bot">Выберите сложность</string>
+    <string name="bot_easy">Легко</string>
+    <string name="bot_mid">Средне</string>
+    <string name="bot_hard">Тяжело</string>
     <string name="you_win">"Вы выиграли!"</string>
     <string name="you_lose">"Вы проиграли!"</string>
     <string name="fight_ended">Бой окончен</string>
@@ -51,5 +55,5 @@
     <string name="no_network_conn2">Пожалуйста,  подключитесь к WIFI сети</string>
 	<string name="disabled">отключен</string>
 	<string name="enabled">включен</string>
-	
+
 </resources>
