@@ -65,29 +65,18 @@ public class Recognizer {
     public static Shape recognize(ArrayList<Vector3d> records) {
     	long startStamp = System.currentTimeMillis();
         quantizer.refresh();
-        // Load recognition data
-        TimeSeriesClassificationData testData = new TimeSeriesClassificationData();
-        testData.loadDatasetFromRecords(records);
 
-        TimeSeriesClassificationData quantizedTestData = new TimeSeriesClassificationData(1);
-        int classLabel = testData.getData().getClassLabel();
-
-        MatrixDouble quantizedSample = new MatrixDouble();
-        double[] arg = new double[testData.getData().getLength()];
-        for (int j = 0; j < testData.getData().getLength(); j++) {
-            arg[j] = quantizer.quantize(testData.getData().getData().getRowVector(j));
-            quantizedSample.push_back(quantizer.getFeatureVector());
-            Log.e("Recognizer", "push " + quantizer.getFeatureVector().get(0));
-        }
-
-        Log.e("Recognizer", "add 1 sample " + classLabel);
-        if (!quantizedTestData.addSample(classLabel, quantizedSample)) {
-            System.out.println("ERROR: Failed to quantize training data!");
-            return Shape.FAIL;
-        }
-
+        int[] timeSeries = new int[ records.size() ];
+        double[] rec = new double[3];
         
-        hmm.predict(arg);
+        for (int j = 0; j < timeSeries.length ; j++) {
+        	rec[0] = records.get(j).x;
+        	rec[1] = records.get(j).y;
+        	rec[2] = records.get(j).z;
+            timeSeries[j] = quantizer.quantize(rec);
+        }
+        
+        hmm.predict(timeSeries);
 
         Log.e("Wizard Fight", "Time: " + (System.currentTimeMillis()-startStamp) + " ms");
         return getShape(hmm.getPredictedClassLabel());

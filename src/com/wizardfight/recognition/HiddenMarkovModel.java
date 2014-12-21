@@ -1,6 +1,5 @@
 package com.wizardfight.recognition;
 
-import java.util.ArrayList;
 import java.io.Serializable;
 
 /**
@@ -9,30 +8,10 @@ import java.io.Serializable;
 class HiddenMarkovModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private boolean modelTrained = false; // TODO delete
-
     private int numStates = 0; // The number of states for this model
-    private int numSymbols = 0; // TODO delete
-    private int delta = 1;   // TODO delete
-
-    private int numRandomTrainingIterations = 5; // TODO delete
-    private int maxNumIter = 100; // TODO delete
-
-    private double logLikelihood = 0.0; // TODO delete
-
-    private double cThreshold = -1000; // TODO delete
-    private double minImprovement = 1.0e-5; // TODO delete
-
-
-    private int[] observationSequence = new int[0]; // TODO delete
     private int[] estimatedStates = new int[0];
 
     private double[] pi; // The state start probability vector
-
-    private HMMModelTypes modelType = HMMModelTypes.ERGODIC; // TODO delete
-
-    private ArrayList<Double> trainingIterationLog = new ArrayList<Double>();  // TODO delete
    
     private final MatrixDouble a = new MatrixDouble(); // The transitions probability matrix
     private final MatrixDouble b = new MatrixDouble(); // The emissions probability matrix

@@ -15,8 +15,6 @@ class TimeSeriesClassificationData {
 
     private int numDimensions = 0; // /< The number of dimensions in the dataset
 
-    private final boolean allowNullGestureClass = false; // TODO delete
-
     // ArrayList containing a set of externalRanges set by the user
     private final ArrayList<ClassTracker> classTracker = new ArrayList<ClassTracker>();
     // ArrayList of ClassTracker, which keeps track of the number of
