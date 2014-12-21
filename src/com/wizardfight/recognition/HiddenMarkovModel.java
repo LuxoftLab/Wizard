@@ -7,88 +7,88 @@ import java.io.Serializable;
  */
 class HiddenMarkovModel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private int numStates = 0; // The number of states for this model
-    private int[] estimatedStates = new int[0];
+	private static final long serialVersionUID = 1L;
+	private int numStates = 0; // The number of states for this model
+	private int[] estimatedStates = new int[0];
 
-    private double[] pi; // The state start probability vector
-   
-    private final MatrixDouble a = new MatrixDouble(); // The transitions probability matrix
-    private final MatrixDouble b = new MatrixDouble(); // The emissions probability matrix
+	private double[] pi; // The state start probability vector
 
-    double predict(int[] obs) {
-        final int N = numStates;
-        final int T = obs.length;
-        int t, i, j;
-        MatrixDouble alpha = new MatrixDouble(T, numStates);
-        double[] c = new double[T];
+	double[][] a; // The transitions probability matrix
+	double[][] b; // The emissions probability matrix
 
-	// //////////////// Run the forward algorithm ////////////////////////
-        // Step 1: Init at t=0
-        t = 0;
-        c[t] = 0.0;
-        for (i = 0; i < N; i++) {
-            double val = pi[i] * b.dataPtr[i][obs[t]];
-            alpha.dataPtr[t][i] = val;
-            c[t] += val;
-        }
+	double predict(int[] obs) {
+		final int N = numStates;
+		final int T = obs.length;
+		int t, i, j;
+		double[][] alpha = new double[ T ][ numStates ];
+		double[] c = new double[T];
 
-        // Set the inital scaling coeff
-        c[t] = 1.0 / c[t];
+		// //////////////// Run the forward algorithm ////////////////////////
+		// Step 1: Init at t=0
+		t = 0;
+		c[t] = 0.0;
+		for (i = 0; i < N; i++) {
+			double val = pi[i] * b[i][obs[t]];
+			alpha[t][i] = val;
+			c[t] += val;
+		}
 
-        // Scale alpha
-        for (i = 0; i < N; i++) {
-            double val = alpha.dataPtr[t][i];
-            val *= c[t];
-            alpha.dataPtr[t][i] = val;
-        }
+		// Set the inital scaling coeff
+		c[t] = 1.0 / c[t];
 
-        // Step 2: Induction
-        for (t = 1; t < T; t++) {
-            c[t] = 0.0;
-            for (j = 0; j < N; j++) {
-                alpha.dataPtr[t][j] = 0.0;
-                for (i = 0; i < N; i++) {
-                    double val = alpha.dataPtr[t][j];
-                    val += alpha.dataPtr[t - 1][i] * a.dataPtr[i][j];
-                    alpha.dataPtr[t][j] = val;
+		// Scale alpha
+		for (i = 0; i < N; i++) {
+			double val = alpha[t][i];
+			val *= c[t];
+			alpha[t][i] = val;
+		}
 
-                }
-                double val = alpha.dataPtr[t][j];
-                val *= b.dataPtr[j][obs[t]];
-                alpha.dataPtr[t][j] = val;
-                c[t] += alpha.dataPtr[t][j];
-            }
+		// Step 2: Induction
+		for (t = 1; t < T; t++) {
+			c[t] = 0.0;
+			for (j = 0; j < N; j++) {
+				alpha[t][j] = 0.0;
+				for (i = 0; i < N; i++) {
+					double val = alpha[t][j];
+					val += alpha[t - 1][i] * a[i][j];
+					alpha[t][j] = val;
 
-            // Set the scaling coeff
-            c[t] = 1.0 / c[t];
+				}
+				double val = alpha[t][j];
+				val *= b[j][obs[t]];
+				alpha[t][j] = val;
+				c[t] += alpha[t][j];
+			}
 
-            // Scale Alpha
-            for (j = 0; j < N; j++) {
-                double val = alpha.dataPtr[t][j];
-                val *= c[t];
-                alpha.dataPtr[t][j] = val;
-            }
-        }
+			// Set the scaling coeff
+			c[t] = 1.0 / c[t];
 
-        if (estimatedStates.length != T) {
-            estimatedStates = new int[T];
-        }
-        for (t = 0; t < T; t++) {
-            double maxValue = 0;
-            for (i = 0; i < N; i++) {
-                if (alpha.dataPtr[t][i] > maxValue) {
-                    maxValue = alpha.dataPtr[t][i];
-                    estimatedStates[t] = i;
-                }
-            }
-        }
+			// Scale Alpha
+			for (j = 0; j < N; j++) {
+				double val = alpha[t][j];
+				val *= c[t];
+				alpha[t][j] = val;
+			}
+		}
 
-        // Termination
-        double loglikelihood = 0.0;
-        for (t = 0; t < T; t++) {
-            loglikelihood += Math.log(c[t]);
-        }
-        return -loglikelihood; // Return the negative log likelihood
-    }
+		if (estimatedStates.length != T) {
+			estimatedStates = new int[T];
+		}
+		for (t = 0; t < T; t++) {
+			double maxValue = 0;
+			for (i = 0; i < N; i++) {
+				if (alpha[t][i] > maxValue) {
+					maxValue = alpha[t][i];
+					estimatedStates[t] = i;
+				}
+			}
+		}
+
+		// Termination
+		double loglikelihood = 0.0;
+		for (t = 0; t < T; t++) {
+			loglikelihood += Math.log(c[t]);
+		}
+		return -loglikelihood; // Return the negative log likelihood
+	}
 }

@@ -9,7 +9,7 @@ public class KMeansQuantizer implements Serializable {
 
     private int numClusters; 
     private int numInputDimensions = 0; //TODO set as constant after changing serizalization
-    private final MatrixDouble clusters = new MatrixDouble();
+    private double[][] clusters;
     private final ArrayList<Double> featureVector = new ArrayList<Double>();
     private ArrayList<Double> quantizationDistances = new ArrayList<Double>();
 
@@ -35,7 +35,7 @@ public class KMeansQuantizer implements Serializable {
             quantizationDistances.add(k, 0.0);
             for (int i = 0; i < numInputDimensions; i++) {
                 double val = quantizationDistances.get(k);
-                val += Math.pow(inputVector[i] - clusters.dataPtr[k][i], 2);
+                val += Math.pow(inputVector[i] - clusters[k][i], 2);
                 quantizationDistances.set(k, val);
             }
 
