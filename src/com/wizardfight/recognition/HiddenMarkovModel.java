@@ -10,41 +10,33 @@ class HiddenMarkovModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    boolean modelTrained = false;
+    private boolean modelTrained = false; // TODO delete
 
-    int numStates = 0; // The number of states for this model
-    int numSymbols = 0; // The number of symbols for this model
-    int delta = 1; // The number of states a model can move to in a
-    // HMMModelTipes.LEFTRIGHT model
-    int numRandomTrainingIterations = 5; // The number of training loops to find
-    // the best starting values
-    int maxNumIter = 100; // The maximum number of iter allowed during the full
-    // training
+    private int numStates = 0; // The number of states for this model
+    private int numSymbols = 0; // TODO delete
+    private int delta = 1;   // TODO delete
 
-    double logLikelihood = 0.0; // The log likelihood of an observation sequence
-    // given the modal, calculated by the forward
-    // method
-    double cThreshold = -1000; // The classification threshold for this model
-    double minImprovement = 1.0e-5; // The minimum improvement value for the
-    // training loop
+    private int numRandomTrainingIterations = 5; // TODO delete
+    private int maxNumIter = 100; // TODO delete
 
-    int[] observationSequence = new int[0];
+    private double logLikelihood = 0.0; // TODO delete
+
+    private double cThreshold = -1000; // TODO delete
+    private double minImprovement = 1.0e-5; // TODO delete
+
+
+    private int[] observationSequence = new int[0]; // TODO delete
     private int[] estimatedStates = new int[0];
 
-    double[] pi; // The state start probability vector
+    private double[] pi; // The state start probability vector
 
-    HMMModelTypes modelType = HMMModelTypes.ERGODIC;
+    private HMMModelTypes modelType = HMMModelTypes.ERGODIC; // TODO delete
 
-    ArrayList<Double> trainingIterationLog = new ArrayList<Double>(); 
-    // Stores the loglikelihood at each iteration the BaumWelch algorithm
+    private ArrayList<Double> trainingIterationLog = new ArrayList<Double>();  // TODO delete
+   
+    private final MatrixDouble a = new MatrixDouble(); // The transitions probability matrix
+    private final MatrixDouble b = new MatrixDouble(); // The emissions probability matrix
 
-    final MatrixDouble a = new MatrixDouble(); // The transitions probability matrix
-    final MatrixDouble b = new MatrixDouble(); // The emissions probability matrix
-
-    private double getRandomNumberUniform(double minRange, double maxRange) {
-        return (Math.random() * (maxRange - minRange)) + minRange;
-    }
-    
     double predict(int[] obs) {
         final int N = numStates;
         final int T = obs.length;

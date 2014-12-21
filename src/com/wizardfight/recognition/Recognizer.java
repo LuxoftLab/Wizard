@@ -16,6 +16,7 @@ import com.wizardfight.components.Vector3d;
 public class Recognizer {
     private static KMeansQuantizer quantizer;
     private static HMM hmm;
+    private static final int TRAINED_NUM_CLUSTERS = 20;
 
     public static void init(Resources res, String recoFileName) {
 		// The input to the HMM must be a quantized discrete value
@@ -37,10 +38,8 @@ public class Recognizer {
 			Log.e("Wizard Fight", "recognition 23.08.14");
 		}
 
-    	final int NUM_SYMBOLS = 20; // 10 - default
-		quantizer = new KMeansQuantizer(NUM_SYMBOLS);
-
-		// Load quantizer from serialized file
+		quantizer = new KMeansQuantizer(TRAINED_NUM_CLUSTERS);
+		// Load serialized quantizer
 		try {
 			ObjectInputStream is = new ObjectInputStream(
 					res.openRawResource(quantizerFileId));
@@ -50,9 +49,8 @@ public class Recognizer {
 			System.err.println("ERROR: Failed to load quantizer! " + ex);
 		}
 
-		// Create a new HMM instance
 		hmm = new HMM();
-		// Load the HMM model from a file
+		// Load serialized HMM
 		try {
 			ObjectInputStream is = new ObjectInputStream(
 					res.openRawResource(modelFileId));
@@ -73,19 +71,23 @@ public class Recognizer {
 
         TimeSeriesClassificationData quantizedTestData = new TimeSeriesClassificationData(1);
         int classLabel = testData.getData().getClassLabel();
-        MatrixDouble quantizedSample = new MatrixDouble();
 
+        MatrixDouble quantizedSample = new MatrixDouble();
+        double[] arg = new double[testData.getData().getLength()];
         for (int j = 0; j < testData.getData().getLength(); j++) {
-            quantizer.quantize(testData.getData().getData().getRowVector(j));
+            arg[j] = quantizer.quantize(testData.getData().getData().getRowVector(j));
             quantizedSample.push_back(quantizer.getFeatureVector());
+            Log.e("Recognizer", "push " + quantizer.getFeatureVector().get(0));
         }
 
+        Log.e("Recognizer", "add 1 sample " + classLabel);
         if (!quantizedTestData.addSample(classLabel, quantizedSample)) {
             System.out.println("ERROR: Failed to quantize training data!");
             return Shape.FAIL;
         }
 
-        hmm.predict(quantizedTestData.getData().getData());
+        
+        hmm.predict(arg);
 
         Log.e("Wizard Fight", "Time: " + (System.currentTimeMillis()-startStamp) + " ms");
         return getShape(hmm.getPredictedClassLabel());

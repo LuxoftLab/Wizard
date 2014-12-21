@@ -15,10 +15,7 @@ class TimeSeriesClassificationData {
 
     private int numDimensions = 0; // /< The number of dimensions in the dataset
 
-    private final boolean allowNullGestureClass = false; // /< A flag that enables/disables a
-    // user from adding new samples with
-    // a class label matching the
-    // default null gesture label
+    private final boolean allowNullGestureClass = false; // TODO delete
 
     // ArrayList containing a set of externalRanges set by the user
     private final ArrayList<ClassTracker> classTracker = new ArrayList<ClassTracker>();

@@ -3,25 +3,24 @@ package com.wizardfight.recognition;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class KMeansQuantizer implements Serializable {// extends
-    // FeatureExtraction{
+public class KMeansQuantizer implements Serializable {
 
     private static final long serialVersionUID = 4L;
 
-    boolean trained = false;
-    boolean featureDataReady = false;
-    boolean initialized;
-    int numClusters;
-    int minNumEpochs = 0;
-    int maxNumEpochs = 100;
-    int numInputDimensions = 0;
-    int numOutputDimensions = 0;
-    double minChange = 1.0e-5;
-    final MatrixDouble clusters = new MatrixDouble();
+    private boolean trained = false; //TODO delete after changing serizalization (not used)
+    private boolean featureDataReady = false; //TODO delete after changing serizalization (not used)
+    private boolean initialized; //TODO delete after changing serizalization (not used)
+    private int numClusters; 
+    private int minNumEpochs = 0; //TODO delete after changing serizalization (not used)
+    private int maxNumEpochs = 100; //TODO delete after changing serizalization (not used)
+    private int numInputDimensions = 0; //TODO set as constant after changing serizalization
+    private int numOutputDimensions = 0; //TODO delete after changing serizalization (not used)
+    private double minChange = 1.0e-5; //TODO delete after changing serizalization (not used)
+    private final MatrixDouble clusters = new MatrixDouble();
     private final String featureExtractionType;
     private String classType = "";
     private final ArrayList<Double> featureVector = new ArrayList<Double>();
-    ArrayList<Double> quantizationDistances = new ArrayList<Double>();
+    private ArrayList<Double> quantizationDistances = new ArrayList<Double>();
 
     /**
      * Default constructor. Initalizes the KMeansQuantizer, setting the number
