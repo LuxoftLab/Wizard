@@ -5,6 +5,9 @@
     <!--  Preferences -->
     <string name="recognition_type">Recognition type</string>
     <string name="recognition_type_summary">Select recognition type</string>
+    <string name="player_name">Player name</string>
+    <string name="player_name_summary">Choose player name for PC connection</string>
+    <string name="wizard">Wizard</string>
     <!--  BluetoothService -->
     <string name="not_connected">You are not connected to a device</string>
     <string name="bt_not_enabled">Bluetooth is not enabled. </string>

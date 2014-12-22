@@ -10,7 +10,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /*
@@ -23,6 +26,7 @@ public class WifiService {
 	public static final int PORT = 8880;
 	private static Worker mWorker;
 	private static String ip;
+	private static Context mContext;
 	
 	public static void init(String addr, Handler handler) {
 		close();
@@ -49,6 +53,10 @@ public class WifiService {
 	public static boolean isConnected() {
 		if(mWorker == null) return false;
 		return mWorker.isWorking();
+	}
+	
+	public static void setContext(Context context) {
+		mContext = context;
 	}
 	
 	public static void close() {
@@ -79,9 +87,12 @@ public class WifiService {
 				sendMsgToHandler(NO_ERROR);
 				ObjectOutputStream out = 
 						new ObjectOutputStream( mmSocket.getOutputStream() );
-				
-				//TODO get player name here 
-				out.writeObject(new String("asdasdasda"));
+
+				// send player name from preferences
+				SharedPreferences appPrefs = PreferenceManager
+						.getDefaultSharedPreferences(mContext);
+				String playerName = appPrefs.getString("player_name", "");
+				out.writeObject(playerName);
 				
 				while(!mmSocket.isClosed()) {
 					Log.e("wifi", "thread loop");

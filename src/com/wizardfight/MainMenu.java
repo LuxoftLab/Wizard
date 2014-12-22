@@ -1,12 +1,16 @@
 package com.wizardfight;
 
+import com.wizardfight.remote.WifiService;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
@@ -42,26 +46,44 @@ public class MainMenu extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.main_menu);
+		
+		// send context to WifiService to read player name
+		WifiService.setContext(getBaseContext());
 
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		// If the adapter is null, then Bluetooth is not supported
+		
 		if (mBluetoothAdapter == null) {
-			Toast.makeText(this, R.string.bt_not_available,
-					Toast.LENGTH_LONG).show();
+			// If the adapter is null, then Bluetooth is not supported
+			Toast.makeText(this, R.string.bt_not_available, Toast.LENGTH_LONG)
+					.show();
 			findViewById(R.id.buttonCreateGame).setVisibility(View.GONE);
 			findViewById(R.id.buttonJoinGame).setVisibility(View.GONE);
 			findViewById(R.id.buttonDesktopConnection).setVisibility(View.GONE);
+			
 		} else {
 			// remember user's BT initial state
 			mIsUserCameWithBt = mBluetoothAdapter.isEnabled();
+
+			// if no player name - set as BT name
+			String bluetoothName = mBluetoothAdapter.getName();
+			if(bluetoothName != null) {
+				SharedPreferences appPrefs = PreferenceManager
+						.getDefaultSharedPreferences(getBaseContext());
+				String pName = appPrefs.getString("player_name", "");
+				if (pName.equals("")) {
+					SharedPreferences.Editor editor = appPrefs.edit();
+					editor.putString("player_name", bluetoothName);
+					editor.commit();
+				}
+			}
 		}
-		
+
 		// volume buttons control multimedia volume
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// get default device orientation
-		int screenOrientation = getDeviceDefaultOrientation();	
-		SensorAndSoundThread.ORIENTATION_HORIZONTAL = 
-			(screenOrientation == Configuration.ORIENTATION_LANDSCAPE);
+		int screenOrientation = getDeviceDefaultOrientation();
+		SensorAndSoundThread.ORIENTATION_HORIZONTAL =
+				(screenOrientation == Configuration.ORIENTATION_LANDSCAPE);
 	}
 
 	@Override
@@ -109,10 +131,10 @@ public class MainMenu extends Activity {
 		Log.e("Wizard Fight", "go to settings");
 	}
 
-    public void exit(View view) {
+	public void exit(View view) {
 		BluetoothService.getInstance().release();
 		// return BT state to last one in
-		if (mBluetoothAdapter != null && !mIsUserCameWithBt 
+		if (mBluetoothAdapter != null && !mIsUserCameWithBt
 				&& mBluetoothAdapter.isEnabled()) {
 			mBluetoothAdapter.disable();
 		}
@@ -124,22 +146,21 @@ public class MainMenu extends Activity {
 		startActivityForResult(enableIntent, r.ordinal());
 	}
 
-	private final int getDeviceDefaultOrientation() { 
-        WindowManager windowManager =  ((WindowManager)getSystemService(Context.WINDOW_SERVICE));
+	private final int getDeviceDefaultOrientation() {
+		WindowManager windowManager = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
 
-        Configuration config = getResources().getConfiguration();
+		Configuration config = getResources().getConfiguration();
 
-        int rotation = windowManager.getDefaultDisplay().getRotation();
+		int rotation = windowManager.getDefaultDisplay().getRotation();
 
-        if ( ((rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) &&
-                config.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            || ((rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) &&    
-                config.orientation == Configuration.ORIENTATION_PORTRAIT)) {
-          return Configuration.ORIENTATION_LANDSCAPE;
-        } else {
-          return Configuration.ORIENTATION_PORTRAIT;
-        }
-    }
+		if (((rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) && config.orientation == Configuration.ORIENTATION_LANDSCAPE)
+				|| ((rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) && config.orientation == Configuration.ORIENTATION_PORTRAIT)) {
+			return Configuration.ORIENTATION_LANDSCAPE;
+		} else {
+			return Configuration.ORIENTATION_PORTRAIT;
+		}
+	}
+
 	@Override
 	public void onBackPressed() {
 		exit(null);
