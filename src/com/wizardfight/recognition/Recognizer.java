@@ -78,7 +78,7 @@ public class Recognizer {
         
         hmm.predict(timeSeries);
 
-        Log.e("Wizard Fight", "Time: " + (System.currentTimeMillis()-startStamp) + " ms");
+        Log.e("Wizard Fight Time", "Time: " + (System.currentTimeMillis()-startStamp) + " ms");
         return getShape(hmm.getPredictedClassLabel());
     }
 

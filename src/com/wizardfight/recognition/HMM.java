@@ -2,8 +2,6 @@ package com.wizardfight.recognition;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.util.Log;
-
 /**
  * This class acts as the main interface for using a Hidden Markov Model.
  */
@@ -35,11 +33,8 @@ public class HMM implements Serializable {
         final int M = timeseries.length;
         int[] observationSequence = new int[M];
 
-        for (int i = 0; i < M; i++) {
-            observationSequence[i] = timeseries[i];
-            Log.e("sequence", i + " " + observationSequence[i]);
-        }
-
+        System.arraycopy(timeseries, 0, observationSequence, 0, M);
+        
         if (classLikelihoods.length != numClasses) {
             classLikelihoods = new double[numClasses];
         }

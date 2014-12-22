@@ -159,11 +159,9 @@ public abstract class FightActivity extends CastActivity {
 
                 switch (appMsg) {
                     case MESSAGE_STATE_CHANGE:
-                        if (D)
-                            Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+                        if (D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                         switch (msg.arg1) {
                             case BluetoothService.STATE_CONNECTED:
-                                // start fight
                                 startFight();
                                 break;
                             case BluetoothService.STATE_NONE:
@@ -171,7 +169,6 @@ public abstract class FightActivity extends CastActivity {
                         }
                         break;
                     case MESSAGE_DEVICE_NAME:
-                        // save the connected device's name
                         String mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.connected_to) + mConnectedDeviceName,
@@ -192,13 +189,11 @@ public abstract class FightActivity extends CastActivity {
                         finish();
                         break;
                     case MESSAGE_FROM_SELF:
-                        if (mAreMessagesBlocked)
-                            return;
+                        if (mAreMessagesBlocked) return;
                         FightMessage selfMsg = (FightMessage) msg.obj;
                         handleSelfMessage(selfMsg);
                         break;
                     case MESSAGE_SELF_DEATH:
-                        Log.e("azaza", "send fight end message to enemy");
                         FightMessage selfDeath = new FightMessage(Target.ENEMY,
                                 FightAction.FIGHT_END);
                         sendFightMessage(selfDeath);
@@ -215,34 +210,34 @@ public abstract class FightActivity extends CastActivity {
                                 startFight();
                                 break;
                             case FIGHT_END:
-                                Log.e("azaza", "MESSAGE FIGHT END!!!");
                                 finishFight(Target.SELF);
                                 break;
                             default:
-                                if (mAreMessagesBlocked)
-                                    return;
+                                if (mAreMessagesBlocked) return;
                                 handleEnemyMessage(enemyMsg);
                         }
                         break;
                     case MESSAGE_MANA_REGEN:
-                        mSelfState.manaTick();
-                        mSelfGUI.getManaBar().setValue(mSelfState.getMana());
-                        // inform enemy about new mana
-                        FightMessage fMsg = new FightMessage(Target.ENEMY,
-                                FightAction.NEW_HP_OR_MANA, Shape.NONE.ordinal());
-                        sendFightMessage(fMsg);
-                        // send next tick after 2 sec
-                        Message msgManaReg = this.obtainMessage(
-                                AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
-                        this.sendMessageDelayed(msgManaReg, 2000);
+                        handleManaRegen();
                         break;
                     default:
-                        if (D)
-                            Log.e("Wizard Fight", "Unknown message");
                         break;
                 }
             }
 
+            private void handleManaRegen() {
+            	mSelfState.manaTick();
+                mSelfGUI.getManaBar().setValue(mSelfState.getMana());
+                // inform enemy about new mana
+                FightMessage fMsg = new FightMessage(Target.ENEMY,
+                        FightAction.NEW_HP_OR_MANA, Shape.NONE.ordinal());
+                sendFightMessage(fMsg);
+                // send next tick after 2 sec
+                Message msgManaReg = this.obtainMessage(
+                        AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
+                this.sendMessageDelayed(msgManaReg, 2000);
+            }
+            
             private void handleSelfMessage(FightMessage selfMsg) {
                 Shape sendShape = FightMessage.getShapeFromMessage(selfMsg);
                 if (sendShape != Shape.NONE) {
@@ -351,7 +346,6 @@ public abstract class FightActivity extends CastActivity {
                     sendFightMessage(sendMsg);
                     // add buff to panel
                     mSelfGUI.getBuffPanel().addBuff(addedBuff);
-                    Log.e("azaza", "! send buff on" + sendMsg);
                 }
 
                 if (addedBuff != null || refreshedBuff != null) {
@@ -364,7 +358,6 @@ public abstract class FightActivity extends CastActivity {
                             AppMessage.MESSAGE_FROM_SELF.ordinal(), fm);
                     this.sendMessageDelayed(buffTickMsg,
                             refreshedBuff.getDuration());
-                    Log.e("azaza", "! send buff tick " + buffTickMsg);
                 }
 
                 if (addedBuff == null && removedBuff == null) {
