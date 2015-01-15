@@ -100,7 +100,6 @@ public class Spellbook extends Activity {
 		int textC = Color.argb(200, 102, 60, 22);
 
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		//pixelSize = (int)scaledPixelSize * dm.scaledDensity;
 		TextView nameV = new TextView(this);
 		nameV.setText(name);
 		nameV.setLayoutParams(new ViewGroup.LayoutParams(
@@ -150,6 +149,7 @@ public class Spellbook extends Activity {
 		r.addView(nameV);
 		r.addView(textSV);
 		r.addView(imV);
+
 		mCards.add(r);
 		mCardLayout.addView(r);
 	}

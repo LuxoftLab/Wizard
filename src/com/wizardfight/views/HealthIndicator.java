@@ -34,7 +34,7 @@ public class HealthIndicator extends Indicator {
     public HealthIndicator (Context context,AttributeSet attrs) {
         super(context, attrs);
         mBarColor = Color.GREEN;
-		mTextColor = Color.BLACK;
+		mTextColor = Color.WHITE;
         mUnderBarColor = Color.RED;
     }
     
@@ -55,22 +55,7 @@ public class HealthIndicator extends Indicator {
         mRect.right = width * mPrevValue / mMaxValue;
         canvas.drawRect(mRect, mPaint);
 
-        mPaint.setColor(mBarColor);
-        mRect.right = width * mCurValue / mMaxValue;
-        mRect.right++;
-        canvas.drawRect(mRect, mPaint);
-        
-        String label = mCurValue + "/" + mMaxValue;
-        mPaint.setTextSize(height * 0.3f);
-        mPaint.getTextBounds(label, 0, label.length(), mTextBounds);
-        mPaint.setColor(Color.WHITE);
-
-        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f,
-                (height+1 + mTextBounds.height()) * 0.5f, mPaint);
-        mPaint.setColor(mTextColor);
-        
-        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f, 
-        		(height + mTextBounds.height()) * 0.5f, mPaint);
+        super.onDraw(canvas);
     }
     
     public void setValue(int value) {

@@ -38,24 +38,29 @@ public class Indicator extends View {
         int height = getHeight();
         mRect.set(0,0,width,height);
 
-        mPaint.setColor(Color.GRAY);
-        canvas.drawRect(mRect, mPaint);
 
         mPaint.setColor(mBarColor);
         mRect.right = width * mCurValue / mMaxValue;
         canvas.drawRect(mRect, mPaint);
-        
+
         String label = mCurValue + "/" + mMaxValue;
         mPaint.setTextSize(height * 0.3f);
         mPaint.getTextBounds(label, 0, label.length(), mTextBounds);
-
-        mPaint.setColor(Color.GRAY);
-        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f,
-                (height+1+ mTextBounds.height()) * 0.5f, mPaint);
+        mPaint.setColor(mBarColor);
 
         mPaint.setColor(Color.BLACK);
-        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f, 
-        		(height + mTextBounds.height()) * 0.5f, mPaint);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeMiter(10);
+        mPaint.setStrokeWidth(3);//Kostya!
+        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f,
+                (height + mTextBounds.height()) * 0.5f, mPaint);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStrokeMiter(1);
+        mPaint.setStrokeWidth(0);
+        mPaint.setColor(mTextColor);
+        canvas.drawText(label, (width - mTextBounds.width()) * 0.5f,
+                (height + mTextBounds.height()) * 0.5f, mPaint);
     }
     
     public void setValue(int value) {
