@@ -46,11 +46,7 @@ public abstract class CastActivity extends Activity {
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		// Init recognition resources
-		SharedPreferences appPrefs = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		String rType = appPrefs.getString("recognition_type", "");
-		Log.e("Wizard Fight", rType);
-		Recognizer.init(getResources(), rType);
+		Recognizer.init(getResources());
 		AccRecognition.init(getResources());
 		// Get sensors
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

@@ -18,31 +18,12 @@ public class Recognizer {
     private static HMM hmm;
     private static final int TRAINED_NUM_CLUSTERS = 20;
 
-    public static void init(Resources res, String recoFileName) {
-		// The input to the HMM must be a quantized discrete value
-		// We therefore use a KMeansQuantizer to covert the N-dimensional
-		// continuous data into 1-dimensional discrete data
-		int quantizerFileId = R.raw.hmm_quantizer;
-		int modelFileId =  R.raw.hmm_model;
-		
-		// choose recognition base 
-		if(recoFileName.equals("23.08.14")) {
-			Log.e("Wizard Fight", "recognition 23.08.14");
-			quantizerFileId = R.raw.hmm_quantizer;
-			modelFileId = R.raw.hmm_model;
-		} else if (recoFileName.equals("07.09.14")){
-			Log.e("Wizard Fight", "recognition 07.09.14");
-			quantizerFileId = R.raw.hmm_quantizer_0709;
-			modelFileId = R.raw.hmm_model_0709;
-		} else {
-			Log.e("Wizard Fight", "recognition 23.08.14");
-		}
-
+    public static void init(Resources res) {
 		quantizer = new KMeansQuantizer(TRAINED_NUM_CLUSTERS);
 		// Load serialized quantizer
 		try {
 			ObjectInputStream is = new ObjectInputStream(
-					res.openRawResource(quantizerFileId));
+					res.openRawResource(R.raw.hmm_quantizer));
 			quantizer = (KMeansQuantizer) is.readObject();
 			is.close();
 		} catch (Exception ex) {
@@ -53,7 +34,7 @@ public class Recognizer {
 		// Load serialized HMM
 		try {
 			ObjectInputStream is = new ObjectInputStream(
-					res.openRawResource(modelFileId));
+					res.openRawResource(R.raw.hmm_model));
 			hmm = (HMM) is.readObject();
 			is.close();
 		} catch (Exception ex) {

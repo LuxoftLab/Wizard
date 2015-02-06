@@ -15,10 +15,6 @@ public final class R {
         public static final int fade_in=0x7f040003;
         public static final int fade_out=0x7f040004;
     }
-    public static final class array {
-        public static final int recognition_types_labels=0x7f070000;
-        public static final int recognition_types_values=0x7f070001;
-    }
     public static final class attr {
     }
     public static final class drawable {
@@ -54,59 +50,59 @@ public final class R {
         public static final int z=0x7f02001d;
     }
     public static final class id {
-        public static final int buttonCreateGame=0x7f0a0021;
-        public static final int buttonDesktopConnection=0x7f0a0024;
-        public static final int buttonJoinGame=0x7f0a0022;
-        public static final int buttonTestMode=0x7f0a0023;
-        public static final int button_cancel_waiting=0x7f0a0001;
-        public static final int button_scan=0x7f0a0007;
-        public static final int connect_to_pc=0x7f0a0026;
-        public static final int enemy_buff1=0x7f0a001a;
-        public static final int enemy_buff2=0x7f0a001b;
-        public static final int enemy_buff3=0x7f0a001c;
-        public static final int enemy_buff4=0x7f0a001d;
-        public static final int enemy_buff5=0x7f0a001e;
-        public static final int enemy_buff_line=0x7f0a0019;
-        public static final int enemy_health=0x7f0a0015;
-        public static final int enemy_mana=0x7f0a0017;
-        public static final int enemy_spell=0x7f0a0018;
-        public static final int fight_background=0x7f0a0009;
-        public static final int fight_layout_root=0x7f0a000a;
-        public static final int horizontalScrollView=0x7f0a002c;
-        public static final int imageView=0x7f0a000c;
-        public static final int imageView2=0x7f0a0016;
-        public static final int ip=0x7f0a0028;
-        public static final int layoutForCards=0x7f0a002d;
-        public static final int logo=0x7f0a0020;
-        public static final int mainID=0x7f0a0008;
-        public static final int mainLayout=0x7f0a001f;
-        public static final int net_conn_status=0x7f0a002a;
-        public static final int net_name=0x7f0a0029;
-        public static final int net_settings_button=0x7f0a002b;
-        public static final int new_devices=0x7f0a0006;
-        public static final int number_correct_spell=0x7f0a0033;
-        public static final int paired_devices=0x7f0a0004;
-        public static final int pc_conn_layout=0x7f0a0025;
-        public static final int pc_conn_status=0x7f0a0027;
-        public static final int radio_complexity=0x7f0a0000;
-        public static final int self_buff1=0x7f0a0010;
-        public static final int self_buff2=0x7f0a0011;
-        public static final int self_buff3=0x7f0a0012;
-        public static final int self_buff4=0x7f0a0013;
-        public static final int self_buff5=0x7f0a0014;
-        public static final int self_buff_line=0x7f0a000f;
-        public static final int self_health=0x7f0a000b;
-        public static final int self_mana=0x7f0a000d;
-        public static final int self_spell=0x7f0a000e;
-        public static final int spell_anim_view=0x7f0a0031;
-        public static final int spell_anim_view_l=0x7f0a0030;
-        public static final int spell_name=0x7f0a002f;
-        public static final int starting_text=0x7f0a0002;
-        public static final int title_new_devices=0x7f0a0005;
-        public static final int title_paired_devices=0x7f0a0003;
-        public static final int tutorial_cast_result=0x7f0a0032;
-        public static final int tutorial_layout=0x7f0a002e;
-        public static final int view=0x7f0a0034;
+        public static final int buttonCreateGame=0x7f090021;
+        public static final int buttonDesktopConnection=0x7f090024;
+        public static final int buttonJoinGame=0x7f090022;
+        public static final int buttonTestMode=0x7f090023;
+        public static final int button_cancel_waiting=0x7f090001;
+        public static final int button_scan=0x7f090007;
+        public static final int connect_to_pc=0x7f090026;
+        public static final int enemy_buff1=0x7f09001a;
+        public static final int enemy_buff2=0x7f09001b;
+        public static final int enemy_buff3=0x7f09001c;
+        public static final int enemy_buff4=0x7f09001d;
+        public static final int enemy_buff5=0x7f09001e;
+        public static final int enemy_buff_line=0x7f090019;
+        public static final int enemy_health=0x7f090015;
+        public static final int enemy_mana=0x7f090017;
+        public static final int enemy_spell=0x7f090018;
+        public static final int fight_background=0x7f090009;
+        public static final int fight_layout_root=0x7f09000a;
+        public static final int horizontalScrollView=0x7f09002c;
+        public static final int imageView=0x7f09000c;
+        public static final int imageView2=0x7f090016;
+        public static final int ip=0x7f090028;
+        public static final int layoutForCards=0x7f09002d;
+        public static final int logo=0x7f090020;
+        public static final int mainID=0x7f090008;
+        public static final int mainLayout=0x7f09001f;
+        public static final int net_conn_status=0x7f09002a;
+        public static final int net_name=0x7f090029;
+        public static final int net_settings_button=0x7f09002b;
+        public static final int new_devices=0x7f090006;
+        public static final int number_correct_spell=0x7f090033;
+        public static final int paired_devices=0x7f090004;
+        public static final int pc_conn_layout=0x7f090025;
+        public static final int pc_conn_status=0x7f090027;
+        public static final int radio_complexity=0x7f090000;
+        public static final int self_buff1=0x7f090010;
+        public static final int self_buff2=0x7f090011;
+        public static final int self_buff3=0x7f090012;
+        public static final int self_buff4=0x7f090013;
+        public static final int self_buff5=0x7f090014;
+        public static final int self_buff_line=0x7f09000f;
+        public static final int self_health=0x7f09000b;
+        public static final int self_mana=0x7f09000d;
+        public static final int self_spell=0x7f09000e;
+        public static final int spell_anim_view=0x7f090031;
+        public static final int spell_anim_view_l=0x7f090030;
+        public static final int spell_name=0x7f09002f;
+        public static final int starting_text=0x7f090002;
+        public static final int title_new_devices=0x7f090005;
+        public static final int title_paired_devices=0x7f090003;
+        public static final int tutorial_cast_result=0x7f090032;
+        public static final int tutorial_layout=0x7f09002e;
+        public static final int view=0x7f090034;
     }
     public static final class layout {
         public static final int bot_setup=0x7f030000;
@@ -127,91 +123,87 @@ public final class R {
         public static final int clock_sound=0x7f060003;
         public static final int fail_sound=0x7f060004;
         public static final int hmm_model=0x7f060005;
-        public static final int hmm_model_0709=0x7f060006;
-        public static final int hmm_model_0709_copy=0x7f060007;
-        public static final int hmm_quantizer=0x7f060008;
-        public static final int hmm_quantizer_0709=0x7f060009;
-        public static final int hmm_quantizer_0709_copy=0x7f06000a;
-        public static final int magic=0x7f06000b;
-        public static final int more_mana=0x7f06000c;
-        public static final int pi_sound=0x7f06000d;
-        public static final int shield_sound=0x7f06000e;
-        public static final int triangle_sound=0x7f06000f;
-        public static final int v_sound=0x7f060010;
-        public static final int z_sound=0x7f060011;
+        public static final int hmm_quantizer=0x7f060006;
+        public static final int magic=0x7f060007;
+        public static final int more_mana=0x7f060008;
+        public static final int pi_sound=0x7f060009;
+        public static final int shield_sound=0x7f06000a;
+        public static final int triangle_sound=0x7f06000b;
+        public static final int v_sound=0x7f06000c;
+        public static final int z_sound=0x7f06000d;
     }
     public static final class string {
-        public static final int app_name=0x7f080000;
-        public static final int bot_easy=0x7f080020;
-        public static final int bot_hard=0x7f080022;
-        public static final int bot_mid=0x7f080021;
+        public static final int app_name=0x7f070000;
+        public static final int bot_easy=0x7f070020;
+        public static final int bot_hard=0x7f070022;
+        public static final int bot_mid=0x7f070021;
         /**   DeviceListActivity 
   DeviceListActivity 
          */
-        public static final int bt_not_available=0x7f080008;
-        public static final int bt_not_enabled=0x7f080007;
-        public static final int button_scan=0x7f08000f;
-        public static final int cancel=0x7f08001b;
-        public static final int client_waiting=0x7f080019;
+        public static final int bt_not_available=0x7f070008;
+        public static final int bt_not_enabled=0x7f070007;
+        public static final int button_scan=0x7f07000f;
+        public static final int cancel=0x7f07001b;
+        public static final int client_waiting=0x7f070019;
         /**   Connection to desktop  
   Connection to desktop  
          */
-        public static final int connect=0x7f080027;
-        public static final int connect_to_pc=0x7f080013;
+        public static final int connect=0x7f070027;
+        public static final int connect_to_pc=0x7f070013;
         /**   Bt Fight Activity 
   Bt Fight Activity 
          */
-        public static final int connected_to=0x7f080018;
-        public static final int connection_fail=0x7f08001d;
-        public static final int connection_lost=0x7f08001c;
+        public static final int connected_to=0x7f070018;
+        public static final int connection_fail=0x7f07001d;
+        public static final int connection_lost=0x7f07001c;
         /**  Fight Activity 
  Fight Activity 
          */
-        public static final int countdown_fight=0x7f08001e;
+        public static final int countdown_fight=0x7f07001e;
         /**   Main Menu 
   Main Menu 
          */
-        public static final int create_game=0x7f080010;
-        public static final int disabled=0x7f080030;
-        public static final int disconnect=0x7f080028;
-        public static final int enabled=0x7f080031;
-        public static final int exit=0x7f080017;
-        public static final int fight_ended=0x7f080025;
-        public static final int join_game=0x7f080011;
-        public static final int net_name=0x7f08002a;
-        public static final int no_network_conn=0x7f08002e;
-        public static final int no_network_conn2=0x7f08002f;
-        public static final int none_found=0x7f08000c;
-        public static final int none_paired=0x7f08000b;
+        public static final int create_game=0x7f070010;
+        public static final int disabled=0x7f070030;
+        public static final int disconnect=0x7f070028;
+        public static final int enabled=0x7f070031;
+        public static final int exit=0x7f070017;
+        public static final int fight_ended=0x7f070025;
+        public static final int join_game=0x7f070011;
+        public static final int net_name=0x7f07002a;
+        public static final int no_network_conn=0x7f07002e;
+        public static final int no_network_conn2=0x7f07002f;
+        public static final int none_found=0x7f07000c;
+        public static final int none_paired=0x7f07000b;
         /**   BluetoothService 
   BluetoothService 
          */
-        public static final int not_connected=0x7f080006;
-        public static final int pc_conn_established=0x7f08002c;
-        public static final int pc_conn_fail=0x7f08002b;
-        public static final int pc_conn_not_established=0x7f08002d;
-        public static final int player_name=0x7f080003;
-        public static final int player_name_summary=0x7f080004;
+        public static final int not_connected=0x7f070006;
+        public static final int pc_conn_established=0x7f07002c;
+        public static final int pc_conn_fail=0x7f07002b;
+        public static final int pc_conn_not_established=0x7f07002d;
+        public static final int player_name=0x7f070003;
+        public static final int player_name_summary=0x7f070004;
         /**   Preferences 
   Preferences 
          */
-        public static final int recognition_type=0x7f080001;
-        public static final int recognition_type_summary=0x7f080002;
-        public static final int restart=0x7f080026;
-        public static final int scanning=0x7f080009;
-        public static final int select_device=0x7f08000a;
-        public static final int settings=0x7f080016;
-        public static final int show_settings=0x7f080029;
-        public static final int spellbook=0x7f080015;
-        public static final int title_bot=0x7f08001f;
-        public static final int title_other_devices=0x7f08000e;
-        public static final int title_paired_devices=0x7f08000d;
-        public static final int training=0x7f080012;
-        public static final int trying_to_connect=0x7f08001a;
-        public static final int tutorial=0x7f080014;
-        public static final int wizard=0x7f080005;
-        public static final int you_lose=0x7f080024;
-        public static final int you_win=0x7f080023;
+        public static final int recognition_type=0x7f070001;
+        public static final int recognition_type_summary=0x7f070002;
+        public static final int restart=0x7f070026;
+        public static final int scanning=0x7f070009;
+        public static final int select_device=0x7f07000a;
+        public static final int settings=0x7f070016;
+        public static final int show_settings=0x7f070029;
+        public static final int spellbook=0x7f070015;
+        public static final int title_bot=0x7f07001f;
+        public static final int title_other_devices=0x7f07000e;
+        public static final int title_paired_devices=0x7f07000d;
+        public static final int training=0x7f070012;
+        public static final int trying_to_connect=0x7f07001a;
+        public static final int tutorial=0x7f070014;
+        public static final int wizard=0x7f070005;
+        public static final int you_lose=0x7f070024;
+        public static final int you_win=0x7f070023;
     }
     public static final class style {
         /** 
@@ -224,18 +216,18 @@ public final class R {
             backward-compatibility can go here.
         
          */
-        public static final int AppBaseTheme=0x7f090000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f090001;
+        public static final int AppTheme=0x7f080001;
         /**   Countdown theme  
          */
-        public static final int CountdownDialog=0x7f090004;
+        public static final int CountdownDialog=0x7f080004;
         /**  Client Waiting theme 
          */
-        public static final int WDialog=0x7f090002;
-        public static final int WDialog_Button=0x7f090003;
+        public static final int WDialog=0x7f080002;
+        public static final int WDialog_Button=0x7f080003;
     }
     public static final class xml {
         public static final int device_list_item=0x7f050000;

@@ -176,7 +176,10 @@ public class FightMessage implements Serializable {
 		case NEW_HP_OR_MANA:
 			Shape s = Shape.values()[ msg.mParam ];
 			FightAction a = FightMessage.getActionFromShape(s);
-			spellDealsDamage = ( a != FightAction.HEAL);
+			spellDealsDamage = ( a != FightAction.HEAL && a != FightAction.FAIL);
+			break;
+		case FAIL:
+			spellDealsDamage = false;
 			break;
 		case NONE:
 		default:
