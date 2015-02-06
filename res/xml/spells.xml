@@ -93,14 +93,14 @@
 Воздействие: востанавливает по 5 единиц здоровья в секунду (5 раз).</description>
         <img>
             pi.png
-        </img>
-        <pointX>0</pointX>
+        </img>        
+        <pointX>100</pointX>
         <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
         <pointX>0</pointX>
-        <pointY>0</pointY>
-        <pointX>100</pointX>
-        <pointY>0</pointY>
-        <pointX>100</pointX>
+        <pointY>0</pointY>        
+        <pointX>0</pointX>
         <pointY>100</pointY>
         <shape>pi</shape>
     </spell>

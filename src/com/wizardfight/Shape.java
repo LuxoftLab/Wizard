@@ -40,6 +40,8 @@ public enum Shape {
                 return R.drawable.pi;
             case SHIELD:
                 return R.drawable.shield;
+            case FAIL:
+            	return R.drawable.fail;
             default:
                 return R.drawable.fail;
         }

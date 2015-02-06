@@ -121,20 +121,24 @@ public final class R {
         public static final int tutorial=0x7f030009;
     }
     public static final class raw {
-        public static final int buff_off_shield_sound=0x7f060000;
-        public static final int circle_sound=0x7f060001;
-        public static final int clock_sound=0x7f060002;
-        public static final int hmm_model=0x7f060003;
-        public static final int hmm_model_0709=0x7f060004;
-        public static final int hmm_quantizer=0x7f060005;
-        public static final int hmm_quantizer_0709=0x7f060006;
-        public static final int magic=0x7f060007;
-        public static final int more_mana=0x7f060008;
-        public static final int pi_sound=0x7f060009;
-        public static final int shield_sound=0x7f06000a;
-        public static final int triangle_sound=0x7f06000b;
-        public static final int v_sound=0x7f06000c;
-        public static final int z_sound=0x7f06000d;
+        public static final int acc_model=0x7f060000;
+        public static final int buff_off_shield_sound=0x7f060001;
+        public static final int circle_sound=0x7f060002;
+        public static final int clock_sound=0x7f060003;
+        public static final int fail_sound=0x7f060004;
+        public static final int hmm_model=0x7f060005;
+        public static final int hmm_model_0709=0x7f060006;
+        public static final int hmm_model_0709_copy=0x7f060007;
+        public static final int hmm_quantizer=0x7f060008;
+        public static final int hmm_quantizer_0709=0x7f060009;
+        public static final int hmm_quantizer_0709_copy=0x7f06000a;
+        public static final int magic=0x7f06000b;
+        public static final int more_mana=0x7f06000c;
+        public static final int pi_sound=0x7f06000d;
+        public static final int shield_sound=0x7f06000e;
+        public static final int triangle_sound=0x7f06000f;
+        public static final int v_sound=0x7f060010;
+        public static final int z_sound=0x7f060011;
     }
     public static final class string {
         public static final int app_name=0x7f080000;

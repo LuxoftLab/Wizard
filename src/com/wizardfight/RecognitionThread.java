@@ -3,8 +3,8 @@ package com.wizardfight;
 import java.util.ArrayList;
 import com.wizardfight.FightActivity.AppMessage;
 import com.wizardfight.components.*;
+import com.wizardfight.accrecognizer.AccRecognition;
 import com.wizardfight.recognition.Recognizer;
-
 import android.os.Handler;
 import android.util.Log;
 
@@ -25,7 +25,22 @@ class RecognitionThread extends Thread {
 	public void run() {
 		try {
 			Log.e("Wizard fight", "Recognition thread begin");
-			Shape shape = Recognizer.recognize(mRecords);
+			String shapeStr = AccRecognition.recognize(mRecords).toUpperCase();
+			Shape accShape, shape;
+			boolean goodDensity = AccRecognition.isGoodDensity();
+			try {
+				accShape = Shape.valueOf(shapeStr.toUpperCase());
+			} catch(Exception e) {
+				accShape = Shape.FAIL;
+			}
+			
+			if(goodDensity) {
+				shape = accShape;
+			} else {
+				Shape hmmShape = Recognizer.recognize(mRecords);
+				shape = (accShape == hmmShape)? accShape : Shape.FAIL; 
+			}
+			
 			FightMessage message = new FightMessage(shape);
 			mHandler.obtainMessage(AppMessage.MESSAGE_FROM_SELF.ordinal(), 0, 0, message)
         		.sendToTarget();

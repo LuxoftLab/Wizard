@@ -94,13 +94,13 @@ Effect: recovers 5 health points per second (5 times).</description>
         <img>
             pi.png
         </img>
-        <pointX>0</pointX>
+        <pointX>100</pointX>
         <pointY>100</pointY>
+        <pointX>100</pointX>
+        <pointY>0</pointY>
         <pointX>0</pointX>
-        <pointY>0</pointY>
-        <pointX>100</pointX>
-        <pointY>0</pointY>
-        <pointX>100</pointX>
+        <pointY>0</pointY>        
+        <pointX>0</pointX>
         <pointY>100</pointY>
         <shape>pi</shape>
     </spell>

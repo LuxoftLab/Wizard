@@ -113,6 +113,9 @@ public class FightMessage implements Serializable {
 			if(message.mParam >= 0)
 				shape = Shape.values()[ message.mParam ];
 			break;
+		case FAIL:
+			shape = Shape.FAIL;
+			break;
 		default:
 			shape = Shape.NONE;
 		}
@@ -136,6 +139,9 @@ public class FightMessage implements Serializable {
 			break;
 		case CLOCK:
 			action = FightAction.HEAL;
+			break;
+		case FAIL:
+			action = FightAction.FAIL;
 			break;
 		default:
 			action = FightAction.NONE;
@@ -247,7 +253,8 @@ public class FightMessage implements Serializable {
 		BUFF_TICK,
 		BUFF_OFF,
 		NEW_HP_OR_MANA,
-		NONE;
+		NONE,
+		FAIL;
 		
 		/*
 		 *  strings are needed for debugging or string message 
@@ -264,7 +271,8 @@ public class FightMessage implements Serializable {
 			"buff_tick",
 			"buff_off",
 			"new_hp_or_mana",
-			"none"
+			"none",
+			"fail"
 		};
 		
 		@Override

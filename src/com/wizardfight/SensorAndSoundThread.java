@@ -3,6 +3,7 @@ package com.wizardfight;
 import java.util.ArrayList;
 import java.util.EnumMap;
 
+import com.wizardfight.accrecognizer.AccRecognizer;
 import com.wizardfight.components.Vector3d;
 
 import android.content.Context;
@@ -60,6 +61,8 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 				mSoundPool.load(context, R.raw.pi_sound, 1));
 		mShapeSoundIDs.put(Shape.CLOCK,
 				mSoundPool.load(context, R.raw.clock_sound, 1));
+		mShapeSoundIDs.put(Shape.FAIL, 
+				mSoundPool.load(context, R.raw.fail_sound, 1));
 
 		mBuffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
 		mBuffSoundIDs.put(Buff.HOLY_SHIELD,
@@ -120,7 +123,7 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	public ArrayList<Vector3d> stopAndGetResult() {
 		mListening = false;
 		mSoundPool.pause(mWandStreamID);
-		return resize(mRecords, 50);
+		return Vector3d.squeeze(mRecords, AccRecognizer.Speed.SLOW.size);
 	}
 
 	public void stopLoop() {
@@ -163,31 +166,5 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		if (amplitude > 1.0f)
 			amplitude = 1.0f;
 		mSoundPool.setVolume(mWandStreamID, amplitude, amplitude);
-	}
-
-	private static ArrayList<Vector3d> resize(ArrayList<Vector3d> a, int size) {
-		if (a.size() < size)
-			return a;
-		ArrayList<Vector3d> s = new ArrayList<Vector3d>();
-		double step = a.size() / (double) (size);
-		for (int i = 0; i < size; i++) {
-			s.add(getArrayResizeItem(a, step * i));
-		}
-		return s;
-	}
-
-	private static Vector3d getArrayResizeItem(ArrayList<Vector3d> a, double i) {
-		if (((i == ((int) i))))
-			return a.get((int) i);
-		if (i + 1 >= a.size())
-			return a.get(a.size() - 1);
-		double fPart = i % 1;
-		double x = a.get((int) i).x + (a.get((int) i + 1).x - a.get((int) i).x)
-				* fPart;
-		double y = a.get((int) i).y + (a.get((int) i + 1).y - a.get((int) i).y)
-				* fPart;
-		double z = a.get((int) i).z + (a.get((int) i + 1).z - a.get((int) i).z)
-				* fPart;
-		return new Vector3d(x, y, z);
 	}
 }

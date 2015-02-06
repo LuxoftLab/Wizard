@@ -2,6 +2,8 @@ package com.wizardfight;
 
 import java.util.ArrayList;
 
+import com.wizardfight.accrecognizer.AccRecognition;
+import com.wizardfight.accrecognizer.AccRecognizer;
 import com.wizardfight.components.Vector3d;
 import com.wizardfight.recognition.Recognizer;
 
@@ -49,7 +51,7 @@ public abstract class CastActivity extends Activity {
 		String rType = appPrefs.getString("recognition_type", "");
 		Log.e("Wizard Fight", rType);
 		Recognizer.init(getResources(), rType);
-
+		AccRecognition.init(getResources());
 		// Get sensors
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager
