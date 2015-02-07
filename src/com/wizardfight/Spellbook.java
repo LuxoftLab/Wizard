@@ -45,7 +45,7 @@ public class Spellbook extends Activity {
 			while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
 				switch (xpp.getEventType()) {
 				case XmlPullParser.START_TAG:
-					Log.e("Wizard Fight", "start: " + xpp.getName());
+//					Log.e("Wizard Fight", "start: " + xpp.getName());
 					if (xpp.getName().equals("name"))
 						t = 1;
 					else if (xpp.getName().equals("description"))
@@ -54,13 +54,13 @@ public class Spellbook extends Activity {
 						t = 3;
 					break;
 				case XmlPullParser.END_TAG:
-					Log.e("Wizard Fight", "end: " + xpp.getName());
+//					Log.e("Wizard Fight", "end: " + xpp.getName());
 					if (xpp.getName().equals("spell"))
 						addSpellCard(name, desc, img);
 					t = 0;
 					break;
 				case XmlPullParser.TEXT:
-					Log.e("Wizard Fight", "[" + t + "] text: " + xpp.getText());
+//					Log.e("Wizard Fight", "[" + t + "] text: " + xpp.getText());
 					switch (t) {
 					case 1:
 						name = xpp.getText();
@@ -102,13 +102,9 @@ public class Spellbook extends Activity {
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		TextView nameV = new TextView(this);
 		nameV.setText(name);
-		nameV.setLayoutParams(new ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT));
 		nameV.setTextSize(metrics.widthPixels/15  / (metrics.xdpi/160));
-		nameV.setPadding(0, (int) (h / 2.18), 0, 0);
 		nameV.setTextColor(textC);
-		nameV.setGravity(Gravity.CENTER);
+		
 
 		ScrollView textSV = new ScrollView(this);
 		textSV.setLayoutParams(new ViewGroup.LayoutParams((int) (w * 0.88),
@@ -124,10 +120,10 @@ public class Spellbook extends Activity {
 		descriptionV.setTextColor(textC);
 		textSV.addView(descriptionV);
 
-		ImageView imV = new ImageView(this);
-		imV.setLayoutParams(new ViewGroup.LayoutParams((int) (w * 0.8),
+		ImageView imShape = new ImageView(this);
+		imShape.setLayoutParams(new ViewGroup.LayoutParams((int) (w * 0.8),
 				(int) (w * 0.65)));
-		imV.setPadding((int) (w * 0.2), (int) (w * 0.2), 0, 0);
+		imShape.setPadding((int) (w * 0.2), (int) (w * 0.2), 0, 0);
 		StringBuilder sb = new StringBuilder(img);
 		for (int i = 0; i < sb.length(); i++) {
 			if ((sb.charAt(i) == ' ') || (sb.charAt(i) == '\n')) {
@@ -137,18 +133,38 @@ public class Spellbook extends Activity {
 		}
 		img = sb.toString();
 		try {
-			imV.setImageBitmap(BitmapFactory
+			imShape.setImageBitmap(BitmapFactory
 					.decodeStream(getAssets().open(img)));
 		} catch (IOException e) {
             Log.e("Wizard Fight","SpellBookError",e);
 		}
-
+		ImageView imIcon = new ImageView(this);
+		imIcon.setLayoutParams(new ViewGroup.LayoutParams((int) (0.17*w), (int) (0.15*w)));
+		imIcon.setPadding(0, 0, (int) (0.03*w), 0);
+		try {
+			imIcon.setImageBitmap(BitmapFactory
+					.decodeStream(getAssets().open("icons/" + img)));
+		} catch (IOException e) {
+            Log.e("Wizard Fight","SpellBookError",e);
+		}
+		LinearLayout title = new LinearLayout(this);
+		title.addView(imIcon);
+		title.addView(nameV);
+		title.setLayoutParams(new ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
+		title.setPadding(0, (int) (h / 2.18), 0, 0);
+		title.setGravity(Gravity.CENTER);
+		
 		r.setBackgroundResource(R.drawable.card);
+		
 		r.setLayoutParams(rlp);
 
-		r.addView(nameV);
+//		r.addView(nameV);
+		r.addView(title);
 		r.addView(textSV);
-		r.addView(imV);
+		r.addView(imShape);
+//		r.addView(imIcon);
 
 		mCards.add(r);
 		mCardLayout.addView(r);
