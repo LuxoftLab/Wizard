@@ -45,7 +45,6 @@ public class Spellbook extends Activity {
 			while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
 				switch (xpp.getEventType()) {
 				case XmlPullParser.START_TAG:
-//					Log.e("Wizard Fight", "start: " + xpp.getName());
 					if (xpp.getName().equals("name"))
 						t = 1;
 					else if (xpp.getName().equals("description"))
@@ -54,13 +53,11 @@ public class Spellbook extends Activity {
 						t = 3;
 					break;
 				case XmlPullParser.END_TAG:
-//					Log.e("Wizard Fight", "end: " + xpp.getName());
 					if (xpp.getName().equals("spell"))
 						addSpellCard(name, desc, img);
 					t = 0;
 					break;
 				case XmlPullParser.TEXT:
-//					Log.e("Wizard Fight", "[" + t + "] text: " + xpp.getText());
 					switch (t) {
 					case 1:
 						name = xpp.getText();
@@ -86,7 +83,7 @@ public class Spellbook extends Activity {
 	}
 
 	void addSpellCard(String name, String description, String img) {
-		Log.e("Wizard Fight", "IMG: " + img );
+		// scale card
 		int w = mDisplayWidth;
 		int h = (int) (mDisplayWidth * 1.5);
 		if (h > mDisplayHeight) {
@@ -97,19 +94,20 @@ public class Spellbook extends Activity {
 		RelativeLayout r = new RelativeLayout(this);
 		RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(w, h);
 
-		int textC = Color.argb(200, 102, 60, 22);
+		int textColor = Color.argb(200, 102, 60, 22);
 
+		// spell name
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		TextView nameV = new TextView(this);
 		nameV.setText(name);
 		nameV.setTextSize(metrics.widthPixels/15  / (metrics.xdpi/160));
-		nameV.setTextColor(textC);
+		nameV.setTextColor(textColor);
 		
-
-		ScrollView textSV = new ScrollView(this);
-		textSV.setLayoutParams(new ViewGroup.LayoutParams((int) (w * 0.88),
+		// scroll with description
+		ScrollView textScroll = new ScrollView(this);
+		textScroll.setLayoutParams(new ViewGroup.LayoutParams((int) (w * 0.88),
 				(int) (h * 0.87)));
-		textSV.setPadding((int) (w * 0.12), 4 * h / 7, 0, 0);
+		textScroll.setPadding((int) (w * 0.12), 4 * h / 7, 0, 0);
 
 		TextView descriptionV = new TextView(this);
 		descriptionV.setText(description);
@@ -117,9 +115,10 @@ public class Spellbook extends Activity {
 				ViewGroup.LayoutParams.FILL_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
 		descriptionV.setTextSize(metrics.widthPixels/20 / (metrics.xdpi/160));
-		descriptionV.setTextColor(textC);
-		textSV.addView(descriptionV);
+		descriptionV.setTextColor(textColor);
+		textScroll.addView(descriptionV);
 
+		// spell shape
 		ImageView imShape = new ImageView(this);
 		imShape.setLayoutParams(new ViewGroup.LayoutParams((int) (w * 0.8),
 				(int) (w * 0.65)));
@@ -138,6 +137,8 @@ public class Spellbook extends Activity {
 		} catch (IOException e) {
             Log.e("Wizard Fight","SpellBookError",e);
 		}
+		
+		//spell icon 
 		ImageView imIcon = new ImageView(this);
 		imIcon.setLayoutParams(new ViewGroup.LayoutParams((int) (0.17*w), (int) (0.15*w)));
 		imIcon.setPadding(0, 0, (int) (0.03*w), 0);
@@ -147,6 +148,7 @@ public class Spellbook extends Activity {
 		} catch (IOException e) {
             Log.e("Wizard Fight","SpellBookError",e);
 		}
+		
 		LinearLayout title = new LinearLayout(this);
 		title.addView(imIcon);
 		title.addView(nameV);
@@ -157,15 +159,11 @@ public class Spellbook extends Activity {
 		title.setGravity(Gravity.CENTER);
 		
 		r.setBackgroundResource(R.drawable.card);
-		
 		r.setLayoutParams(rlp);
 
-//		r.addView(nameV);
 		r.addView(title);
-		r.addView(textSV);
+		r.addView(textScroll);
 		r.addView(imShape);
-//		r.addView(imIcon);
-
 		mCards.add(r);
 		mCardLayout.addView(r);
 	}
