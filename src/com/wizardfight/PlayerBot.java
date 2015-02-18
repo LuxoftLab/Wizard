@@ -34,11 +34,11 @@ class PlayerBot extends Thread {
     // The Handler that gets information back from the BluetoothChatService
     private Handler mHandler;
 
-    public PlayerBot(int startHP, int startMana, Handler mainHandler) {
+    public PlayerBot(Handler mainHandler) {
         setName("player bot thread");
         mMainHandler = mainHandler;
-        mStartHP = startHP;
-        mStartMana = startMana;
+        mStartHP = FightActivity.PLAYER_HP;
+        mStartMana = FightActivity.PLAYER_MANA;
     }
 
     protected void initHandler() {
@@ -266,16 +266,18 @@ class PlayerBot extends Thread {
     }
 
     public void release() {
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler = null;
-        mSelfState = null;
-        mEnemyState = null;
-        mMainHandler = null;
-        mLooper.quit();
-        mLooper = null;
-        mTimer.cancel();
-        mTimer = null;
-        shape = null;
+        if(mHandler!=null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+            mSelfState = null;
+            mEnemyState = null;
+            mMainHandler = null;
+            mLooper.quit();
+            mLooper = null;
+            mTimer.cancel();
+            mTimer = null;
+            shape = null;
+        }
     }
 
     private void finishFight(Target winner) {

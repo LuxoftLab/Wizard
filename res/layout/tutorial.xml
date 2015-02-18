@@ -6,7 +6,6 @@
         android:layout_height="fill_parent"
         android:id="@+id/tutorial_layout"
         android:background="@drawable/paper">
-    <!--Second RelativeLayout needed to properly display the wizard's dialog.-->
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -72,4 +71,7 @@
               class="com.wizardfight.views.RectButton" android:id="@+id/view"/>
 
     </RelativeLayout>
+    <view android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          class="com.wizardfight.views.WizardDial" android:id="@+id/wizard_dial"/>
 </RelativeLayout>

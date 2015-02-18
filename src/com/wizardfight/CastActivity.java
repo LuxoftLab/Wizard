@@ -3,19 +3,15 @@ package com.wizardfight;
 import java.util.ArrayList;
 
 import com.wizardfight.accrecognizer.AccRecognition;
-import com.wizardfight.accrecognizer.AccRecognizer;
 import com.wizardfight.components.Vector3d;
 import com.wizardfight.recognition.Recognizer;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -26,10 +22,7 @@ import android.view.MotionEvent;
 public abstract class CastActivity extends Activity {
 	protected static final boolean D = false;
 	protected static String TAG = "Wizard Fight";
-
-	// Objects referred to accelerometer
-	protected SensorManager mSensorManager = null; 
-	protected Sensor mAccelerometer = null; 
+	protected final Boolean sync=true;
 	// Accelerator Thread link
 	protected SensorAndSoundThread mSensorAndSoundThread = null; 
 	// Last touch action code
@@ -39,21 +32,23 @@ public abstract class CastActivity extends Activity {
 	protected boolean mIsCastAbilityBlocked = false; 
 	// The Handler that gets information back from the BluetoothChatService
 	protected Handler mHandler;
+	protected Handler mTimer=new Handler();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
 		// Init recognition resources
 		Recognizer.init(getResources());
 		AccRecognition.init(getResources());
 		// Get sensors
-		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		mAccelerometer = mSensorManager
-				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		mHandler=getHandler();
+		mHandler = getHandler();
 	}
+	private final Runnable mainResume = new Runnable() {
+		public void run() {
+			startNewSensorAndSound();
+		}
+	};
 
 	@Override
 	public void onResume() {
@@ -61,11 +56,13 @@ public abstract class CastActivity extends Activity {
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
 		mLastTouchAction = MotionEvent.ACTION_UP;
-		mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
-				mAccelerometer);
-		mSensorAndSoundThread.start();
+		mTimer.postDelayed(mainResume,100);
 		if (D)
 			Log.e(TAG, "accelerator ran");
+	}
+	protected  void startNewSensorAndSound(){
+			mSensorAndSoundThread = new SensorAndSoundThread(this, ((SensorManager) getSystemService(Context.SENSOR_SERVICE)));
+			mSensorAndSoundThread.start();
 	}
 
 	@Override
@@ -103,9 +100,10 @@ public abstract class CastActivity extends Activity {
 
 		if (!mIsInCast) {
 			Log.e(TAG, "START GETTING DATA");
-			mSensorAndSoundThread.startGettingData();
-			mIsInCast = true;
-
+			if(mSensorAndSoundThread!=null) {
+				mSensorAndSoundThread.startGettingData();
+				mIsInCast = true;
+			}
 		} else {
 			Log.e(TAG, "END GETTING DATA");
 			mIsCastAbilityBlocked = true;

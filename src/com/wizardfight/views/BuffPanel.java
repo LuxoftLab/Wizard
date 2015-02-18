@@ -6,8 +6,8 @@ import com.wizardfight.Buff;
  * Class that manages buff views
  */
 public class BuffPanel {
-	private final BuffPicture[] mBuffPics;
-	public BuffPanel(BuffPicture[] buffPictures) {
+	public final BuffPicture[] mBuffPics;
+	public BuffPanel(BuffPicture... buffPictures) {
 		mBuffPics = buffPictures;
 	}
 	

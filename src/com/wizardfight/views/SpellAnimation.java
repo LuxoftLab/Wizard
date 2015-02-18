@@ -14,15 +14,15 @@ import java.util.ArrayList;
  * View that shows animated spell trajectory
  */
 public class SpellAnimation extends View {
-	private final double mMaxP = 100;
-	private double mProgress = 0;
+	private final float mMaxP = 3000;
+	private long mProgress;
 	private final Paint mPaint = new Paint();
-	private double mDistance = 0;
-	private double mWb;
-	private double mHb;
+	private float mDistance = 0;
+	private float mWb;
+	private float mHb;
 	private boolean mRotate = false;
 	private final ArrayList<Bitmap> mPhoneIm = new ArrayList<Bitmap>();
-	private ArrayList<Double[]> mTrajectory = new ArrayList<Double[]>();
+	private ArrayList<Float[]> mTrajectory = new ArrayList<Float[]>();
 
 	public SpellAnimation(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -32,14 +32,12 @@ public class SpellAnimation extends View {
 	private final Handler mHandler = new Handler();
 	private final Runnable mTick = new Runnable() {
 		public void run() {
-			mProgress++;
-			if (mProgress >= mMaxP) {
-				mProgress = mMaxP;
-				// mHandler.removeCallbacks(mTick);
-				// return;
+			if ((System.currentTimeMillis()-mProgress)>= mMaxP+1000 ) {
+				 mHandler.removeCallbacks(mTick);
+				 return;
 			}
 			invalidate();
-			mHandler.postDelayed(this, 20);
+			mHandler.postDelayed(this, 16);
 		}
 	};
 
@@ -51,7 +49,7 @@ public class SpellAnimation extends View {
 		super.onMeasure(size, size);// Creating a square view
 	}
 
-	public void setTrajectory(ArrayList<Double[]> trajectory, boolean rotate,
+	public void setTrajectory(ArrayList<Float[]> trajectory, boolean rotate,
 			boolean round) {
 		mWb = getWidth() / 10;
 		mHb = mWb / 50 * 93;
@@ -67,29 +65,29 @@ public class SpellAnimation extends View {
 		}
 
 		if (round) {
-			mTrajectory = new ArrayList<Double[]>();
-			double b = 100;
-			double bn = 0;
-			for (Double[] aTrajectory : trajectory) {
+			mTrajectory = new ArrayList<Float[]>();
+			float b = 100;
+			float bn = 0;
+			for (Float[] aTrajectory : trajectory) {
 				if (b < aTrajectory[1])
 					b = aTrajectory[1];
 				if (bn > aTrajectory[1])
 					bn = aTrajectory[1];
 			}
-			double mh = Math.abs(b - bn);
+			float mh = Math.abs(b - bn);
 			mh = 100 - (100 - mh / 2);
 			for (int i = 0; i < trajectory.size() - 1; i++) {
-				double a = (trajectory.get(i))[0];
-				double an = (trajectory.get(i + 1))[0];
+				float a = (trajectory.get(i))[0];
+				float an = (trajectory.get(i + 1))[0];
 				if (a < an) {
 					for (; a <= an; a++) {
-						b = mh - Math.sqrt(2500 - Math.pow(50 - a, 2));
-						mTrajectory.add(new Double[] { a, b });
+						b = mh - (float)Math.sqrt(2500 - Math.pow(50 - a, 2));
+						mTrajectory.add(new Float[] { a, b });
 					}
 				} else {
 					for (; a >= an; a--) {
-						b = Math.sqrt(2500 - Math.pow(50 - a, 2)) + mh;
-						mTrajectory.add(new Double[] { a, b });
+						b = (float)Math.sqrt(2500 - Math.pow(50 - a, 2)) + mh;
+						mTrajectory.add(new Float[] { a, b });
 					}
 				}
 			}
@@ -98,9 +96,9 @@ public class SpellAnimation extends View {
 		}
 		mDistance = 0;
 		for (int i = 1; i < trajectory.size(); i++) {
-			Double[] tl = trajectory.get(i - 1);
-			Double[] t = trajectory.get(i);
-			mDistance += calcDistanse(tl[0], tl[1], t[0], t[1]);
+			Float[] tl = trajectory.get(i - 1);
+			Float[] t = trajectory.get(i);
+			mDistance += calcDistance(tl[0], tl[1], t[0], t[1]);
 		}
 		mRotate = rotate;
 
@@ -108,7 +106,7 @@ public class SpellAnimation extends View {
 
 	public void startAnimation() {
 		mHandler.removeCallbacks(mTick);
-		mProgress = 0;
+		mProgress = System.currentTimeMillis();
 		mHandler.post(mTick);
 	}
 
@@ -117,44 +115,45 @@ public class SpellAnimation extends View {
 		super.onDraw(canvas);
 		if (mTrajectory.size() > 0) {
 
-			double w = (getWidth() - mWb) / 100;
-			double h = (getHeight() - mHb) / 100;
+			float w = (getWidth() - mWb) / 100.0f;
+			float h = (getHeight() - mHb) / 100.0f;
 
 			mPaint.setColor(Color.argb(240, 114, 17, 0));
 			mPaint.setStrokeWidth(3);
-			double maxDistanse;
-			maxDistanse = mDistance * (mProgress / mMaxP);
-			double coveredDist = 0;
-			double curDist;
-			Double[] tl = mTrajectory.get(0).clone();
-			Double[] t;
-			double td = mDistance / 4;
+			float dddt=((System.currentTimeMillis()-mProgress)/ mMaxP);
+			if(dddt>1)
+				dddt=1;
+			float maxDistanse = mDistance *dddt;
+			float coveredDist = 0;
+			float curDist;
+			Float[] tl = mTrajectory.get(0).clone();
+			Float[] t;
+			float td = mDistance / 4;
 			int g = 0;
 			Bitmap bm = mPhoneIm.get(g);
-			double wb2 = mWb / 2;
-			double hb2 = mHb / 2;
+			float wb2 = mWb / 2;
+			float hb2 = mHb / 2;
 
 			int i;
-
 			for (i = 1; ((maxDistanse > coveredDist) && (i < mTrajectory.size())); i++) {
 				t = mTrajectory.get(i).clone();
-				curDist = calcDistanse(tl[0], tl[1], t[0], t[1]);
+				curDist = calcDistance(tl[0], tl[1], t[0], t[1]);
 				if (maxDistanse < coveredDist + curDist) {
-					double d1 = maxDistanse - coveredDist;
+					float d1 = maxDistanse - coveredDist;
 					t[0] = tl[0] + (t[0] - tl[0]) * d1 / curDist;
 					t[1] = tl[1] + (t[1] - tl[1]) * d1 / curDist;
 					curDist = d1;
 				}
-				canvas.drawLine((float) (tl[0] * w + wb2),
-						(float) (tl[1] * h + hb2), (float) (t[0] * w + wb2),
-						(float) (t[1] * h + hb2), mPaint);
+				canvas.drawLine(tl[0] * w + wb2,
+						tl[1] * h + hb2, t[0] * w + wb2,
+						t[1] * h + hb2, mPaint);
 				tl = t;
 				coveredDist += curDist;
 			}
-			Double[] tt = tl;
+			Float[] tt = tl;
 			tl = mTrajectory.get(0).clone();
 			coveredDist = 0;
-			canvas.drawBitmap(bm, (float) (tl[0] * w), (float) (tl[1] * h),
+			canvas.drawBitmap(bm, tl[0] * w, tl[1] * h,
 					mPaint);
 			if (mRotate) {
 				g++;
@@ -163,24 +162,24 @@ public class SpellAnimation extends View {
 			if (mTrajectory.size() < 6) {
 				for (int j = 0; j < i - 1; j++) {
 					t = mTrajectory.get(j).clone();
-					canvas.drawBitmap(bm, (float) (t[0] * w),
-							(float) (t[1] * h), mPaint);
+					canvas.drawBitmap(bm, t[0] * w,
+							t[1] * h, mPaint);
 				}
 			} else {
 				for (i = 0; ((maxDistanse > coveredDist) && (i < mTrajectory
 						.size())); i++) {
 					t = mTrajectory.get(i).clone();
-					curDist = calcDistanse(tl[0], tl[1], t[0], t[1]);
+					curDist = calcDistance(tl[0], tl[1], t[0], t[1]);
 					if (maxDistanse < coveredDist + curDist) {
 
 						break;
 					} else {
 						tl = t;
-						for (double n = 1; n < 5; n++)
+						for (float n = 1; n < 5; n++)
 							if ((coveredDist <= (td * n))
 									&& ((coveredDist + curDist) >= (td * n))) {
-								canvas.drawBitmap(bm, (float) (tl[0] * w),
-										(float) (tl[1] * h), mPaint);
+								canvas.drawBitmap(bm, tl[0] * w,
+										tl[1] * h, mPaint);
 								if (mRotate) {
 									g++;
 									if (g > 4)
@@ -192,13 +191,14 @@ public class SpellAnimation extends View {
 					}
 				}
 			}
-			canvas.drawBitmap(bm, (float) (tt[0] * w), (float) (tt[1] * h),
-					mPaint);
+			canvas.drawBitmap(bm, (tt[0] * w),(tt[1] * h),mPaint);
 		}
+
 	}
 
-	double calcDistanse(double a1, double b1, double a2, double b2) {
-		return Math.abs(Math.sqrt(Math.pow(Math.abs(a1 - a2), 2)
+
+	float calcDistance(float a1, float b1, float a2, float b2) {
+		return (float)Math.abs(Math.sqrt(Math.pow(Math.abs(a1 - a2), 2)
 				+ Math.pow(Math.abs(b1 - b2), 2)));
 	}
 }

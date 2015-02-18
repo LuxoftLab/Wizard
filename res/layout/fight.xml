@@ -24,28 +24,20 @@
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:layout_height="0dp">
-            <view android:layout_width="196dp"
-                  android:layout_height="36dp"
-                  class="com.wizardfight.views.HealthIndicator" android:id="@+id/self_health"
-                  android:layout_alignTop="@+id/imageView" android:layout_alignLeft="@+id/imageView"
-                  android:layout_marginLeft="2dp" android:layout_marginTop="25dp"/>
-            <view android:layout_width="196dp"
-                  android:layout_height="36dp"
-                  class="com.wizardfight.views.ManaIndicator" android:id="@+id/self_mana"
-                  android:layout_alignTop="@+id/imageView" android:layout_alignLeft="@+id/imageView"
-                  android:layout_marginLeft="2dp" android:layout_marginTop="63dp"/>
+            <view android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  class="com.wizardfight.views.HealthIndicator" android:id="@+id/self_health"/>
+            <view android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  class="com.wizardfight.views.ManaIndicator" android:id="@+id/self_mana"/>
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:adjustViewBounds="true"
-                    android:layout_centerHorizontal="true" android:src="@drawable/hmbar_m" android:id="@+id/imageView"
+                    android:layout_centerInParent="true" android:src="@drawable/hmbar_m" android:id="@+id/imageView"
                     android:layout_margin="30dp"/>
-            <view
-                  class="com.wizardfight.views.SpellPicture"
-                  android:id="@+id/self_spell" android:layout_height="wrap_content" android:layout_width="wrap_content"
-                  android:layout_alignTop="@+id/imageView" android:layout_alignRight="@+id/imageView"
-                  />
+            <view class="com.wizardfight.views.SpellPicture"
+                  android:id="@+id/self_spell" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
             <LinearLayout
                     android:id="@+id/self_buff_line"
                     android:orientation="horizontal"
@@ -53,52 +45,42 @@
                     android:layout_height="wrap_content" android:layout_below="@+id/self_mana"
                     android:layout_alignLeft="@+id/imageView" android:layout_marginTop="5dp">
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/self_buff1" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/self_buff2" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/self_buff3" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/self_buff4" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/self_buff5" />
             </LinearLayout>
         </RelativeLayout>
-
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:layout_height="0dp">
-            <view android:layout_width="196dp"
-                  android:layout_height="36dp"
-                  class="com.wizardfight.views.HealthIndicator" android:id="@+id/enemy_health"
-                  android:layout_alignTop="@+id/imageView2" android:layout_alignLeft="@+id/imageView2"
-                  android:layout_marginLeft="2dp" android:layout_marginTop="25dp"/>
-            <view android:layout_width="196dp"
-                  android:layout_height="36dp"
-                  class="com.wizardfight.views.ManaIndicator" android:id="@+id/enemy_mana"
-                  android:layout_alignTop="@+id/imageView2" android:layout_alignLeft="@+id/imageView2"
-                  android:layout_marginLeft="2dp" android:layout_marginTop="63dp"/>
+            <view android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  class="com.wizardfight.views.HealthIndicator" android:id="@+id/enemy_health"/>
+            <view android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  class="com.wizardfight.views.ManaIndicator" android:id="@+id/enemy_mana"/>
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,11 +88,8 @@
                     android:adjustViewBounds="true"
                     android:layout_centerHorizontal="true" android:src="@drawable/hmbar_m" android:id="@+id/imageView2"
                     android:layout_margin="30dp"/>
-            <view
-                    class="com.wizardfight.views.SpellPicture"
-                    android:id="@+id/enemy_spell" android:layout_height="wrap_content" android:layout_width="wrap_content"
-                    android:layout_alignTop="@+id/imageView2" android:layout_alignRight="@+id/imageView2"
-                    android:layout_margin="4dp"/>
+            <view   class="com.wizardfight.views.SpellPicture"
+                    android:id="@+id/enemy_spell" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -119,33 +98,28 @@
                     android:layout_below="@+id/enemy_mana" android:layout_alignLeft="@+id/imageView2"
                     android:layout_marginTop="5dp">
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/enemy_buff1" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/enemy_buff2" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/enemy_buff3" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/enemy_buff4" />
 
-                <view android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:layout_margin="5sp"
+                <view android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       class="com.wizardfight.views.BuffPicture"
                       android:id="@+id/enemy_buff5" />
             </LinearLayout>

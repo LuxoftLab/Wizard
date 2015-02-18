@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 /**
  * Bluetooth fight activity. Extends Fight Activity with 

@@ -5,7 +5,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 import com.wizardfight.FightMessage.*;
 import com.wizardfight.remote.WifiService;
 
@@ -13,7 +12,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import com.wizardfight.views.RectButton;
 
@@ -26,8 +24,7 @@ public class TestFightActivity extends FightActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPlayerBot = new PlayerBot(PLAYER_HP, PLAYER_MANA, mHandler);
-        mPlayerBot.start();
+        mPlayerBot = new PlayerBot(mHandler);
         mFightEndDialog = new TestFightEndDialog();
         Log.e("testFAThread", Thread.currentThread().getName());
         setupBot();
@@ -70,6 +67,7 @@ public class TestFightActivity extends FightActivity {
         mDificultyDialog.show();
     }
     void onComSetup(double k){
+        mPlayerBot.start();
         mPlayerBot.setK(k);
         startFight();
         mDificultyDialog.dismiss();
@@ -105,9 +103,9 @@ public class TestFightActivity extends FightActivity {
         WifiService.send(fMessage);
         
         // send to bot
-        Message msg = mPlayerBot.getHandler().obtainMessage(
-                AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage);
-        msg.sendToTarget();
+        if(mPlayerBot.getHandler()!=null) {
+            mPlayerBot.getHandler().obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage).sendToTarget();
+        }
     }
 
     @Override

@@ -2,12 +2,8 @@ package com.wizardfight.remote;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.LinkedList;
 
 import android.content.Context;
@@ -51,8 +47,7 @@ public class WifiService {
 	public static String getIP() { return ip; }
 	
 	public static boolean isConnected() {
-		if(mWorker == null) return false;
-		return mWorker.isWorking();
+		return mWorker != null && mWorker.isWorking();
 	}
 	
 	public static void setContext(Context context) {

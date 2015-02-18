@@ -37,10 +37,10 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private final EnumMap<Buff, Integer> mBuffSoundIDs;
 	private final int mNoManaSoundID;
 
-	public SensorAndSoundThread(Context context, SensorManager sm, Sensor s) {
+	public SensorAndSoundThread(Context context, SensorManager sm) {
 		setName("Sensor and Sound thread");
 		mSensorManager = sm;
-		mAccelerometer = s;
+		mAccelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		mSoundPlaying = true;
 		mListening = false;
 		// Initialize sound

@@ -13,7 +13,7 @@
     <string name="bt_not_enabled">Bluetooth выключен.</string>
     <!--  DeviceListActivity -->
     <string name="bt_not_available">Bluetooth недоступен</string>
-    <string name="scanning">Поиск устройств...</string>
+    <string name="scanning">Поиск устройств…</string>
     <string name="select_device">Выбрать устройство для подключения</string>
     <string name="none_paired">Устройства не сопряжены</string>
     <string name="none_found">Устройства не найдены</string>
@@ -31,8 +31,8 @@
     <string name="exit">Выход</string>
     <!--  Bt Fight Activity -->
     <string name="connected_to">Подключиться к&#160;</string>
-    <string name="client_waiting">Ожидание противника...</string>
-    <string name="trying_to_connect">Попытка подключения...</string>
+    <string name="client_waiting">Ожидание противника…</string>
+    <string name="trying_to_connect">Попытка подключения…</string>
     <string name="cancel">Отмена</string>
     <string name="connection_lost">Подключение было прервано. Покинуть бой</string>
     <string name="connection_fail">Невозможно подключиться к устройству</string>

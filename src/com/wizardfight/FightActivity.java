@@ -10,17 +10,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.wizardfight.FightMessage.*;
 import com.wizardfight.remote.WifiMessage;
 import com.wizardfight.remote.WifiService;
-import com.wizardfight.views.EnemyGUI;
+import com.wizardfight.views.BuffPanel;
+import com.wizardfight.views.BuffPicture;
 import com.wizardfight.views.FightBackground;
-import com.wizardfight.views.SelfGUI;
+import com.wizardfight.views.PlayerGUI;
 
 /**
  * Extends CastActivity for two players fighting.
@@ -48,8 +47,8 @@ public abstract class FightActivity extends CastActivity {
     private boolean mAreMessagesBlocked;
     // Layout Views
     private Countdown mCountdown;
-    private SelfGUI mSelfGUI;
-    private EnemyGUI mEnemyGUI;
+    private PlayerGUI mSelfGUI;
+    private PlayerGUI mEnemyGUI;
 
     // test mode dialog with spell names
     private FightBackground mBgImage;
@@ -99,7 +98,6 @@ public abstract class FightActivity extends CastActivity {
         setupApp();
         // Initialize end dialog object
         mBgImage = (FightBackground) findViewById(R.id.fight_background);
-
     }
 
     @Override
@@ -377,16 +375,25 @@ public abstract class FightActivity extends CastActivity {
         mEnemyState = new PlayerState(PLAYER_HP, PLAYER_MANA, null);
         mSelfState = new PlayerState(PLAYER_HP, PLAYER_MANA, mEnemyState);
         // Initialize players UI
-        mSelfGUI = new SelfGUI(this, PLAYER_HP, PLAYER_MANA);
-        mEnemyGUI = new EnemyGUI(this, PLAYER_HP, PLAYER_MANA);
+        findViewById(R.id.self_health);
+        mSelfGUI = new PlayerGUI(
+                findViewById(R.id.self_health), findViewById(R.id.self_mana), findViewById(R.id.self_spell), findViewById(R.id.imageView),
+                new BuffPanel((BuffPicture)findViewById(R.id.self_buff1),
+                        (BuffPicture)findViewById(R.id.self_buff2),
+                        (BuffPicture)findViewById(R.id.self_buff3),
+                        (BuffPicture)findViewById(R.id.self_buff4),
+                        (BuffPicture)findViewById(R.id.self_buff5)));
+        mEnemyGUI = new PlayerGUI(
+                findViewById(R.id.enemy_health), findViewById(R.id.enemy_mana), findViewById(R.id.enemy_spell), findViewById(R.id.imageView2),
+                new BuffPanel((BuffPicture)findViewById(R.id.enemy_buff1),
+                        (BuffPicture)findViewById(R.id.enemy_buff2),
+                        (BuffPicture)findViewById(R.id.enemy_buff3),
+                        (BuffPicture)findViewById(R.id.enemy_buff4),
+                        (BuffPicture)findViewById(R.id.enemy_buff5)));
         // Drop flags
         mAreMessagesBlocked = true;
         // Last touch value
         mLastTouchAction = MotionEvent.ACTION_UP;
-        // Start mana regeneration
-        mHandler.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
-        mHandler.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
-                .sendToTarget();
     }
 
     void sendFightMessage(FightMessage fMessage) {
@@ -398,6 +405,12 @@ public abstract class FightActivity extends CastActivity {
     }
 
     protected void startFight() {
+        // Start mana regeneration
+        if (mHandler != null) {
+            mHandler.removeMessages(AppMessage.MESSAGE_MANA_REGEN.ordinal());
+            mHandler.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
+                    .sendToTarget();
+        }
         // start countdown
         if (D)
             Log.e(TAG, "before start countdown");
@@ -418,10 +431,7 @@ public abstract class FightActivity extends CastActivity {
         mAreMessagesBlocked = true;
 
         stopSensorAndSound();
-
-        mSensorAndSoundThread = new SensorAndSoundThread(this, mSensorManager,
-                mAccelerometer);
-        mSensorAndSoundThread.start();
+        startNewSensorAndSound();
         // set GUI to initial state
         mBgImage.darkenImage();
         mSelfGUI.clear();
@@ -483,73 +493,6 @@ public abstract class FightActivity extends CastActivity {
 
         @Override
         abstract public void onClick(DialogInterface dialog, int which);
-    }
-
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-        super.onWindowFocusChanged(hasFocus);
-//        Log.e(TAG, "-- WINDOW FOCUS CHANGED --");
-
-        ImageView indicator = (ImageView) findViewById(R.id.imageView);
-        int w = indicator.getWidth();
-        int h = indicator.getHeight();
-        int barW = w*2/3, barH = h*2/10;
-        int barMarginW = w*8/1000, hpMarginH = h*15/100, mpMarginH = h*36/100;
-        int picSize = w*37/100, picMarginH = w*14/1000;
-        int buffSize = h*2/10, buffMargin = 5;
-        View hpself =  findViewById(R.id.self_health);
-        View mpself = findViewById(R.id.self_mana);
-        View hpenemy = findViewById(R.id.enemy_health);
-        View mpenemy = findViewById(R.id.enemy_mana);
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(barW, barH);
-        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
-        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView);
-        params.setMargins(barMarginW, hpMarginH, 0, 0);
-        hpself.setLayoutParams(params);
-
-        params = new RelativeLayout.LayoutParams(barW, barH);
-        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
-        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView);
-        params.setMargins(barMarginW, mpMarginH, 0, 0);
-        mpself.setLayoutParams(params);
-
-        params = new RelativeLayout.LayoutParams(barW, barH);
-        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView2);
-        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView2);
-        params.setMargins(barMarginW, hpMarginH, 0, 0);
-        hpenemy.setLayoutParams(params);
-
-        params = new RelativeLayout.LayoutParams(barW, barH);
-        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView2);
-        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.imageView2);
-        params.setMargins(barMarginW, mpMarginH, 0, 0);
-        mpenemy.setLayoutParams(params);
-
-        View spell = findViewById(R.id.self_spell);
-        params = new RelativeLayout.LayoutParams(picSize, picSize);
-        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView);
-        params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.imageView);
-        params.setMargins(0, picMarginH, picMarginH, 0);
-        spell.setLayoutParams(params);
-
-        spell = findViewById(R.id.enemy_spell);
-        params = new RelativeLayout.LayoutParams(picSize, picSize);
-        params.addRule(RelativeLayout.ALIGN_TOP, R.id.imageView2);
-        params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.imageView2);
-        params.setMargins(0, picMarginH, picMarginH, 0);
-        spell.setLayoutParams(params);
-
-        int[] buffs = {R.id.self_buff1, R.id.self_buff2, R.id.self_buff3, R.id.self_buff4, R.id.self_buff5,
-                R.id.enemy_buff1, R.id.enemy_buff2, R.id.enemy_buff3, R.id.enemy_buff4, R.id.enemy_buff5};
-        View buff;
-        LinearLayout.LayoutParams params1;
-        for (int buff1 : buffs) {
-            buff = findViewById(buff1);
-            params1 = new LinearLayout.LayoutParams(buffSize, buffSize);
-            params1.setMargins(buffMargin, buffMargin, buffMargin, buffMargin);
-            buff.setLayoutParams(params1);
-        }
     }
 
 }

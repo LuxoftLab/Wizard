@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 import com.wizardfight.FightActivity.AppMessage;
-import com.wizardfight.remote.WifiService;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

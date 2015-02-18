@@ -52,7 +52,7 @@ public class HealthIndicator extends Indicator {
         canvas.drawRect(mRect, mPaint);
 
         mPaint.setColor(mUnderBarColor);
-        mRect.right = width * mPrevValue / mMaxValue;
+        mRect.right = width * mPrevValue / mMaxValue-1;
         canvas.drawRect(mRect, mPaint);
 
         super.onDraw(canvas);
@@ -75,6 +75,7 @@ public class HealthIndicator extends Indicator {
     
     public void setMaxValue(int value) {
     	mCurValue = mMaxValue = value;
+        mPrevValue = value;
     }
     
     public int getValue() {

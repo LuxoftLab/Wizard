@@ -38,8 +38,6 @@ class PagesScroller extends HorizontalScrollView {
 		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 			mFlag = true;
 		}
-		if (!mFlag)
-			return true;
-		return super.dispatchTouchEvent(ev);
+		return !mFlag || super.dispatchTouchEvent(ev);
 	}
 }

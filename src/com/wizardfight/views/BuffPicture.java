@@ -9,7 +9,7 @@ import android.widget.ImageView;
 /*
  * Active buff indicator
  */
-class BuffPicture extends ImageView {
+public class BuffPicture extends ImageView {
 	private Buff mBuff;
 	
 	public BuffPicture(Context context,AttributeSet attrs) {

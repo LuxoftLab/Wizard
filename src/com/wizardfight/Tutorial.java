@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Tutorial extends CastActivity implements WizardDialDelegate {
 	class SpellData {
 		String mmName = "";
-		ArrayList<Double> mmPointsX = new ArrayList<Double>();//todo one list of points
+		ArrayList<Double> mmPointsX = new ArrayList<Double>();
 		ArrayList<Double> mmPointsY = new ArrayList<Double>();
 		boolean mmRound = false;
 		boolean mmRotate = false;
@@ -68,11 +68,26 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 
 		// Init on touch listener
 		RelativeLayout rootLayout = (RelativeLayout) findViewById(R.id.tutorial_layout);
+
+
+		mCastResult = (SpellPicture) findViewById(R.id.tutorial_cast_result);
+
+		mSpellName = (TextView) findViewById(R.id.spell_name);
+		mSpellName.setText("");
+
+		mSpellAnim = (SpellAnimation) findViewById(R.id.spell_anim_view);
+
+		mSpellCounter = (TextView) findViewById(R.id.number_correct_spell);
+		mSpellCounter.setText("");
+		mWizardDial = (WizardDial)findViewById(R.id.wizard_dial);
+		addSpellCounter();
+
+		mWizardDial.setContent(mChapters.get(0));
 		rootLayout.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (mIsCastAbilityBlocked)
-                    return true;
+					return true;
 				int action = event.getAction();
 				if (action == MotionEvent.ACTION_UP
 						|| action == MotionEvent.ACTION_DOWN) {
@@ -91,27 +106,6 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 				return false;
 			}
 		});
-
-		mWizardDial = new WizardDial(this);
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
-		mWizardDial.setContent(mChapters.get(0));
-		mWizardDial.setLayoutParams(params);
-
-		mCastResult = (SpellPicture) findViewById(R.id.tutorial_cast_result);
-
-		mSpellName = (TextView) findViewById(R.id.spell_name);
-		mSpellName.setText("");
-
-		mSpellAnim = (SpellAnimation) findViewById(R.id.spell_anim_view);
-
-		mSpellCounter = (TextView) findViewById(R.id.number_correct_spell);
-		mSpellCounter.setText("");
-		addSpellCounter();
-
-		((RelativeLayout) findViewById(R.id.tutorial_layout)).addView(mWizardDial);
-		mWizardDial.showQuick();
 	}
 
 	@Override
@@ -314,9 +308,9 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 		}
 		SpellData sd = mSpellDatas.get(mPartCounter);
 		mSpellName.setText(sd.mmName);
-		ArrayList<Double[]> t = new ArrayList<Double[]>();
+		ArrayList<Float[]> t = new ArrayList<Float[]>();
 		for (int i = 0; (i < sd.mmPointsX.size()) && (i < sd.mmPointsY.size()); i++) {
-			t.add(new Double[] { sd.mmPointsX.get(i), sd.mmPointsY.get(i) });
+			t.add(new Float[] { new Float(sd.mmPointsX.get(i)), new Float(sd.mmPointsY.get(i)) });
 		}
 		mSpellAnim.setTrajectory(t, sd.mmRotate, sd.mmRound);
 		mSpellAnim.startAnimation();
