@@ -64,13 +64,13 @@ public final class R {
         public static final int enemy_buff5=0x7f09001e;
         public static final int enemy_buff_line=0x7f090019;
         public static final int enemy_health=0x7f090015;
-        public static final int enemy_mana=0x7f090017;
+        public static final int enemy_mana=0x7f090016;
         public static final int enemy_spell=0x7f090018;
         public static final int fight_background=0x7f090009;
         public static final int fight_layout_root=0x7f09000a;
         public static final int horizontalScrollView=0x7f09002c;
-        public static final int imageView=0x7f09000c;
-        public static final int imageView2=0x7f090016;
+        public static final int imageView=0x7f09000d;
+        public static final int imageView2=0x7f090017;
         public static final int ip=0x7f090028;
         public static final int layoutForCards=0x7f09002d;
         public static final int logo=0x7f090020;
@@ -92,7 +92,7 @@ public final class R {
         public static final int self_buff5=0x7f090014;
         public static final int self_buff_line=0x7f09000f;
         public static final int self_health=0x7f09000b;
-        public static final int self_mana=0x7f09000d;
+        public static final int self_mana=0x7f09000c;
         public static final int self_spell=0x7f09000e;
         public static final int spell_anim_view=0x7f090031;
         public static final int spell_anim_view_l=0x7f090030;
@@ -103,6 +103,7 @@ public final class R {
         public static final int tutorial_cast_result=0x7f090032;
         public static final int tutorial_layout=0x7f09002e;
         public static final int view=0x7f090034;
+        public static final int wizard_dial=0x7f090035;
     }
     public static final class layout {
         public static final int bot_setup=0x7f030000;

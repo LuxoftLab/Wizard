@@ -33,11 +33,7 @@ public class PlayerGUI {
 			@Override
 			public void onGlobalLayout() {
 				ViewTreeObserver obs = indicator.getViewTreeObserver();
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-					obs.removeOnGlobalLayoutListener(this);
-				} else {
-					obs.removeGlobalOnLayoutListener(this);
-				}
+				obs.removeGlobalOnLayoutListener(this);
 				resize(indicator.getWidth(),indicator.getHeight());
 			}
 

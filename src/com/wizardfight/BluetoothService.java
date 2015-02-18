@@ -56,6 +56,11 @@ public class BluetoothService {
     public void setHandler(Handler handler) {
     	if(mHandler != null) mHandler.removeCallbacksAndMessages(null);
     	mHandler = handler;
+    	// if we are setting handler before 1st fight and already connected
+    	// we must tell about connection
+    	if(mHandler != null && mState == STATE_CONNECTED) {
+    		sendMsgToHandler(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), mState, -1);
+    	}
     }
     
     public void init() {
@@ -66,7 +71,6 @@ public class BluetoothService {
     }
     
     public void setAsServer() { mIsServer = true; }
-    public void setAsClient() { mIsServer = false; }
     /*
      * returns if phone was server during Bluetooth connection
      */
