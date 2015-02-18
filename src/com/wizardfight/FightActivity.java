@@ -159,14 +159,7 @@ public abstract class FightActivity extends CastActivity {
 
                 switch (appMsg) {
                     case MESSAGE_STATE_CHANGE:
-                        if (D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
-                        switch (msg.arg1) {
-                            case BluetoothService.STATE_CONNECTED:
-                                startFight();
-                                break;
-                            case BluetoothService.STATE_NONE:
-                                break;
-                        }
+                    	onBluetoothStateChange(msg.arg1);
                         break;
                     case MESSAGE_DEVICE_NAME:
                         String mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
@@ -418,6 +411,8 @@ public abstract class FightActivity extends CastActivity {
 
     abstract void handleEnemyReadyMessage();
 
+    abstract void onBluetoothStateChange(int state);
+    
     private void finishFight(Target winner) {
         Log.e("azaza", "FINISH FIGHT");
         mAreMessagesBlocked = true;

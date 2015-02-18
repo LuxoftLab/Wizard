@@ -67,6 +67,7 @@ public class BluetoothService {
     }
     
     public void setAsServer() { mIsServer = true; }
+    public void setAsClient() { mIsServer = false; }
     /*
      * returns if phone was server during Bluetooth connection
      */

@@ -146,4 +146,8 @@ public class TestFightActivity extends FightActivity {
     //dont care in case with bot
 	@Override
 	void handleEnemyReadyMessage() {}
+	@Override
+	void onBluetoothStateChange(int state) {
+		//do nothing
+	}
 }

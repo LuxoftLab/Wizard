@@ -29,13 +29,16 @@ public class BtFightActivity extends FightActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mIsEnemyReady = false;
-		mIsSelfReady = false;
+		mIsSelfReady = true;
 		// Start listening clients if server
 		if (mBtService.isServer()) {
 			mBtService.start();
 			initWaitingDialog(R.string.client_waiting);
 		} else {
 			initWaitingDialog(R.string.trying_to_connect);
+			FightMessage fightRequest = new FightMessage(
+					Target.ENEMY, FightAction.ENEMY_READY);
+			sendFightMessage(fightRequest);
 		}
 		mFightEndDialog = new BtFightEndDialog();
 	}
@@ -180,5 +183,17 @@ public class BtFightActivity extends FightActivity {
 		if(mClientWaitingDialog != null) {
 			mClientWaitingDialog.show();
 		}
+	}
+
+	@Override
+	void onBluetoothStateChange(int state) {
+		if (D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + state);
+        switch (state) {
+            case BluetoothService.STATE_CONNECTED:
+                startFight();
+                break;
+            case BluetoothService.STATE_NONE:
+                break;
+        }
 	}
 }
