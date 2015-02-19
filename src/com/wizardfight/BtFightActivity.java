@@ -30,6 +30,10 @@ public class BtFightActivity extends FightActivity {
 		super.onCreate(savedInstanceState);
 		mIsEnemyReady = false;
 		mIsSelfReady = true;
+		
+		mBtService = BluetoothService.getInstance();
+		mBtService.setHandler(mHandler);
+		
 		// Start listening clients if server
 		if (mBtService.isServer()) {
 			mBtService.start();
@@ -86,14 +90,6 @@ public class BtFightActivity extends FightActivity {
 		}
 	}
 	
-	@Override
-	protected void setupApp() {
-		// Initialize the BluetoothChatService to BT connections
-		mBtService = BluetoothService.getInstance();
-		mBtService.setHandler(mHandler);
-		super.setupApp();
-	}
-
 	@Override
 	protected void sendFightMessage(FightMessage fMessage) {
 		super.sendFightMessage(fMessage);
