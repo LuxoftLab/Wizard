@@ -105,14 +105,16 @@ public class SpellAnimation extends View {
 	}
 
 	public void startAnimation() {
-		mHandler.removeCallbacks(mTick);
+		//mHandler.removeCallbacks(mTick);
 		mProgress = System.currentTimeMillis();
-		mHandler.post(mTick);
+		invalidate();
+		//mHandler.post(mTick);
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		float kProgress=1;
 		if (mTrajectory.size() > 0) {
 
 			float w = (getWidth() - mWb) / 100.0f;
@@ -120,10 +122,10 @@ public class SpellAnimation extends View {
 
 			mPaint.setColor(Color.argb(240, 114, 17, 0));
 			mPaint.setStrokeWidth(3);
-			float dddt=((System.currentTimeMillis()-mProgress)/ mMaxP);
-			if(dddt>1)
-				dddt=1;
-			float maxDistanse = mDistance *dddt;
+			kProgress=((System.currentTimeMillis()-mProgress)/ mMaxP);
+			if(kProgress>1)
+				kProgress=1;
+			float maxDistanse = mDistance *kProgress;
 			float coveredDist = 0;
 			float curDist;
 			Float[] tl = mTrajectory.get(0).clone();
@@ -193,7 +195,8 @@ public class SpellAnimation extends View {
 			}
 			canvas.drawBitmap(bm, (tt[0] * w),(tt[1] * h),mPaint);
 		}
-
+		if(kProgress<1)
+			invalidate();
 	}
 
 
