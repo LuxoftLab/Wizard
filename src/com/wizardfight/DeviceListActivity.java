@@ -12,36 +12,37 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-/**
- * This Activity appears as a dialog. It lists any paired devices and
- * devices detected in the area after discovery. When a device is chosen
- * by the user, the MAC address of the device is sent back to the parent
- * Activity in the result Intent.
+
+/* Activity shows bounded devices and devices with enabled & visible Bluetooth 
+ * When other device is chosen, Activity tries to connect to BT socket and starts 
+ * fight activity
  */
 public class DeviceListActivity extends Activity {
-    // Debugging
+   
     private static final String TAG = "DeviceListActivity";
     private static final boolean D = true;
-    // Member fields
-    private BluetoothAdapter mBtAdapter;
+    
     private LinearLayout mPairedList;
+    private View mNewTitleLayout;
+    private View mProgress;
+    private TextView mTitleNewDevices;
     private LinearLayout mNewDevicesList;
+    
     private int mNewDevicesCount;
     private String mNoNewDevices;
     private String mNoPairedDevices;
-    // Member object for bluetooth services
- 	private BluetoothService mChatService = null;
+
+    private BluetoothAdapter mBtAdapter;
+ 	private BluetoothService mBtService = null;
  	private boolean mSearchCanceledByUser = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.device_list);
         setResult(Activity.RESULT_CANCELED);
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -64,17 +65,20 @@ public class DeviceListActivity extends Activity {
         });
 
         mPairedList = (LinearLayout) findViewById(R.id.paired_devices);
-        
+        mNewTitleLayout = findViewById(R.id.title_new_dev_layout);
+        mProgress = findViewById(R.id.devices_scan_progress);
+        mTitleNewDevices = (TextView)findViewById(R.id.title_new_devices);
         mNewDevicesList = (LinearLayout) findViewById(R.id.new_devices);
+        
         // Register for broadcasts when a device is discovered
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         this.registerReceiver(mReceiver, filter);
         // Register for broadcasts when discovery has finished
         filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         this.registerReceiver(mReceiver, filter);
-        // Get a set of currently paired devices
+
         Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
-        // If there are paired devices, add each one to the ArrayAdapter
+        // Add paired devices to the ArrayAdapter
         if (pairedDevices.size() > 0) {
             findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
             for (BluetoothDevice device : pairedDevices) {
@@ -88,7 +92,7 @@ public class DeviceListActivity extends Activity {
     @Override
 	public void onStart() {
 		super.onStart();
-		if (mChatService == null) setup();
+		if (mBtService == null) setup();
 	}
     
     @Override
@@ -102,8 +106,8 @@ public class DeviceListActivity extends Activity {
     }
     
     private void setup() {
-    	mChatService = BluetoothService.getInstance();
-    	mChatService.init();
+    	mBtService = BluetoothService.getInstance();
+    	mBtService.init();
     }
     
     private void addPairedDevice(String s ) {
@@ -124,23 +128,22 @@ public class DeviceListActivity extends Activity {
     private void doDiscovery() {
     	mSearchCanceledByUser = false;
         if (D) Log.d(TAG, "doDiscovery()");
-        // Indicate scanning in the title
-        setProgressBarIndeterminateVisibility(true);
-        setTitle(R.string.scanning);
-        // Turn on sub-title for new devices
-        findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
-        // If we're already discovering, stop it
+
+        if(mNewTitleLayout.getVisibility() != View.VISIBLE)
+        	mNewTitleLayout.setVisibility(View.VISIBLE);
+        findViewById(R.id.devices_scan_progress).setVisibility(View.VISIBLE);
+
+        mTitleNewDevices.setVisibility(View.VISIBLE);
+
         if (mBtAdapter.isDiscovering()) {
             mBtAdapter.cancelDiscovery();
         }
-        // Request discover from BluetoothAdapter
         mBtAdapter.startDiscovery();
     }
 
     private final OnClickListener mDeviceClickListener = new OnClickListener() {
         public void onClick(View v) {
         	mSearchCanceledByUser = true;
-            // Cancel discovery because it's costly and we're about to connect
             mBtAdapter.cancelDiscovery();
             
             String info = ((TextView) v).getText().toString();
@@ -150,16 +153,13 @@ public class DeviceListActivity extends Activity {
             
             // parse MAC address
             String address = info.substring(info.length() - 17);
-            // Get the BluetoothDevice object
             BluetoothDevice device = mBtAdapter.getRemoteDevice(address);
-            // Attempt to connect to the device
-            mChatService.connect(device);      
-            // Start fighting activity
+            mBtService.connect(device);      
+
             startFight();
         }
     };
-    // The BroadcastReceiver that listens for discovered devices and
-    // changes the title when discovery is finished
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -173,10 +173,10 @@ public class DeviceListActivity extends Activity {
                     addNewDevice(device.getName() + "\n" + device.getAddress());
                     mNewDevicesCount++;
                 }
-            // When discovery is finished, change the Activity title
+
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                setProgressBarIndeterminateVisibility(false);
-                setTitle(R.string.select_device);
+            	mProgress.setVisibility(View.GONE);
+                mTitleNewDevices.setText(R.string.title_other_devices);
                 if (mNewDevicesCount == 0) {
                 	if(!mSearchCanceledByUser)
                 		addNewDevice(mNoNewDevices);

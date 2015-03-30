@@ -14,8 +14,8 @@
     <!--  DeviceListActivity -->
     <string name="bt_not_available">Bluetooth is not available</string>
     <string name="scanning">Scanning for devices…</string>
-    <string name="select_device">Select a device to connect</string>
-    <string name="none_paired">No devices have been paired</string>
+    <string name="select_device">Select a device</string>
+    <string name="none_paired">   No devices have been paired</string>
     <string name="none_found">No devices found</string>
     <string name="title_paired_devices">Paired Devices</string>
     <string name="title_other_devices">Other Available Devices</string>
