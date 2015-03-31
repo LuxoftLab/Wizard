@@ -3,6 +3,7 @@ package com.wizardfight.views;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /*
@@ -44,7 +45,7 @@ public class Indicator extends View {
         canvas.drawRect(mRect, mPaint);
 
         String label = mCurValue + "/" + mMaxValue;
-        mPaint.setTextSize(height * 0.3f);
+        mPaint.setTextSize(height * 0.45f);
         mPaint.getTextBounds(label, 0, label.length(), mTextBounds);
         mPaint.setColor(mBarColor);
 
@@ -52,7 +53,8 @@ public class Indicator extends View {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeMiter(10);
-        mPaint.setStrokeWidth(3);//Kostya!
+        Log.e("Wizard Fight", "width: " + width);
+        mPaint.setStrokeWidth(2 + height/20);//Kostya!
         canvas.drawText(label, (width - mTextBounds.width()) * 0.5f,
                 (height + mTextBounds.height()) * 0.5f, mPaint);
         mPaint.setStyle(Paint.Style.FILL);

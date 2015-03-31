@@ -3,8 +3,6 @@
 <resources>
     <string name="app_name">Wizard Fight</string>
     <!--  Preferences -->
-    <string name="recognition_type">Recognition type</string>
-    <string name="recognition_type_summary">Select recognition type</string>
     <string name="player_name">Player name</string>
     <string name="player_name_summary">Choose player name for PC connection</string>
     <string name="wizard">Wizard</string>

@@ -3,8 +3,6 @@
 <resources>
     <string name="app_name">Wizard Fight</string>
     <!--  Preferences -->
-    <string name="recognition_type">Тип распознавания</string>
-    <string name="recognition_type_summary">Выбрать тип распознавания</string>
     <string name="player_name">Имя игрока</string>
     <string name="player_name_summary">Укажите имя игрока для ПК-соединения</string>
     <string name="wizard">Волшебник</string>
@@ -30,11 +28,11 @@
     <string name="settings">Настройки</string>
     <string name="exit">Выход</string>
     <!--  Bt Fight Activity -->
-    <string name="connected_to">Подключиться к&#160;</string>
+    <string name="connected_to">Подключен к&#160;</string>
     <string name="client_waiting">Ожидание противника…</string>
     <string name="trying_to_connect">Попытка подключения…</string>
     <string name="cancel">Отмена</string>
-    <string name="connection_lost">Подключение было прервано. Покинуть бой</string>
+    <string name="connection_lost">Подключение было прервано. Выход из боя</string>
     <string name="connection_fail">Невозможно подключиться к устройству</string>
     <!-- Fight Activity -->
     <string name="countdown_fight">Бой!</string>
