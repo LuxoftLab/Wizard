@@ -28,7 +28,6 @@ public class MainMenu extends Activity {
 	private static final boolean D = true;
 	// Local Bluetooth adapter
 	private BluetoothAdapter mBluetoothAdapter = null;
-	private boolean mIsUserCameWithBt;
 
 	// Intent request codes
 	enum BtRequest {
@@ -61,9 +60,6 @@ public class MainMenu extends Activity {
 			findViewById(R.id.buttonDesktopConnection).setVisibility(View.GONE);
 			
 		} else {
-			// remember user's BT initial state
-			mIsUserCameWithBt = mBluetoothAdapter.isEnabled();
-
 			// if no player name - set as BT name
 			String bluetoothName = mBluetoothAdapter.getName();
 			if(bluetoothName != null) {
@@ -133,11 +129,6 @@ public class MainMenu extends Activity {
 
 	public void exit(View view) {
 		BluetoothService.getInstance().release();
-		// return BT state to last one in
-		if (mBluetoothAdapter != null && !mIsUserCameWithBt
-				&& mBluetoothAdapter.isEnabled()) {
-			mBluetoothAdapter.disable();
-		}
 		finish();
 	}
 
