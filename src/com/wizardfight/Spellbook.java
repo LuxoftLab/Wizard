@@ -22,6 +22,7 @@ public class Spellbook extends Activity {
 	/**
 	 * Called when the activity is first created.
 	 */
+	private static final boolean D = false;
     private LinearLayout mCardLayout;
 	private int mDisplayWidth;
     private int mDisplayHeight;
@@ -135,7 +136,7 @@ public class Spellbook extends Activity {
 			imShape.setImageBitmap(BitmapFactory
 					.decodeStream(getAssets().open(img)));
 		} catch (IOException e) {
-            Log.e("Wizard Fight","SpellBookError",e);
+            if (D) Log.e("Wizard Fight","SpellBookError",e);
 		}
 		
 		//spell icon 
@@ -146,7 +147,7 @@ public class Spellbook extends Activity {
 			imIcon.setImageBitmap(BitmapFactory
 					.decodeStream(getAssets().open("icons/" + img)));
 		} catch (IOException e) {
-            Log.e("Wizard Fight","SpellBookError",e);
+			if (D) Log.e("Wizard Fight","SpellBookError",e);
 		}
 		
 		LinearLayout title = new LinearLayout(this);

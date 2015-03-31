@@ -11,7 +11,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -149,7 +148,6 @@ public class DesktopConnection extends Activity {
             public void onClick(View v) {
                 if (!WifiService.isConnected()) {
                     WifiService.init(mIP.getText().toString(), mHandler);
-                    Log.e("Wizard Fight", mIP.getText().toString());
                 } else {
                     WifiService.close();
                     showConnectedToPC();
@@ -165,7 +163,6 @@ public class DesktopConnection extends Activity {
             mConnStatus.setText(R.string.pc_conn_established);
             mConnect.setText(R.string.disconnect);
         } else {
-            Log.e("Wizard Fight", " -- INIT WITH ERROR -- ");
             mConnStatus.setText(R.string.pc_conn_not_established);
             mConnect.setText(R.string.connect);
         }

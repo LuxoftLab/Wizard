@@ -138,7 +138,7 @@ public abstract class FightActivity extends CastActivity {
         // remove all messages from handler
         WifiService.send(WifiMessage.LEAVE_FIGHT);
         mHandler.removeCallbacksAndMessages(null);
-        Log.e(TAG, "--- ON DESTROY ---");
+        if (D) Log.e(TAG, "--- ON DESTROY ---");
     }
 
     @Override
@@ -234,8 +234,7 @@ public abstract class FightActivity extends CastActivity {
                 if (sendShape != Shape.NONE) {
                     mIsCastAbilityBlocked = false;
                 }
-                // mSelfGUI.log("self msg : " + selfMsg + " " + (mMyCounter++));
-                Log.e(TAG, "self msg : " + selfMsg + " " + mMyCounter);
+                if (D) Log.e(TAG, "self msg : " + selfMsg + " " + mMyCounter);
                 // request mana for spell
                 boolean canBeCasted = mSelfState.requestSpell(selfMsg);
 
@@ -273,7 +272,7 @@ public abstract class FightActivity extends CastActivity {
 
                 // refresh enemy health and mana (every enemy message contains it)
                 mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
-                Log.e(TAG, "enemy msg: " + enemyMsg + " " + mMyCounter);
+                if (D) Log.e(TAG, "enemy msg: " + enemyMsg + " " + mMyCounter);
                 if (enemyMsg.mTarget == Target.SELF) {
                     handleMessageToSelf(enemyMsg);
                 } else {
@@ -397,7 +396,7 @@ public abstract class FightActivity extends CastActivity {
     }
 
     void sendFightMessage(FightMessage fMessage) {
-        Log.e("azaza", "send fight message: " + fMessage);
+    	if (D) Log.e("azaza", "send fight message: " + fMessage);
         // always send own health and mana
         fMessage.mHealth = mSelfState.getHealth();
         fMessage.mMana = mSelfState.getMana();
@@ -427,7 +426,7 @@ public abstract class FightActivity extends CastActivity {
     abstract void onBluetoothStateChange(int state);
     
     private void finishFight(Target winner) {
-        Log.e("azaza", "FINISH FIGHT");
+    	if (D) Log.e(TAG, "FINISH FIGHT");
         mAreMessagesBlocked = true;
 
         stopSensorAndSound();
@@ -444,7 +443,6 @@ public abstract class FightActivity extends CastActivity {
             message = getString(R.string.you_win);
         } else {
             // we must inform enemy about loss
-            Log.e("azaza", "send MESSAGE_SELF_DEATH to myself");
             mHandler.obtainMessage(AppMessage.MESSAGE_SELF_DEATH.ordinal())
                     .sendToTarget();
             message = getString(R.string.you_lose);
@@ -470,7 +468,7 @@ public abstract class FightActivity extends CastActivity {
         boolean mmIsNeedToShow;
 
         public void init(String message) {
-            Log.e(TAG, "INIT FIGHT");
+        	if (D) Log.e(TAG, "INIT FIGHT END DIALOG");
             mmIsNeedToShow = false;
             mmDialog.setTitle(getString(R.string.fight_ended));
             mmDialog.setMessage(message);

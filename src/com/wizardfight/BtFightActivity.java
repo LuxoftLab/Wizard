@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 /**
  * Bluetooth fight activity. Extends Fight Activity with 
@@ -113,7 +112,7 @@ public class BtFightActivity extends FightActivity {
 				.findViewById(R.id.button_cancel_waiting);
 		cancel.setOnClickListener(new CancelButtonListener());
 		mClientWaitingDialog.setContentView(v);
-		Log.e(TAG, "Show waiting dialog!");
+		if (D) Log.e(TAG, "Show waiting dialog!");
 		mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
 			@Override
 			public boolean onKey(DialogInterface arg0, int keyCode,
@@ -140,7 +139,6 @@ public class BtFightActivity extends FightActivity {
 	class BtFightEndDialog extends FightEndDialog {
 		@Override
 		public void init(String message) {
-			Log.e(TAG, "INIT BT FIGHT");
 			mmDialog = new AlertDialog.Builder(BtFightActivity.this).create();
 			super.init(message);
 		}
@@ -149,7 +147,7 @@ public class BtFightActivity extends FightActivity {
 		public void onClick(DialogInterface dialog, int which) {
 			switch (which) {
 			case -1:
-				Log.e(TAG, "CLICK RESTART");
+				if (D) Log.e(TAG, "CLICK RESTART");
 				// send restart message
 				mIsSelfReady = true;
 				if (mIsEnemyReady) {
@@ -165,7 +163,6 @@ public class BtFightActivity extends FightActivity {
 				}
 				break;
 			case -2:
-				Log.e(TAG, "CLICK EXIT");
 				finish();
 				break;
 			}

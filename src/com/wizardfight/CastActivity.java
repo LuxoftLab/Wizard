@@ -76,7 +76,7 @@ public abstract class CastActivity extends Activity {
 	protected abstract Handler getHandler();
 
 	protected void stopSensorAndSound() {
-		Log.e("Wizard Fight", "stop sensor and sound called");
+		if (D) Log.e("Wizard Fight", "stop sensor and sound called");
 		// stop cast if its started
 		if (mIsInCast) {
 			mIsInCast = false;
@@ -99,13 +99,13 @@ public abstract class CastActivity extends Activity {
 			return;
 
 		if (!mIsInCast) {
-			Log.e(TAG, "START GETTING DATA");
+			if (D)Log.e(TAG, "START GETTING DATA");
 			if(mSensorAndSoundThread!=null) {
 				mSensorAndSoundThread.startGettingData();
 				mIsInCast = true;
 			}
 		} else {
-			Log.e(TAG, "END GETTING DATA");
+			if (D)Log.e(TAG, "END GETTING DATA");
 			mIsCastAbilityBlocked = true;
 
 			ArrayList<Vector3d> records = mSensorAndSoundThread

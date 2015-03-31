@@ -25,7 +25,7 @@ import android.util.Log;
 public class BluetoothService {
     // Debugging
     private static final String TAG = "BluetoothService";
-    private static final boolean D = true;
+    private static final boolean D = false;
     // Name for the SDP record when creating server socket
     private static final String NAME = "WizardFight";
     // Unique UUID for this application
@@ -226,7 +226,7 @@ public class BluetoothService {
             try {
                 tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
             } catch (IOException e) {
-                Log.e(TAG, "listen() failed", e);
+                if (D) Log.e(TAG, "listen() failed", e);
             }
             mmServerSocket = tmp;
         }
@@ -241,7 +241,7 @@ public class BluetoothService {
                     // successful connection or an exception
                     socket = mmServerSocket.accept();
                 } catch (IOException e) {
-                    Log.e(TAG, "accept() failed", e);
+                	if (D) Log.e(TAG, "accept() failed", e);
                     break;
                 }
                 // If a connection was accepted
@@ -260,7 +260,7 @@ public class BluetoothService {
                             try {
                                 socket.close();
                             } catch (IOException e) {
-                                Log.e(TAG, "Could not close unwanted socket", e);
+                            	if (D) Log.e(TAG, "Could not close unwanted socket", e);
                             }
                             break;
                         }
@@ -274,7 +274,7 @@ public class BluetoothService {
             try {
                 mmServerSocket.close();
             } catch (IOException e) {
-                Log.e(TAG, "close() of server failed", e);
+            	if (D) Log.e(TAG, "close() of server failed", e);
             }
         }
     }
@@ -294,12 +294,12 @@ public class BluetoothService {
             try {
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
             } catch (IOException e) {
-                Log.e(TAG, "create() failed", e);
+            	if (D) Log.e(TAG, "create() failed", e);
             }
             mmSocket = tmp;
         }
         public void run() {
-            Log.i(TAG, "BEGIN mConnectThread");
+        	if (D) Log.i(TAG, "BEGIN mConnectThread");
             setName("ConnectThread");
             // Always cancel discovery because it will slow down a connection
             mAdapter.cancelDiscovery();
@@ -314,7 +314,7 @@ public class BluetoothService {
                 try {
                     mmSocket.close();
                 } catch (IOException e2) {
-                    Log.e(TAG, "unable to close() socket during connection failure", e2);
+                	if (D) Log.e(TAG, "unable to close() socket during connection failure", e2);
                 }
                 // Start the service over to restart listening mode
                 BluetoothService.this.start();
@@ -331,7 +331,7 @@ public class BluetoothService {
             try {
                 mmSocket.close();
             } catch (IOException e) {
-                Log.e(TAG, "close() of connect socket failed", e);
+            	if (D) Log.e(TAG, "close() of connect socket failed", e);
             }
         }
     }
@@ -344,7 +344,7 @@ public class BluetoothService {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
         public ConnectedThread(BluetoothSocket socket) {
-            Log.d(TAG, "create ConnectedThread");
+        	if (D) Log.d(TAG, "create ConnectedThread");
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
@@ -353,13 +353,13 @@ public class BluetoothService {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
-                Log.e(TAG, "temp sockets not created", e);
+            	if (D) Log.e(TAG, "temp sockets not created", e);
             }
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
         public void run() {
-            Log.i(TAG, "BEGIN mConnectedThread");
+        	if (D) Log.i(TAG, "BEGIN mConnectedThread");
             
             int bytes;
             // Keep listening to the InputStream while connected
@@ -372,7 +372,7 @@ public class BluetoothService {
 					sendMsgToHandler(AppMessage.MESSAGE_FROM_ENEMY.ordinal(),
 							bytes, -1, buffer);
 				} catch (IOException e) {
-					Log.e(TAG, "disconnected", e);
+					if (D) Log.e(TAG, "disconnected", e);
 					connectionLost();
 					break;
 				}
@@ -386,7 +386,7 @@ public class BluetoothService {
             try {
             	mmOutStream.write(buffer);
             } catch (IOException e) {
-                Log.e(TAG, "Exception during write", e);
+            	if (D) Log.e(TAG, "Exception during write", e);
             }
         }
         
@@ -394,7 +394,7 @@ public class BluetoothService {
             try {
                 mmSocket.close();
             } catch (IOException e) {
-                Log.e(TAG, "close() of connect socket failed", e);
+            	if (D) Log.e(TAG, "close() of connect socket failed", e);
             }
         }
     }

@@ -128,7 +128,7 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 					} else {
 						mCastResult.setPictureAndFade(R.drawable.result_bad);
 					}
-					Log.e("Wizard Fight", shape.toString());
+					if (D) Log.e("Wizard Fight", shape.toString());
 					mIsCastAbilityBlocked = false;
 					break;
 				default:

@@ -25,7 +25,7 @@ import android.widget.Toast;
 public class DeviceListActivity extends Activity {
    
     private static final String TAG = "DeviceListActivity";
-    private static final boolean D = true;
+    private static final boolean D = false;
     
     private LinearLayout mPairedList;
     private View mNewTitleLayout;

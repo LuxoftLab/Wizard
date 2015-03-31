@@ -178,7 +178,7 @@ public class PlayerState {
 		 * rejected for previous buff addings.
 		 */
         if (calledByTimer && timeLeft < buff.getDuration()) {
-            Log.e("azaza", "not enough time left: " + timeLeft + " vs " + buff.getDuration());
+        	if (D) Log.e("azaza", "not enough time left: " + timeLeft + " vs " + buff.getDuration());
             return false;
         }
 

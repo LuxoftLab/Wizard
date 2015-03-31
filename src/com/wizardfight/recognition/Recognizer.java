@@ -14,6 +14,7 @@ import com.wizardfight.components.Vector3d;
  * class that runs recognition
  */
 public class Recognizer {
+	public final static boolean D = false;
     private static KMeansQuantizer quantizer;
     private static HMM hmm;
     private static final int TRAINED_NUM_CLUSTERS = 20;
@@ -59,7 +60,7 @@ public class Recognizer {
         
         hmm.predict(timeSeries);
 
-        Log.e("Wizard Fight Time", "Time: " + (System.currentTimeMillis()-startStamp) + " ms");
+        if (D) Log.e("Wizard Fight Time", "Time: " + (System.currentTimeMillis()-startStamp) + " ms");
         return getShape(hmm.getPredictedClassLabel());
     }
 

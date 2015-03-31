@@ -12,6 +12,7 @@ import android.util.Log;
  * Thread that runs recognition and sends result via handler
  */
 class RecognitionThread extends Thread {
+	private final static boolean D = false;
 	private final Handler mHandler;
 	private final ArrayList<Vector3d> mRecords;
 
@@ -24,7 +25,7 @@ class RecognitionThread extends Thread {
 	
 	public void run() {
 		try {
-			Log.e("Wizard fight", "Recognition thread begin");
+			if (D) Log.e("Wizard fight", "Recognition thread begin");
 			String shapeStr = AccRecognition.recognize(mRecords).toUpperCase();
 			Shape accShape, shape;
 			boolean goodDensity = AccRecognition.isGoodDensity();

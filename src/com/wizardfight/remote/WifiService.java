@@ -17,6 +17,7 @@ import android.util.Log;
  * VIA TCP socket
  */
 public class WifiService {
+	public final static boolean D = false;
 	public static final int NO_ERROR = 0;
 	public static final int IO_FAIL = 1;
 	public static final int PORT = 8880;
@@ -27,7 +28,7 @@ public class WifiService {
 	public static void init(String addr, Handler handler) {
 		close();
 		ip = addr;
-		Log.d("wifi", "init "+ip);
+		if (D) Log.d("wifi", "init "+ip);
 		mWorker = new Worker(ip, handler);
 		mWorker.start();
 	}
@@ -55,11 +56,11 @@ public class WifiService {
 	}
 	
 	public static void close() {
-		Log.e("WIFI", "WifiService.close");
+		if (D) Log.e("WIFI", "WifiService.close");
 		if(mWorker != null) {
 			mWorker.close();
 		}
-		Log.e("WIFI", "connected? (after close): " + isConnected());
+		if (D) Log.e("WIFI", "connected? (after close): " + isConnected());
 	}
 	
 	static class Worker extends Thread {
@@ -90,16 +91,16 @@ public class WifiService {
 				out.writeObject(playerName);
 				
 				while(!mmSocket.isClosed()) {
-					Log.e("wifi", "thread loop");
+					if (D) Log.e("wifi", "thread loop");
 					while(!mmQueue.isEmpty()) {
 						out.writeObject(mmQueue.poll());
 					}
 					try {
-						Log.e("wifi", "sleep");
+						if (D) Log.e("wifi", "sleep");
 						synchronized (this) {
 							wait();
 						}
-						Log.e("wifi", "wakeup");
+						if (D) Log.e("wifi", "wakeup");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -107,7 +108,7 @@ public class WifiService {
 			} 
 			catch (IOException e1) {
 				sendMsgToHandler(IO_FAIL);
-				Log.e("WIFI", "--- io exception ---", e1);
+				if (D) Log.e("WIFI", "--- io exception ---", e1);
 			} finally {
 				close();
 			}

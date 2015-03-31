@@ -11,7 +11,6 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.view.Window;
@@ -23,9 +22,6 @@ import android.widget.Toast;
  * checks default screen orientation (for sensor data purposes)
  */
 public class MainMenu extends Activity {
-	// Debugging
-	private static final String TAG = "Wizard Fight";
-	private static final boolean D = true;
 	// Local Bluetooth adapter
 	private BluetoothAdapter mBluetoothAdapter = null;
 
@@ -124,7 +120,6 @@ public class MainMenu extends Activity {
 
 	public void goToSettings(View view) {
 		startActivity(new Intent(this, WPreferences.class));
-		Log.e("Wizard Fight", "go to settings");
 	}
 
 	public void exit(View view) {
@@ -158,12 +153,9 @@ public class MainMenu extends Activity {
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.d(TAG, "onActivityResult " + resultCode);
 		// When the request to enable Bluetooth returns
 		if (resultCode != Activity.RESULT_OK) {
 			// User did not enable Bluetooth or an error occured
-			if (D)
-				Log.d(TAG, "BT not enabled");
 			Toast.makeText(this, R.string.bt_not_enabled, Toast.LENGTH_SHORT)
 					.show();
 			return;

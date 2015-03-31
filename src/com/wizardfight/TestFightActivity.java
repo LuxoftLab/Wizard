@@ -26,7 +26,7 @@ public class TestFightActivity extends FightActivity {
         super.onCreate(savedInstanceState);
         mPlayerBot = new PlayerBot(mHandler);
         mFightEndDialog = new TestFightEndDialog();
-        Log.e("testFAThread", Thread.currentThread().getName());
+        if (D) Log.e("testFAThread", Thread.currentThread().getName());
         setupBot();
     }
 
@@ -115,13 +115,13 @@ public class TestFightActivity extends FightActivity {
         mHandler.removeCallbacksAndMessages(null);
         mPlayerBot.release();
         mPlayerBot = null;
-        Log.e(TAG, "--- ON DESTROY ---");
+        if (D) Log.e(TAG, "--- ON DESTROY ---");
     }
 
     class TestFightEndDialog extends FightEndDialog {
         @Override
         public void init(String message) {
-            Log.e(TAG, "INIT TEST FIGHT");
+        	if (D) Log.e(TAG, "INIT TEST FIGHT");
             mmDialog = new AlertDialog.Builder(TestFightActivity.this).create();
             super.init(message);
         }

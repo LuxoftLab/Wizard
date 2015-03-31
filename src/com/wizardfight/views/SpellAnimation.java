@@ -60,7 +60,7 @@ public class SpellAnimation extends View {
 				mPhoneIm.add(Bitmap.createScaledBitmap(p, (int) (mWb),
 						(int) (mHb), false));
 			} catch (IOException e) {
-				Log.e("Wizard Fight", "SpellAnimationError", e);
+//				Log.e("Wizard Fight", "SpellAnimationError", e);
 			}
 		}
 

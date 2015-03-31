@@ -17,6 +17,7 @@ import java.util.TimerTask;
  * (one handler to send messages, one to receive)
  */
 class PlayerBot extends Thread {
+	private final static boolean D = false;
     private final static String TAG = "Wizard Fight Bot";
     private final int mStartHP;
     private final int mStartMana;
@@ -42,7 +43,7 @@ class PlayerBot extends Thread {
     }
 
     protected void initHandler() {
-        Log.e("init","init");
+        if (D) Log.e(TAG,"init");
         mHandler = new Handler() {
             /**
              * Sends a message.
@@ -54,7 +55,6 @@ class PlayerBot extends Thread {
             @Override
             public void handleMessage(Message msg) {
                 AppMessage appMsg = AppMessage.values()[msg.what];
-                Log.e("player bot handler", appMsg.toString());
 
                 switch (appMsg) {
                     case MESSAGE_FROM_SELF:
@@ -91,13 +91,13 @@ class PlayerBot extends Thread {
                         this.sendMessageDelayed(msgManaReg, 2000);
                         break;
                     default:
-                        Log.d("Wizard Fight", "Unknown message");
+                    	if(D) Log.d(TAG, "Unknown message");
                         break;
                 }
             }
 
             private void attack() {
-                Log.e("1234", shape.toString());
+            	if (D) Log.e(TAG, "bot: " + shape.toString());
                 if (shape != Shape.NONE) {
                     FightMessage selfMsg = new FightMessage(shape);
                     boolean canBeCasted = mSelfState.requestSpell(selfMsg);
@@ -143,7 +143,6 @@ class PlayerBot extends Thread {
 
                     }, (int) ((shape.getCastTime() + mTimeToThink) * 1000 * mK));
                 } catch (IllegalStateException e) {
-                    Log.w("PlayerBot","");
                 }
             }
 
@@ -157,7 +156,6 @@ class PlayerBot extends Thread {
             }
 
             private void handleSelfMessage(FightMessage selfMsg) {
-                Log.d(TAG, "self msg : " + selfMsg);
                 boolean canBeCasted = mSelfState.requestSpell(selfMsg);
                 if (!canBeCasted)
                     return;
@@ -176,7 +174,6 @@ class PlayerBot extends Thread {
             private void handleEnemyMessage(FightMessage enemyMsg) {
                 // refresh enemy health and mana (every enemy message contains it)
                 mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
-                Log.d(TAG, "enemy msg: " + enemyMsg);
                 if (enemyMsg.mTarget == Target.SELF) {
                     handleMessageToSelf(enemyMsg);
                 } else {
@@ -252,8 +249,8 @@ class PlayerBot extends Thread {
     }
 
     public void run() {
-        Log.d("", "run");
-        Log.e("player bot", Thread.currentThread().getName());
+        if(D) Log.d("Wizard Fight Bot", "Bot run");
+        if(D) Log.d("Wizard Fight Bot", Thread.currentThread().getName());
         Looper.prepare();
         mLooper = Looper.myLooper();
         initHandler();
