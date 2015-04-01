@@ -2,38 +2,38 @@
 
 <tutorial>
     <part>
-        <screen>Хотите научиться творить волшебство? Я вам помогу!</screen>
-        <screen>Необходимо нажать на экран и удерживать касание при выполнении заклинания.</screen>
+        <screen>Do you want to do magic? I`ll help you!</screen>
+        <screen>You need to press on the screen and hold it while casting magic spells.</screen>
         <pause>2</pause>
         <ui>3</ui>
         <uih>4</uih>
         <uim>5</uim>
-        <screen>Верхняя часть экрана представляет Ваше состояние, нижнее - противника.</screen>
-        <screen>Зеленая полоска - здоровье. Оно теряется при получении урона и восстанавливается специальными заклинаниями.</screen>
-        <screen>Синяя полоска - мана, магическая сила. Мана тратится на заклинания и востанавливается со временем.</screen>
-        <screen>Первое заклинание - "Конус Холода". Наносит незначительный урон.</screen>
-        <screen>Просмотрите, как выполнять это заклинание, и повторите это движение.</screen>
+        <screen>The upper part shows your condition, bottom - the opponent`s.</screen>
+        <screen>Green line - health. It is lost when taking damage and recovers by special spells.</screen>
+        <screen>Blue line - mana, magic force. Mana is used for spells and recovers over time.</screen>
+        <screen>The first spell - "Cold of cold". Inflicts a weak damage.</screen>
+        <screen>Look how to do this spell and repeat this move.</screen>
     </part>
     <part>
-        <screen>Второе заклинание - "Кольцо Огня". Наносит большой урон.</screen>
+        <screen>The second spell - "Circle of fire". Inflicts a great damage.</screen>
     </part>
     <part>
-		<screen>"Исцеление". Мгновенно восстанавливает много здоровья.</screen>
+		<screen>"Healing". Instantly recovers many health points.</screen>
 	</part>
     <part>
-        <screen>"Порча". Наносит периодический урон противнику.</screen>
+        <screen>"Weakness". Inflicts a periodic damage to the opponent.</screen>
     </part>
     <part>
-        <screen>"Концентрация". Увелиивает наносимый урон.</screen>
+        <screen>"Concentration". Increases inflicted damage.</screen>
     </part>
     <part>
-        <screen>"Благословение". Периодически восстанавливает здоровье.</screen>
+        <screen>"Blessing". Periodically recovers health points.</screen>
     </part>
     <part>
-        <screen>"Божественный Щит". Блокирует один удар противника.</screen>
+        <screen>"Holy Shield". Blocks the opponent`s kick.</screen>
 </part>
     <part>
-        <screen>Поздравляю! Вы успешно прошли обучение! Вы настоящий маг!</screen>
-		<screen>Полное описание магии находится в Книге заклинаний.</screen>
+        <screen>Congratulations! You have successfully trained! You are the real wizard now!</screen>
+		<screen>You can see detailed magic description in Spellbook.</screen>
     </part>
 </tutorial>

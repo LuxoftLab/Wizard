@@ -2,9 +2,9 @@
 
 <spells>
     <spell>
-        <name>Конус Холода</name>
-        <description>Стоимость: 5 маны.
-Воздействие: снимает 10 единиц здоровья у противника.</description>
+        <name>Cone of cold</name>
+        <description>Cost: 6 mana.
+Effect: takes 10 health points from opponent.</description>
         <img>triangle.png</img>
         <pointX>50</pointX>
         <pointY>0</pointY>
@@ -17,9 +17,9 @@
         <shape>triangle</shape>
     </spell>
     <spell>
-        <name>Кольцо Огня</name>
-        <description>Стоимость: 15 маны.
-Воздействие: снимает 30 единиц здоровья у противника.</description>
+        <name>Circle of fire</name>
+        <description>Cost: 20 mana.
+Effect: takes 30 health points from opponent.</description>
         <img>
             circle.png
         </img>
@@ -37,9 +37,9 @@
         <shape>circle</shape>
     </spell>
     <spell>
-        <name>Исцеление</name>
-        <description>Стоимость: 20 маны.
-Воздействие: восстанавливает 40 единиц здоровья.</description>
+        <name>Healing</name>
+        <description>Cost: 25 mana.
+Effect: recovers 40 health points.</description>
         <img>
             clock.png
         </img>
@@ -56,9 +56,9 @@
         <shape>clock</shape>
     </spell>
     <spell>
-        <name>Порча</name>
-        <description>Стоимость: 10 маны.
-Воздействие: снимает у противника по 5 единиц здоровья в секунду (5 раз).</description>
+        <name>Weakness</name>
+        <description>Cost: 15 mana.
+Effect: takes 5 health points from opponent per second (5 times).</description>
         <img>
             z.png
         </img>
@@ -73,9 +73,9 @@
         <shape>z</shape>
     </spell>
     <spell>
-        <name>Концентрация</name>
-        <description>Стоимость: 15 маны.
-Воздействие: усиливает атаку на 50% на 5 секунд.</description>
+        <name>Concentration</name>
+        <description>Cost: 10 mana.
+Effect: increase attack by 50% for 5 seconds.</description>
         <img>
             v.png
         </img>
@@ -88,12 +88,12 @@
         <shape>v</shape>
     </spell>
     <spell>
-        <name>Благословение</name>
-        <description>Стоимость: 15 маны.
-Воздействие: востанавливает по 5 единиц здоровья в секунду (5 раз).</description>
+        <name>Blessing</name>
+        <description>Cost: 15 mana.
+Effect: recovers 5 health points per second (5 times).</description>
         <img>
             pi.png
-        </img>        
+        </img>
         <pointX>100</pointX>
         <pointY>100</pointY>
         <pointX>100</pointX>
@@ -105,11 +105,11 @@
         <shape>pi</shape>
     </spell>
     <spell>
-        <name>Божественный
-Щит</name>
+        <name>Holy
+Shield</name>
         <description>
-Стоимость: 10 маны.
-Воздействие: блокирует один удар противника в течение 5 секунд.</description>
+Cost: 10 mana.
+Effect: blocks one opponent`s hit for 5 seconds.</description>
         <img>
             shield.png
         </img>

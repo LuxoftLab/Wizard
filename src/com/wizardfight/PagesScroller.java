@@ -7,7 +7,7 @@ import android.widget.HorizontalScrollView;
  * horizontal scroller with stopping on 
  * one of its same-width childs (used in spellbook)
  */
-class PagesScroller extends HorizontalScrollView {
+public class PagesScroller extends HorizontalScrollView {
 	private boolean mFlag = false;
 	private int mSelectedIndex = 0;
 
