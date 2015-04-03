@@ -28,6 +28,7 @@
     <string name="settings">Settings</string>
     <string name="exit">Exit</string>
     <!--  Bt Fight Activity -->
+    <string name="creating_the_game">Creating the game...</string>
     <string name="connected_to">Connected to&#160;</string>
     <string name="client_waiting">Waiting for opponent…</string>
     <string name="trying_to_connect">Trying to connect..</string>

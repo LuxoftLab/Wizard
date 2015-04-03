@@ -101,14 +101,8 @@ public abstract class FightActivity extends CastActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (D)
-            Log.e(TAG, "-- ON START --");
-    }
-
-    @Override
     public void onResume() {
+    	if (D) Log.e(TAG, "--- ON RESUME ---");
         mIsRunning = true;
         super.onResume();
         mBgImage.darkenImage();
@@ -122,23 +116,15 @@ public abstract class FightActivity extends CastActivity {
     public void onPause() {
         super.onPause();
         mIsRunning = false;
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (D)
-            Log.e(TAG, "-- ON STOP --");
     }
 
     @Override
     public void onDestroy() {
+    	if (D) Log.e(TAG, "--- ON DESTROY FIGHT ACTIVITY ---");
         super.onDestroy();
         // remove all messages from handler
         WifiService.send(WifiMessage.LEAVE_FIGHT);
         mHandler.removeCallbacksAndMessages(null);
-        if (D) Log.e(TAG, "--- ON DESTROY ---");
     }
 
     @Override
@@ -239,15 +225,11 @@ public abstract class FightActivity extends CastActivity {
                 boolean canBeCasted = mSelfState.requestSpell(selfMsg);
 
                 if (!canBeCasted) {
-                    if (mSensorAndSoundThread != null) {
-                        mSensorAndSoundThread.playNoManaSound();
-                    }
+                	FightSound.playNoManaSound();
                     return;
                 }
 
-                if (mSensorAndSoundThread != null) {
-                    mSensorAndSoundThread.playShapeSound(sendShape);
-                }
+                FightSound.playShapeSound(sendShape);
 
                 mSelfGUI.getManaBar().setValue(mSelfState.getMana());
 
@@ -322,8 +304,8 @@ public abstract class FightActivity extends CastActivity {
                     sendFightMessage(sendMsg);
                     // remove buff from panel
                     mSelfGUI.getBuffPanel().removeBuff(removedBuff);
-                    if (mSelfState.isBuffRemovedByEnemy() && mSensorAndSoundThread != null) {
-                        mSensorAndSoundThread.playBuffSound(removedBuff);
+                    if (mSelfState.isBuffRemovedByEnemy()) {
+                        FightSound.playBuffSound(removedBuff);
                     }
                 }
 

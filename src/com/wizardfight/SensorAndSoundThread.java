@@ -1,8 +1,6 @@
 package com.wizardfight;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
-
 import com.wizardfight.accrecognizer.AccRecognizer;
 import com.wizardfight.components.Vector3d;
 
@@ -11,11 +9,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 /* 
  * Thread that listens to accelerometer and gathers data 
@@ -25,120 +20,64 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
 	protected static boolean ORIENTATION_HORIZONTAL;
 	private boolean mListening;
-	private boolean mSoundPlaying;
+	
 	private Looper mLooper;
 	private final Context mContext;
 	private final SensorManager mSensorManager;
+	private final Handler mFightHandler;
 	private Sensor mAccelerometer;
 	private ArrayList<Vector3d> mRecords;
-	private SoundPool mSoundPool;
-	private int mWandSoundID;
-	private int mWandStreamID;
-	private EnumMap<Shape, Integer> mShapeSoundIDs;
-	private EnumMap<Buff, Integer> mBuffSoundIDs;
-	private int mNoManaSoundID;
 
-	public SensorAndSoundThread(Context context, SensorManager sm) {
+	public SensorAndSoundThread(Context context, SensorManager sm, Handler fightHandler) {
 		setName("Sensor and Sound thread");
 		mContext = context;
 		mSensorManager = sm;
-	}
-
-	public void playShapeSound(Shape shape) {
-		Integer soundID = mShapeSoundIDs.get(shape);
-		if (mSoundPlaying && soundID != null) {
-			mSoundPool.play(soundID, 1, 1, 0, 0, 1);
-		}
-	}
-
-	public void playBuffSound(Buff buff) {
-		Integer soundID = mBuffSoundIDs.get(buff);
-		if (mSoundPlaying && soundID != null) {
-			mSoundPool.play(soundID, 1, 1, 0, 0, 1);
-		}
-	}
-
-	public void playNoManaSound() {
-		if (mSoundPlaying) {
-			mSoundPool.play(mNoManaSoundID, 1, 1, 0, 0, 1);
-		}
+		mFightHandler = fightHandler;
 	}
 
 	public void run() {
+		long t1 = System.currentTimeMillis();
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		mSoundPlaying = true;
+		FightSound.setPlaying(true);
 		mListening = false;
-		// Initialize sound
-		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-		mWandSoundID = mSoundPool.load(mContext, R.raw.magic, 1);
-		mWandStreamID = -1;
-
-		mShapeSoundIDs = new EnumMap<Shape, Integer>(Shape.class);
-		mShapeSoundIDs.put(Shape.TRIANGLE,
-				mSoundPool.load(mContext, R.raw.triangle_sound, 1));
-		mShapeSoundIDs.put(Shape.CIRCLE,
-				mSoundPool.load(mContext, R.raw.circle_sound, 1));
-		mShapeSoundIDs.put(Shape.SHIELD,
-				mSoundPool.load(mContext, R.raw.shield_sound, 1));
-		mShapeSoundIDs.put(Shape.Z, mSoundPool.load(mContext, R.raw.z_sound, 1));
-		mShapeSoundIDs.put(Shape.V, mSoundPool.load(mContext, R.raw.v_sound, 1));
-		mShapeSoundIDs.put(Shape.PI,
-				mSoundPool.load(mContext, R.raw.pi_sound, 1));
-		mShapeSoundIDs.put(Shape.CLOCK,
-				mSoundPool.load(mContext, R.raw.clock_sound, 1));
-		mShapeSoundIDs.put(Shape.FAIL, 
-				mSoundPool.load(mContext, R.raw.fail_sound, 1));
-
-		mBuffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
-		mBuffSoundIDs.put(Buff.HOLY_SHIELD,
-				mSoundPool.load(mContext, R.raw.buff_off_shield_sound, 1));
-
-		mNoManaSoundID = mSoundPool.load(mContext, R.raw.more_mana, 1);
 		
 		Looper.prepare();
+
 		Handler handler = new Handler();
 		mLooper = Looper.myLooper();
 		mSensorManager.registerListener(this, mAccelerometer,
 				SensorManager.SENSOR_DELAY_GAME, handler);
+
 		Looper.loop();
+		
 	}
 
 	public void startGettingData() {
 		mRecords = new ArrayList<Vector3d>();
 		mListening = true;
-		if (!mSoundPlaying)
+		if (!FightSound.isPlaying())
 			return;
-		if (mWandStreamID == -1) {
-			mWandStreamID = mSoundPool.play(mWandSoundID, 0.25f, 0.25f, 0, -1,
-					1);
-			if (D)
-				Log.e("Wizard Fight", "wand stream id: " + mWandStreamID);
-		} else {
-			mSoundPool.resume(mWandStreamID);
-		}
+		FightSound.playWandSound();
 	}
 
 	public void stopGettingData() {
+		long t1 = System.currentTimeMillis();
 		mListening = false;
-		mSoundPool.pause(mWandStreamID);
+		FightSound.stopWandSound();
 	}
 
 	public ArrayList<Vector3d> stopAndGetResult() {
+		long t1 = System.currentTimeMillis();
 		mListening = false;
-		mSoundPool.pause(mWandStreamID);
+		FightSound.stopWandSound();
 		return Vector3d.squeeze(mRecords, AccRecognizer.Speed.SLOW.size);
 	}
 
 	public void stopLoop() {
+		long t1 = System.currentTimeMillis();
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)
 			mLooper.quit();
-		if (mSoundPool != null) {
-			mSoundPool.release();
-			mSoundPool = null;
-			if (D)
-				Log.e("Wizard Fight", "sound pool stop and release");
-		}
 	}
 
 	@Override
@@ -168,6 +107,7 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 		float amplitude = (float) len / 10 + 0.1f;
 		if (amplitude > 1.0f)
 			amplitude = 1.0f;
-		mSoundPool.setVolume(mWandStreamID, amplitude, amplitude);
+		
+		FightSound.setWandVolume(amplitude);
 	}
 }

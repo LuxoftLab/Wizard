@@ -118,9 +118,7 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 				case MESSAGE_FROM_SELF:
 					FightMessage fMsg = (FightMessage) msg.obj;
 					Shape shape = FightMessage.getShapeFromMessage(fMsg);
-					if (mSensorAndSoundThread != null) {
-						mSensorAndSoundThread.playShapeSound(shape);
-					}
+					FightSound.playShapeSound(shape);
 
 					if (shape==mSpellDatas.get(mPartCounter).mmShape) {
 						addSpellCounter();

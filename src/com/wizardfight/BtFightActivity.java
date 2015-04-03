@@ -45,11 +45,6 @@ public class BtFightActivity extends FightActivity {
 		}
 		mFightEndDialog = new BtFightEndDialog();
 	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
 	
 	@Override
 	public void onDestroy() {
@@ -108,19 +103,22 @@ public class BtFightActivity extends FightActivity {
 		View v = getLayoutInflater().inflate(R.layout.client_waiting, null);
 		mClientWaitingDialog = new Dialog(this, R.style.WDialog);
 		mClientWaitingDialog.setTitle(stringId);
+		mClientWaitingDialog.setCancelable(false);
 		RectButton cancel = (RectButton) v
 				.findViewById(R.id.button_cancel_waiting);
 		cancel.setOnClickListener(new CancelButtonListener());
 		mClientWaitingDialog.setContentView(v);
 		if (D) Log.e(TAG, "Show waiting dialog!");
 		mClientWaitingDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+			boolean mmCancelled = false;
 			@Override
 			public boolean onKey(DialogInterface arg0, int keyCode,
 					KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK) {
+				if (keyCode == KeyEvent.KEYCODE_BACK && !mmCancelled) {
+					finish();
 					mClientWaitingDialog.dismiss();
 					mClientWaitingDialog = null;
-					finish();
+					mmCancelled = true;
 				}
 				return true;
 			}

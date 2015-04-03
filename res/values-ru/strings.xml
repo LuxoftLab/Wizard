@@ -28,6 +28,7 @@
     <string name="settings">Настройки</string>
     <string name="exit">Выход</string>
     <!--  Bt Fight Activity -->
+    <string name="creating_the_game">Создание игры…</string>
     <string name="connected_to">Подключен к&#160;</string>
     <string name="client_waiting">Ожидание противника…</string>
     <string name="trying_to_connect">Попытка подключения…</string>

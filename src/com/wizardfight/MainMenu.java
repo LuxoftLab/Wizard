@@ -70,6 +70,15 @@ public class MainMenu extends Activity {
 			}
 		}
 
+		//init sound
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				FightSound.init(getApplicationContext());
+			}
+		}).start();
+
+		
 		// volume buttons control multimedia volume
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// get default device orientation
@@ -81,6 +90,11 @@ public class MainMenu extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
+	}
+	
+	public void onDestroy() {
+		FightSound.release();
+		super.onDestroy();
 	}
 
 	public void goToCreateGame(View view) {

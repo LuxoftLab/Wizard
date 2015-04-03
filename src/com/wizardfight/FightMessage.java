@@ -259,28 +259,9 @@ public class FightMessage implements Serializable {
 		NONE,
 		FAIL;
 		
-		/*
-		 *  strings are needed for debugging or string message 
-		 *  sending, may be deleted in future
-		 */
-		static final String[] names = {
-			"enemy ready",
-			"fight start",
-			"fight end",
-			"damage",
-			"high_damage",
-			"heal",
-			"buff_on",
-			"buff_tick",
-			"buff_off",
-			"new_hp_or_mana",
-			"none",
-			"fail"
-		};
-		
 		@Override
 		public String toString() {
-			return names[ this.ordinal() ];
+			return name();
 		}
 	}
 }

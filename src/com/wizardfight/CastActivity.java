@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 public abstract class CastActivity extends Activity {
 	protected static final boolean D = false;
 	protected static String TAG = "Wizard Fight";
-	protected final Boolean sync=true;
 	// Accelerator Thread link
 	protected SensorAndSoundThread mSensorAndSoundThread = null; 
 	// Last touch action code
@@ -32,8 +31,7 @@ public abstract class CastActivity extends Activity {
 	protected boolean mIsCastAbilityBlocked = false; 
 	// The Handler that gets information back from the BluetoothChatService
 	protected Handler mHandler;
-	protected Handler mTimer=new Handler();
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,11 +42,6 @@ public abstract class CastActivity extends Activity {
 		// Get sensors
 		mHandler = getHandler();
 	}
-	private final Runnable mainResume = new Runnable() {
-		public void run() {
-			startNewSensorAndSound();
-		}
-	};
 
 	@Override
 	public void onResume() {
@@ -56,12 +49,13 @@ public abstract class CastActivity extends Activity {
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
 		mLastTouchAction = MotionEvent.ACTION_UP;
-		mTimer.postDelayed(mainResume,100);
+		startNewSensorAndSound();
 		if (D)
 			Log.e(TAG, "accelerator ran");
 	}
 	protected  void startNewSensorAndSound(){
-			mSensorAndSoundThread = new SensorAndSoundThread(this, ((SensorManager) getSystemService(Context.SENSOR_SERVICE)));
+			mSensorAndSoundThread = new SensorAndSoundThread(this, 
+					((SensorManager) getSystemService(Context.SENSOR_SERVICE)), mHandler);
 			mSensorAndSoundThread.start();
 	}
 
