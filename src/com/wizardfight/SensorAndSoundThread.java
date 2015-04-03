@@ -27,48 +27,21 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private boolean mListening;
 	private boolean mSoundPlaying;
 	private Looper mLooper;
+	private final Context mContext;
 	private final SensorManager mSensorManager;
-	private final Sensor mAccelerometer;
+	private Sensor mAccelerometer;
 	private ArrayList<Vector3d> mRecords;
 	private SoundPool mSoundPool;
-	private final int mWandSoundID;
+	private int mWandSoundID;
 	private int mWandStreamID;
-	private final EnumMap<Shape, Integer> mShapeSoundIDs;
-	private final EnumMap<Buff, Integer> mBuffSoundIDs;
-	private final int mNoManaSoundID;
+	private EnumMap<Shape, Integer> mShapeSoundIDs;
+	private EnumMap<Buff, Integer> mBuffSoundIDs;
+	private int mNoManaSoundID;
 
 	public SensorAndSoundThread(Context context, SensorManager sm) {
 		setName("Sensor and Sound thread");
+		mContext = context;
 		mSensorManager = sm;
-		mAccelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		mSoundPlaying = true;
-		mListening = false;
-		// Initialize sound
-		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-		mWandSoundID = mSoundPool.load(context, R.raw.magic, 1);
-		mWandStreamID = -1;
-
-		mShapeSoundIDs = new EnumMap<Shape, Integer>(Shape.class);
-		mShapeSoundIDs.put(Shape.TRIANGLE,
-				mSoundPool.load(context, R.raw.triangle_sound, 1));
-		mShapeSoundIDs.put(Shape.CIRCLE,
-				mSoundPool.load(context, R.raw.circle_sound, 1));
-		mShapeSoundIDs.put(Shape.SHIELD,
-				mSoundPool.load(context, R.raw.shield_sound, 1));
-		mShapeSoundIDs.put(Shape.Z, mSoundPool.load(context, R.raw.z_sound, 1));
-		mShapeSoundIDs.put(Shape.V, mSoundPool.load(context, R.raw.v_sound, 1));
-		mShapeSoundIDs.put(Shape.PI,
-				mSoundPool.load(context, R.raw.pi_sound, 1));
-		mShapeSoundIDs.put(Shape.CLOCK,
-				mSoundPool.load(context, R.raw.clock_sound, 1));
-		mShapeSoundIDs.put(Shape.FAIL, 
-				mSoundPool.load(context, R.raw.fail_sound, 1));
-
-		mBuffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
-		mBuffSoundIDs.put(Buff.HOLY_SHIELD,
-				mSoundPool.load(context, R.raw.buff_off_shield_sound, 1));
-
-		mNoManaSoundID = mSoundPool.load(context, R.raw.more_mana, 1);
 	}
 
 	public void playShapeSound(Shape shape) {
@@ -92,6 +65,36 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	}
 
 	public void run() {
+		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mSoundPlaying = true;
+		mListening = false;
+		// Initialize sound
+		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+		mWandSoundID = mSoundPool.load(mContext, R.raw.magic, 1);
+		mWandStreamID = -1;
+
+		mShapeSoundIDs = new EnumMap<Shape, Integer>(Shape.class);
+		mShapeSoundIDs.put(Shape.TRIANGLE,
+				mSoundPool.load(mContext, R.raw.triangle_sound, 1));
+		mShapeSoundIDs.put(Shape.CIRCLE,
+				mSoundPool.load(mContext, R.raw.circle_sound, 1));
+		mShapeSoundIDs.put(Shape.SHIELD,
+				mSoundPool.load(mContext, R.raw.shield_sound, 1));
+		mShapeSoundIDs.put(Shape.Z, mSoundPool.load(mContext, R.raw.z_sound, 1));
+		mShapeSoundIDs.put(Shape.V, mSoundPool.load(mContext, R.raw.v_sound, 1));
+		mShapeSoundIDs.put(Shape.PI,
+				mSoundPool.load(mContext, R.raw.pi_sound, 1));
+		mShapeSoundIDs.put(Shape.CLOCK,
+				mSoundPool.load(mContext, R.raw.clock_sound, 1));
+		mShapeSoundIDs.put(Shape.FAIL, 
+				mSoundPool.load(mContext, R.raw.fail_sound, 1));
+
+		mBuffSoundIDs = new EnumMap<Buff, Integer>(Buff.class);
+		mBuffSoundIDs.put(Buff.HOLY_SHIELD,
+				mSoundPool.load(mContext, R.raw.buff_off_shield_sound, 1));
+
+		mNoManaSoundID = mSoundPool.load(mContext, R.raw.more_mana, 1);
+		
 		Looper.prepare();
 		Handler handler = new Handler();
 		mLooper = Looper.myLooper();
