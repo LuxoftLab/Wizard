@@ -115,9 +115,9 @@ public class BtFightActivity extends FightActivity {
 			public boolean onKey(DialogInterface arg0, int keyCode,
 					KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_BACK && !mmCancelled) {
-					finish();
 					mClientWaitingDialog.dismiss();
 					mClientWaitingDialog = null;
+					finish();
 					mmCancelled = true;
 				}
 				return true;
@@ -126,11 +126,15 @@ public class BtFightActivity extends FightActivity {
 	}
 
 	private class CancelButtonListener implements OnClickListener {
+		boolean mmCancelled = false;
 		@Override
 		public void onClick(View v) {
-			mClientWaitingDialog.dismiss();
-			mClientWaitingDialog = null;
-			finish();
+			if(!mmCancelled) {
+				mClientWaitingDialog.dismiss();
+				mClientWaitingDialog = null;
+				finish();
+				mmCancelled = true;
+			}
 		}
 	}
 	

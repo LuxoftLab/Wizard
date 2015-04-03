@@ -17,10 +17,10 @@ class Countdown {
     private final View mRootView;
     private final HideableTextView mText;
     private final Animation mAnim;
-    private final Handler mHandler;
+    private final Handler mUiHandler;
 
-    public Countdown (Context context, View rootView, Handler h){
-    	mHandler = h;
+    public Countdown (Context context, View rootView, Handler uiHandler){
+    	mUiHandler = uiHandler;
     	mRootView = rootView;
     	mText = (HideableTextView) mRootView.findViewById(R.id.starting_text);
         mText.setVisibility(View.INVISIBLE);
@@ -41,7 +41,7 @@ class Countdown {
     
     void goOut() {
     	mRootView.setVisibility(View.INVISIBLE);
-        mHandler.obtainMessage(AppMessage.MESSAGE_COUNTDOWN_END.ordinal()).sendToTarget();
+        mUiHandler.obtainMessage(AppMessage.MESSAGE_COUNTDOWN_END.ordinal()).sendToTarget();
     }
 
     private class AnimListener implements Animation.AnimationListener {

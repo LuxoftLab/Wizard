@@ -32,7 +32,7 @@ public class BluetoothService {
     private static final UUID MY_UUID = UUID.fromString("fa6dc0d0-af9c-1fff-8aaa-08ccccafcaf6");
     // Member fields
     private BluetoothAdapter mAdapter;
-    private Handler mHandler;
+    private Handler mUiHandler;
     private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -54,11 +54,11 @@ public class BluetoothService {
     }
     
     public void setHandler(Handler handler) {
-    	if(mHandler != null) mHandler.removeCallbacksAndMessages(null);
-    	mHandler = handler;
+    	if(mUiHandler != null) mUiHandler.removeCallbacksAndMessages(null);
+    	mUiHandler = handler;
     	// if we are setting handler before 1st fight and already connected
     	// we must tell about connection
-    	if(mHandler != null && mState == STATE_CONNECTED) {
+    	if(mUiHandler != null && mState == STATE_CONNECTED) {
     		sendMsgToHandler(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), mState, -1);
     	}
     }
@@ -83,7 +83,7 @@ public class BluetoothService {
         if (D) Log.d(TAG, "setState() " + mState + " -> " + state);
         mState = state;
         // Give the new state to the Handler so the UI Activity can update
-        if(mHandler != null) {
+        if(mUiHandler != null) {
         	sendMsgToHandler(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), state, -1);
         }
     }
@@ -195,21 +195,21 @@ public class BluetoothService {
     }
     
     private void sendMsgToHandler(int what, Bundle bundle) {
-    	if(mHandler != null) {
-    		Message msg = mHandler.obtainMessage(what);
+    	if(mUiHandler != null) {
+    		Message msg = mUiHandler.obtainMessage(what);
             msg.setData(bundle);
-            mHandler.sendMessage(msg);
+            mUiHandler.sendMessage(msg);
     	}
     }
     
     private void sendMsgToHandler(int what, int arg1, int arg2, Object o) {
-    	if(mHandler != null)
-    		mHandler.obtainMessage(what, arg1, arg2, o).sendToTarget();
+    	if(mUiHandler != null)
+    		mUiHandler.obtainMessage(what, arg1, arg2, o).sendToTarget();
     }
     
     private void sendMsgToHandler(int what, int arg1, int arg2) {
-    	if(mHandler != null)
-    		mHandler.obtainMessage(what, arg1, arg2).sendToTarget();
+    	if(mUiHandler != null)
+    		mUiHandler.obtainMessage(what, arg1, arg2).sendToTarget();
     }
     
     /**
@@ -401,9 +401,9 @@ public class BluetoothService {
     
     public void release() {
 		// remove messages from handler
-		if (mHandler != null) {
-			mHandler.removeCallbacksAndMessages(null);
-			mHandler = null;
+		if (mUiHandler != null) {
+			mUiHandler.removeCallbacksAndMessages(null);
+			mUiHandler = null;
 		}
 		// cancel connection threads
 		if (mConnectThread != null) {

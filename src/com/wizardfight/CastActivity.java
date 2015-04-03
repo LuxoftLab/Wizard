@@ -23,7 +23,7 @@ public abstract class CastActivity extends Activity {
 	protected static final boolean D = false;
 	protected static String TAG = "Wizard Fight";
 	// Accelerator Thread link
-	protected SensorAndSoundThread mSensorAndSoundThread = null; 
+	protected AcceleratorThread mAcceleratorThread = null; 
 	// Last touch action code
 	protected int mLastTouchAction; 
 
@@ -53,10 +53,11 @@ public abstract class CastActivity extends Activity {
 		if (D)
 			Log.e(TAG, "accelerator ran");
 	}
+	
 	protected  void startNewSensorAndSound(){
-			mSensorAndSoundThread = new SensorAndSoundThread(this, 
+			mAcceleratorThread = new AcceleratorThread(this, 
 					((SensorManager) getSystemService(Context.SENSOR_SERVICE)), mHandler);
-			mSensorAndSoundThread.start();
+			mAcceleratorThread.start();
 	}
 
 	@Override
@@ -77,14 +78,14 @@ public abstract class CastActivity extends Activity {
 			mIsCastAbilityBlocked = false;
 		}
 
-		if (mSensorAndSoundThread != null) {
+		if (mAcceleratorThread != null) {
 			// stop cast
-			mSensorAndSoundThread.stopGettingData();
+			mAcceleratorThread.stopGettingData();
 			// unregister accelerator listener and end stop event loop
 			if (D)
 				Log.e(TAG, "accelerator thread try to stop loop");
-			mSensorAndSoundThread.stopLoop();
-			mSensorAndSoundThread = null;
+			mAcceleratorThread.stopLoop();
+			mAcceleratorThread = null;
 		}
 	}
 
@@ -94,15 +95,15 @@ public abstract class CastActivity extends Activity {
 
 		if (!mIsInCast) {
 			if (D)Log.e(TAG, "START GETTING DATA");
-			if(mSensorAndSoundThread!=null) {
-				mSensorAndSoundThread.startGettingData();
+			if(mAcceleratorThread!=null) {
+				mAcceleratorThread.startGettingData();
 				mIsInCast = true;
 			}
 		} else {
 			if (D)Log.e(TAG, "END GETTING DATA");
 			mIsCastAbilityBlocked = true;
 
-			ArrayList<Vector3d> records = mSensorAndSoundThread
+			ArrayList<Vector3d> records = mAcceleratorThread
 					.stopAndGetResult();
 			mIsInCast = false;
 

@@ -48,7 +48,7 @@ public class FightSound {
 				mSoundPool.load(context, R.raw.buff_off_shield_sound, 1));
 
 		mNoManaSoundID = mSoundPool.load(context, R.raw.more_mana, 1);
-		Log.e("Wizard Fight", "sound load time: " + (System.currentTimeMillis() - t1));
+//		Log.e("Wizard Fight", "sound load time: " + (System.currentTimeMillis() - t1));
 	}
 	
 	public static void playShapeSound(Shape shape) {

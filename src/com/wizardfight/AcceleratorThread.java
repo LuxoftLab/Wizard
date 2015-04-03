@@ -16,7 +16,7 @@ import android.os.Looper;
  * Thread that listens to accelerometer and gathers data 
  * when its needed. Also plays music
  */
-class SensorAndSoundThread extends Thread implements SensorEventListener {
+class AcceleratorThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
 	protected static boolean ORIENTATION_HORIZONTAL;
 	private boolean mListening;
@@ -28,7 +28,7 @@ class SensorAndSoundThread extends Thread implements SensorEventListener {
 	private Sensor mAccelerometer;
 	private ArrayList<Vector3d> mRecords;
 
-	public SensorAndSoundThread(Context context, SensorManager sm, Handler fightHandler) {
+	public AcceleratorThread(Context context, SensorManager sm, Handler fightHandler) {
 		setName("Sensor and Sound thread");
 		mContext = context;
 		mSensorManager = sm;

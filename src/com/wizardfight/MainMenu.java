@@ -71,19 +71,19 @@ public class MainMenu extends Activity {
 		}
 
 		//init sound
-		new Thread(new Runnable() {
+		new Thread(){
 			@Override
 			public void run() {
 				FightSound.init(getApplicationContext());
 			}
-		}).start();
+		}.start();
 
 		
 		// volume buttons control multimedia volume
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// get default device orientation
 		int screenOrientation = getDeviceDefaultOrientation();
-		SensorAndSoundThread.ORIENTATION_HORIZONTAL =
+		AcceleratorThread.ORIENTATION_HORIZONTAL =
 				(screenOrientation == Configuration.ORIENTATION_LANDSCAPE);
 	}
 
