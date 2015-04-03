@@ -24,7 +24,7 @@ public class TestFightActivity extends FightActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPlayerBot = new PlayerBot(mHandler);
+        mPlayerBot = new PlayerBot(mFightCore);
         mFightEndDialog = new TestFightEndDialog();
         if (D) Log.e("testFAThread", Thread.currentThread().getName());
         setupBot();
@@ -112,7 +112,7 @@ public class TestFightActivity extends FightActivity {
     public void onDestroy() {
         super.onDestroy();
         // remove all messages from handler
-        mHandler.removeCallbacksAndMessages(null);
+        mFightCore.removeCallbacksAndMessages(null);
         mPlayerBot.release();
         mPlayerBot = null;
         if (D) Log.e(TAG, "--- ON DESTROY ---");

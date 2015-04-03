@@ -31,7 +31,7 @@ public class BtFightActivity extends FightActivity {
 		mIsSelfReady = true;
 		
 		mBtService = BluetoothService.getInstance();
-		mBtService.setHandler(mHandler);
+		mBtService.setHandler(mFightCore);
 		
 		// Start listening clients if server
 		if (mBtService.isServer()) {

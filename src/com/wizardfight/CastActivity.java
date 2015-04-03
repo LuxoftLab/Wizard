@@ -30,7 +30,7 @@ public abstract class CastActivity extends Activity {
 	protected boolean mIsInCast = false; 
 	protected boolean mIsCastAbilityBlocked = false; 
 	// The Handler that gets information back from the BluetoothChatService
-	protected Handler mHandler;
+	protected FightCore mFightCore;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public abstract class CastActivity extends Activity {
 		Recognizer.init(getResources());
 		AccRecognition.init(getResources());
 		// Get sensors
-		mHandler = getHandler();
+		mFightCore = getHandler();
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public abstract class CastActivity extends Activity {
 	
 	protected  void startNewSensorAndSound(){
 			mAcceleratorThread = new AcceleratorThread(this, 
-					((SensorManager) getSystemService(Context.SENSOR_SERVICE)), mHandler);
+					((SensorManager) getSystemService(Context.SENSOR_SERVICE)), mFightCore);
 			mAcceleratorThread.start();
 	}
 
@@ -68,7 +68,7 @@ public abstract class CastActivity extends Activity {
         stopSensorAndSound();
 	}
 
-	protected abstract Handler getHandler();
+	protected abstract FightCore getHandler();
 
 	protected void stopSensorAndSound() {
 		if (D) Log.e("Wizard Fight", "stop sensor and sound called");
@@ -108,7 +108,7 @@ public abstract class CastActivity extends Activity {
 			mIsInCast = false;
 
 			if (records.size() > 10) {
-				new RecognitionThread(mHandler, records).start();
+				new RecognitionThread(mFightCore, records).start();
 			} else {
 				// if shord record - don`t recognize & unblock
 				mIsCastAbilityBlocked = false;
