@@ -7,7 +7,6 @@
     <string name="player_name_summary">Укажите имя игрока для ПК-соединения</string>
     <string name="wizard">Волшебник</string>
     <!--  BluetoothService -->
-    <string name="not_connected">Вы не подсоединены к устройству</string>
     <string name="bt_not_enabled">Bluetooth выключен.</string>
     <!--  DeviceListActivity -->
     <string name="bt_not_available">Bluetooth недоступен</string>

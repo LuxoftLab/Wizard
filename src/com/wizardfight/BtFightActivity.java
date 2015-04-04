@@ -85,7 +85,7 @@ public class BtFightActivity extends FightActivity {
 			FightMessage startMsg = new FightMessage(Target.ENEMY,
 					FightAction.FIGHT_START);
 			sendFightMessage(startMsg);
-			startFight();
+			initStart();
 		}
 	}
 	
@@ -159,7 +159,7 @@ public class BtFightActivity extends FightActivity {
 					FightMessage startMsg = new FightMessage(Target.ENEMY,
 							FightAction.FIGHT_START);
 					sendFightMessage(startMsg);
-					startFight();
+					initStart();
 				} else {
 					initWaitingDialog(R.string.client_waiting);
 					FightMessage fightRequest = new FightMessage(
@@ -188,7 +188,7 @@ public class BtFightActivity extends FightActivity {
 		if (D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + state);
         switch (state) {
             case BluetoothService.STATE_CONNECTED:
-                startFight();
+                initStart();
                 break;
             case BluetoothService.STATE_NONE:
                 break;

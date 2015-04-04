@@ -38,10 +38,8 @@ public class AccRecognizer implements Serializable {
 	public void train(File folder) {
 		File[] smFiles = folder.listFiles();
 		int n = smFiles.length;
-		assert(n == Speed.values().length);
 		
 		for(int i=0; i<n; i++) {
-			assert(smFiles[i].isDirectory());
 			try {
 				String fileName = smFiles[i].getName();
 				Speed speed = Speed.valueOf(fileName.toUpperCase());

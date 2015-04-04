@@ -16,6 +16,7 @@ public class FightCore extends Observable {
 	// States of players
 	private PlayerState mSelfState;
 	private PlayerState mEnemyState;
+	private ObservableData mData;
 
 	public static class ObservableData {
 		// data storage for observers
@@ -44,8 +45,6 @@ public class FightCore extends Observable {
 		
 		public Shape getEnemyShape() { return enemyShape; }
 	}
-
-	public ObservableData mData;
 
 	// Message types sent from the BluetoothChatService Handler
 	enum HandlerMessage {
@@ -154,7 +153,7 @@ public class FightCore extends Observable {
 	protected void onEnemyMessage(FightMessage enemyMsg) {
 		switch (enemyMsg.mAction) {
 		case ENEMY_READY:
-			handleEnemyReadyMessage();
+			onEnemyReadyMessage();
 			break;
 		case FIGHT_START:
 			startFight();
@@ -165,11 +164,11 @@ public class FightCore extends Observable {
 		default:
 			if (mAreMessagesBlocked)
 				return;
-			handleEnemyFightMessage(enemyMsg);
+			onEnemyFightMessage(enemyMsg);
 		}
 	}
 
-	protected void handleEnemyReadyMessage() {
+	protected void onEnemyReadyMessage() {
 		share(CoreAction.CM_ENEMY_READY);
 	}
 
@@ -214,7 +213,7 @@ public class FightCore extends Observable {
 
 		if (selfMsg.mTarget == Target.SELF) {
 			// self influence to self
-			handleMessageToSelf(selfMsg);
+			onMessageToSelf(selfMsg);
 		} else {
 			// self influence to enemy
 			// tell enemy : target is he
@@ -228,13 +227,13 @@ public class FightCore extends Observable {
 		}
 	}
 
-	private void handleEnemyFightMessage(FightMessage enemyMsg) {
+	private void onEnemyFightMessage(FightMessage enemyMsg) {
 		mData.enemyShape = FightMessage.getShapeFromMessage(enemyMsg);
 		// refresh enemy health and mana (every enemy message contains it)
 		mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
 
 		if (enemyMsg.mTarget == Target.SELF) {
-			handleMessageToSelf(enemyMsg);
+			onMessageToSelf(enemyMsg);
 		} else {
 			// Enemy influence to himself
 			mEnemyState.handleSpell(enemyMsg);
@@ -255,7 +254,7 @@ public class FightCore extends Observable {
 		share(CoreAction.CM_ENEMY_HEALTH_MANA);
 	}
 
-	private void handleMessageToSelf(FightMessage fMessage) {
+	private void onMessageToSelf(FightMessage fMessage) {
 
 		FightMessage sendMsg;
 		// Enemy influence to player
@@ -332,20 +331,6 @@ public class FightCore extends Observable {
 		setChanged(); notifyObservers(ca);
 	}
 	/* GETTERS FOR OBSERVERS */
-	
-	
-	public int getHealth() {
-		return mSelfState.getHealth();
-	}
-
-	public int getMana() {
-		return mSelfState.getMana();
-	}
-
-	public Buff getRemovedBuff() {
-		return mSelfState.getRemovedBuff();
-	}
-	
 	public Handler getHandler() {
 		return mHandler;
 	}

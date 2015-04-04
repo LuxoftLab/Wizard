@@ -72,7 +72,7 @@ public class TestFightActivity extends FightActivity {
     void onComSetup(double k){
         mPlayerBot.start();
         mPlayerBot.setK(k);
-        startFight();
+        initStart();
         mDificultyDialog.dismiss();
         mDificultyDialog = null;
     }
@@ -94,7 +94,6 @@ public class TestFightActivity extends FightActivity {
             }
         }, 4500);
         super.startFight();
-
     }
     
     @Override
@@ -135,7 +134,7 @@ public class TestFightActivity extends FightActivity {
             switch (which) {
                 case -1:
                     // send restart message
-                    startFight();
+                    initStart();
                     break;
                 case -2:
                     finish();

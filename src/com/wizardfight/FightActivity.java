@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,7 +37,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 	public static final int PLAYER_HP = 200;
 	public static final int PLAYER_MANA = 100;
 
-	protected  FightCore mCore;
+	protected FightCore mCore;
 	// private Dialog mNetDialog;
 	FightEndDialog mFightEndDialog;
 	// is activity running
@@ -180,7 +179,8 @@ public abstract class FightActivity extends CastActivity implements Observer {
 		case CM_FIGHT_END:
 			finishFight(mCore.getData().getWinner());
 			break;
-		case CM_FIGHT_START: //nothing, because Fight Activity initiates start
+		case CM_FIGHT_START:
+			startFight();
 			break;
 		case CM_HEALTH_CHANGED:
 			mSelfGUI.getHealthBar().setValue(mCore.getSelfState().getHealth());
@@ -259,9 +259,20 @@ public abstract class FightActivity extends CastActivity implements Observer {
 
 	abstract void sendFightMessage(FightMessage fMessage);
 
+	/*
+	 * this method runs when FightCore iniates game start
+	 * the purpose is to setup GUI / controller
+	 */
 	protected void startFight() {
-		mCore.startFight();
 		mCountdown.startCountdown();
+	}
+	
+	/*
+	 * the method runs when FightActivity initiates game start
+	 * the purpose is to setup game logic and then init GUI / controller
+	 */
+	protected final void initStart() {
+		mCore.startFight();
 	}
 	
 	abstract void handleEnemyReadyMessage();
