@@ -6,7 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.wizardfight.FightMessage.*;
-import com.wizardfight.FightActivity.AppMessage;
+import com.wizardfight.FightCore.HandlerMessage;
 import com.wizardfight.remote.WifiService;
 
 import java.util.Timer;
@@ -54,18 +54,18 @@ class PlayerBot extends Thread {
 
             @Override
             public void handleMessage(Message msg) {
-                AppMessage appMsg = AppMessage.values()[msg.what];
+                HandlerMessage appMsg = HandlerMessage.values()[msg.what];
 
                 switch (appMsg) {
-                    case MESSAGE_FROM_SELF:
+                    case HM_FROM_SELF:
                         FightMessage selfMsg = (FightMessage) msg.obj;
                         handleSelfMessage(selfMsg);
                         break;
-                    case MESSAGE_SELF_DEATH:
+                    case HM_SELF_DEATH:
                         FightMessage selfDeath = new FightMessage(Target.ENEMY, FightAction.FIGHT_END);
                         sendFightMessage(selfDeath);
                         break;
-                    case MESSAGE_FROM_ENEMY:
+                    case HM_FROM_ENEMY:
                         // message from main thread are coming as FightMessage objects
                         FightMessage enemyMsg = (FightMessage) msg.obj;
                         switch (enemyMsg.mAction) {
@@ -79,7 +79,7 @@ class PlayerBot extends Thread {
                                 handleEnemyMessage(enemyMsg);
                         }
                         break;
-                    case MESSAGE_MANA_REGEN:
+                    case HM_MANA_REGEN:
                         mSelfState.manaTick();
                         // inform enemy about new mana
                         FightMessage fMsg = new FightMessage(Target.ENEMY,
@@ -87,7 +87,7 @@ class PlayerBot extends Thread {
                         sendFightMessage(fMsg);
                         // send next tick after 2 sec
                         Message msgManaReg = this.obtainMessage(
-                                AppMessage.MESSAGE_MANA_REGEN.ordinal(), 0, 0, null);
+                                HandlerMessage.HM_MANA_REGEN.ordinal(), 0, 0, null);
                         this.sendMessageDelayed(msgManaReg, 2000);
                         break;
                     default:
@@ -220,7 +220,7 @@ class PlayerBot extends Thread {
                     FightMessage fm = new FightMessage(Target.SELF,
                             FightAction.BUFF_TICK, refreshedBuff.ordinal());
                     Message buffTickMsg = this.obtainMessage(
-                            AppMessage.MESSAGE_FROM_SELF.ordinal(), fm);
+                            HandlerMessage.HM_FROM_SELF.ordinal(), fm);
                     this.sendMessageDelayed(buffTickMsg,
                             refreshedBuff.getDuration());
                 }
@@ -244,7 +244,7 @@ class PlayerBot extends Thread {
         mSelfState = new PlayerState(mStartHP, mStartMana, mEnemyState);
         // Start mana regeneration
         mHandler.removeCallbacksAndMessages(null);
-        mHandler.obtainMessage(AppMessage.MESSAGE_MANA_REGEN.ordinal(), null)
+        mHandler.obtainMessage(HandlerMessage.HM_MANA_REGEN.ordinal(), null)
                 .sendToTarget();
     }
 
@@ -280,7 +280,7 @@ class PlayerBot extends Thread {
     private void finishFight(Target winner) {
         setupApp();
         if (winner != Target.SELF) {
-            mHandler.obtainMessage(AppMessage.MESSAGE_SELF_DEATH.ordinal())
+            mHandler.obtainMessage(HandlerMessage.HM_SELF_DEATH.ordinal())
                     .sendToTarget();
         }
     }
@@ -302,7 +302,7 @@ class PlayerBot extends Thread {
         WifiService.send(msg);
         
         byte[] sendBytes = msg.getBytes();
-        mMainHandler.obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), sendBytes)
+        mMainHandler.obtainMessage(HandlerMessage.HM_FROM_ENEMY.ordinal(), sendBytes)
                 .sendToTarget();
     }
 }

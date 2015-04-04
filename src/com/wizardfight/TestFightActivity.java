@@ -5,6 +5,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.wizardfight.FightCore.HandlerMessage;
 import com.wizardfight.FightMessage.*;
 import com.wizardfight.remote.WifiService;
 
@@ -13,6 +15,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+
 import com.wizardfight.views.RectButton;
 
 /*
@@ -24,7 +27,7 @@ public class TestFightActivity extends FightActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPlayerBot = new PlayerBot(mFightCore);
+        mPlayerBot = new PlayerBot(mHandler);
         mFightEndDialog = new TestFightEndDialog();
         if (D) Log.e("testFAThread", Thread.currentThread().getName());
         setupBot();
@@ -96,15 +99,16 @@ public class TestFightActivity extends FightActivity {
     
     @Override
     protected void sendFightMessage(FightMessage fMessage) {
-    	if(mPlayerBot == null) return; // if user exists at start
-        super.sendFightMessage(fMessage);
+    	if(mPlayerBot == null) {
+    		return; // if user exists at start
+    	}
         
         // send to pc if connected
         WifiService.send(fMessage);
         
         // send to bot
         if(mPlayerBot.getHandler()!=null) {
-            mPlayerBot.getHandler().obtainMessage(AppMessage.MESSAGE_FROM_ENEMY.ordinal(), fMessage).sendToTarget();
+            mPlayerBot.getHandler().obtainMessage(HandlerMessage.HM_FROM_ENEMY.ordinal(), fMessage).sendToTarget();
         }
     }
 
@@ -112,7 +116,7 @@ public class TestFightActivity extends FightActivity {
     public void onDestroy() {
         super.onDestroy();
         // remove all messages from handler
-        mFightCore.removeCallbacksAndMessages(null);
+        mHandler.removeCallbacksAndMessages(null);
         mPlayerBot.release();
         mPlayerBot = null;
         if (D) Log.e(TAG, "--- ON DESTROY ---");

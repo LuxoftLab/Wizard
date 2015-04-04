@@ -1,10 +1,12 @@
 package com.wizardfight;
 
 import java.util.ArrayList;
-import com.wizardfight.FightActivity.AppMessage;
+
+import com.wizardfight.FightCore.HandlerMessage;
 import com.wizardfight.components.*;
 import com.wizardfight.accrecognizer.AccRecognition;
 import com.wizardfight.recognition.Recognizer;
+
 import android.os.Handler;
 import android.util.Log;
 
@@ -43,7 +45,7 @@ class RecognitionThread extends Thread {
 			}
 			
 			FightMessage message = new FightMessage(shape);
-			mHandler.obtainMessage(AppMessage.MESSAGE_FROM_SELF.ordinal(), 0, 0, message)
+			mHandler.obtainMessage(HandlerMessage.HM_FROM_SELF.ordinal(), 0, 0, message)
         		.sendToTarget();
 		} catch (Exception e) {
 			e.printStackTrace();

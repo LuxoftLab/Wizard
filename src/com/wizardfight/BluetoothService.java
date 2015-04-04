@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import com.wizardfight.FightActivity.AppMessage;
+import com.wizardfight.FightCore.HandlerMessage;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -59,7 +59,7 @@ public class BluetoothService {
     	// if we are setting handler before 1st fight and already connected
     	// we must tell about connection
     	if(mUiHandler != null && mState == STATE_CONNECTED) {
-    		sendMsgToHandler(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), mState, -1);
+    		sendMsgToHandler(HandlerMessage.HM_BT_STATE_CHANGE.ordinal(), mState, -1);
     	}
     }
     
@@ -84,7 +84,7 @@ public class BluetoothService {
         mState = state;
         // Give the new state to the Handler so the UI Activity can update
         if(mUiHandler != null) {
-        	sendMsgToHandler(AppMessage.MESSAGE_STATE_CHANGE.ordinal(), state, -1);
+        	sendMsgToHandler(HandlerMessage.HM_BT_STATE_CHANGE.ordinal(), state, -1);
         }
     }
     /**
@@ -144,7 +144,7 @@ public class BluetoothService {
         // Send the name of the connected device back to the UI Activity
         Bundle bundle = new Bundle();
         bundle.putString(BtFightActivity.DEVICE_NAME, device.getName());
-        sendMsgToHandler(AppMessage.MESSAGE_DEVICE_NAME.ordinal(), bundle);
+        sendMsgToHandler(HandlerMessage.HM_DEVICE_NAME.ordinal(), bundle);
         setState(STATE_CONNECTED);
     }
     /**
@@ -181,7 +181,7 @@ public class BluetoothService {
         // Send a failure message back to the Activity
         Bundle bundle = new Bundle();
         bundle.putInt(BtFightActivity.TOAST, R.string.connection_fail);
-        sendMsgToHandler(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal(), bundle);
+        sendMsgToHandler(HandlerMessage.HM_CONNECTION_FAIL.ordinal(), bundle);
     }
     /**
      * Indicate that the connection was lost and notify the UI Activity.
@@ -191,7 +191,7 @@ public class BluetoothService {
         // Send a failure message back to the Activity
         Bundle bundle = new Bundle();
         bundle.putInt(BtFightActivity.TOAST, R.string.connection_lost);
-        sendMsgToHandler(AppMessage.MESSAGE_CONNECTION_FAIL.ordinal(), bundle);
+        sendMsgToHandler(HandlerMessage.HM_CONNECTION_FAIL.ordinal(), bundle);
     }
     
     private void sendMsgToHandler(int what, Bundle bundle) {
@@ -369,7 +369,7 @@ public class BluetoothService {
 					byte[] buffer = new byte[FightMessage.SIZE];
 					bytes = mmInStream.read(buffer);
 					// Send the obtained object to the UI Activity
-					sendMsgToHandler(AppMessage.MESSAGE_FROM_ENEMY.ordinal(),
+					sendMsgToHandler(HandlerMessage.HM_FROM_ENEMY.ordinal(),
 							bytes, -1, buffer);
 				} catch (IOException e) {
 					if (D) Log.e(TAG, "disconnected", e);

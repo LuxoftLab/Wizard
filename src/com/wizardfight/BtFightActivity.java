@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View.OnClickListener;
 
@@ -27,11 +28,12 @@ public class BtFightActivity extends FightActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		mIsEnemyReady = false;
 		mIsSelfReady = true;
 		
 		mBtService = BluetoothService.getInstance();
-		mBtService.setHandler(mFightCore);
+		mBtService.setHandler(getHandler());
 		
 		// Start listening clients if server
 		if (mBtService.isServer()) {
@@ -54,6 +56,9 @@ public class BtFightActivity extends FightActivity {
 			mBtService = null;
 		}
 	}
+	
+	@Override
+	public Handler getHandler() { return mCore.getHandler(); }
 	
 	@Override
 	protected void startFight() {
@@ -86,8 +91,6 @@ public class BtFightActivity extends FightActivity {
 	
 	@Override
 	protected void sendFightMessage(FightMessage fMessage) {
-		super.sendFightMessage(fMessage);
-		
 		if (mBtService.getState() != BluetoothService.STATE_CONNECTED) {
 			return;
 		}

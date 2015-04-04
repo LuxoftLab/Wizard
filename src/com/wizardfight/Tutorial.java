@@ -8,7 +8,7 @@ import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wizardfight.FightActivity.AppMessage;
+import com.wizardfight.FightCore.HandlerMessage;
 import com.wizardfight.views.*;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -113,9 +113,9 @@ public class Tutorial extends CastActivity implements WizardDialDelegate {
 		return new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				AppMessage type = AppMessage.values()[msg.what];
+				HandlerMessage type = HandlerMessage.values()[msg.what];
 				switch (type) {
-				case MESSAGE_FROM_SELF:
+				case HM_FROM_SELF:
 					FightMessage fMsg = (FightMessage) msg.obj;
 					Shape shape = FightMessage.getShapeFromMessage(fMsg);
 					FightSound.playShapeSound(shape);

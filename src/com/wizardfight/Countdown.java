@@ -1,7 +1,8 @@
 package com.wizardfight;
 
 import com.wizardfight.views.HideableTextView;
-import com.wizardfight.FightActivity.AppMessage;
+import com.wizardfight.FightCore.HandlerMessage;
+
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
@@ -41,7 +42,7 @@ class Countdown {
     
     void goOut() {
     	mRootView.setVisibility(View.INVISIBLE);
-        mUiHandler.obtainMessage(AppMessage.MESSAGE_COUNTDOWN_END.ordinal()).sendToTarget();
+        mUiHandler.obtainMessage(HandlerMessage.HM_COUNTDOWN_END.ordinal()).sendToTarget();
     }
 
     private class AnimListener implements Animation.AnimationListener {

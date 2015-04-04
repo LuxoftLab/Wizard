@@ -22,7 +22,7 @@ class BuffState {
  * Handles spells and stores info about appropriate state changes
  */
 public class PlayerState {
-    private static final boolean D = false;
+    private static final boolean D = true;
     private final int mMaxHealth;
     private final int mMaxMana;
     private final EnumMap<Buff, BuffState> mBuffs;
@@ -44,6 +44,7 @@ public class PlayerState {
     }
 
     void dropSpellInfluence() {
+    	if (D) Log.e("Wizard Fight", "drop spell influence");
         mSpellShape = Shape.NONE;
         mAddedBuff = null;
         mRefreshedBuff = null;
@@ -207,6 +208,7 @@ public class PlayerState {
     }
 
     public Buff getAddedBuff() {
+    	if (D) Log.e("Wizard Fight", "get added buff null?: " + (mAddedBuff == null));
         return mAddedBuff;
     }
 
