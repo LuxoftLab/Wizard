@@ -1,4 +1,4 @@
-package com.wizardfight.accrecognizer;
+package com.wizardfight.recognition.accrecognizer;
 
 import java.io.File;
 import java.io.Serializable;

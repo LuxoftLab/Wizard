@@ -1,4 +1,4 @@
-package com.wizardfight.recognition;
+package com.wizardfight.recognition.hmm;
 
 import java.io.Serializable;
 

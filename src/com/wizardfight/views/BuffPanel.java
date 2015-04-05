@@ -1,6 +1,6 @@
 package com.wizardfight.views;
 
-import com.wizardfight.Buff;
+import com.wizardfight.fight.Buff;
 
 /*
  * Class that manages buff views

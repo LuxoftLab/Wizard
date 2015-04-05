@@ -21,9 +21,9 @@ public class PlayerGUI {
 	public PlayerGUI(View hpId, View manaId, View spellId, View indicatorId,
 					 BuffPanel bf) {
 		mHealthBar = (HealthIndicator)hpId;
-		mHealthBar.setMaxValue(com.wizardfight.FightActivity.PLAYER_HP);
+		mHealthBar.setMaxValue(com.wizardfight.fight.FightActivity.PLAYER_HP);
 		mManaBar = (ManaIndicator)manaId;
-		mManaBar.setMaxValue(com.wizardfight.FightActivity.PLAYER_MANA);
+		mManaBar.setMaxValue(com.wizardfight.fight.FightActivity.PLAYER_MANA);
 		mSpellPicture = (SpellPicture)spellId;
 		indicator = (ImageView)indicatorId;
 		mBuffPanel = bf;

@@ -12,8 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.wizardfight.FightActivity;
+
 import com.wizardfight.R;
+import com.wizardfight.fight.FightActivity;
 
 import java.util.ArrayList;
 

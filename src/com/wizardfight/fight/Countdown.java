@@ -1,7 +1,8 @@
-package com.wizardfight;
+package com.wizardfight.fight;
 
+import com.wizardfight.R;
+import com.wizardfight.fight.FightCore.HandlerMessage;
 import com.wizardfight.views.HideableTextView;
-import com.wizardfight.FightCore.HandlerMessage;
 
 import android.content.Context;
 import android.os.Handler;

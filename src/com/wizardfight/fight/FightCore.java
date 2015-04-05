@@ -1,9 +1,11 @@
-package com.wizardfight;
+package com.wizardfight.fight;
 
 import java.util.Observable;
 
-import com.wizardfight.FightMessage.FightAction;
-import com.wizardfight.FightMessage.Target;
+import com.wizardfight.Sound;
+import com.wizardfight.Shape;
+import com.wizardfight.fight.FightMessage.FightAction;
+import com.wizardfight.fight.FightMessage.Target;
 
 import android.os.Handler;
 import android.os.Message;
@@ -47,11 +49,11 @@ public class FightCore extends Observable {
 	}
 
 	// Message types sent from the BluetoothChatService Handler
-	enum HandlerMessage {
+	public enum HandlerMessage {
 		HM_BT_STATE_CHANGE, HM_DEVICE_NAME, HM_TOAST, HM_COUNTDOWN_END, HM_CONNECTION_FAIL, HM_FROM_SELF, HM_SELF_DEATH, HM_FROM_ENEMY, HM_MANA_REGEN
 	}
 
-	enum CoreAction {
+	public enum CoreAction {
 		CM_BT_STATE_CHANGE, CM_DEVICE_NAME, CM_INFO_STRING, CM_COUNTDOWN_END, CM_CONNECTION_FAIL, 
 		CM_MESSAGE_TO_SEND, CM_ENEMY_READY, CM_FIGHT_START, CM_HEALTH_CHANGED, CM_MANA_CHANGED, 
 		CM_SELF_CAST_SUCCESS, CM_SELF_CAST_NOMANA, CM_NEW_BUFF, CM_REMOVED_BUFF, CM_ENEMY_CAST,
@@ -277,7 +279,7 @@ public class FightCore extends Observable {
 			sendFightMessage(sendMsg);
 
 			if (mSelfState.isBuffRemovedByEnemy()) {
-				FightSound.playBuffSound(removed); // TODO move to other
+				Sound.playBuffSound(removed); // TODO move to other
 														// place
 			}
 			share(CoreAction.CM_REMOVED_BUFF);

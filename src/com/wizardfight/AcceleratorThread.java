@@ -1,7 +1,7 @@
 package com.wizardfight;
 
 import java.util.ArrayList;
-import com.wizardfight.accrecognizer.AccRecognizer;
+import com.wizardfight.recognition.accrecognizer.AccRecognizer;
 import com.wizardfight.components.Vector3d;
 
 import android.content.Context;
@@ -38,7 +38,7 @@ class AcceleratorThread extends Thread implements SensorEventListener {
 	public void run() {
 		long t1 = System.currentTimeMillis();
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		FightSound.setPlaying(true);
+		Sound.setPlaying(true);
 		mListening = false;
 		
 		Looper.prepare();
@@ -55,21 +55,21 @@ class AcceleratorThread extends Thread implements SensorEventListener {
 	public void startGettingData() {
 		mRecords = new ArrayList<Vector3d>();
 		mListening = true;
-		if (!FightSound.isPlaying())
+		if (!Sound.isPlaying())
 			return;
-		FightSound.playWandSound();
+		Sound.playWandSound();
 	}
 
 	public void stopGettingData() {
 		long t1 = System.currentTimeMillis();
 		mListening = false;
-		FightSound.stopWandSound();
+		Sound.stopWandSound();
 	}
 
 	public ArrayList<Vector3d> stopAndGetResult() {
 		long t1 = System.currentTimeMillis();
 		mListening = false;
-		FightSound.stopWandSound();
+		Sound.stopWandSound();
 		return Vector3d.squeeze(mRecords, AccRecognizer.Speed.SLOW.size);
 	}
 
@@ -108,6 +108,6 @@ class AcceleratorThread extends Thread implements SensorEventListener {
 		if (amplitude > 1.0f)
 			amplitude = 1.0f;
 		
-		FightSound.setWandVolume(amplitude);
+		Sound.setWandVolume(amplitude);
 	}
 }

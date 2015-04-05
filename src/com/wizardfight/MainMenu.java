@@ -74,7 +74,7 @@ public class MainMenu extends Activity {
 		new Thread(){
 			@Override
 			public void run() {
-				FightSound.init(getApplicationContext());
+				Sound.init(getApplicationContext());
 			}
 		}.start();
 
@@ -93,7 +93,7 @@ public class MainMenu extends Activity {
 	}
 	
 	public void onDestroy() {
-		FightSound.release();
+		Sound.release();
 		super.onDestroy();
 	}
 

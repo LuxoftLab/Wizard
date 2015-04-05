@@ -7,7 +7,7 @@
     <view
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            class="com.wizardfight.PagesScroller"
+            class="com.wizardfight.views.PagesScroller"
             android:scaleType="fitXY"
             android:id="@+id/horizontalScrollView">
         <LinearLayout

@@ -2,9 +2,11 @@ package com.wizardfight;
 
 import android.view.*;
 
+import com.wizardfight.fight.FightActivity;
+import com.wizardfight.fight.FightMessage;
+import com.wizardfight.fight.FightMessage.*;
 import com.wizardfight.remote.WifiService;
 import com.wizardfight.views.*;
-import com.wizardfight.FightMessage.*;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -72,7 +74,7 @@ public class BtFightActivity extends FightActivity {
 	}
 
 	@Override 
-	protected void handleEnemyReadyMessage() {
+	public void handleEnemyReadyMessage() {
 		mIsEnemyReady = true;
 		if (D)
 			Log.e(TAG, "self ready: " + mIsSelfReady
@@ -90,7 +92,7 @@ public class BtFightActivity extends FightActivity {
 	}
 	
 	@Override
-	protected void sendFightMessage(FightMessage fMessage) {
+	public void sendFightMessage(FightMessage fMessage) {
 		if (mBtService.getState() != BluetoothService.STATE_CONNECTED) {
 			return;
 		}
@@ -184,7 +186,7 @@ public class BtFightActivity extends FightActivity {
 	}
 
 	@Override
-	void onBluetoothStateChange(int state) {
+	public void onBluetoothStateChange(int state) {
 		if (D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + state);
         switch (state) {
             case BluetoothService.STATE_CONNECTED:

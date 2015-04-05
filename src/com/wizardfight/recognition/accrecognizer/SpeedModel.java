@@ -1,4 +1,4 @@
-package com.wizardfight.accrecognizer;
+package com.wizardfight.recognition.accrecognizer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,8 +14,8 @@ import java.util.Map;
 
 import android.util.Log;
 
-import com.wizardfight.accrecognizer.AccRecognizer.Speed;
 import com.wizardfight.components.Vector3d;
+import com.wizardfight.recognition.accrecognizer.AccRecognizer.Speed;
 
 public class SpeedModel implements Serializable {
 	private static final long serialVersionUID = 270120151349L;

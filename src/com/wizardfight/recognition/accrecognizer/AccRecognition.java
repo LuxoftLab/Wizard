@@ -1,4 +1,4 @@
-package com.wizardfight.accrecognizer;
+package com.wizardfight.recognition.accrecognizer;
 
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import com.wizardfight.components.Vector3d;
 import com.wizardfight.R;
 
 public class AccRecognition {
-	public static boolean D = false;
+	public static boolean D = true;
 	private static AccRecognizer recognizer;
 	public static void init(Resources res) {
 		recognizer = new AccRecognizer();
@@ -22,6 +22,7 @@ public class AccRecognition {
 			if (D) Log.e("AccRecognition", "recognizer is loaded");
 		} catch (Exception ex) {
 			if (D) Log.e("AccRecognition", "ERROR: Failed to load acc recognizer ! " + ex);
+			throw new RuntimeException();
 		}
 	}
 	public static String recognize(ArrayList<Vector3d> records) {

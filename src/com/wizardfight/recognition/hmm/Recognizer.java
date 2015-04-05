@@ -1,4 +1,4 @@
-package com.wizardfight.recognition;
+package com.wizardfight.recognition.hmm;
 
 import java.io.*;
 import java.util.*;
@@ -28,7 +28,8 @@ public class Recognizer {
 			quantizer = (KMeansQuantizer) is.readObject();
 			is.close();
 		} catch (Exception ex) {
-			System.err.println("ERROR: Failed to load quantizer! " + ex);
+			Log.e("Wizard Fight", "ERROR: Failed to load quantizer! " + ex);
+			throw new RuntimeException();
 		}
 
 		hmm = new HMM();
@@ -39,7 +40,8 @@ public class Recognizer {
 			hmm = (HMM) is.readObject();
 			is.close();
 		} catch (Exception ex) {
-			System.err.println("ERROR: Failed to load hmm! " + ex);
+			Log.e("Wizard Fight", "ERROR: Failed to load hmm! " + ex);
+			throw new RuntimeException();
 		}
 
 	}

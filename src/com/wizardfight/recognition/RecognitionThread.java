@@ -1,11 +1,13 @@
-package com.wizardfight;
+package com.wizardfight.recognition;
 
 import java.util.ArrayList;
 
-import com.wizardfight.FightCore.HandlerMessage;
+import com.wizardfight.Shape;
 import com.wizardfight.components.*;
-import com.wizardfight.accrecognizer.AccRecognition;
-import com.wizardfight.recognition.Recognizer;
+import com.wizardfight.fight.FightMessage;
+import com.wizardfight.fight.FightCore.HandlerMessage;
+import com.wizardfight.recognition.accrecognizer.AccRecognition;
+import com.wizardfight.recognition.hmm.Recognizer;
 
 import android.os.Handler;
 import android.util.Log;
@@ -13,7 +15,7 @@ import android.util.Log;
 /*
  * Thread that runs recognition and sends result via handler
  */
-class RecognitionThread extends Thread {
+public class RecognitionThread extends Thread {
 	private final static boolean D = false;
 	private final Handler mHandler;
 	private final ArrayList<Vector3d> mRecords;

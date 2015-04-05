@@ -2,12 +2,14 @@ package com.wizardfight;
 
 import java.util.EnumMap;
 
+import com.wizardfight.fight.Buff;
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
 
-public class FightSound {
+public class Sound {
 	private static boolean mSoundPlaying;
 	private static SoundPool mSoundPool;
 	private static int mWandSoundID;

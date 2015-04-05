@@ -1,4 +1,4 @@
-package com.wizardfight;
+package com.wizardfight.fight;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -15,8 +15,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.wizardfight.FightCore.CoreAction;
-import com.wizardfight.FightMessage.*;
+import com.wizardfight.CastActivity;
+import com.wizardfight.Sound;
+import com.wizardfight.R;
+import com.wizardfight.Shape;
+import com.wizardfight.fight.FightCore.CoreAction;
+import com.wizardfight.fight.FightMessage.*;
 import com.wizardfight.remote.WifiMessage;
 import com.wizardfight.remote.WifiService;
 import com.wizardfight.views.BuffPanel;
@@ -39,7 +43,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 
 	protected FightCore mCore;
 	// private Dialog mNetDialog;
-	FightEndDialog mFightEndDialog;
+	protected FightEndDialog mFightEndDialog;
 	// is activity running
 	private boolean mIsRunning;
 	private boolean mAreMessagesBlocked;
@@ -244,7 +248,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 	void onSelfCastSuccess() {
 		Shape shape = mCore.getData().getSelfShape();
 		mIsCastAbilityBlocked = false;
-		FightSound.playShapeSound(shape); // TODO move to other place?
+		Sound.playShapeSound(shape); // TODO move to other place?
 
 		mSelfGUI.getSpellPicture().setShape(shape);
 	}
@@ -254,10 +258,10 @@ public abstract class FightActivity extends CastActivity implements Observer {
 		if (shape != Shape.NONE) {
 			mIsCastAbilityBlocked = false;
 		}
-		FightSound.playNoManaSound(); // TODO move to other place?
+		Sound.playNoManaSound(); // TODO move to other place?
 	}
 
-	abstract void sendFightMessage(FightMessage fMessage);
+	abstract public void sendFightMessage(FightMessage fMessage);
 
 	/*
 	 * this method runs when FightCore iniates game start
@@ -275,9 +279,9 @@ public abstract class FightActivity extends CastActivity implements Observer {
 		mCore.startFight();
 	}
 	
-	abstract void handleEnemyReadyMessage();
+	public abstract void handleEnemyReadyMessage();
 
-	abstract void onBluetoothStateChange(int state);
+	public abstract void onBluetoothStateChange(int state);
 
 	private void finishFight(Target winner) {
 		if (D)
@@ -305,9 +309,9 @@ public abstract class FightActivity extends CastActivity implements Observer {
 		}
 	}
 
-	abstract class FightEndDialog implements DialogInterface.OnClickListener {
-		AlertDialog mmDialog;
-		boolean mmIsNeedToShow;
+	public abstract class FightEndDialog implements DialogInterface.OnClickListener {
+		protected AlertDialog mmDialog;
+		protected boolean mmIsNeedToShow;
 
 		public void init(String message) {
 			if (D)

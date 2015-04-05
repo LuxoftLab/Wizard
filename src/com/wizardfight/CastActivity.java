@@ -2,9 +2,10 @@ package com.wizardfight;
 
 import java.util.ArrayList;
 
-import com.wizardfight.accrecognizer.AccRecognition;
+import com.wizardfight.recognition.accrecognizer.AccRecognition;
+import com.wizardfight.recognition.RecognitionThread;
 import com.wizardfight.components.Vector3d;
-import com.wizardfight.recognition.Recognizer;
+import com.wizardfight.recognition.hmm.Recognizer;
 
 import android.app.Activity;
 import android.content.Context;

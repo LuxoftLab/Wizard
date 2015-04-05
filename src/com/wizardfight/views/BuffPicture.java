@@ -1,6 +1,6 @@
 package com.wizardfight.views;
 
-import com.wizardfight.Buff;
+import com.wizardfight.fight.Buff;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -1,6 +1,8 @@
-package com.wizardfight;
+package com.wizardfight.fight;
 
 import java.io.Serializable;
+
+import com.wizardfight.Shape;
 
 /*
  * contains all needed info that is transfered between devices

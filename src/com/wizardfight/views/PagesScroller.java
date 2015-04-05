@@ -1,4 +1,4 @@
-package com.wizardfight;
+package com.wizardfight.views;
 
 import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;

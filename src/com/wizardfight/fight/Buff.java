@@ -1,4 +1,8 @@
-package com.wizardfight;
+package com.wizardfight.fight;
+
+import com.wizardfight.R;
+import com.wizardfight.Shape;
+import com.wizardfight.R.drawable;
 
 /* 
  * all game buffs

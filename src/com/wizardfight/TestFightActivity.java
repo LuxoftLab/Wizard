@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.wizardfight.FightCore.HandlerMessage;
-import com.wizardfight.FightMessage.*;
+import com.wizardfight.fight.FightActivity;
+import com.wizardfight.fight.FightMessage;
+import com.wizardfight.fight.FightCore.HandlerMessage;
+import com.wizardfight.fight.FightMessage.*;
 import com.wizardfight.remote.WifiService;
 
 import android.app.AlertDialog;
@@ -97,7 +99,7 @@ public class TestFightActivity extends FightActivity {
     }
     
     @Override
-    protected void sendFightMessage(FightMessage fMessage) {
+    public void sendFightMessage(FightMessage fMessage) {
     	if(mPlayerBot == null) {
     		return; // if user exists at start
     	}
@@ -146,9 +148,9 @@ public class TestFightActivity extends FightActivity {
 
     //dont care in case with bot
 	@Override
-	void handleEnemyReadyMessage() {}
+	public void handleEnemyReadyMessage() {}
 	@Override
-	void onBluetoothStateChange(int state) {
+	public void onBluetoothStateChange(int state) {
 		//do nothing
 	}
 }
