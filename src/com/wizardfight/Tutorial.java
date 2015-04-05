@@ -8,6 +8,7 @@ import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.wizardfight.cast.CastActivity;
 import com.wizardfight.fight.FightMessage;
 import com.wizardfight.fight.FightCore.HandlerMessage;
 import com.wizardfight.views.*;

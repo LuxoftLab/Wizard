@@ -1,6 +1,8 @@
-package com.wizardfight;
+package com.wizardfight.cast;
 
 import java.util.ArrayList;
+
+import com.wizardfight.Sound;
 import com.wizardfight.recognition.accrecognizer.AccRecognizer;
 import com.wizardfight.components.Vector3d;
 
@@ -16,9 +18,9 @@ import android.os.Looper;
  * Thread that listens to accelerometer and gathers data 
  * when its needed. Also plays music
  */
-class AcceleratorThread extends Thread implements SensorEventListener {
+public class AcceleratorThread extends Thread implements SensorEventListener {
 	private static final boolean D = false;
-	protected static boolean ORIENTATION_HORIZONTAL;
+	public static boolean ORIENTATION_HORIZONTAL;
 	private boolean mListening;
 	
 	private Looper mLooper;

@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.wizardfight.CastActivity;
 import com.wizardfight.Sound;
 import com.wizardfight.R;
 import com.wizardfight.Shape;
+import com.wizardfight.cast.CastActivity;
 import com.wizardfight.fight.FightCore.CoreAction;
 import com.wizardfight.fight.FightMessage.*;
 import com.wizardfight.remote.WifiMessage;
@@ -140,6 +140,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 	@Override
 	public void update(Observable o, Object action) {
 		CoreAction cm = (CoreAction) action;
+		if (D) Log.e(TAG, cm.name());
 		switch (cm) {
 		case CM_BT_STATE_CHANGE:
 			onBluetoothStateChange(mCore.getData().getBluetoothState());
@@ -219,6 +220,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 	}
 
 	void setupApp() {
+		if (D) Log.e(TAG, "SETUP APP");
 		// Players logic
 		mCore.init();
 		// Initialize players UI

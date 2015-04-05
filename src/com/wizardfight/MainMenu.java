@@ -1,5 +1,6 @@
 package com.wizardfight;
 
+import com.wizardfight.cast.AcceleratorThread;
 import com.wizardfight.remote.WifiService;
 
 import android.app.Activity;

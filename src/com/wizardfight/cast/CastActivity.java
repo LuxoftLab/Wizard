@@ -1,9 +1,8 @@
-package com.wizardfight;
+package com.wizardfight.cast;
 
 import java.util.ArrayList;
 
 import com.wizardfight.recognition.accrecognizer.AccRecognition;
-import com.wizardfight.recognition.RecognitionThread;
 import com.wizardfight.components.Vector3d;
 import com.wizardfight.recognition.hmm.Recognizer;
 
@@ -21,7 +20,7 @@ import android.view.MotionEvent;
  * data gathering and activates the recognition
  */
 public abstract class CastActivity extends Activity {
-	protected static final boolean D = true;
+	public static final boolean D = true;
 	protected static String TAG = "Wizard Fight";
 	// Accelerator Thread link
 	protected AcceleratorThread mAcceleratorThread = null; 

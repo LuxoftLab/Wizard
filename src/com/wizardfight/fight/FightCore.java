@@ -63,7 +63,11 @@ public class FightCore extends Observable {
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			HandlerMessage appMsg = HandlerMessage.values()[msg.what];
-
+			if (FightActivity.D) {
+				Log.e("Wizard Fight", "msg blocked? : " + mAreMessagesBlocked + " [Fight Core]");
+				Log.e("Wizard Fight", "hm: " + appMsg.name() + " [Fight Core]");
+			}
+			
 			switch (appMsg) {
 			case HM_BT_STATE_CHANGE:
 				onBluetoothStateChange(msg.arg1);
@@ -227,9 +231,16 @@ public class FightCore extends Observable {
 		if(mData.selfShape != Shape.NONE) {
 			share(CoreAction.CM_SELF_CAST_SUCCESS);
 		}
+		
+		// enemy has killed us by buff
+		if(mSelfState.getHealth() == 0) {
+			finishFight(Target.ENEMY);
+		}
 	}
 
 	private void onEnemyFightMessage(FightMessage enemyMsg) {
+		if (FightActivity.D) Log.e("Wizard Fight", "onEnemyFightMessage [FightCore]");
+		
 		mData.enemyShape = FightMessage.getShapeFromMessage(enemyMsg);
 		// refresh enemy health and mana (every enemy message contains it)
 		mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
@@ -254,6 +265,11 @@ public class FightCore extends Observable {
 			share(CoreAction.CM_ENEMY_CAST);
 		}
 		share(CoreAction.CM_ENEMY_HEALTH_MANA);
+		
+		// enemy has killed us
+		if(mSelfState.getHealth() == 0) {
+			finishFight(Target.ENEMY);
+		}
 	}
 
 	private void onMessageToSelf(FightMessage fMessage) {
@@ -262,7 +278,6 @@ public class FightCore extends Observable {
 		// Enemy influence to player
 		mSelfState.handleSpell(fMessage);
 		if (mSelfState.getHealth() == 0) {
-			finishFight(Target.ENEMY);
 			return;
 		}
 
@@ -319,6 +334,8 @@ public class FightCore extends Observable {
 	}
 
 	private void finishFight(Target winner) {
+		if (FightActivity.D) Log.e("Wizard Fight", "finish fight [FightCore]");
+		
 		mAreMessagesBlocked = true;
 		mData.winner = winner;
 		share(CoreAction.CM_FIGHT_END);

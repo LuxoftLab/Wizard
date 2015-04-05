@@ -1,4 +1,4 @@
-package com.wizardfight.recognition;
+package com.wizardfight.cast;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import android.util.Log;
 /*
  * Thread that runs recognition and sends result via handler
  */
-public class RecognitionThread extends Thread {
+class RecognitionThread extends Thread {
 	private final static boolean D = false;
 	private final Handler mHandler;
 	private final ArrayList<Vector3d> mRecords;
