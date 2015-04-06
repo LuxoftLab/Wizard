@@ -29,7 +29,6 @@ public class TestFightActivity extends FightActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPlayerBot = new PlayerBot(mHandler);
         mFightEndDialog = new TestFightEndDialog();
         if (D) Log.e("testFAThread", Thread.currentThread().getName());
         setupBot();
@@ -72,17 +71,19 @@ public class TestFightActivity extends FightActivity {
         mDificultyDialog.show();
     }
     void onComSetup(double k){
+    	mPlayerBot = new PlayerBot(mHandler, k);
         mPlayerBot.start();
-        mPlayerBot.setK(k);
         initStart();
         mDificultyDialog.dismiss();
         mDificultyDialog = null;
     }
+    
     void onDialClose(){
         mDificultyDialog.dismiss();
         mDificultyDialog = null;
         finish();
     }
+    
     @Override
     protected void startFight() {
         final Handler handler = new Handler();
@@ -108,8 +109,9 @@ public class TestFightActivity extends FightActivity {
         WifiService.send(fMessage);
         
         // send to bot
-        if(mPlayerBot.getHandler()!=null) {
-            mPlayerBot.getHandler().obtainMessage(HandlerMessage.HM_FROM_ENEMY.ordinal(), fMessage).sendToTarget();
+        if(mPlayerBot.getHandler() != null) {
+            mPlayerBot.getHandler().obtainMessage(HandlerMessage.HM_FROM_ENEMY.ordinal(), 
+            		fMessage.getBytes()).sendToTarget();
         }
     }
 

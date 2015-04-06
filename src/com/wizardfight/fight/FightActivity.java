@@ -147,7 +147,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 	@Override
 	public void update(Observable o, Object action) {
 		CoreAction cm = (CoreAction) action;
-		if (D) Log.e(TAG, cm.name());
+		Log.e(TAG, cm.name());
 		switch (cm) {
 		case CM_BT_STATE_CHANGE:
 			onBluetoothStateChange(mCore.getData().getBluetoothState());

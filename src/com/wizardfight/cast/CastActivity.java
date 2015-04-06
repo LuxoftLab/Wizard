@@ -20,7 +20,7 @@ import android.view.MotionEvent;
  * data gathering and activates the recognition
  */
 public abstract class CastActivity extends Activity {
-	public static final boolean D = true;
+	public static final boolean D = false;
 	private static final int MIN_RECORDS_SIZE = 5;
 	protected static String TAG = "Wizard Fight";
 	// Accelerator Thread link

@@ -14,10 +14,10 @@ import android.util.Log;
 public class FightCore extends Observable {
 	public static final String DEVICE_NAME = "device_name";
 	public static final String TOAST = "toast";
-	private boolean mAreMessagesBlocked;
+	protected boolean mAreMessagesBlocked;
 	// States of players
-	private PlayerState mSelfState;
-	private PlayerState mEnemyState;
+	protected PlayerState mSelfState;
+	protected PlayerState mEnemyState;
 	private ObservableData mData;
 
 	public static class ObservableData {
@@ -143,12 +143,13 @@ public class FightCore extends Observable {
 	}
 
 	protected void onSelfDeath() {
+		Log.e("Wizard Fight", "---------------------> SELF DEATH");
 		FightMessage selfDeath = new FightMessage(Target.ENEMY,
 				FightAction.FIGHT_END);
 		sendFightMessage(selfDeath);
 	}
 
-	private void sendFightMessage(FightMessage msg) {
+	protected void sendFightMessage(FightMessage msg) {
 		msg.mHealth = mSelfState.getHealth();
 		msg.mMana = mSelfState.getMana();
 		msg.mIsBotMessage = false;
@@ -272,7 +273,7 @@ public class FightCore extends Observable {
 		}
 	}
 
-	private void onMessageToSelf(FightMessage fMessage) {
+	protected void onMessageToSelf(FightMessage fMessage) {
 
 		FightMessage sendMsg;
 		// Enemy influence to player
@@ -333,8 +334,8 @@ public class FightCore extends Observable {
 		share(CoreAction.CM_MANA_CHANGED);
 	}
 
-	private void finishFight(Target winner) {
-		if (FightActivity.D) Log.e("Wizard Fight", "finish fight [FightCore]");
+	protected void finishFight(Target winner) {
+		Log.e("Wizard Fight", "-----------------------------> finish fight [FightCore]");
 		
 		mAreMessagesBlocked = true;
 		mData.winner = winner;
@@ -367,6 +368,9 @@ public class FightCore extends Observable {
 	}
 	
 	public void release() {
-		mHandler.removeCallbacksAndMessages(null);
+		if(mHandler != null) {
+			mHandler.removeCallbacksAndMessages(null);
+			mHandler = null;
+		}
 	}
 }
