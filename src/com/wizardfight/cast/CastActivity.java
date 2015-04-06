@@ -21,6 +21,7 @@ import android.view.MotionEvent;
  */
 public abstract class CastActivity extends Activity {
 	public static final boolean D = true;
+	private static final int MIN_RECORDS_SIZE = 5;
 	protected static String TAG = "Wizard Fight";
 	// Accelerator Thread link
 	protected AcceleratorThread mAcceleratorThread = null; 
@@ -107,7 +108,7 @@ public abstract class CastActivity extends Activity {
 					.stopAndGetResult();
 			mIsInCast = false;
 
-			if (records.size() > 10) {
+			if (records.size() >= MIN_RECORDS_SIZE) {
 				new RecognitionThread(mHandler, records).start();
 			} else {
 				// if shord record - don`t recognize & unblock

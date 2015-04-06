@@ -103,12 +103,12 @@ public class FightCore extends Observable {
 	};
 
 	public FightCore() {
+		mData = new ObservableData();
 		init();
 	}
 
 	public void init() {
 		// Create players states
-		mData = new ObservableData();
 		mEnemyState = new PlayerState(FightActivity.PLAYER_HP,
 				FightActivity.PLAYER_MANA, null);
 		mSelfState = new PlayerState(FightActivity.PLAYER_HP,
