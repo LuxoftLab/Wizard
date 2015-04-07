@@ -4,7 +4,6 @@ import java.util.Observable;
 
 import com.wizardfight.Sound;
 import com.wizardfight.Shape;
-import com.wizardfight.fight.FightMessage.FightAction;
 import com.wizardfight.fight.FightMessage.Target;
 
 import android.os.Handler;
@@ -56,8 +55,8 @@ public class FightCore extends Observable {
 	public enum CoreAction {
 		CM_BT_STATE_CHANGE, CM_DEVICE_NAME, CM_INFO_STRING, CM_COUNTDOWN_END, CM_CONNECTION_FAIL, 
 		CM_MESSAGE_TO_SEND, CM_ENEMY_READY, CM_FIGHT_START, CM_HEALTH_CHANGED, CM_MANA_CHANGED, 
-		CM_SELF_CAST_SUCCESS, CM_SELF_CAST_NOMANA, CM_NEW_BUFF, CM_REMOVED_BUFF, CM_ENEMY_CAST,
-		CM_ENEMY_HEALTH_MANA, CM_ENEMY_NEW_BUFF, CM_ENEMY_REMOVED_BUFF, CM_FIGHT_END;
+		CM_SELF_CAST, CM_SELF_CAST_SUCCESS, CM_SELF_BUFF_TICK, CM_SELF_CAST_NOMANA, CM_NEW_BUFF, CM_REMOVED_BUFF, CM_ENEMY_CAST,
+		CM_ENEMY_HEALTH_MANA, CM_ENEMY_NEW_BUFF, CM_ENEMY_REMOVED_BUFF, CM_ENEMY_BUFF_TICK, CM_FIGHT_END;
 	}
 
 	private Handler mHandler = new Handler() {
@@ -145,7 +144,7 @@ public class FightCore extends Observable {
 	protected void onSelfDeath() {
 		Log.e("Wizard Fight", "---------------------> SELF DEATH");
 		FightMessage selfDeath = new FightMessage(Target.ENEMY,
-				FightAction.FIGHT_END);
+				CoreAction.CM_FIGHT_END);
 		sendFightMessage(selfDeath);
 	}
 
@@ -159,13 +158,13 @@ public class FightCore extends Observable {
 
 	protected void onEnemyMessage(FightMessage enemyMsg) {
 		switch (enemyMsg.mAction) {
-		case ENEMY_READY:
+		case CM_ENEMY_READY:
 			onEnemyReadyMessage();
 			break;
-		case FIGHT_START:
+		case CM_FIGHT_START:
 			startFight();
 			break;
-		case FIGHT_END:
+		case CM_FIGHT_END:
 			finishFight(Target.SELF);
 			break;
 		default:
@@ -195,7 +194,7 @@ public class FightCore extends Observable {
 
 		// inform enemy about new mana
 		FightMessage fMsg = new FightMessage(Target.ENEMY,
-				FightAction.NEW_HP_OR_MANA, Shape.NONE.ordinal());
+				CoreAction.CM_ENEMY_HEALTH_MANA, Shape.NONE.ordinal());
 		sendFightMessage(fMsg);
 
 		// send next tick after 2 sec
@@ -206,7 +205,7 @@ public class FightCore extends Observable {
 		share(CoreAction.CM_MANA_CHANGED);
 	}
 
-	private void onSelfMessage(FightMessage selfMsg) {
+	protected void onSelfMessage(FightMessage selfMsg) {
 		if (mAreMessagesBlocked)
 			return;
 
@@ -217,7 +216,8 @@ public class FightCore extends Observable {
 			share(CoreAction.CM_SELF_CAST_NOMANA);
 			return;
 		}
-
+		
+		
 		if (selfMsg.mTarget == Target.SELF) {
 			// self influence to self
 			onMessageToSelf(selfMsg);
@@ -228,8 +228,13 @@ public class FightCore extends Observable {
 			sendFightMessage(selfMsg);
 			share(CoreAction.CM_MANA_CHANGED);
 		}
-
+		
 		if(mData.selfShape != Shape.NONE) {
+			//turn data to enemy logic
+			FightMessage castMsg = new FightMessage(Target.ENEMY, CoreAction.CM_ENEMY_CAST);
+			castMsg.mParam = mData.selfShape.ordinal(); 
+			sendFightMessage(castMsg); //SEND SHAPE TO USER FOR DRAWING
+			Log.e("Wizard Fight", "()()()()()()()()()()()(()()( send fight message with shape: " + mData.selfShape);
 			share(CoreAction.CM_SELF_CAST_SUCCESS);
 		}
 		
@@ -243,6 +248,7 @@ public class FightCore extends Observable {
 		if (FightActivity.D) Log.e("Wizard Fight", "onEnemyFightMessage [FightCore]");
 		
 		mData.enemyShape = FightMessage.getShapeFromMessage(enemyMsg);
+		Log.e("Wizard Fight", "++++++++++++++ __ENEMY CAST SHAPE: " + mData.enemyShape);
 		// refresh enemy health and mana (every enemy message contains it)
 		mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
 
@@ -262,7 +268,8 @@ public class FightCore extends Observable {
 		}
 
 		// refresh enemy
-		if (FightMessage.isSpellCreatedByEnemy(enemyMsg)) {
+		if (mData.enemyShape != Shape.NONE) {
+			Log.e("Wizard Fight", "++++++++++++++ CM ENEMY CAST FOR SHAPE: " + mData.enemyShape);
 			share(CoreAction.CM_ENEMY_CAST);
 		}
 		share(CoreAction.CM_ENEMY_HEALTH_MANA);
@@ -290,7 +297,7 @@ public class FightCore extends Observable {
 		if (removed != null) {
 			// buff was removed after spell,
 			// send message about buff loss to enemy
-			sendMsg = new FightMessage(Target.ENEMY, FightAction.BUFF_OFF,
+			sendMsg = new FightMessage(Target.ENEMY, CoreAction.CM_ENEMY_REMOVED_BUFF,
 					removed.ordinal());
 			sendFightMessage(sendMsg);
 
@@ -305,7 +312,7 @@ public class FightCore extends Observable {
 			// buff added to player after spell (for example
 			// DoT, HoT, or shield),
 			// send message about enemy buff success
-			sendMsg = new FightMessage(Target.ENEMY, FightAction.BUFF_ON,
+			sendMsg = new FightMessage(Target.ENEMY, CoreAction.CM_ENEMY_NEW_BUFF,
 					added.ordinal());
 			sendFightMessage(sendMsg);
 			share(CoreAction.CM_NEW_BUFF);
@@ -316,7 +323,7 @@ public class FightCore extends Observable {
 			if (added != null)
 				refreshed = added;
 			FightMessage fm = new FightMessage(Target.SELF,
-					FightAction.BUFF_TICK, refreshed.ordinal());
+					CoreAction.CM_SELF_BUFF_TICK, refreshed.ordinal());
 			Message buffTickMsg = mHandler.obtainMessage(
 					HandlerMessage.HM_FROM_SELF.ordinal(), fm);
 			mHandler.sendMessageDelayed(buffTickMsg,
@@ -326,7 +333,7 @@ public class FightCore extends Observable {
 		if (added == null && removed == null) {
 			// nothing with buffs => just send self hp and mana to enemy
 			sendMsg = new FightMessage(Target.ENEMY,
-					FightAction.NEW_HP_OR_MANA, spellShape.ordinal());
+					CoreAction.CM_ENEMY_HEALTH_MANA, spellShape.ordinal());
 			sendFightMessage(sendMsg);
 		}
 		

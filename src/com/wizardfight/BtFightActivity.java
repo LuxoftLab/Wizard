@@ -3,6 +3,7 @@ package com.wizardfight;
 import android.view.*;
 
 import com.wizardfight.fight.FightActivity;
+import com.wizardfight.fight.FightCore.CoreAction;
 import com.wizardfight.fight.FightMessage;
 import com.wizardfight.fight.FightMessage.*;
 import com.wizardfight.remote.WifiService;
@@ -44,7 +45,7 @@ public class BtFightActivity extends FightActivity {
 		} else {
 			initWaitingDialog(R.string.trying_to_connect);
 			FightMessage fightRequest = new FightMessage(
-					Target.ENEMY, FightAction.ENEMY_READY);
+					Target.ENEMY, CoreAction.CM_ENEMY_READY);
 			sendFightMessage(fightRequest);
 		}
 		mFightEndDialog = new BtFightEndDialog();
@@ -85,7 +86,7 @@ public class BtFightActivity extends FightActivity {
 		// if server: check whether we can start fight
 		if (mIsSelfReady) {
 			FightMessage startMsg = new FightMessage(Target.ENEMY,
-					FightAction.FIGHT_START);
+					CoreAction.CM_FIGHT_START);
 			sendFightMessage(startMsg);
 			initStart();
 		}
@@ -159,13 +160,13 @@ public class BtFightActivity extends FightActivity {
 				mIsSelfReady = true;
 				if (mIsEnemyReady) {
 					FightMessage startMsg = new FightMessage(Target.ENEMY,
-							FightAction.FIGHT_START);
+							CoreAction.CM_FIGHT_START);
 					sendFightMessage(startMsg);
 					initStart();
 				} else {
 					initWaitingDialog(R.string.client_waiting);
 					FightMessage fightRequest = new FightMessage(
-							Target.ENEMY, FightAction.ENEMY_READY);
+							Target.ENEMY, CoreAction.CM_ENEMY_READY);
 					sendFightMessage(fightRequest);
 				}
 				break;

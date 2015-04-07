@@ -73,15 +73,7 @@ public class BotFightCore extends FightCore {
 	private void attack() {
 		if (shape != Shape.NONE) {
 			FightMessage selfMsg = new FightMessage(shape);
-			boolean canBeCasted = mSelfState.requestSpell(selfMsg);
-			if (canBeCasted) {
-				if (selfMsg.mTarget == Target.SELF) {
-					onMessageToSelf(selfMsg);
-				} else {
-					selfMsg.mTarget = Target.SELF;
-					sendFightMessage(selfMsg);
-				}
-			}
+			onSelfMessage(selfMsg);
 		}
 		shape = Shape.NONE;
 		if ((!mSelfState.hasBuff(Buff.CONCENTRATION))

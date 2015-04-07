@@ -4,7 +4,6 @@ import java.util.Observable;
 
 import com.wizardfight.Sound;
 import com.wizardfight.Shape;
-import com.wizardfight.fight.FightMessage.FightAction;
 import com.wizardfight.fight.FightMessage.Target;
 
 import android.os.Handler;

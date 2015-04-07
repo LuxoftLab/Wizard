@@ -6,7 +6,6 @@ import com.wizardfight.Shape;
 import com.wizardfight.components.*;
 import com.wizardfight.fight.FightMessage;
 import com.wizardfight.fight.FightCore.HandlerMessage;
-import com.wizardfight.fight.FightMessage.FightAction;
 import com.wizardfight.fight.FightMessage.Target;
 import com.wizardfight.recognition.accrecognizer.AccRecognition;
 import com.wizardfight.recognition.hmm.Recognizer;

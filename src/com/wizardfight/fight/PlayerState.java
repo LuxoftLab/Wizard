@@ -173,32 +173,22 @@ public class PlayerState {
         dropSpellInfluence();
         mSpellShape = FightMessage.getShapeFromMessage(message);
         switch (message.mAction) {
-        	case SHAPE:
+        	case CM_SELF_CAST:
         		Shape s = Shape.values()[ message.mParam ];
         		FightSpell spell = controls.get(s); 
         		if(spell != null) spell.execute(this);
         		break;
-        		
-            case DAMAGE:
-                applyConeOfCold();
-                break;
 
-            case HIGH_DAMAGE:
-                applyCircleOfFire();
-                break;
-
-            case HEAL:
-                applyHeal();
-                break;
-
-            case BUFF_ON:
+            case CM_ENEMY_NEW_BUFF:
+            case CM_NEW_BUFF:
                 if (message.mParam < 0) break;
                 // message parameter is buff index
                 Buff newBuff = Buff.values()[message.mParam];
                 addBuff(newBuff);
                 break;
 
-            case BUFF_TICK:
+            case CM_SELF_BUFF_TICK:
+            case CM_ENEMY_BUFF_TICK:
                 if (message.mParam < 0) break;
                 // message parameter is buff index
                 Buff tickBuff = Buff.values()[message.mParam];
@@ -221,13 +211,14 @@ public class PlayerState {
                 
                 break;
 
-            case BUFF_OFF:
+            case CM_REMOVED_BUFF:
+            case CM_ENEMY_REMOVED_BUFF:
                 Buff delBuff = Buff.values()[message.mParam];
                 mBuffs.remove(delBuff);
                 mRemovedBuff = delBuff;
                 if (D) Log.e("Wizard Fight", delBuff + "was removed");
                 break;
-            case NEW_HP_OR_MANA:
+            case CM_ENEMY_HEALTH_MANA:
                 break;
             default:
                 //nothing;
@@ -254,7 +245,6 @@ public class PlayerState {
     }
 
     private boolean handleBuffTick(Buff buff, boolean calledByTimer) {
-        if (D) Log.e("Wizard Fight", "handleBuffTick called");
         boolean hasBuffAlready = mBuffs.containsKey(buff);
         
         if (D) Log.e("Wizard Fight", "has buff that is removed? : " + hasBuffAlready);

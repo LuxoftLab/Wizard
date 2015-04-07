@@ -3,6 +3,7 @@ package com.wizardfight.fight;
 import java.io.Serializable;
 
 import com.wizardfight.Shape;
+import com.wizardfight.fight.FightCore.CoreAction;
 
 /*
  * contains all needed info that is transfered between devices
@@ -12,50 +13,51 @@ public class FightMessage implements Serializable {
 	
 	public static final int SIZE = 9;
 	public Target mTarget;
-	public FightAction mAction;
+	public CoreAction mAction;
 	public int mParam;
 	public int mHealth;
 	public int mMana;
 	// thing needed for server to define is bot
 	public boolean mIsBotMessage;
 	
-	public FightMessage(Target tar, FightAction act) {
+	public FightMessage(Target tar, CoreAction act) {
 		mTarget = tar;
 		mAction = act;
 		mParam = -1;
 	}
 	
-	public FightMessage(Target tar, FightAction act, int parameter) {
+	public FightMessage(Target tar, CoreAction act, int parameter) {
 		mTarget = tar;
 		mAction = act;
 		mParam = parameter;
 	}
 	
-	public FightMessage(Shape shape) {
-		
+	private static boolean shapeDealsDamage(Shape shape) {
 		switch(shape) {
 		case TRIANGLE:
 		case CIRCLE:
 		case Z:
-			mTarget = Target.ENEMY;
-			break;
+			return true;
 		case CLOCK:
 		case V:
 		case PI:
 		case SHIELD:
 		case FAIL:
-			mTarget = Target.SELF;
-			break;
+			return false;
 		default:
-			break;
+			return false;
 		}
+	}
+	
+	public FightMessage(Shape shape) {
+		mTarget = shapeDealsDamage(shape) ? Target.ENEMY : Target.SELF;
 		mParam = shape.ordinal();
-		mAction = FightAction.SHAPE;
+		mAction = CoreAction.CM_SELF_CAST;
 	}
 	
 	private FightMessage(int targetIndex, int actionIndex, int parameter) {
 		mTarget = Target.values()[ targetIndex ];
-		mAction = FightAction.values() [ actionIndex ];
+		mAction = CoreAction.values() [ actionIndex ];
 		mParam = parameter;
 	}
 	
@@ -69,42 +71,14 @@ public class FightMessage implements Serializable {
 	public static Shape getShapeFromMessage(FightMessage message) {
 		Shape shape = Shape.NONE;
 		switch( message.mAction ) {
-		case SHAPE:
+		case CM_SELF_CAST:
+		case CM_ENEMY_CAST:
 			return Shape.values()[ message.mParam ];
-		case HIGH_DAMAGE:
-			shape = Shape.CIRCLE;
-			break;
-		case DAMAGE:
-			shape = Shape.TRIANGLE;
-			break;
-		case BUFF_ON:
-			Buff buff = Buff.values()[ message.mParam  ];
-			switch(buff) {
-			case WEAKNESS:
-				shape = Shape.Z;
-				break;
-			case CONCENTRATION:
-				shape = Shape.V;
-				break;
-			case BLESSING:
-				shape = Shape.PI;
-				break;
-			case HOLY_SHIELD:
-				shape = Shape.SHIELD;
-				break;
-			default:
-				shape = Shape.NONE;
-			}
-			break;
-		case HEAL:
-			shape = Shape.CLOCK;
-			break;
-		case NEW_HP_OR_MANA:
-			if(message.mParam >= 0)
-				shape = Shape.values()[ message.mParam ];
-			break;
-		case FAIL:
-			shape = Shape.FAIL;
+		case CM_NEW_BUFF:
+		case CM_ENEMY_NEW_BUFF:
+		case CM_HEALTH_CHANGED:
+		case CM_MANA_CHANGED:
+		case CM_ENEMY_HEALTH_MANA:
 			break;
 		default:
 			shape = Shape.NONE;
@@ -112,37 +86,14 @@ public class FightMessage implements Serializable {
 		return shape;
 	}
 	
-	private static FightAction getActionFromShape(Shape shape) {
-		FightAction action;
-		switch(shape) {
-		case CIRCLE:
-			action = FightAction.HIGH_DAMAGE;
-			break;
-		case TRIANGLE:
-			action = FightAction.DAMAGE;
-			break;
-		case Z:
-		case V:
-		case PI:
-		case SHIELD:
-			action = FightAction.BUFF_ON;
-			break;
-		case CLOCK:
-			action = FightAction.HEAL;
-			break;
-		case FAIL:
-			action = FightAction.FAIL;
-			break;
-		default:
-			action = FightAction.NONE;
-		}
-		return action;
-	}
-
 	public static boolean isSpellCreatedByEnemy(FightMessage msg) {
 		boolean spellDealsDamage = true;
 		switch(msg.mAction) {
-		case BUFF_ON:
+		case CM_SELF_CAST:
+		case CM_ENEMY_CAST:
+			return true; 
+		case CM_NEW_BUFF:
+		case CM_ENEMY_NEW_BUFF:
 			Buff buff = Buff.values()[ msg.mParam ];
 			switch(buff) {
 			case BLESSING:
@@ -156,22 +107,13 @@ public class FightMessage implements Serializable {
 				break;
 			}
 			break;
-		case DAMAGE:
-		case HIGH_DAMAGE:
-			spellDealsDamage = true;
+		case CM_ENEMY_HEALTH_MANA:
+			if (msg.mParam == Shape.CLOCK.ordinal()) { //TODO delete this kostil
+				return true; 
+			}
+		case CM_HEALTH_CHANGED:
+		case CM_MANA_CHANGED:
 			break;
-		case HEAL:
-			spellDealsDamage = false;
-			break;
-		case NEW_HP_OR_MANA:
-			Shape s = Shape.values()[ msg.mParam ];
-			FightAction a = FightMessage.getActionFromShape(s);
-			spellDealsDamage = ( a != FightAction.HEAL && a != FightAction.FAIL);
-			break;
-		case FAIL:
-			spellDealsDamage = false;
-			break;
-		case NONE:
 		default:
 			break;
 		}
@@ -232,27 +174,4 @@ public class FightMessage implements Serializable {
 		}
 	}
 
-	/*
-	 * Fight action type
-	 */
-	public enum FightAction {
-		ENEMY_READY,
-		FIGHT_START,
-		SHAPE,
-		FIGHT_END,
-		DAMAGE,
-		HIGH_DAMAGE,
-		HEAL,
-		BUFF_ON,
-		BUFF_TICK,
-		BUFF_OFF,
-		NEW_HP_OR_MANA,
-		NONE,
-		FAIL;
-		
-		@Override
-		public String toString() {
-			return name();
-		}
-	}
 }

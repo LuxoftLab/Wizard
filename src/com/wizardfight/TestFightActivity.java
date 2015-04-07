@@ -7,6 +7,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.wizardfight.fight.FightActivity;
+import com.wizardfight.fight.FightCore.CoreAction;
 import com.wizardfight.fight.FightMessage;
 import com.wizardfight.fight.FightCore.HandlerMessage;
 import com.wizardfight.fight.FightMessage.*;
@@ -91,7 +92,7 @@ public class TestFightActivity extends FightActivity {
             @Override
             public void run() {
                 FightMessage startMsg = new FightMessage(Target.ENEMY,
-                        FightAction.FIGHT_START);
+                        CoreAction.CM_FIGHT_START);
                 sendFightMessage(startMsg);
 
             }
