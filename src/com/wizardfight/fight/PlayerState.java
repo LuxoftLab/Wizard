@@ -19,6 +19,53 @@ class BuffState {
     }
 }
 
+enum FightSpell {
+	CONE_OF_COLD {
+		@Override
+		public void execute(PlayerState state) {
+			state.applyConeOfCold();
+		}
+	},
+	CIRCLE_OF_FIRE {
+		@Override
+		public void execute(PlayerState state) {
+			state.applyCircleOfFire();
+		}
+	},
+	HEAL {
+		@Override
+		public void execute(PlayerState state) {
+			state.applyHeal();
+		}
+	},
+	WEAKNESS {
+		@Override
+		public void execute(PlayerState state) {
+			state.applyWeakness();
+		}
+	},
+	CONCENTRATION {
+		@Override
+		public void execute(PlayerState state) {
+			state.applyConcentration();
+		}
+	},
+	BLESSING {
+		@Override
+		public void execute(PlayerState state) {
+			state.applyBlessing();
+		}
+	},
+	HOLY_SHIELD {
+		@Override
+		public void execute(PlayerState state) {
+			state.applyHolyShield();
+		}
+	};
+	
+	abstract public void execute(PlayerState state);
+}
+
 /*
  * Describes player state. Contains mana/hp current and max value,
  * set of buffs, reference to enemy state (for reading only).
@@ -26,6 +73,18 @@ class BuffState {
  */
 public class PlayerState {
     private static final boolean D = true;
+    private static final EnumMap<Shape, FightSpell> controls;
+    static {
+    	controls = new EnumMap<Shape, FightSpell>(Shape.class);
+    	controls.put(Shape.TRIANGLE, FightSpell.CONE_OF_COLD);
+    	controls.put(Shape.CIRCLE, FightSpell.CIRCLE_OF_FIRE);
+    	controls.put(Shape.CLOCK, FightSpell.HEAL);
+    	controls.put(Shape.Z, FightSpell.WEAKNESS);
+    	controls.put(Shape.V, FightSpell.CONCENTRATION);
+    	controls.put(Shape.PI, FightSpell.BLESSING);
+    	controls.put(Shape.SHIELD, FightSpell.HOLY_SHIELD);
+    }
+    
     private final int mMaxHealth;
     private final int mMaxMana;
     private final EnumMap<Buff, BuffState> mBuffs;
@@ -45,7 +104,7 @@ public class PlayerState {
         dropSpellInfluence();
         mEnemyState = enemy;
     }
-
+    
     void dropSpellInfluence() {
     	if (D) Log.e("Wizard Fight", "drop spell influence");
         mSpellShape = Shape.NONE;
@@ -82,25 +141,54 @@ public class PlayerState {
         return damage;
     }
 
+    public void applyConeOfCold() {
+    	dealDamage(10);
+    }
+    
+    public void applyCircleOfFire() {
+    	dealDamage(30);
+    }
+    
+    public void applyHeal() {
+    	heal(40);
+    }
+    
+    public void applyWeakness() {
+    	addBuff(Buff.WEAKNESS);
+    }
+    
+    public void applyConcentration() {
+    	addBuff(Buff.CONCENTRATION);
+    }
+    
+    public void applyBlessing() {
+    	addBuff(Buff.BLESSING);
+    }
+    
+    public void applyHolyShield() {
+    	addBuff(Buff.HOLY_SHIELD);
+    }
+    
     public void handleSpell(FightMessage message) {
         dropSpellInfluence();
         mSpellShape = FightMessage.getShapeFromMessage(message);
-
         switch (message.mAction) {
+        	case SHAPE:
+        		Shape s = Shape.values()[ message.mParam ];
+        		FightSpell spell = controls.get(s); 
+        		if(spell != null) spell.execute(this);
+        		break;
+        		
             case DAMAGE:
-                dealDamage(10);
+                applyConeOfCold();
                 break;
 
             case HIGH_DAMAGE:
-                dealDamage(30);
+                applyCircleOfFire();
                 break;
 
             case HEAL:
-                if (message.mTarget == Target.SELF) {
-                    heal(40);
-                } else {
-                    setHealth(message.mParam);
-                }
+                applyHeal();
                 break;
 
             case BUFF_ON:

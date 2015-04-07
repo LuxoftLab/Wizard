@@ -32,39 +32,25 @@ public class FightMessage implements Serializable {
 	}
 	
 	public FightMessage(Shape shape) {
-		mParam = -1;
 		
 		switch(shape) {
 		case TRIANGLE:
 		case CIRCLE:
+		case Z:
 			mTarget = Target.ENEMY;
 			break;
 		case CLOCK:
-			mTarget = Target.SELF;
-			mParam = Buff.getBuffFromShape(shape).ordinal();
-			break;
-		case Z:
-			mTarget = Target.ENEMY;
-			mParam = Buff.getBuffFromShape(shape).ordinal();
-			break;
 		case V:
-			mTarget = Target.SELF;
-			mParam = Buff.getBuffFromShape(shape).ordinal();
-			break;
 		case PI:
-			mTarget = Target.SELF;
-			mParam = Buff.getBuffFromShape(shape).ordinal();
-			break;
 		case SHIELD:
+		case FAIL:
 			mTarget = Target.SELF;
-			mParam = Buff.getBuffFromShape(shape).ordinal();
 			break;
 		default:
-			mTarget = Target.SELF;
 			break;
 		}
-		mAction = getActionFromShape(shape);
-		
+		mParam = shape.ordinal();
+		mAction = FightAction.SHAPE;
 	}
 	
 	private FightMessage(int targetIndex, int actionIndex, int parameter) {
@@ -83,6 +69,8 @@ public class FightMessage implements Serializable {
 	public static Shape getShapeFromMessage(FightMessage message) {
 		Shape shape = Shape.NONE;
 		switch( message.mAction ) {
+		case SHAPE:
+			return Shape.values()[ message.mParam ];
 		case HIGH_DAMAGE:
 			shape = Shape.CIRCLE;
 			break;
@@ -250,6 +238,7 @@ public class FightMessage implements Serializable {
 	public enum FightAction {
 		ENEMY_READY,
 		FIGHT_START,
+		SHAPE,
 		FIGHT_END,
 		DAMAGE,
 		HIGH_DAMAGE,
