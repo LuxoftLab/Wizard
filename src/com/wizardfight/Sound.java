@@ -24,7 +24,7 @@ public class Sound {
 	}
 	
 	public static void init(Context context) {
-		long t1 = System.currentTimeMillis();
+//		long t1 = System.currentTimeMillis();
 		// Initialize sound
 		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 		mWandSoundID = mSoundPool.load(context, R.raw.magic, 1);

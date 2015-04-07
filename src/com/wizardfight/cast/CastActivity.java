@@ -56,8 +56,8 @@ public abstract class CastActivity extends Activity {
 	}
 	
 	protected  void startNewSensorAndSound(){
-			mAcceleratorThread = new AcceleratorThread(this, 
-					((SensorManager) getSystemService(Context.SENSOR_SERVICE)), mHandler);
+			mAcceleratorThread = new AcceleratorThread(
+					((SensorManager) getSystemService(Context.SENSOR_SERVICE)));
 			mAcceleratorThread.start();
 	}
 

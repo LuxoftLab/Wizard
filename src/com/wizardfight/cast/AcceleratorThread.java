@@ -6,7 +6,6 @@ import com.wizardfight.Sound;
 import com.wizardfight.recognition.accrecognizer.AccRecognizer;
 import com.wizardfight.components.Vector3d;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,21 +23,16 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	private boolean mListening;
 	
 	private Looper mLooper;
-	private final Context mContext;
 	private final SensorManager mSensorManager;
-	private final Handler mFightHandler;
 	private Sensor mAccelerometer;
 	private ArrayList<Vector3d> mRecords;
 
-	public AcceleratorThread(Context context, SensorManager sm, Handler fightHandler) {
+	public AcceleratorThread(SensorManager sm) {
 		setName("Sensor and Sound thread");
-		mContext = context;
 		mSensorManager = sm;
-		mFightHandler = fightHandler;
 	}
 
 	public void run() {
-		long t1 = System.currentTimeMillis();
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		Sound.setPlaying(true);
 		mListening = false;
@@ -63,20 +57,17 @@ public class AcceleratorThread extends Thread implements SensorEventListener {
 	}
 
 	public void stopGettingData() {
-		long t1 = System.currentTimeMillis();
 		mListening = false;
 		Sound.stopWandSound();
 	}
 
 	public ArrayList<Vector3d> stopAndGetResult() {
-		long t1 = System.currentTimeMillis();
 		mListening = false;
 		Sound.stopWandSound();
 		return Vector3d.squeeze(mRecords, AccRecognizer.Speed.SLOW.size);
 	}
 
 	public void stopLoop() {
-		long t1 = System.currentTimeMillis();
 		mSensorManager.unregisterListener(this);
 		if (mLooper != null)
 			mLooper.quit();
