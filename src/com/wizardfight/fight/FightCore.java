@@ -234,7 +234,6 @@ public class FightCore extends Observable {
 			FightMessage castMsg = new FightMessage(Target.ENEMY, CoreAction.CM_ENEMY_CAST);
 			castMsg.mParam = mData.selfShape.ordinal(); 
 			sendFightMessage(castMsg); //SEND SHAPE TO USER FOR DRAWING
-			Log.e("Wizard Fight", "()()()()()()()()()()()(()()( send fight message with shape: " + mData.selfShape);
 			share(CoreAction.CM_SELF_CAST_SUCCESS);
 		}
 		
@@ -248,7 +247,6 @@ public class FightCore extends Observable {
 		if (FightActivity.D) Log.e("Wizard Fight", "onEnemyFightMessage [FightCore]");
 		
 		mData.enemyShape = FightMessage.getShapeFromMessage(enemyMsg);
-		Log.e("Wizard Fight", "++++++++++++++ __ENEMY CAST SHAPE: " + mData.enemyShape);
 		// refresh enemy health and mana (every enemy message contains it)
 		mEnemyState.setHealthAndMana(enemyMsg.mHealth, enemyMsg.mMana);
 
@@ -269,7 +267,6 @@ public class FightCore extends Observable {
 
 		// refresh enemy
 		if (mData.enemyShape != Shape.NONE) {
-			Log.e("Wizard Fight", "++++++++++++++ CM ENEMY CAST FOR SHAPE: " + mData.enemyShape);
 			share(CoreAction.CM_ENEMY_CAST);
 		}
 		share(CoreAction.CM_ENEMY_HEALTH_MANA);
@@ -319,7 +316,7 @@ public class FightCore extends Observable {
 		}
 
 		if (added != null || refreshed != null) {
-			// send message of the buff tick
+			// send message of the next buff tick
 			if (added != null)
 				refreshed = added;
 			FightMessage fm = new FightMessage(Target.SELF,

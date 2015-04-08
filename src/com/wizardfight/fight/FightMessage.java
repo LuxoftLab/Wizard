@@ -69,56 +69,13 @@ public class FightMessage implements Serializable {
 	}
 	
 	public static Shape getShapeFromMessage(FightMessage message) {
-		Shape shape = Shape.NONE;
 		switch( message.mAction ) {
 		case CM_SELF_CAST:
 		case CM_ENEMY_CAST:
 			return Shape.values()[ message.mParam ];
-		case CM_NEW_BUFF:
-		case CM_ENEMY_NEW_BUFF:
-		case CM_HEALTH_CHANGED:
-		case CM_MANA_CHANGED:
-		case CM_ENEMY_HEALTH_MANA:
-			break;
 		default:
-			shape = Shape.NONE;
+			return Shape.NONE;
 		}
-		return shape;
-	}
-	
-	public static boolean isSpellCreatedByEnemy(FightMessage msg) {
-		boolean spellDealsDamage = true;
-		switch(msg.mAction) {
-		case CM_SELF_CAST:
-		case CM_ENEMY_CAST:
-			return true; 
-		case CM_NEW_BUFF:
-		case CM_ENEMY_NEW_BUFF:
-			Buff buff = Buff.values()[ msg.mParam ];
-			switch(buff) {
-			case BLESSING:
-			case CONCENTRATION:
-			case HOLY_SHIELD:
-				spellDealsDamage = false;
-				break;
-			case WEAKNESS:
-			default:
-				spellDealsDamage = true;
-				break;
-			}
-			break;
-		case CM_ENEMY_HEALTH_MANA:
-			if (msg.mParam == Shape.CLOCK.ordinal()) { //TODO delete this kostil
-				return true; 
-			}
-		case CM_HEALTH_CHANGED:
-		case CM_MANA_CHANGED:
-			break;
-		default:
-			break;
-		}
-		
-		return (spellDealsDamage != (msg.mTarget == Target.ENEMY));
 	}
 
 	public static FightMessage fromBytes(byte[] bytes) {
