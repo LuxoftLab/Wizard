@@ -19,6 +19,7 @@ public class BotFightCore extends FightCore {
 	private Handler mUserHandler;
 
 	public BotFightCore(Handler userHandler, double botSpeedCoeff) {
+		super(false);
 		mK = botSpeedCoeff;
 		mUserHandler = userHandler;
 	}

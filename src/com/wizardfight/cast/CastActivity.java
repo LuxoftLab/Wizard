@@ -69,6 +69,8 @@ public abstract class CastActivity extends Activity {
         stopSensorAndSound();
 	}
 
+	/* needed to guarantee handler initialization by descendants 
+	 * in onCreate */
 	protected abstract Handler getHandler();
 
 	protected void stopSensorAndSound() {

@@ -17,6 +17,7 @@ public class FightCore extends Observable {
 	// States of players
 	protected PlayerState mSelfState;
 	protected PlayerState mEnemyState;
+	protected final boolean mIsMainPlayer;
 	private ObservableData mData;
 
 	public static class ObservableData {
@@ -49,14 +50,19 @@ public class FightCore extends Observable {
 
 	// Message types sent from the BluetoothChatService Handler
 	public enum HandlerMessage {
-		HM_BT_STATE_CHANGE, HM_DEVICE_NAME, HM_TOAST, HM_COUNTDOWN_END, HM_CONNECTION_FAIL, HM_FROM_SELF, HM_SELF_DEATH, HM_FROM_ENEMY, HM_MANA_REGEN
+		HM_BT_STATE_CHANGE, HM_DEVICE_NAME, HM_TOAST, HM_COUNTDOWN_END, HM_CONNECTION_FAIL, HM_FROM_SELF, 
+		HM_SELF_DEATH, HM_FROM_ENEMY, HM_MANA_REGEN
 	}
 
 	public enum CoreAction {
 		CM_BT_STATE_CHANGE, CM_DEVICE_NAME, CM_INFO_STRING, CM_COUNTDOWN_END, CM_CONNECTION_FAIL, 
-		CM_MESSAGE_TO_SEND, CM_ENEMY_READY, CM_FIGHT_START, CM_HEALTH_CHANGED, CM_MANA_CHANGED, 
-		CM_SELF_CAST, CM_SELF_CAST_SUCCESS, CM_SELF_BUFF_TICK, CM_SELF_CAST_NOMANA, CM_NEW_BUFF, CM_REMOVED_BUFF, CM_ENEMY_CAST,
-		CM_ENEMY_HEALTH_MANA, CM_ENEMY_NEW_BUFF, CM_ENEMY_REMOVED_BUFF, CM_ENEMY_BUFF_TICK, CM_FIGHT_END;
+		CM_MESSAGE_TO_SEND, CM_ENEMY_READY, CM_FIGHT_START, CM_FIGHT_END,
+		
+		CM_HEALTH_CHANGED, CM_MANA_CHANGED, CM_SELF_CAST, CM_SELF_CAST_SUCCESS, CM_SELF_BUFF_TICK, 
+		CM_SELF_CAST_NOMANA, CM_NEW_BUFF, CM_REMOVED_BUFF, 
+		
+		CM_ENEMY_CAST, CM_ENEMY_HEALTH_MANA, CM_ENEMY_NEW_BUFF, CM_ENEMY_REMOVED_BUFF, 
+		CM_ENEMY_BUFF_TICK;
 	}
 
 	private Handler mHandler = new Handler() {
@@ -101,7 +107,8 @@ public class FightCore extends Observable {
 		}
 	};
 
-	public FightCore() {
+	public FightCore(boolean isMainPlayer) {
+		mIsMainPlayer = isMainPlayer;
 		mData = new ObservableData();
 		init();
 	}
@@ -142,8 +149,12 @@ public class FightCore extends Observable {
 	}
 
 	protected void onSelfDeath() {
-		Log.e("Wizard Fight", "---------------------> SELF DEATH");
-		FightMessage selfDeath = new FightMessage(Target.ENEMY,
+		if(mIsMainPlayer) {
+			finishFight(Target.ENEMY);
+		}
+		Log.e("Wizard Fight", "^^^^^^^ PLAYER # " + (mIsMainPlayer? 1 : 0) + " SELF DEATH");
+		// for enemy logic: winner = self 
+		FightMessage selfDeath = new FightMessage(Target.SELF,
 				CoreAction.CM_FIGHT_END);
 		sendFightMessage(selfDeath);
 	}
@@ -162,10 +173,15 @@ public class FightCore extends Observable {
 			onEnemyReadyMessage();
 			break;
 		case CM_FIGHT_START:
+			// message to start fight immediately, sent by server
 			startFight();
 			break;
 		case CM_FIGHT_END:
-			finishFight(Target.SELF);
+			// server ignores enemy loss messages if he has died already
+			if (mIsMainPlayer && mAreMessagesBlocked) return;
+
+			// message to end fight immediately, sent by server
+			finishFight(enemyMsg.mTarget);
 			break;
 		default:
 			if (mAreMessagesBlocked)
@@ -239,7 +255,7 @@ public class FightCore extends Observable {
 		
 		// enemy has killed us by buff
 		if(mSelfState.getHealth() == 0) {
-			finishFight(Target.ENEMY);
+			onSelfDeath();
 		}
 	}
 
@@ -273,7 +289,7 @@ public class FightCore extends Observable {
 		
 		// enemy has killed us
 		if(mSelfState.getHealth() == 0) {
-			finishFight(Target.ENEMY);
+			onSelfDeath();
 		}
 	}
 
@@ -339,15 +355,20 @@ public class FightCore extends Observable {
 	}
 
 	protected void finishFight(Target winner) {
-		Log.e("Wizard Fight", "-----------------------------> finish fight [FightCore]");
+		Log.e("Wizard Fight", "^^^^^^^ PLAYER # " + (mIsMainPlayer? 1 : 0) 
+				+ " FINISH FIGHT (winner: " + winner);
 		
 		mAreMessagesBlocked = true;
 		mData.winner = winner;
 		share(CoreAction.CM_FIGHT_END);
-		 // we must inform enemy about loss
-		if (winner == Target.ENEMY) {
-			mHandler.obtainMessage(HandlerMessage.HM_SELF_DEATH.ordinal())
-				.sendToTarget();
+		
+		 // server must inform enemy that we have won
+		if (mIsMainPlayer && winner == Target.SELF) {
+			Log.e("Wizard Fight", "^^^^^^^ PLAYER MAIN INFORMS ENEMY ABOUT HE WON");
+			// turn to enemy logic, self = he 
+			FightMessage selfDeath = new FightMessage(Target.ENEMY,
+					CoreAction.CM_FIGHT_END);
+			sendFightMessage(selfDeath);
 		}
 	}
 

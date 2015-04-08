@@ -26,6 +26,7 @@ import com.wizardfight.views.RectButton;
  */
 public class TestFightActivity extends FightActivity {
     private PlayerBot mPlayerBot;
+    private Dialog mDificultyDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,6 @@ public class TestFightActivity extends FightActivity {
         setupBot();
     }
 
-    private Dialog mDificultyDialog;
     void setupBot(){
         final View v = getLayoutInflater().inflate(R.layout.bot_setup, null);
         mDificultyDialog = new Dialog(this, R.style.WDialog);
@@ -71,6 +71,7 @@ public class TestFightActivity extends FightActivity {
         });
         mDificultyDialog.show();
     }
+    
     void onComSetup(double k){
     	mPlayerBot = new PlayerBot(mHandler, k);
         mPlayerBot.start();
@@ -149,11 +150,15 @@ public class TestFightActivity extends FightActivity {
         }
     }
 
-    //dont care in case with bot
 	@Override
 	public void handleEnemyReadyMessage() {}
 	@Override
 	public void onBluetoothStateChange(int state) {
 		//do nothing
+	}
+	@Override
+	protected boolean isMainPlayer() {
+		//in bot game we are main player
+		return true;
 	}
 }

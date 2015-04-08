@@ -61,7 +61,9 @@ public class BtFightActivity extends FightActivity {
 	}
 	
 	@Override
-	public Handler getHandler() { return mCore.getHandler(); }
+	protected boolean isMainPlayer() {
+		return BluetoothService.getInstance().isServer();
+	}
 	
 	@Override
 	protected void startFight() {

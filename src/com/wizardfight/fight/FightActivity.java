@@ -59,7 +59,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// WARNING: fight core must be initialized ONLY before super.onCreate!
-		mCore = new FightCore();
+		mCore = new FightCore(isMainPlayer());
 		mCore.addObserver(this);
 		mAchievementTest = new AchievementTest();
 		mCore.addObserver(mAchievementTest);
@@ -144,6 +144,8 @@ public abstract class FightActivity extends CastActivity implements Observer {
 		return mCore.getHandler();
 	}
 
+	abstract protected boolean isMainPlayer();
+	
 	@Override
 	public void update(Observable o, Object action) {
 		CoreAction cm = (CoreAction) action;
