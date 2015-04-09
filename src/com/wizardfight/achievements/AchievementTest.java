@@ -18,6 +18,7 @@ public class AchievementTest implements Observer {
 	private int mLastMP = FightActivity.PLAYER_MANA;
 	private int mLastEnemyHP = FightActivity.PLAYER_HP;
 	
+	private int mShieldBlocks;
 	private int mWins;
 	private int mLosses;
 	
@@ -71,7 +72,7 @@ public class AchievementTest implements Observer {
 			break;
 		case CM_FIGHT_START:
 			break;
-		case CM_HEALTH_CHANGED:
+		case CM_SELF_HEALTH_CHANGED:
 			int hp = c.getSelfState().getHealth();
 			if(hp > mLastHP) {
 				mRestoredHealth += hp - mLastHP;
@@ -82,7 +83,7 @@ public class AchievementTest implements Observer {
 			break;
 		case CM_INFO_STRING:
 			break;
-		case CM_MANA_CHANGED:
+		case CM_SELF_MANA_CHANGED:
 			int mp = c.getSelfState().getHealth();
 			if(mp < mLastMP) {
 				mWastedMana += mLastMP - mp;
@@ -91,13 +92,16 @@ public class AchievementTest implements Observer {
 			break;
 		case CM_MESSAGE_TO_SEND:
 			break;
-		case CM_NEW_BUFF:
+		case CM_SELF_NEW_BUFF:
 			break;
-		case CM_REMOVED_BUFF:
+		case CM_SELF_REMOVED_BUFF:
 			break;
 		case CM_SELF_CAST_NOMANA:
 			break;
 		case CM_SELF_CAST_SUCCESS:
+			break;
+		case CM_SELF_SHIELD_BLOCK:
+			mShieldBlocks++;
 			break;
 		default:
 			break;
@@ -109,6 +113,7 @@ public class AchievementTest implements Observer {
 			Log.e("Wizard Fight","[STAT] wins: " + mWins + ", losses" + mLosses);
 			Log.e("Wizard Fight","[STAT] restored hp: " + mRestoredHealth + ", wasted mana: " + mWastedMana);
 			Log.e("Wizard Fight","[STAT] received damage: " + mReceivedDamage + ", caused damage: " + mCausedDamage);
+			Log.e("Wizard Fight","[STAT] shield blocks: " + mShieldBlocks);
 		}
 	}
 }

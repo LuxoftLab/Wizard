@@ -196,26 +196,29 @@ public abstract class FightActivity extends CastActivity implements Observer {
 		case CM_FIGHT_START:
 			startFight();
 			break;
-		case CM_HEALTH_CHANGED:
+		case CM_SELF_HEALTH_CHANGED:
 			mSelfGUI.getHealthBar().setValue(mCore.getSelfState().getHealth());
 			break;
 		case CM_INFO_STRING:
 			Toast.makeText(getApplicationContext(),
 					mCore.getData().getInfoString(), Toast.LENGTH_SHORT).show();
 			break;
-		case CM_MANA_CHANGED:
+		case CM_SELF_MANA_CHANGED:
 			mSelfGUI.getManaBar().setValue(mCore.getSelfState().getMana());
 			break;
 		case CM_MESSAGE_TO_SEND:
 			sendFightMessage(mCore.getData().getMessageToSend());
 			break;
-		case CM_NEW_BUFF:
+		case CM_SELF_NEW_BUFF:
 			mSelfGUI.getBuffPanel()
 					.addBuff(mCore.getSelfState().getAddedBuff());
 			break;
-		case CM_REMOVED_BUFF:
+		case CM_SELF_REMOVED_BUFF:
 			mSelfGUI.getBuffPanel().removeBuff(
 					mCore.getSelfState().getRemovedBuff());
+			break;
+		case CM_SELF_SHIELD_BLOCK:
+			Sound.playBuffSound(mCore.getSelfState().getRemovedBuff()); 
 			break;
 		case CM_SELF_CAST_NOMANA:
 			onSelfCastNoMana();

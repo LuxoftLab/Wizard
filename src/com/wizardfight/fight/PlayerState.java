@@ -126,7 +126,7 @@ public class PlayerState {
         		break;
 
             case CM_ENEMY_NEW_BUFF:
-            case CM_NEW_BUFF:
+            case CM_SELF_NEW_BUFF:
                 Buff newBuff = Buff.values()[message.mParam];
                 addBuff(newBuff);
                 break;
@@ -136,7 +136,7 @@ public class PlayerState {
                 onBuffTick(message);
                 break;
 
-            case CM_REMOVED_BUFF:
+            case CM_SELF_REMOVED_BUFF:
             case CM_ENEMY_REMOVED_BUFF:
                 Buff delBuff = Buff.values()[message.mParam];
                 removeBuff(delBuff);

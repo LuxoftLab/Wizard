@@ -56,13 +56,13 @@ public class FightCore extends Observable {
 
 	public enum CoreAction {
 		CM_BT_STATE_CHANGE, CM_DEVICE_NAME, CM_INFO_STRING, CM_COUNTDOWN_END, CM_CONNECTION_FAIL, 
-		CM_MESSAGE_TO_SEND, CM_ENEMY_READY, CM_FIGHT_START, CM_FIGHT_END,
+		CM_MESSAGE_TO_SEND, CM_ENEMY_READY, CM_FIGHT_START, CM_FIGHT_END, 
 		
-		CM_HEALTH_CHANGED, CM_MANA_CHANGED, CM_SELF_CAST, CM_SELF_CAST_SUCCESS, CM_SELF_BUFF_TICK, 
-		CM_SELF_CAST_NOMANA, CM_NEW_BUFF, CM_REMOVED_BUFF, 
+		CM_SELF_HEALTH_CHANGED, CM_SELF_MANA_CHANGED, CM_SELF_CAST, CM_SELF_CAST_SUCCESS, CM_SELF_BUFF_TICK, 
+		CM_SELF_CAST_NOMANA, CM_SELF_NEW_BUFF, CM_SELF_REMOVED_BUFF, CM_SELF_SHIELD_BLOCK, 
 		
 		CM_ENEMY_CAST, CM_ENEMY_HEALTH_MANA, CM_ENEMY_NEW_BUFF, CM_ENEMY_REMOVED_BUFF, 
-		CM_ENEMY_BUFF_TICK;
+		CM_ENEMY_BUFF_TICK, CM_ENEMY_SHIELD_BLOCK;
 	}
 
 	private Handler mHandler = new Handler() {
@@ -218,7 +218,7 @@ public class FightCore extends Observable {
 				HandlerMessage.HM_MANA_REGEN.ordinal(), 0, 0, null);
 		mHandler.sendMessageDelayed(msgManaReg, 2000);
 
-		share(CoreAction.CM_MANA_CHANGED);
+		share(CoreAction.CM_SELF_MANA_CHANGED);
 	}
 
 	protected void onSelfMessage(FightMessage selfMsg) {
@@ -242,7 +242,7 @@ public class FightCore extends Observable {
 			// tell enemy : target is he
 			selfMsg.mTarget = Target.SELF;
 			sendFightMessage(selfMsg);
-			share(CoreAction.CM_MANA_CHANGED);
+			share(CoreAction.CM_SELF_MANA_CHANGED);
 		}
 		
 		if(mData.selfShape != Shape.NONE) {
@@ -315,10 +315,9 @@ public class FightCore extends Observable {
 			sendFightMessage(sendMsg);
 
 			if (mSelfState.isBuffRemovedByEnemy()) {
-				Sound.playBuffSound(removed); // TODO move to other
-														// place
+				share(CoreAction.CM_SELF_SHIELD_BLOCK);
 			}
-			share(CoreAction.CM_REMOVED_BUFF);
+			share(CoreAction.CM_SELF_REMOVED_BUFF);
 		}
 
 		if (added != null) {
@@ -328,7 +327,7 @@ public class FightCore extends Observable {
 			sendMsg = new FightMessage(Target.ENEMY, CoreAction.CM_ENEMY_NEW_BUFF,
 					added.ordinal());
 			sendFightMessage(sendMsg);
-			share(CoreAction.CM_NEW_BUFF);
+			share(CoreAction.CM_SELF_NEW_BUFF);
 		}
 
 		if (added != null || refreshed != null) {
@@ -350,8 +349,8 @@ public class FightCore extends Observable {
 			sendFightMessage(sendMsg);
 		}
 		
-		share(CoreAction.CM_HEALTH_CHANGED);
-		share(CoreAction.CM_MANA_CHANGED);
+		share(CoreAction.CM_SELF_HEALTH_CHANGED);
+		share(CoreAction.CM_SELF_MANA_CHANGED);
 	}
 
 	protected void finishFight(Target winner) {
