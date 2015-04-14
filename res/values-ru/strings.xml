@@ -56,5 +56,6 @@
     <string name="no_network_conn2">Пожалуйста,  подключитесь к WIFI сети</string>
 	<string name="disabled">отключен</string>
 	<string name="enabled">включен</string>
+    <string name="achievements">Достижения</string>
 
 </resources>

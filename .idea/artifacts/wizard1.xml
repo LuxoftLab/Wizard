@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="apk" name="wizard1">
+    <output-path>$PROJECT_DIR$/classes/artifacts/wizard1</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="keyAlias" value="luxoft lab wizard fight key" />
+        <option name="keyPassword" value="azAxazBzMQ==" />
+        <option name="keyStorePassword" value="azAxazBzMQ==" />
+        <option name="keyStoreUrl" value="file://$USER_HOME$/Downloads/wf_keystore" />
+        <option name="proGuardCfgFiles">
+          <list>
+            <option value="file://%MODULE_SDK_HOME%/tools/proguard/proguard-android.txt" />
+          </list>
+        </option>
+        <option name="signingMode" value="DEBUG_WITH_CUSTOM_CERTIFICATE" />
+      </options>
+    </properties>
+    <root id="archive" name="wizard1.apk">
+      <element id="android-final-package" facet="wizard1/android/Android" />
+    </root>
+  </artifact>
+</component>

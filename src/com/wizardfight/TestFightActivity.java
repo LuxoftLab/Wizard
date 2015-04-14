@@ -122,8 +122,10 @@ public class TestFightActivity extends FightActivity {
         super.onDestroy();
         // remove all messages from handler
         mHandler.removeCallbacksAndMessages(null);
-        mPlayerBot.release();
-        mPlayerBot = null;
+        if(mPlayerBot != null) {
+            mPlayerBot.release();
+            mPlayerBot = null;
+        }
         if (D) Log.e(TAG, "--- ON DESTROY ---");
     }
 

@@ -72,6 +72,13 @@
             <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="goToAchievements"
+                    android:id="@+id/achievements"
+                    android:text="@string/achievements"/>
+
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:onClick="goToSettings"
                     android:text="@string/settings"/>
 

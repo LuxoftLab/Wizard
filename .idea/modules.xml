@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/Downloads/adt-bundle-windows-x86_64-20140624/sdk/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib.iml" filepath="$USER_HOME$/Downloads/adt-bundle-windows-x86_64-20140624/sdk/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/wizard1.iml" filepath="$PROJECT_DIR$/wizard1.iml" />
     </modules>
   </component>
 </project>
-

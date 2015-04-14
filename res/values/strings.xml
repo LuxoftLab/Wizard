@@ -56,6 +56,6 @@
     <string name="no_network_conn2">Please connect to the WIFI network</string>
 	<string name="disabled">disabled</string>
 	<string name="enabled">enabled</string>
-
+    <string name="achievements">Achievements</string>
 
 </resources>
