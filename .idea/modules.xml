@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://C:/Android/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib.iml" filepath="C:/Android/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../google-play-services_lib/google-play-services_lib.iml" filepath="$PROJECT_DIR$/../../google-play-services_lib/google-play-services_lib.iml" />
-      <module fileurl="file://$USER_HOME$/AppData/Local/Android/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib1.iml" filepath="$USER_HOME$/AppData/Local/Android/android-sdk/extras/google/google_play_services/libproject/google-play-services_lib/google-play-services_lib1.iml" />
       <module fileurl="file://$PROJECT_DIR$/wizard1.iml" filepath="$PROJECT_DIR$/wizard1.iml" />
     </modules>
   </component>

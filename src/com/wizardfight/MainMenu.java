@@ -211,7 +211,7 @@ public class MainMenu extends Activity {
                 case GA_REQUEST_ACHIEVEMENTS:
                     Log.d("123", "onActivityResult with requestCode == RC_SIGN_IN, responseCode="
                             + resultCode + ", intent=" + data);
-                    if(achievementTest.Achievements(resultCode)) {
+                    if(achievementTest.achievements(resultCode)) {
                         showActivityResultError(this, requestCode, resultCode);
                     }
                     break;
