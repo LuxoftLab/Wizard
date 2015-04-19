@@ -103,7 +103,7 @@ public class BtFightActivity extends FightActivity {
 		byte[] send = fMessage.getBytes();
 		// send to 2nd phone
 		mBtService.write(send);
-		// send to pc if connected
+		// send to pc if connect
 		WifiService.send(fMessage);
 	}
 	

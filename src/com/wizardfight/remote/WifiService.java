@@ -60,7 +60,7 @@ public class WifiService {
 		if(mWorker != null) {
 			mWorker.close();
 		}
-		if (D) Log.e("WIFI", "connected? (after close): " + isConnected());
+		if (D) Log.e("WIFI", "connect? (after close): " + isConnected());
 	}
 	
 	static class Worker extends Thread {

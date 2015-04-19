@@ -46,7 +46,7 @@ public class BotFightCore extends FightCore {
 		msg.mMana = mSelfState.getMana();
 		msg.mIsBotMessage = true;
 
-		// send to pc if connected
+		// send to pc if connect
 		WifiService.send(msg); //TODO not good place for this
 
 		byte[] sendBytes = msg.getBytes();

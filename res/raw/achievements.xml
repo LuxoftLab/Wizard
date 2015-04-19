@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <achievement name="resistant" id="CgkI2YKzhoMbEAIQAw" shape="shield"/>
+    <achievement name="master_of_the_shield" id="CgkI2YKzhoMbEAIQAQ" shape="shield"/>
+    <achievement name="adamantine" id="CgkI2YKzhoMbEAIQBA" shape="shield"/>
+    <achievement name="frost_mage" id="CgkI2YKzhoMbEAIQBQ" shape="triangle"/>
+    <achievement name="cold_hearted" id="CgkI2YKzhoMbEAIQBg" shape="triangle"/>
+    <achievement name="lord_of_the_ice" id="CgkI2YKzhoMbEAIQBw" shape="triangle"/>
+    <achievement name="playing_with_fire" id="CgkI2YKzhoMbEAIQCA" shape="circle"/>
+</resources>

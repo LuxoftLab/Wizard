@@ -107,7 +107,7 @@ public class TestFightActivity extends FightActivity {
     		return; // if user exists at start
     	}
         
-        // send to pc if connected
+        // send to pc if connect
         WifiService.send(fMessage);
         
         // send to bot

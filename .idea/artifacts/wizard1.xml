@@ -9,7 +9,7 @@
         <option name="keyStoreUrl" value="file://$USER_HOME$/Downloads/wf_keystore" />
         <option name="proGuardCfgFiles">
           <list>
-            <option value="file://%MODULE_SDK_HOME%/tools/proguard/proguard-android.txt" />
+            <option value="file://$USER_HOME$/Downloads/adt-bundle-windows-x86_64-20140624/sdk/tools/proguard/proguard-android.txt" />
           </list>
         </option>
         <option name="signingMode" value="DEBUG_WITH_CUSTOM_CERTIFICATE" />

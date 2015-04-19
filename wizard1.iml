@@ -11,7 +11,11 @@
   </component>
   <component name="FacetManager">
     <facet type="android" name="Android">
-      <configuration />
+      <configuration>
+        <proGuardCfgFiles>
+          <file>file://$USER_HOME$/Downloads/adt-bundle-windows-x86_64-20140624/sdk/tools/proguard/proguard-android.txt</file>
+        </proGuardCfgFiles>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
@@ -23,16 +27,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="google-play-services_lib" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/adt-bundle-windows-x86_64-20140624/sdk/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="android-support-v4" level="project" />
+    <orderEntry type="module" module-name="google-play-services_lib1" />
+    <orderEntry type="library" name="google-play-services" level="project" />
   </component>
 </module>
