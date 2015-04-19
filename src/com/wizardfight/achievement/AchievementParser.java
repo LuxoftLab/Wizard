@@ -1,9 +1,10 @@
 package com.wizardfight.achievement;
 
+import android.util.Log;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wizardfight.Shape;
-import com.wizardfight.achievement.achievementsTypes.Achievement;
-import com.wizardfight.achievement.achievementsTypes.AchievementSpellCounter;
+import com.wizardfight.achievement.achievementsTypes.*;
+import com.wizardfight.fight.FightCore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -31,28 +32,77 @@ public abstract class AchievementParser {
                         if (temp != null) {
                             String id = temp.getNodeValue();
                             String name = null;
-                            temp = node.getAttributes().
-                                    getNamedItem("name");
+                            temp = node.getAttributes().getNamedItem("name");
                             if (temp != null) {
                                 name = temp.getNodeValue();
                             }
-                            temp = node.getAttributes().
-                                    getNamedItem("shape");
+                            Achievement achievement = null;
+
+                            temp = node.getAttributes().getNamedItem("action");
                             if (temp != null) {
-                                Shape shape = Shape.getShapeFromString(temp.getNodeValue());
-                                achievementList.add(new AchievementSpellCounter(id, name, googleApiClient, shape));
+                                FightCore.CoreAction ca = FightCore.CoreAction.valueOf(
+                                        temp.getNodeValue());
+                                switch (ca) {
+                                    case CM_SELF_CAST_SUCCESS:
+                                        achievement=parseAchievementSpell(id,name,googleApiClient,node);
+                                        break;
+                                    case CM_SELF_HEALTH_CHANGED:
+                                    case CM_ENEMY_HEALTH_MANA:
+                                        achievement= parseAchievementHealth(id, name, googleApiClient, ca, node);
+                                        break;
+                                    case CM_FIGHT_END:
+                                        achievement= parseAchievementWinLose(id, name, googleApiClient, ca, node);
+                                        break;
+                                    default:
+                                        achievement = new AchievementCounter(id, name, googleApiClient, ca);
+                                        break;
+                                }
+                            }
+                            if (achievement != null) {
+                                achievementList.add(achievement);
                             }
                         }
                     }
-                }catch (Exception e){
-                    //todo
+                } catch (Exception e) {
+                    Log.e("XML_ach", "unknown type");
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            //todo
+            Log.e("XML_ach", "");
         }
+    }
 
+    private static Achievement parseAchievementSpell(String ID, String Name, GoogleApiClient mGoogleApiClient, Node node) throws Exception{
+        Node temp = node.getAttributes().getNamedItem("shape");
+        Shape shape = Shape.getShapeFromString(temp.getNodeValue());
+        return new AchievementSpellCounter(ID, Name, mGoogleApiClient,
+                shape);
+    }
 
+    private static Achievement parseAchievementHealth(String ID, String Name, GoogleApiClient mGoogleApiClient, FightCore.CoreAction ca, Node node) throws Exception{
+        boolean heal = false;
+        Node temp = node.getAttributes().getNamedItem("shape");
+        if (temp != null) {
+            heal = Boolean.parseBoolean(temp.getNodeValue());
+        }
+        return new AchievementHealthCounter(ID, Name, mGoogleApiClient,
+                ca,
+                heal);
+    }
+
+    private static Achievement parseAchievementWinLose(String ID, String Name, GoogleApiClient mGoogleApiClient, FightCore.CoreAction ca, Node node) throws Exception {
+        boolean win = false;
+        boolean lose = false;
+        Node temp = node.getAttributes().getNamedItem("win");
+        if (temp != null) {
+            win = Boolean.parseBoolean(temp.getNodeValue());
+        }
+        temp = node.getAttributes().getNamedItem("lose");
+        if (temp != null) {
+            lose = Boolean.parseBoolean(temp.getNodeValue());
+        }
+        return new AchievementWinLoseCounter(ID, Name, mGoogleApiClient,
+                ca,
+                win, lose);
     }
 }

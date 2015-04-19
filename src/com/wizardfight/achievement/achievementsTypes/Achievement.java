@@ -4,7 +4,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.wizardfight.fight.FightCore;
 
-import java.util.Observer;
 
 
 /**
@@ -28,7 +27,11 @@ public abstract class Achievement{
         }
     }
 
+    public void onStart(FightCore fc){}
+
     public abstract void update(FightCore fc, FightCore.CoreAction action);
+
+    public void onFinish(FightCore fc){}
 
     @Override
     public String toString() {

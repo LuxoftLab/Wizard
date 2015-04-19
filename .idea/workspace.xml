@@ -63,18 +63,15 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.wizardfight" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="893f2378-c54b-4d71-9769-f89fd4d0c0af" name="Default" comment="Fix bug with  and refactor">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementCounter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpellCounter.java" />
-      <change type="DELETED" beforePath="C:\Users\350z6_000\Documents\GitHub\Wizard\src\com\wizardfight\achievement\achievementsTypes\AchievementSpell.java" afterPath="" />
+    <list default="true" id="893f2378-c54b-4d71-9769-f89fd4d0c0af" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementHealthCounter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementWinLoseCounter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/Achievement.java" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/Achievement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementCounter.java" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementCounter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementParser.java" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpellCounter.java" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpellCounter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementTest.java" afterPath="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/wizardfight/MainMenu.java" afterPath="$PROJECT_DIR$/src/com/wizardfight/MainMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/google_play_services.xml" afterPath="$PROJECT_DIR$/.idea/libraries/google_play_services.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wizard1.iml" afterPath="$PROJECT_DIR$/wizard1.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/raw/achievements.xml" afterPath="$PROJECT_DIR$/res/raw/achievements.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="wizard1.iws" />
@@ -105,11 +102,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainMenu.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/MainMenu.java">
+      <file leaf-file-name="AchievementTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7050691" vertical-offset="1887" max-vertical-offset="4250">
-              <caret line="166" column="39" selection-start-line="165" selection-start-column="0" selection-end-line="166" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.34" vertical-offset="51" max-vertical-offset="1530">
+              <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+              <folding>
+                <element signature="method#getInstance#0;class#AchievementTest#0" expanded="false" />
+                <element signature="method#loadAchievements#0;class#AchievementTest#0" expanded="false" />
+                <element signature="e#2408#2445#0" expanded="false" />
+                <element signature="method#showAchievements#0;class#AchievementTest#0" expanded="false" />
+                <element signature="method#showAchievementsActivity#0;class#AchievementTest#0" expanded="false" />
+                <element signature="method#achievements#0;class#AchievementTest#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AchievementParser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1700">
+              <caret line="51" column="46" selection-start-line="51" selection-start-column="46" selection-end-line="51" selection-end-column="46" />
+              <folding>
+                <element signature="docComment;class#AchievementParser#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AchievementWinLoseCounter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementWinLoseCounter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+              <caret line="25" column="58" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -117,15 +143,59 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Shape.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/Shape.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="1173">
+              <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="AchievementCounter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementCounter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+              <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#755#756#0" expanded="true" />
-                <element signature="e#783#784#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Achievement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/Achievement.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="242" max-vertical-offset="850">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AchievementHealthCounter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementHealthCounter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
+              <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AchievementSpellCounter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpellCounter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="92" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -153,9 +223,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/wizardfight/FightMessage.java" />
-        <option value="$PROJECT_DIR$/src/com/wizardfight/BluetoothService.java" />
-        <option value="$PROJECT_DIR$/src/com/wizardfight/BtFightActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/bot_setup.xml" />
         <option value="$PROJECT_DIR$/res/values-en/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/views/ManaIndicator.java" />
@@ -197,12 +264,15 @@
         <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementSpell.java" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/Achievement.java" />
         <option value="$PROJECT_DIR$/res/xml/prefs.xml" />
-        <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementParser.java" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/MainMenu.java" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpell.java" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/Achievement.java" />
+        <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementWinLoseCounter.java" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementCounter.java" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpellCounter.java" />
+        <option value="$PROJECT_DIR$/res/raw/achievements.xml" />
+        <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementParser.java" />
+        <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementHealthCounter.java" />
         <option value="$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementTest.java" />
       </list>
     </option>
@@ -218,9 +288,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="960" />
-    <option name="width" value="960" />
-    <option name="height" value="1040" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -267,8 +338,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -375,8 +444,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wizard1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wizard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wizard1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wizard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="raw" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -782,7 +885,13 @@
       <option name="project" value="LOCAL" />
       <updated>1429482317395</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fix bug with open achievement list and refactor">
+      <created>1429388710686</created>
+      <option name="number" value="00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1429388710686</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -806,25 +915,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="0" width="960" height="1040" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08756757" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32540542" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24092409" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36833856" sideWeight="0.2569546" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22162162" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32378855" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32324323" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3817382" sideWeight="0.7430454" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37513512" sideWeight="0.7430454" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26222223" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17963752" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33773378" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -835,7 +945,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22162162" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36993605" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -855,17 +964,17 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4059406" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.08756757" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32540542" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24118942" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22162162" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36993605" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32378855" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32324323" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38215858" sideWeight="0.7430454" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32333332" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37513512" sideWeight="0.7430454" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12526652" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33873582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33773378" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -904,7 +1013,8 @@
     <MESSAGE value="Add selection of complexity for bot" />
     <MESSAGE value="First steps into google services" />
     <MESSAGE value="Nothing worked, no holiday." />
-    <option name="LAST_COMMIT_MESSAGE" value="Nothing worked, no holiday." />
+    <MESSAGE value="Fix bug with open achievement list and refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bug with open achievement list and refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -934,9 +1044,10 @@
           <folding>
             <element signature="method#getInstance#0;class#AchievementTest#0" expanded="false" />
             <element signature="method#loadAchievements#0;class#AchievementTest#0" expanded="false" />
-            <element signature="method#onConnected#0;class#AchievementTest#0" expanded="false" />
-            <element signature="e#2077#2114#0" expanded="false" />
-            <element signature="method#onConnectionSuspended#0;class#AchievementTest#0" expanded="false" />
+            <element signature="e#2408#2445#0" expanded="false" />
+            <element signature="method#showAchievements#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#showAchievementsActivity#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#achievements#0;class#AchievementTest#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -954,7 +1065,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1122">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -976,9 +1087,10 @@
           <folding>
             <element signature="method#getInstance#0;class#AchievementTest#0" expanded="false" />
             <element signature="method#loadAchievements#0;class#AchievementTest#0" expanded="false" />
-            <element signature="method#onConnected#0;class#AchievementTest#0" expanded="false" />
-            <element signature="e#2077#2114#0" expanded="false" />
-            <element signature="method#onConnectionSuspended#0;class#AchievementTest#0" expanded="false" />
+            <element signature="e#2408#2445#0" expanded="false" />
+            <element signature="method#showAchievements#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#showAchievementsActivity#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#achievements#0;class#AchievementTest#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1008,9 +1120,10 @@
           <folding>
             <element signature="method#getInstance#0;class#AchievementTest#0" expanded="false" />
             <element signature="method#loadAchievements#0;class#AchievementTest#0" expanded="false" />
-            <element signature="method#onConnected#0;class#AchievementTest#0" expanded="false" />
-            <element signature="e#2077#2114#0" expanded="false" />
-            <element signature="method#onConnectionSuspended#0;class#AchievementTest#0" expanded="false" />
+            <element signature="e#2408#2445#0" expanded="false" />
+            <element signature="method#showAchievements#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#showAchievementsActivity#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#achievements#0;class#AchievementTest#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1040,9 +1153,10 @@
           <folding>
             <element signature="method#getInstance#0;class#AchievementTest#0" expanded="false" />
             <element signature="method#loadAchievements#0;class#AchievementTest#0" expanded="false" />
-            <element signature="method#onConnected#0;class#AchievementTest#0" expanded="false" />
-            <element signature="e#2077#2114#0" expanded="false" />
-            <element signature="method#onConnectionSuspended#0;class#AchievementTest#0" expanded="false" />
+            <element signature="e#2408#2445#0" expanded="false" />
+            <element signature="method#showAchievements#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#showAchievementsActivity#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#achievements#0;class#AchievementTest#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1130,20 +1244,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/Shape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/raw/achievements.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="0">
-          <caret line="6" column="47" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wizardfight/WPreferences.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
@@ -1202,7 +1302,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="1139">
           <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1211,17 +1311,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
           <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
-          <caret line="35" column="47" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
-          <folding>
-            <element signature="docComment;class#AchievementParser#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1229,10 +1318,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6367764" vertical-offset="3213" max-vertical-offset="7429">
           <caret line="254" column="26" selection-start-line="254" selection-start-column="26" selection-end-line="254" selection-end-column="26" />
-          <folding>
-            <element signature="e#11152#11153#0" expanded="true" />
-            <element signature="e#11187#11188#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1240,7 +1325,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.5705645" vertical-offset="1377" max-vertical-offset="4284">
           <caret line="42" column="17" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1248,10 +1332,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3325766" vertical-offset="8802" max-vertical-offset="16269">
           <caret line="571" column="24" selection-start-line="571" selection-start-column="24" selection-end-line="571" selection-end-column="24" />
-          <folding>
-            <element signature="e#27764#27765#0" expanded="true" />
-            <element signature="e#27812#27813#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1259,7 +1339,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="255">
           <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1267,7 +1346,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3325766" vertical-offset="404" max-vertical-offset="2142">
           <caret line="55" column="17" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1275,7 +1353,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25061426" vertical-offset="0" max-vertical-offset="2091">
           <caret line="22" column="48" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1289,20 +1366,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpellCounter.java">
+    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/MainMenu.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2937788" vertical-offset="0" max-vertical-offset="868">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/Achievement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5875576" vertical-offset="0" max-vertical-offset="868">
-          <caret line="30" column="75" selection-start-line="30" selection-start-column="75" selection-end-line="30" selection-end-column="75" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1887" max-vertical-offset="4250">
+          <caret line="166" column="39" selection-start-line="165" selection-start-column="0" selection-end-line="166" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1311,44 +1378,99 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wizardfight/fight/FightCore.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25148988" vertical-offset="605" max-vertical-offset="6545">
-          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="508" max-vertical-offset="6545">
+          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/Shape.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementCounter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#755#756#0" expanded="true" />
-            <element signature="e#783#784#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/raw/achievements.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65606934" vertical-offset="90" max-vertical-offset="782">
+          <caret line="32" column="91" selection-start-line="32" selection-start-column="91" selection-end-line="32" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementSpellCounter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="92" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementWinLoseCounter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+          <caret line="25" column="58" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/Achievement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="242" max-vertical-offset="850">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/achievementsTypes/AchievementHealthCounter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
+          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1700">
+          <caret line="51" column="46" selection-start-line="51" selection-start-column="46" selection-end-line="51" selection-end-column="46" />
+          <folding>
+            <element signature="docComment;class#AchievementParser#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wizardfight/achievement/AchievementTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52880186" vertical-offset="0" max-vertical-offset="1649">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.34" vertical-offset="51" max-vertical-offset="1530">
+          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
           <folding>
             <element signature="method#getInstance#0;class#AchievementTest#0" expanded="false" />
             <element signature="method#loadAchievements#0;class#AchievementTest#0" expanded="false" />
-            <element signature="method#onConnected#0;class#AchievementTest#0" expanded="false" />
-            <element signature="e#2077#2114#0" expanded="false" />
-            <element signature="method#onConnectionSuspended#0;class#AchievementTest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wizardfight/MainMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7050691" vertical-offset="1887" max-vertical-offset="4250">
-          <caret line="166" column="39" selection-start-line="165" selection-start-column="0" selection-end-line="166" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2408#2445#0" expanded="false" />
+            <element signature="method#showAchievements#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#showAchievementsActivity#0;class#AchievementTest#0" expanded="false" />
+            <element signature="method#achievements#0;class#AchievementTest#0" expanded="false" />
           </folding>
         </state>
       </provider>

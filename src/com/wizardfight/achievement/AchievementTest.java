@@ -15,16 +15,15 @@ import com.wizardfight.fight.FightCore;
 import java.util.*;
 
 public class AchievementTest implements Observer, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    public static final boolean D = true;
     public static AchievementTest instance;
-    private GoogleApiClient mGoogleApiClient;
+    private final GoogleApiClient mGoogleApiClient;
     private final Activity mActivity;
     private final Set<Achievement> mAchievementList =new HashSet<Achievement>();
     public int init_code=567890;
 
     private AchievementTest(Activity activity) {
         this.mActivity = activity;
-        mGoogleApiClient = new GoogleApiClient.Builder(activity.getApplicationContext())
+        mGoogleApiClient = new GoogleApiClient.Builder(activity)
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -51,6 +50,16 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
         for(Achievement achievement: mAchievementList) {
             achievement.update((FightCore)o, (FightCore.CoreAction)action);
         }
+        if(action== FightCore.CoreAction.CM_FIGHT_START) {
+            for(Achievement achievement: mAchievementList) {
+                achievement.onStart((FightCore) o);
+            }
+        }
+        if(action== FightCore.CoreAction.CM_FIGHT_END) {
+            for(Achievement achievement: mAchievementList) {
+                achievement.onFinish((FightCore) o);
+            }
+        }
     }
     @Override
     public void onConnected(Bundle connectionHint) {
@@ -71,7 +80,6 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
         //try to resolve
         if (result.hasResolution()) {
             try {
-                //
                 result.startResolutionForResult(mActivity, init_code);
             } catch (IntentSender.SendIntentException e) {
                 mGoogleApiClient.connect();
@@ -110,6 +118,7 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
             showAchievementsActivity(a, requestCode);
         }
     }
+
     private void showAchievementsActivity(final Activity a, final int requestCode){
         a.startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), requestCode);
     }

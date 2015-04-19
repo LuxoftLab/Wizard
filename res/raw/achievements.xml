@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <achievement name="resistant" id="CgkI2YKzhoMbEAIQAw" shape="shield"/>
-    <achievement name="master_of_the_shield" id="CgkI2YKzhoMbEAIQAQ" shape="shield"/>
-    <achievement name="adamantine" id="CgkI2YKzhoMbEAIQBA" shape="shield"/>
-    <achievement name="frost_mage" id="CgkI2YKzhoMbEAIQBQ" shape="triangle"/>
-    <achievement name="cold_hearted" id="CgkI2YKzhoMbEAIQBg" shape="triangle"/>
-    <achievement name="lord_of_the_ice" id="CgkI2YKzhoMbEAIQBw" shape="triangle"/>
-    <achievement name="playing_with_fire" id="CgkI2YKzhoMbEAIQCA" shape="circle"/>
+    <achievement name="resistant" id="CgkI2YKzhoMbEAIQAw" action="CM_SELF_CAST_SUCCESS" shape="shield"/>
+    <achievement name="master_of_the_shield" id="CgkI2YKzhoMbEAIQAQ" action="CM_SELF_CAST_SUCCESS" shape="shield"/>
+    <achievement name="adamantine" id="CgkI2YKzhoMbEAIQBA" action="CM_SELF_CAST_SUCCESS" shape="shield"/>
+
+    <achievement name="frost_mage" id="CgkI2YKzhoMbEAIQBQ" action="CM_SELF_CAST_SUCCESS" shape="triangle"/>
+    <achievement name="cold_hearted" id="CgkI2YKzhoMbEAIQBg" action="CM_SELF_CAST_SUCCESS" shape="triangle"/>
+    <achievement name="lord_of_the_ice" id="CgkI2YKzhoMbEAIQBw" action="CM_SELF_CAST_SUCCESS" shape="triangle"/>
+
+    <achievement name="playing_with_fire" id="CgkI2YKzhoMbEAIQCA" action="CM_SELF_CAST_SUCCESS" shape="circle"/>
+    <achievement name="guardian_of_the_flame" id="CgkI2YKzhoMbEAIQCQ" action="CM_SELF_CAST_SUCCESS" shape="circle"/>
+    <achievement name="firelord" id="CgkI2YKzhoMbEAIQCg" action="CM_SELF_CAST_SUCCESS" shape="circle"/>
+
+    <achievement name="a_step_into_the_darkness" id="CgkI2YKzhoMbEAIQDA" action="CM_SELF_CAST_SUCCESS" shape="z"/>
+    <achievement name="sorcerer" id="CgkI2YKzhoMbEAIQDQ" action="CM_SELF_CAST_SUCCESS" shape="z"/>
+    <achievement name="lord_of_darkness" id="CgkI2YKzhoMbEAIQDg" action="CM_SELF_CAST_SUCCESS" shape="z"/>
+
+    <achievement name="enlightened" id="CgkI2YKzhoMbEAIQDw" action="CM_SELF_CAST_SUCCESS" shape="v"/>
+    <achievement name="coldblooded" id="CgkI2YKzhoMbEAIQEA" action="CM_SELF_CAST_SUCCESS" shape="v"/>
+    <achievement name="clear_mind" id="CgkI2YKzhoMbEAIQEQ" action="CM_SELF_CAST_SUCCESS" shape="v"/>
+
+    <achievement name="sharpshooter" id="CgkI2YKzhoMbEAIQCw" action="CM_ENEMY_HEALTH_MANA" heal="false"/>
+    <achievement name="uncontrollable" id="CgkI2YKzhoMbEAIQEg" action="CM_ENEMY_HEALTH_MANA" heal="false"/>
+    <achievement name="crusher" id="CgkI2YKzhoMbEAIQEw" action="CM_ENEMY_HEALTH_MANA" heal="false"/>
+
+    <achievement name="herbalist" id="CgkI2YKzhoMbEAIQFA" action="CM_SELF_HEALTH_CHANGED" heal="true"/>
+    <achievement name="shaman" id="CgkI2YKzhoMbEAIQFQ" action="CM_SELF_HEALTH_CHANGED" heal="true"/>
+    <achievement name="healer" id="CgkI2YKzhoMbEAIQFg" action="CM_SELF_HEALTH_CHANGED" heal="true"/>
+
+    <achievement name="winner" id="CgkI2YKzhoMbEAIQFw" action="CM_FIGHT_END" win="true"/>
+    <achievement name="archmage" id="CgkI2YKzhoMbEAIQGA" action="CM_FIGHT_END" win="true"/>
+    <achievement name="unbeaten" id="CgkI2YKzhoMbEAIQGQ" action="CM_FIGHT_END" win="true"/>
+
+    <achievement name="fighter" id="CgkI2YKzhoMbEAIQGg" action="CM_FIGHT_END" win="true" lose="true"/>
+    <achievement name="warrior" id="CgkI2YKzhoMbEAIQGw" action="CM_FIGHT_END" win="true" lose="true"/>
+    <achievement name="gladiator" id="CgkI2YKzhoMbEAIQHA" action="CM_FIGHT_END" win="true" lose="true"/>
+
+    <achievement name="hodor" id="CgkI2YKzhoMbEAIQHQ" class="hodor"/>
 </resources>

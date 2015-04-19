@@ -9,13 +9,14 @@ import com.wizardfight.fight.FightCore;
  */
 public class AchievementSpellCounter extends AchievementCounter{
     final Shape shape;
-    public AchievementSpellCounter(String ID, String Name, GoogleApiClient mGoogleApiClient, Shape shape) {
+    public AchievementSpellCounter(String ID, String Name, GoogleApiClient mGoogleApiClient,
+                                   Shape shape) {
         super(ID, Name, mGoogleApiClient,FightCore.CoreAction.CM_SELF_CAST_SUCCESS);
         this.shape=shape;
     }
 
     @Override
-    protected void asd(FightCore fc) {
+    protected void actionMatched(FightCore fc) {
         Shape custShape = fc.getData().getSelfShape();
         if (custShape == this.shape) {
             increment(1);
