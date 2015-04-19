@@ -23,25 +23,28 @@ public abstract class AchievementParser {
             Document document = builder.parse(inputStream);
             NodeList nodeList = document.getDocumentElement().getChildNodes();
             for (int i = 0; i < nodeList.getLength(); i++) {
-
-                Node node = nodeList.item(i);
-                if (node.getNodeName().equalsIgnoreCase("achievement")) {
-                    Node temp = node.getAttributes().getNamedItem("id");
-                    if (temp != null) {
-                        String id = temp.getNodeValue();
-                        String name=null;
-                        temp = node.getAttributes().
-                                getNamedItem("name");
+                try {
+                    Node node = nodeList.item(i);
+                    if (node.getNodeName().equalsIgnoreCase("achievement")) {
+                        Node temp = node.getAttributes().getNamedItem("id");
                         if (temp != null) {
-                            name = temp.getNodeValue();
-                        }
-                        temp = node.getAttributes().
-                                getNamedItem("shape");
-                        if (temp!=null) {
-                            Shape shape=Shape.valueOf(temp.getNodeValue());
-                            achievementSpellList.add(new AchievementSpell(id, name, googleApiClient,shape));
+                            String id = temp.getNodeValue();
+                            String name = null;
+                            temp = node.getAttributes().
+                                    getNamedItem("name");
+                            if (temp != null) {
+                                name = temp.getNodeValue();
+                            }
+                            temp = node.getAttributes().
+                                    getNamedItem("shape");
+                            if (temp != null) {
+                                Shape shape = Shape.getShapeFromString(temp.getNodeValue());
+                                achievementSpellList.add(new AchievementSpell(id, name, googleApiClient, shape));
+                            }
                         }
                     }
+                }catch (Exception e){
+                    //todo
                 }
             }
         } catch (Exception e) {

@@ -95,6 +95,7 @@ public class MainMenu extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+        achievementTest.connect();
     }
 
     @Override
