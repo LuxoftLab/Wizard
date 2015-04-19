@@ -57,6 +57,11 @@ public abstract class AchievementParser {
                                         achievement = new AchievementCounter(id, name, googleApiClient, ca);
                                         break;
                                 }
+                            }else{
+                                temp = node.getAttributes().getNamedItem("class");
+                                if (temp != null&&temp.getNodeValue().equalsIgnoreCase("hodor")) {
+                                    achievement = new Hodor(id,name,googleApiClient);
+                                }
                             }
                             if (achievement != null) {
                                 achievementList.add(achievement);

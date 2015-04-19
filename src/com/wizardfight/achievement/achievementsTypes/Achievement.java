@@ -26,6 +26,11 @@ public abstract class Achievement{
             Games.Achievements.increment(mGoogleApiClient, ID, count);
         }
     }
+    public void unlock(){
+        if (mGoogleApiClient.isConnected()) {
+            Games.Achievements.unlock(mGoogleApiClient,ID);
+        }
+    }
 
     public void onStart(FightCore fc){}
 
