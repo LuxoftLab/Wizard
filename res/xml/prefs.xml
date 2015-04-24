@@ -5,4 +5,9 @@
         android:key="player_name"
         android:summary="@string/player_name_summary"
         android:defaultValue="@string/wizard" />
+    <CheckBoxPreference
+        android:title="@string/autoconnect_google_title"
+        android:summary="@string/autoconnect_google_summary"
+        android:key="autoconnect_google"
+        android:defaultValue="true"/>
 </PreferenceScreen>

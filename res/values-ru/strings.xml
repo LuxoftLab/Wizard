@@ -57,5 +57,7 @@
 	<string name="disabled">отключен</string>
 	<string name="enabled">включен</string>
     <string name="achievements">Достижения</string>
+    <string name="autoconnect_google_title">Подключение к Play Games</string>
+    <string name="autoconnect_google_summary">Автоматически подключаться к Play Games при запуске игры</string>
 
 </resources>

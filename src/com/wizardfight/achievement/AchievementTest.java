@@ -15,7 +15,6 @@ import com.wizardfight.fight.FightActivity;
 import com.wizardfight.fight.FightCore;
 import com.wizardfight.fight.FightCore.CoreAction;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -27,11 +26,9 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
     private int mLastHP = FightActivity.PLAYER_HP;
     private int mLastMP = FightActivity.PLAYER_MANA;
     private int mLastEnemyHP = FightActivity.PLAYER_HP;
-    private final GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
     // Are we currently resolving a connection failure?
     private boolean mResolvingConnectionFailure = false;
-    // Has the user clicked the sign-in button?
-    private boolean mSignInClicked = false;
     private final Activity activity;
     private final List<AchievementSpell> achievementSpellList =new ArrayList<AchievementSpell>();
 
@@ -42,7 +39,7 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-       // loadAchievements();
+        loadAchievements();
     }
 
     public static AchievementTest getInstance(Activity activity) {
@@ -139,12 +136,12 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
                 break;
         }
     }
-
     @Override
     public void onConnected(Bundle connectionHint) {
         // Connected to Google Play services!
         // The good stuff goes here.
         //Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
@@ -155,30 +152,29 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
         Toast.makeText(activity," onConnectionSuspended",Toast.LENGTH_LONG).show();
         mGoogleApiClient.connect();
     }
+    public int init_code=567890;
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         // This callback is important for handling errors that
         // may occur while attempting to connect with Google.
       //   Toast.makeText(activity," onConnectionFailed",Toast.LENGTH_LONG).show();
-        if ((!mResolvingConnectionFailure) && mSignInClicked) {
-            mSignInClicked = false;
-            mResolvingConnectionFailure = resolveConnectionFailure(mGoogleApiClient,
-                    result, 1111);
-        }
+        mResolvingConnectionFailure = resolveConnectionFailure(mGoogleApiClient,
+                    result, init_code);
     }
 
     private boolean resolveConnectionFailure(GoogleApiClient client, ConnectionResult result, int requestCode) {
         if (result.hasResolution()) {
             try {
                 result.startResolutionForResult(activity, requestCode);
-                return true;
             } catch (IntentSender.SendIntentException e) {
                 // The intent was canceled before it was sent.  Return to the default
                 // state and attempt to connect to get an updated ConnectionResult.
+                Toast.makeText(activity,"got it",Toast.LENGTH_LONG).show();
                 client.connect();
                 return false;
             }
+            return true;
         } else {
             // not resolvable... so show an error message
             int errorCode = result.getErrorCode();
@@ -186,10 +182,6 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
                     activity, requestCode);
             if (dialog != null) {
                 dialog.show();
-            } else {
-                // no built-in dialog: show the fallback error message
-                Toast.makeText(activity, "Все плохо", Toast.LENGTH_SHORT)
-                        .show();
             }
             return false;
         }
@@ -199,22 +191,18 @@ public class AchievementTest implements Observer, GoogleApiClient.ConnectionCall
         return mGoogleApiClient.isConnected();
     }
 
-    public void connect() {
-        mSignInClicked = true;
+    public void connect(){
         mGoogleApiClient.connect();
     }
 
     public void showAchievements(Activity a, int requestCode) {
-        loadAchievements();
-        if (isConnected()) {
-            a.startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), requestCode);
-        } else {
+        if (!isConnected()) {
             connect();
         }
+        a.startActivityForResult(Games.Achievements.getAchievementsIntent(mGoogleApiClient), requestCode);
     }
 
     public boolean Achievements(int resultCode) {
-        mSignInClicked = false;
         mResolvingConnectionFailure = false;
         if (resultCode == Activity.RESULT_OK) {
             mGoogleApiClient.connect();

@@ -1,8 +1,11 @@
 package com.wizardfight;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -29,7 +32,7 @@ public class MainMenu extends Activity {
     // Intent request codes
     // BT - Bluetooth, GA - GoogleApi
     enum Requests {
-        BT_CREATE_GAME, BT_JOIN_GAME, GA_RESOLVE_ERROR, GA_REQUEST_ACHIEVEMENTS
+        BT_CREATE_GAME, BT_JOIN_GAME, GA_REQUEST_ACHIEVEMENTS
     }
 
     AchievementTest achievementTest;
@@ -90,12 +93,17 @@ public class MainMenu extends Activity {
         AcceleratorThread.ORIENTATION_HORIZONTAL =
                 (screenOrientation == Configuration.ORIENTATION_LANDSCAPE);
         achievementTest=AchievementTest.getInstance(this);
+        SharedPreferences appPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        boolean autoConnectPlayGames = appPrefs.getBoolean("autoconnect_google",true);
+        if(autoConnectPlayGames) {
+            achievementTest.connect();
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        achievementTest.connect();
     }
 
     @Override
@@ -144,7 +152,7 @@ public class MainMenu extends Activity {
     }
 
     public void goToAchievements(View view) {
-        achievementTest.showAchievements(this,Requests.GA_REQUEST_ACHIEVEMENTS.ordinal());
+        achievementTest.showAchievements(this, Requests.GA_REQUEST_ACHIEVEMENTS.ordinal());
     }
 
     public void goToSettings(View view) {
@@ -200,7 +208,7 @@ public class MainMenu extends Activity {
                         startActivity(new Intent(this, DeviceListActivity.class));
                     }
                     break;
-                case GA_RESOLVE_ERROR:
+                case GA_REQUEST_ACHIEVEMENTS:
                     Log.d("123", "onActivityResult with requestCode == RC_SIGN_IN, responseCode="
                             + resultCode + ", intent=" + data);
                     if(achievementTest.Achievements(resultCode)) {
@@ -229,29 +237,29 @@ public class MainMenu extends Activity {
             Log.e("BaseGameUtils", "*** No Activity. Can't show failure dialog!");
             return;
         }
-        Toast errorDialog;
+        Toast errorToast = null;
         switch (actResp) {
             case GamesActivityResultCodes.RESULT_APP_MISCONFIGURED:
-                errorDialog = Toast.makeText(activity,
+                errorToast = Toast.makeText(activity,
                         "app_misconfigured", Toast.LENGTH_SHORT);
                 break;
             case GamesActivityResultCodes.RESULT_SIGN_IN_FAILED:
-                errorDialog = Toast.makeText(activity,
+                errorToast = Toast.makeText(activity,
                         "R.string.sign_in_failed", Toast.LENGTH_SHORT);
                 break;
             case GamesActivityResultCodes.RESULT_LICENSE_FAILED:
-                errorDialog = Toast.makeText(activity,
+                errorToast = Toast.makeText(activity,
                         "R.string.license_failed", Toast.LENGTH_SHORT);
                 break;
             default:
                 // No meaningful Activity response code, so generate default Google
                 // Play services dialog
                 final int errorCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
-                GooglePlayServicesUtil.getErrorDialog(errorCode, activity, requestCode, null).show();
-                Log.e("BaseGamesUtils",
-                            "No standard error dialog available. Making fallback dialog.");
-                errorDialog = Toast.makeText(activity, "errorDescription",Toast.LENGTH_SHORT);
+                Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(errorCode, activity, requestCode, null);
+                if(errorDialog != null) errorDialog.show();
         }
-        errorDialog.show();
+        if (errorToast != null) {
+            errorToast.show();
+        }
     }
 }

@@ -57,5 +57,7 @@
 	<string name="disabled">disabled</string>
 	<string name="enabled">enabled</string>
     <string name="achievements">Achievements</string>
+    <string name="autoconnect_google_title">Connect to Play Games</string>
+    <string name="autoconnect_google_summary">Automatically connect to Play Games with game start</string>
 
 </resources>
