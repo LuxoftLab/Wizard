@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <achievement name="resistant" id="CgkI2YKzhoMbEAIQAw" action="CM_SELF_CAST_SUCCESS" shape="shield"/>
+    <achievement name="resistant" id="CgkI2YKzhoMbEAIQAw" action="CM_SELF_SHIELD_BLOCK"/>
     <achievement name="master_of_the_shield" id="CgkI2YKzhoMbEAIQAQ" action="CM_SELF_CAST_SUCCESS" shape="shield"/>
     <achievement name="adamantine" id="CgkI2YKzhoMbEAIQBA" action="CM_SELF_CAST_SUCCESS" shape="shield"/>
 
