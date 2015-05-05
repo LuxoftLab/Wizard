@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <achievement name="resistant" id="CgkI2YKzhoMbEAIQAw" action="CM_SELF_SHIELD_BLOCK"/>
-    <achievement name="master_of_the_shield" id="CgkI2YKzhoMbEAIQAQ" action="CM_SELF_SHIELD_BLOCK"/>
-    <achievement name="adamantine" id="CgkI2YKzhoMbEAIQBA" action="CM_SELF_SHIELD_BLOCK"/>
+    <achievement    type="Counter"  id="CgkI2YKzhoMbEAIQAw" name="resistant"            action="CM_SELF_SHIELD_BLOCK"/>
+    <achievement    type="Counter"  id="CgkI2YKzhoMbEAIQAQ" name="master_of_the_shield" action="CM_SELF_SHIELD_BLOCK"/>
+    <achievement    type="Counter"  id="CgkI2YKzhoMbEAIQBA" name="adamantine"           action="CM_SELF_SHIELD_BLOCK"/>
 
-    <achievement name="frost_mage" id="CgkI2YKzhoMbEAIQBQ" action="CM_SELF_CAST_SUCCESS" shape="triangle"/>
-    <achievement name="cold_hearted" id="CgkI2YKzhoMbEAIQBg" action="CM_SELF_CAST_SUCCESS" shape="triangle"/>
-    <achievement name="lord_of_the_ice" id="CgkI2YKzhoMbEAIQBw" action="CM_SELF_CAST_SUCCESS" shape="triangle"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQBQ" name="frost_mage"               shape="triangle"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQBg" name="cold_hearted"             shape="triangle"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQBw" name="lord_of_the_ice"          shape="triangle"/>
 
-    <achievement name="playing_with_fire" id="CgkI2YKzhoMbEAIQCA" action="CM_SELF_CAST_SUCCESS" shape="circle"/>
-    <achievement name="guardian_of_the_flame" id="CgkI2YKzhoMbEAIQCQ" action="CM_SELF_CAST_SUCCESS" shape="circle"/>
-    <achievement name="firelord" id="CgkI2YKzhoMbEAIQCg" action="CM_SELF_CAST_SUCCESS" shape="circle"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQCA" name="playing_with_fire"        shape="circle"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQCQ" name="guardian_of_the_flame"    shape="circle"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQCg" name="firelord"                 shape="circle"/>
 
-    <achievement name="a_step_into_the_darkness" id="CgkI2YKzhoMbEAIQDA" action="CM_SELF_CAST_SUCCESS" shape="z"/>
-    <achievement name="sorcerer" id="CgkI2YKzhoMbEAIQDQ" action="CM_SELF_CAST_SUCCESS" shape="z"/>
-    <achievement name="lord_of_darkness" id="CgkI2YKzhoMbEAIQDg" action="CM_SELF_CAST_SUCCESS" shape="z"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQDA" name="a_step_into_the_darkness" shape="z"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQDQ" name="sorcerer"                 shape="z"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQDg" name="lord_of_darkness"         shape="z"/>
 
-    <achievement name="enlightened" id="CgkI2YKzhoMbEAIQDw" action="CM_SELF_CAST_SUCCESS" shape="v"/>
-    <achievement name="coldblooded" id="CgkI2YKzhoMbEAIQEA" action="CM_SELF_CAST_SUCCESS" shape="v"/>
-    <achievement name="clear_mind" id="CgkI2YKzhoMbEAIQEQ" action="CM_SELF_CAST_SUCCESS" shape="v"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQDw" name="enlightened"              shape="v"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQEA" name="coldblooded"              shape="v"/>
+    <achievement    type="Spell"    id="CgkI2YKzhoMbEAIQEQ" name="clear_mind"               shape="v"/>
 
-    <achievement name="sharpshooter" id="CgkI2YKzhoMbEAIQCw" action="CM_ENEMY_HEALTH_MANA" heal="false"/>
-    <achievement name="uncontrollable" id="CgkI2YKzhoMbEAIQEg" action="CM_ENEMY_HEALTH_MANA" heal="false"/>
-    <achievement name="crusher" id="CgkI2YKzhoMbEAIQEw" action="CM_ENEMY_HEALTH_MANA" heal="false"/>
+    <achievement    type="Health"   id="CgkI2YKzhoMbEAIQCw" name="sharpshooter"         action="CM_ENEMY_HEALTH_MANA"   enemy="true"/>
+    <achievement    type="Health"   id="CgkI2YKzhoMbEAIQEg" name="uncontrollable"       action="CM_ENEMY_HEALTH_MANA"   enemy="true"/>
+    <achievement    type="Health"   id="CgkI2YKzhoMbEAIQEw" name="crusher"              action="CM_ENEMY_HEALTH_MANA"   enemy="true"/>
 
-    <achievement name="herbalist" id="CgkI2YKzhoMbEAIQFA" action="CM_SELF_HEALTH_CHANGED" heal="true"/>
-    <achievement name="shaman" id="CgkI2YKzhoMbEAIQFQ" action="CM_SELF_HEALTH_CHANGED" heal="true"/>
-    <achievement name="healer" id="CgkI2YKzhoMbEAIQFg" action="CM_SELF_HEALTH_CHANGED" heal="true"/>
+    <achievement    type="Health"   id="CgkI2YKzhoMbEAIQFA" name="herbalist"            action="CM_SELF_HEALTH_CHANGED" heal="true"/>
+    <achievement    type="Health"   id="CgkI2YKzhoMbEAIQFQ" name="shaman"               action="CM_SELF_HEALTH_CHANGED" heal="true"/>
+    <achievement    type="Health"   id="CgkI2YKzhoMbEAIQFg" name="healer"               action="CM_SELF_HEALTH_CHANGED" heal="true"/>
 
-    <achievement name="winner" id="CgkI2YKzhoMbEAIQFw" action="CM_FIGHT_END" win="true"/>
-    <achievement name="archmage" id="CgkI2YKzhoMbEAIQGA" action="CM_FIGHT_END" win="true"/>
-    <achievement name="unbeaten" id="CgkI2YKzhoMbEAIQGQ" action="CM_FIGHT_END" win="true"/>
+    <achievement    type="WinLose"  id="CgkI2YKzhoMbEAIQFw" name="winner"    win="true"/>
+    <achievement    type="WinLose"  id="CgkI2YKzhoMbEAIQGA" name="archmage"  win="true"/>
+    <achievement    type="WinLose"  id="CgkI2YKzhoMbEAIQGQ" name="unbeaten"  win="true"/>
 
-    <achievement name="fighter" id="CgkI2YKzhoMbEAIQGg" action="CM_FIGHT_END" win="true" lose="true"/>
-    <achievement name="warrior" id="CgkI2YKzhoMbEAIQGw" action="CM_FIGHT_END" win="true" lose="true"/>
-    <achievement name="gladiator" id="CgkI2YKzhoMbEAIQHA" action="CM_FIGHT_END" win="true" lose="true"/>
+    <achievement    type="WinLose"  id="CgkI2YKzhoMbEAIQGg" name="fighter"   win="true" lose="true"/>
+    <achievement    type="WinLose"  id="CgkI2YKzhoMbEAIQGw" name="warrior"   win="true" lose="true"/>
+    <achievement    type="WinLose"  id="CgkI2YKzhoMbEAIQHA" name="gladiator" win="true" lose="true"/>
 
-    <achievement name="hodor" id="CgkI2YKzhoMbEAIQHQ" class="hodor"/>
+    <achievement    type="Hodor"    id="CgkI2YKzhoMbEAIQHQ" name="hodor"/>
 </resources>

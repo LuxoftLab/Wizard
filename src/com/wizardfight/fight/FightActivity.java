@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.wizardfight.Sound;
 import com.wizardfight.R;
 import com.wizardfight.Shape;
-import com.wizardfight.achievement.AchievementTest;
+import com.wizardfight.achievement.AchievementsObserver;
 import com.wizardfight.cast.CastActivity;
 import com.wizardfight.fight.FightCore.CoreAction;
 import com.wizardfight.fight.FightMessage.*;
@@ -60,7 +60,7 @@ public abstract class FightActivity extends CastActivity implements Observer {
 		// WARNING: fight core must be initialized ONLY before super.onCreate!
 		mCore = new FightCore(isMainPlayer());
 		mCore.addObserver(this);
-		mCore.addObserver(AchievementTest.getInstance(this));
+		mCore.addObserver(AchievementsObserver.getInstance(this));
 		
 		super.onCreate(savedInstanceState);
 		if (D)

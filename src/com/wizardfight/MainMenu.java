@@ -18,7 +18,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.games.GamesActivityResultCodes;
-import com.wizardfight.achievement.AchievementTest;
+import com.wizardfight.achievement.AchievementsObserver;
 import com.wizardfight.cast.AcceleratorThread;
 import com.wizardfight.remote.WifiService;
 
@@ -35,7 +35,7 @@ public class MainMenu extends Activity {
         BT_CREATE_GAME, BT_JOIN_GAME, GA_REQUEST_ACHIEVEMENTS
     }
 
-    AchievementTest achievementTest;
+    AchievementsObserver achievementTest;
 
     /**
      * Called when the activity is first created.
@@ -63,7 +63,7 @@ public class MainMenu extends Activity {
             findViewById(R.id.buttonDesktopConnection).setVisibility(View.GONE);
 
         } else {
-            // if no player name - set as BT name
+            // if no player name - set as BT name//todo get name from GooglePlay
             String bluetoothName = mBluetoothAdapter.getName();
             if (bluetoothName != null) {
                 SharedPreferences appPrefs = PreferenceManager
@@ -92,7 +92,7 @@ public class MainMenu extends Activity {
         int screenOrientation = getDeviceDefaultOrientation();
         AcceleratorThread.ORIENTATION_HORIZONTAL =
                 (screenOrientation == Configuration.ORIENTATION_LANDSCAPE);
-        achievementTest=AchievementTest.getInstance(this);
+        achievementTest= AchievementsObserver.getInstance(this);
         SharedPreferences appPrefs = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
         boolean autoConnectPlayGames = appPrefs.getBoolean("autoconnect_google",true);
@@ -211,7 +211,7 @@ public class MainMenu extends Activity {
                 case GA_REQUEST_ACHIEVEMENTS:
                     Log.d("123", "onActivityResult with requestCode == RC_SIGN_IN, responseCode="
                             + resultCode + ", intent=" + data);
-                    if(achievementTest.achievements(resultCode)) {
+                    if(achievementTest.isAchievementsLoadFailed(resultCode)) {
                         showActivityResultError(this, requestCode, resultCode);
                     }
                     break;
